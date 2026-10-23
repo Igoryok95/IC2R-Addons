@@ -1,172 +1,115 @@
-<p align="center">
-    <img src="./preview.png">
-</p>
+# GraviSuite Reforged for Minecraft 1.21.1 + IC2R
 
-# GraviSuite Reforged for Minecraft 1.6.4
- - - - 
-This is an attempt to reforge the old-classic IC2 addon - GraviSuite, using [voldeloom](https://github.com/CrackedPolishedBlackstoneBricksMC/voldeloom) as foundation. 
+A NeoForge 1.21.1 port of GraviSuite Reforged, integrated with **IndustrialCraft 2: Refactored (IC2R)**.
+This branch targets the modern IC2R API, EU equipment, data components and networking.
 
-## Armors
- - - -
-### Advanced Lappack
-<img src="demo/items/armor/advanced_lappack.png" style="border: solid 5px #CCC">
+The original 1.6.4 implementation and documentation are retained in [legacy/1.6.4](legacy/1.6.4).
+The upstream 1.4.7, 1.5.2 and 1.6.4 branches remain available in Git history.
 
-As the name states, this is an advanced version of IC2's Lappack.
- - Features: 
-   - Energy  provider
- - Specifications:
-   - Tier: 3
-   - Max Transfer: 1000 EU/t
-   - Capacity: 1.000.000 EU/t
- - - - 
-### Ultimate Lappack
-<img src="demo/items/armor/ultimate_lappack.png" style="border: solid 5px #CCC">
+## Requirements
 
-An ultimate portable energy storage!
- - Features: 
-   - Energy provider
- - Specifications:
-   - Tier: 3
-   - Max Transfer: 50.000 EU/t
-   - Max Capacity: 10.000.000 EU
- - - - 
-### Advanced Electric Jetpack
-<img src="demo/items/armor/advanced_jetpack.png" style="border: solid 5px #CCC">
+- Minecraft **1.21.1**
+- NeoForge **21.1.234 or newer** (development target: 21.1.264)
+- IC2R **21.1.66**
+- Java **21**
 
-An advanced electric jetpack.
-- Features: 
-  - Energy provider 
-  - Flight with hover and boost modes
-  - Jetpack Engine can be turned ON/OFF
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 5.000 EU/t
-    - Max Capacity: 1.000.000 EU
- - - - - 
-### Advanced Nano Chestplate
-<img src="demo/items/armor/advanced_nano.png" style="border: solid 5px #CCC">
+VintageCore and the original IC2 are not required. This is an addon for IC2R.
 
-A hybrid of Advanced Electric Jetpack and IC2's NanoSuit Bodyarmor.
-- Features: 
-  - Protection provider 
-  - Energy provider 
-  - Flight with hover and boost modes 
-  - Jetpack Engine can be turned ON/OFF
-  - Fire extinguisher (uses IC2's Water Cells from inventory)
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 5.000 EU/t
-    - Max Capacity: 1.000.000 EU
- - - - - 
-### Gravitational Chestplate
-<img src="demo/items/armor/advanced_quant.png" style="border: solid 5px #CCC">
+## Equipment and progression
 
-ULTIMATE BODYARMOR!
-- Features:
-    - Protection provider
-    - Energy Provider
-    - Creative Flight with Anti-Gravity Engine ON, using double-jump
-    - Levitation with Levitation mode ON, using jump
-    - Fire extinguisher
-    - Fall damage absorber
-- Specifications:
-    - Tier: 3
-    - Max Transfer: 50.000 EU/t
-    - Max Capacity: 10.000.000 EU
+| Equipment | EU capacity | Tier | Role |
+| --- | ---: | ---: | --- |
+| Advanced Lappack | 40,000,000 | 4 | Upgrade to IC2R's 20,000,000 EU Lappack; powers held tools |
+| Ultimate Lappack | 100,000,000 | 4 | Higher-capacity portable EU storage |
+| Advanced Electric Jetpack | 4,000,000 | 3 | Stronger thrust, hover, boost and tool charging |
+| Advanced Nano Chestplate | 8,000,000 | 3 | Nano protection with the advanced jetpack, boost and tool charging |
+| Gravitational Chestplate | 100,000,000 | 4 | Powered creative flight, boost, energy-backed protection and fall absorption |
+| Advanced Diamond Drill | 45,000 | 2 | Normal or 3x3 mining; three efficiency settings; torch placement |
+| Advanced Chainsaw | 45,000 | 2 | Faster cutting, IC2R shearing and bounded tree felling |
+| Vajra | 1,000,000 | 2 | Universal tool; ore-vein or connected-block mining; Silk Touch / Fortune III |
+| GraviTool | 100,000 | 2 | Electric wrench, treetap, hoe and block rotation |
+| Magnet | 10,000 | 1 | Attracts dropped items while enabled in the hotbar |
+| Voider | 10,000 | 1 | Removes items matching an explicitly selected block filter |
+| Relocator | 10,000,000 | 4 | Ten saved destinations, personal teleportation, translocator projectiles and temporary portals |
 
-## Tools
- - - -
-### Advanced Diamond Drill
-<img src="demo/items/advanced_diamond_drill.png" style="border: solid 5px #CCC">
+Seven crafting components are retained: Superconductor Cover, Superconductor, Cooling Core,
+Gravitational Engine, Magnetron, Vajra Core and Engine Booster.
 
-An advanced mining tool for IC2
-- Features:
-    - Mining modes: Normal, Big Holes (3x3x1)
-    - Efficiency modes: Normal (160 EU/block @ 35 Efficiency), Low Power (80 EU/block @ 16 Efficiency), Fine (50 EU/block @ 10 Efficiency)
-    - Torch Placement on right click
-    - Can be enchanted
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 500 EU/t
-    - Max Capacity: 45.000 EU
- - - -
-### Advanced Iridium Drill
-<img src="demo/items/advanced_iridium_drill.png" style="border: solid 5px #CCC">
+Recipes use IC2R's shaped serializer so charge from electric ingredients is carried into the
+result, up to its capacity. The addon has English and Russian localizations.
 
-An advanced mining tool MK2 for IC2
-- Features:
-    - Enchantment modes: Silk Touch, Fortune 3
-    - Usage: 1000 EU/block
-    - Torch Placement on right click
-- Specifications:
-    - Tier: 3
-    - Max Transfer: 5.000 EU/t
-    - Max Capacity: 100.000 EU
- - - -
-### Advanced Chainsaw
-<img src="demo/items/advanced_chainsaw.png" style="border: solid 5px #CCC">
+## Overlap with IC2R
 
-Improved version if IC2's Chainsaw
-- Features:
-    - Shears Mode can be turned ON/OFF
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 500 EU/t
-    - Max Capacity: 45.000 EU
- - - -
-### Vajra
-<img src="demo/items/vajra.png" style="border: solid 5px #CCC">
+| Original feature | Port decision |
+| --- | --- |
+| Advanced Iridium Drill | Omitted: IC2R already has an iridium drill with Silk Touch / Fortune III. Use that item; it is not registered a second time. |
+| Advanced Diamond Drill | Retained for 3x3 mining and adjustable speed / energy use, beyond the normal IC2R diamond drill. |
+| Advanced Nano Chestplate | Retained: IC2R's attachment recipe accepts its standard electric jetpack, not the advanced GraviSuite jetpack. This version adds stronger flight, boost, tool charging and 8 million EU. |
+| Gravitational Chestplate | Retained: IC2R's quantum chestplate has a jetpack; this item provides powered creative flight and larger storage. |
+| Lappacks | Capacities adapted to modern IC2R: 20 million EU in the base Lappack, then 40 and 100 million EU. |
+| Quantum chestplate recipe | IC2R's original recipe is preserved. GraviSuite does not replace IC2R progression recipes. |
+| Magnet | Portable item attraction; different from IC2R's stationary magnetizer. |
+| GraviTool | Combines existing operations in one configurable tool instead of registering duplicate standalone tools. |
 
-Ultimate Mining Tool!
-- Features:
-    - Mining modes: Normal, Vein (for ores), Vein Extended (for any block)
-    - Efficiency modes: Normal (3200 EU/block @ 128 Efficiency), Low Power (1600 EU/block @ 24 Efficiency), Fine (800 EU/block @ 10 Efficiency)
-    - Enchantment modes: Silk Touch, Fortune 3
-    - Torch Placement on right click
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 5.000 EU/t
-    - Max Capacity: 1.000.000 EU
- - - -
-### GraviTool
-<img src="demo/items/gravitool/hoe.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/treetap.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/wrench.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/screwdriver.png" style="border: solid 5px #CCC">
+## Controls
 
-A 4in1 universal tool  
-- Features:
-    - 4 Modes: Hoe, TreeTap, Wrench, Screwdriver
-    - Usage: 150 EU/use
-- Specifications:
-    - Tier: 2
-    - Max Transfer: 5.000 EU/t
-    - Max Capacity: 100.000 EU
- - - -
-### Magnet
-<img src="demo/items/magnet.png" style="border: solid 5px #CCC">
+Key bindings can be changed in Minecraft's Controls screen.
 
-Very useful helper when mining.
-- Features:
-    - Works in an 8-16 blocks radius (configurable)
-    - Usage: 1 EU/item
-- Specifications:
-    - Tier: 1
-    - Max Transfer: 500 EU/t
-    - Max Capacity: 10.000 EU
----
-### Voider
-<img src="demo/items/voider.png" style="border: solid 5px #CCC">
+- **G**: toggle the equipped GraviSuite flight engine.
+- **H**: toggle a magnet in the hotbar.
+- **IC2 mode key + right-click**: cycle tool / mining / relocator mode.
+- **IC2 Alt key + right-click**: cycle mining efficiency.
+- **Sneak + IC2 mode key + right-click** with a Vajra: switch Silk Touch / Fortune III.
+- **Sneak + IC2 mode key + right-click** with the chainsaw: toggle tree felling.
+- **Sneak while mining**: single-block operation.
+- **Right-click a block with the drill or Vajra**: place a torch from inventory.
+- **Right-click with the magnet**: toggle it.
+- **Right-click a block with the voider**: select its item as the filter.
+- **Sneak + right-click with the voider**: remove matching inventory items, spending energy.
+- **Sneak + right-click with the relocator**: manage destinations.
+- **IC2 jump / boost keys**: jetpack ascent, hover controls and boost.
 
-Another useful helper when mining.
-- Features:
-  - Voids items based on filter. 
-  - `RightClick` with it on block to se the filter. 
-    - Usage: 500 EU/filter
-  - Press `Sneak+RightClick` while in hand to remove items from player inventory.
-    - Usage: 5 EU/item
-  - Keep it in your hotbar to void items on pick up.
-    - Usage: ~8 EU/item
-- Specifications:
-  - Tier: 1
-  - Max Transfer: 500 EU/t
-  - Max Capacity: 10.000 EU
+Relocator costs: 1 million EU for same-dimension personal teleportation, 1.5 million EU across
+dimensions, 2 million EU for a translocator projectile and 2.5 million EU for a portal projectile.
+Destinations are recorded by the server. Teleportation rejects obstructed or out-of-border destinations.
+
+## Build
+
+Use the checked-in Gradle wrapper and Java 21:
+
+```sh
+./gradlew build
+```
+
+The default dependency resolver downloads IC2R 21.1.66 from its public GitHub release. To build and
+test against a locally patched IC2R JAR instead:
+
+```sh
+./gradlew build runGameTestServer -Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.66_fixed.jar
+```
+
+PowerShell example:
+
+```powershell
+.\gradlew.bat build runGameTestServer '-Pic2rJar=C:/GIT/IC2R/build/libs/ic2-neoforge-21.1.66_fixed.jar'
+```
+
+The mod JAR is written to `build/libs/gravisuite-neoforge-1.21.1-3.0.0.jar`.
+The separate `-sources.jar` is for development and must not be installed as a mod.
+Install the mod and IC2R on both the client and server. Configuration is in `config/gravisuite-common.toml`.
+
+## Port validation
+
+Compilation against NeoForge 1.21.1 and IC2R succeeds. Runtime regression testing is in progress;
+this section will be updated with the completed checks before the port is delivered.
+A successful build alone does not establish compatibility with every modpack or multiplayer setup.
+
 ## Credits
-I don't own the idea. Full credit for the idea goes to [SeNtiMeL](https://forum.industrial-craft.net/thread/6915-ic2-exp-1-7-10-gravitation-suite-v2-0-3/) and IC2 Dev team. 
+
+Original GraviSuite concept: **SeNtiMeL** and the **IC2 Dev Team**.
+GraviSuite Reforged legacy implementation and assets: **VintageModsReforged** and upstream contributors.
+NeoForge 1.21.1 / IC2R integration: **Igoryok95**.
+
+Upstream: https://github.com/VintageModsReforged/GraviSuiteReforged
+
+IC2R: https://github.com/neo-industrial-mc/IC2R

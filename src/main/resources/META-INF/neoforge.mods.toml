@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+issueTrackerURL="https://github.com/Igoryok95/GraviSuiteReforged/issues"
+
+[[mods]]
+modId="gravisuite"
+version="${version}"
+displayName="GraviSuite Reforged for IC2R"
+authors="VintageModsReforged; NeoForge port: Igoryok95"
+description='''GraviSuite Reforged for Minecraft 1.21.1 NeoForge with IndustrialCraft 2: Refactored (IC2R) integration.'''
+
+[[dependencies.gravisuite]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.234,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.gravisuite]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.gravisuite]]
+modId="ic2"
+type="required"
+versionRange="[21.1.66,22)"
+ordering="AFTER"
+side="BOTH"

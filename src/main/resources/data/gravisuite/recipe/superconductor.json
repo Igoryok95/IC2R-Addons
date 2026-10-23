@@ -1,0 +1,23 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "RRR",
+    "CBC",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "gravisuite:superconductor_cover"
+    },
+    "B": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "item": "ic2:glass_cable"
+    }
+  },
+  "result": {
+    "item": "gravisuite:superconductor",
+    "count": 3
+  }
+}

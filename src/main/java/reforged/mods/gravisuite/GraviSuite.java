@@ -1,78 +1,49 @@
 package reforged.mods.gravisuite;
 
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import mods.vintage.core.platform.lang.LangManager;
-import mods.vintage.core.platform.lang.Translator;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import reforged.mods.gravisuite.compat.NEIHandler;
-import reforged.mods.gravisuite.events.client.HighlightHandler;
-import reforged.mods.gravisuite.keyboard.GraviSuiteKeyboard;
-import reforged.mods.gravisuite.network.NetworkHandler;
-import reforged.mods.gravisuite.network.NetworkHandlerClient;
-import reforged.mods.gravisuite.proxy.CommonProxy;
-import reforged.mods.gravisuite.utils.GraviSuiteGuiHandler;
-import reforged.mods.gravisuite.utils.Refs;
+import ic2.api.item.IElectricItem;
+import ic2.core.item.ElectricItemManager;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import reforged.mods.gravisuite.network.GraviNetwork;
 
-import java.util.logging.Logger;
+@Mod(GraviSuite.ID)
+public final class GraviSuite {
+    public static final String ID = "gravisuite";
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ID);
 
-@Mod(modid = Refs.id, useMetadata = true)
-@NetworkMod(clientSideRequired = true,
-        clientPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = { Refs.id }, packetHandler = NetworkHandlerClient.class),
-        serverPacketHandlerSpec = @NetworkMod.SidedPacketHandler(channels = { Refs.id }, packetHandler = NetworkHandler.class))
-public class GraviSuite {
-
-    @SidedProxy(clientSide = Refs.client, serverSide = Refs.common)
-    public static CommonProxy proxy;
-
-    @SidedProxy(clientSide = Refs.keyboardClient, serverSide = Refs.keyboardCommon)
-    public static GraviSuiteKeyboard keyboard;
-
-    @SidedProxy(clientSide = Refs.networkClient, serverSide = Refs.networkCommon)
-    public static NetworkHandler network;
-
-    @Mod.Instance(Refs.id)
-    public static GraviSuite instance;
-
-    public static int blockRelocatorPortalRenderID;
-
-    public static final CreativeTabs graviTab = new CreativeTabs(Refs.id) {
-        @Override
-        public Item getTabIconItem() {
-            return GraviSuiteData.advanced_quant;
-        }
-    };
-
-    public static final Logger logger = Logger.getLogger(Refs.id);
-
-    public GraviSuite() {
-        logger.setParent(FMLLog.getLogger());
-        MinecraftForge.EVENT_BUS.register(new HighlightHandler());
+    static {
+        TABS.register("equipment", () -> CreativeModeTab.builder()
+                .title(Component.translatable("itemGroup.gravisuite"))
+                .icon(() -> new ItemStack(GraviItems.GRAVI_CHESTPLATE.get()))
+                .displayItems((parameters, output) -> GraviItems.ITEMS.getEntries().forEach(entry -> {
+                    Item item = entry.get();
+                    output.accept(item);
+                    if (item instanceof IElectricItem) output.accept(ElectricItemManager.getCharged(item, Double.POSITIVE_INFINITY));
+                })).build());
     }
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent e) {
-        proxy.preInit(e);
-        NetworkRegistry.instance().registerGuiHandler(this, new GraviSuiteGuiHandler());
-        LangManager.INSTANCE.loadCreativeTabName(Refs.id, Translator.RESET.literal(Refs.name));
+    public GraviSuite(IEventBus bus, ModContainer container) {
+        GraviItems.ITEMS.register(bus);
+        PortalContent.BLOCKS.register(bus);
+        PortalContent.BLOCK_ENTITIES.register(bus);
+        PortalContent.ENTITIES.register(bus);
+        GraviNetwork.MENUS.register(bus);
+        TABS.register(bus);
+        bus.addListener(GraviNetwork::register);
+        container.registerConfig(ModConfig.Type.COMMON, GraviConfig.SPEC);
+        NeoForge.EVENT_BUS.addListener(GraviEvents::tick);
+        NeoForge.EVENT_BUS.addListener(GraviEvents::fall);
     }
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent e) {
-        proxy.init(e);
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent e) {
-        proxy.postInit(e);
-        NEIHandler.init();
-    }
+    public static ResourceLocation id(String path) { return ResourceLocation.fromNamespaceAndPath(ID, path); }
 }
