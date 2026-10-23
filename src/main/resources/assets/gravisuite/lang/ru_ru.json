@@ -71,5 +71,14 @@
   "tooltip.gravisuite.voider_keys": "ПКМ по блоку: задать фильтр; присесть + ПКМ: удалить подходящие предметы",
   "tooltip.gravisuite.magnet_keys": "ПКМ: переключить; работает с панели быстрого доступа",
   "tooltip.gravisuite.destination": "Цель: %s",
-  "tooltip.gravisuite.relocator_keys": "Присесть + ПКМ: управление точками; клавиша режима IC2 + ПКМ: сменить режим"
+  "tooltip.gravisuite.relocator_keys": "Присесть + ПКМ: управление точками; клавиша режима IC2 + ПКМ: сменить режим",
+  "item.gravisuite.advanced_iridium_drill": "Улучшенный иридиевый бур",
+  "item.gravisuite.advanced_nano_leggings": "Улучшенные нано-поножи",
+  "item.gravisuite.advanced_nano_boots": "Улучшенные нано-ботинки",
+  "item.gravisuite.advanced_quantum_leggings": "Улучшенные квантовые поножи",
+  "item.gravisuite.advanced_quantum_boots": "Улучшенные квантовые ботинки",
+  "tooltip.gravisuite.nano_sprint": "Спринт: +15%% к скорости, 8 EU/т",
+  "tooltip.gravisuite.nano_fall": "Поглощают сильные падения, пока хватает EU",
+  "tooltip.gravisuite.quantum_legs": "Ускорение IC2R; вчетверо больше запас EU",
+  "tooltip.gravisuite.quantum_fall": "Прыжок IC2R; поглощение падения тратит на 50%% меньше EU"
 }

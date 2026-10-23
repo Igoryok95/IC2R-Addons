@@ -24,9 +24,14 @@ VintageCore and the original IC2 are not required. This is an addon for IC2R.
 | Advanced Electric Jetpack | 4,000,000 | 3 | Stronger thrust, hover, boost and tool charging |
 | Advanced Nano Chestplate | 8,000,000 | 3 | Nano protection with the advanced jetpack, boost and tool charging |
 | Gravitational Chestplate | 100,000,000 | 4 | Powered creative flight, boost, energy-backed protection and fall absorption |
+| Advanced Nano Leggings | 4,000,000 | 3 | Nano protection, 5,000 EU transfer and +15% sprint speed for 8 EU/t |
+| Advanced Nano Boots | 4,000,000 | 3 | Nano protection, 5,000 EU transfer and heavy-fall absorption while energy lasts |
+| Advanced Quantum Leggings | 40,000,000 | 4 | IC2R quantum sprint / swimming abilities with four times the storage and 50,000 EU transfer |
+| Advanced Quantum Boots | 40,000,000 | 4 | IC2R quantum jump, four times the storage, 50,000 EU transfer and half the fall-absorption energy cost |
 | Advanced Diamond Drill | 45,000 | 2 | Normal or 3x3 mining; three efficiency settings; torch placement |
 | Advanced Chainsaw | 45,000 | 2 | Faster cutting, IC2R shearing and bounded tree felling |
-| Vajra | 1,000,000 | 2 | Universal tool; ore-vein or connected-block mining; Silk Touch / Fortune III |
+| Advanced Iridium Drill | 1,000,000 | 3 | Upgrade of the IC2R iridium drill: 3x3 mining, faster modes, Silk Touch / Fortune III |
+| Vajra | 10,000,000 | 3 | Universal tool; ore-vein or connected-block mining; Silk Touch / Fortune III |
 | GraviTool | 100,000 | 2 | Electric wrench, treetap, hoe and block rotation |
 | Magnet | 10,000 | 1 | Attracts dropped items while enabled in the hotbar |
 | Voider | 10,000 | 1 | Removes items matching an explicitly selected block filter |
@@ -38,15 +43,23 @@ Gravitational Engine, Magnetron, Vajra Core and Engine Booster.
 Recipes use IC2R's shaped serializer so charge from electric ingredients is carried into the
 result, up to its capacity. The addon has English and Russian localizations.
 
+The four leg and boot upgrades require their corresponding IC2R armor pieces. Their armor
+materials and item textures reuse the original IC2R artwork. Nano boots keep the original
+5,000 EU cost per point of fall damage but remove the base boots' heavy-fall cutoff; quantum
+boots use 10,000 instead of 20,000 EU per point beyond the first ten blocks.
+Quantum sprint, swimming, jump and hazmat behavior are inherited from IC2R.
+There are no helmet upgrades in this addon; helmets are reserved for the planned solar addon.
+
 ## Overlap with IC2R
 
 | Original feature | Port decision |
 | --- | --- |
-| Advanced Iridium Drill | Omitted: IC2R already has an iridium drill with Silk Touch / Fortune III. Use that item; it is not registered a second time. |
+| Advanced Iridium Drill | Retained as an upgrade requiring the IC2R iridium drill: 1 million instead of 300,000 EU, 5,000 instead of 1,000 EU transfer, 3x3 mining and higher speed. |
 | Advanced Diamond Drill | Retained for 3x3 mining and adjustable speed / energy use, beyond the normal IC2R diamond drill. |
 | Advanced Nano Chestplate | Retained: IC2R's attachment recipe accepts its standard electric jetpack, not the advanced GraviSuite jetpack. This version adds stronger flight, boost, tool charging and 8 million EU. |
 | Gravitational Chestplate | Retained: IC2R's quantum chestplate has a jetpack; this item provides powered creative flight and larger storage. |
 | Lappacks | Capacities adapted to modern IC2R: 20 million EU in the base Lappack, then 40 and 100 million EU. |
+| Nano / quantum legs and boots | Separate upgrades of the corresponding IC2R pieces, with four times their storage and faster charging. Base quantum movement abilities are retained. |
 | Quantum chestplate recipe | IC2R's original recipe is preserved. GraviSuite does not replace IC2R progression recipes. |
 | Magnet | Portable item attraction; different from IC2R's stationary magnetizer. |
 | GraviTool | Combines existing operations in one configurable tool instead of registering duplicate standalone tools. |
@@ -59,7 +72,7 @@ Key bindings can be changed in Minecraft's Controls screen.
 - **H**: toggle a magnet in the hotbar.
 - **IC2 mode key + right-click**: cycle tool / mining / relocator mode.
 - **IC2 Alt key + right-click**: cycle mining efficiency.
-- **Sneak + IC2 mode key + right-click** with a Vajra: switch Silk Touch / Fortune III.
+- **Sneak + IC2 mode key + right-click** with the Advanced Iridium Drill or Vajra: switch Silk Touch / Fortune III.
 - **Sneak + IC2 mode key + right-click** with the chainsaw: toggle tree felling.
 - **Sneak while mining**: single-block operation.
 - **Right-click a block with the drill or Vajra**: place a torch from inventory.
@@ -68,6 +81,8 @@ Key bindings can be changed in Minecraft's Controls screen.
 - **Sneak + right-click with the voider**: remove matching inventory items, spending energy.
 - **Sneak + right-click with the relocator**: manage destinations.
 - **IC2 jump / boost keys**: jetpack ascent, hover controls and boost.
+- **Sprint while wearing Advanced Nano Leggings**: automatic +15% movement speed while paying 8 EU/t.
+- **IC2 quantum movement controls**: retained by Advanced Quantum Leggings and Boots, including their speed / jump toggles.
 
 Relocator costs: 1 million EU for same-dimension personal teleportation, 1.5 million EU across
 dimensions, 2 million EU for a translocator projectile and 2.5 million EU for a portal projectile.
@@ -100,9 +115,19 @@ Install the mod and IC2R on both the client and server. Configuration is in `con
 
 ## Port validation
 
-Compilation against NeoForge 1.21.1 and IC2R succeeds. Runtime regression testing is in progress;
-this section will be updated with the completed checks before the port is delivered.
-A successful build alone does not establish compatibility with every modpack or multiplayer setup.
+The local Java 21 build passes four JUnit resource-contract tests and 24 NeoForge server game
+tests against IC2R 21.1.66. These cover EU capacity / tier / transfer behavior, MFSU charging,
+charge-preserving upgrade recipes, mining energy costs, tool upgrades, armor upgrades, fall
+absorption, sprint cleanup, flight cleanup, packet validation, item filtering and teleportation.
+English / Russian key parity, format arguments, recipe outputs, item models and item textures
+are checked automatically. CI runs the same build and game tests using the public IC2R release.
+
+An isolated development client also loads the mod and completes resource / model atlas loading
+without GraviSuite resource errors. Armor appearance on the player and controls still need
+manual verification in a full client;
+the server tests do not establish compatibility with every modpack or multiplayer setup.
+The relocator projectile currently uses an item renderer rather than the legacy plasma mesh.
+Legacy engine audio and exact legacy visual effects are not reproduced.
 
 ## Credits
 

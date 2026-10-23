@@ -18,32 +18,47 @@ import reforged.mods.gravisuite.network.GraviNetwork;
 
 @Mod(GraviSuite.ID)
 public final class GraviSuite {
-    public static final String ID = "gravisuite";
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ID);
+  public static final String ID = "gravisuite";
+  public static final DeferredRegister<CreativeModeTab> TABS =
+      DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ID);
 
-    static {
-        TABS.register("equipment", () -> CreativeModeTab.builder()
+  static {
+    TABS.register(
+        "equipment",
+        () ->
+            CreativeModeTab.builder()
                 .title(Component.translatable("itemGroup.gravisuite"))
                 .icon(() -> new ItemStack(GraviItems.GRAVI_CHESTPLATE.get()))
-                .displayItems((parameters, output) -> GraviItems.ITEMS.getEntries().forEach(entry -> {
-                    Item item = entry.get();
-                    output.accept(item);
-                    if (item instanceof IElectricItem) output.accept(ElectricItemManager.getCharged(item, Double.POSITIVE_INFINITY));
-                })).build());
-    }
+                .displayItems(
+                    (parameters, output) ->
+                        GraviItems.ITEMS
+                            .getEntries()
+                            .forEach(
+                                entry -> {
+                                  Item item = entry.get();
+                                  output.accept(item);
+                                  if (item instanceof IElectricItem)
+                                    output.accept(
+                                        ElectricItemManager.getCharged(
+                                            item, Double.POSITIVE_INFINITY));
+                                }))
+                .build());
+  }
 
-    public GraviSuite(IEventBus bus, ModContainer container) {
-        GraviItems.ITEMS.register(bus);
-        PortalContent.BLOCKS.register(bus);
-        PortalContent.BLOCK_ENTITIES.register(bus);
-        PortalContent.ENTITIES.register(bus);
-        GraviNetwork.MENUS.register(bus);
-        TABS.register(bus);
-        bus.addListener(GraviNetwork::register);
-        container.registerConfig(ModConfig.Type.COMMON, GraviConfig.SPEC);
-        NeoForge.EVENT_BUS.addListener(GraviEvents::tick);
-        NeoForge.EVENT_BUS.addListener(GraviEvents::fall);
-    }
+  public GraviSuite(IEventBus bus, ModContainer container) {
+    GraviItems.ITEMS.register(bus);
+    PortalContent.BLOCKS.register(bus);
+    PortalContent.BLOCK_ENTITIES.register(bus);
+    PortalContent.ENTITIES.register(bus);
+    GraviNetwork.MENUS.register(bus);
+    TABS.register(bus);
+    bus.addListener(GraviNetwork::register);
+    container.registerConfig(ModConfig.Type.COMMON, GraviConfig.SPEC);
+    NeoForge.EVENT_BUS.addListener(GraviEvents::tick);
+    NeoForge.EVENT_BUS.addListener(GraviEvents::fall);
+  }
 
-    public static ResourceLocation id(String path) { return ResourceLocation.fromNamespaceAndPath(ID, path); }
+  public static ResourceLocation id(String path) {
+    return ResourceLocation.fromNamespaceAndPath(ID, path);
+  }
 }

@@ -1,0 +1,29 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SIS",
+    "CAC",
+    "SBS"
+  ],
+  "key": {
+    "S": {
+      "item": "gravisuite:superconductor"
+    },
+    "A": {
+      "item": "ic2:quantum_boots"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "gravisuite:engine_booster"
+    },
+    "I": {
+      "item": "ic2:iridium"
+    }
+  },
+  "result": {
+    "item": "gravisuite:advanced_quantum_boots",
+    "count": 1
+  }
+}

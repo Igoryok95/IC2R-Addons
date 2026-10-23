@@ -8,10 +8,18 @@ import net.minecraft.world.item.ItemStack;
 import reforged.mods.gravisuite.GraviItems;
 
 public final class RelocatorMenu extends AbstractContainerMenu {
-    public final InteractionHand hand;
-    public RelocatorMenu(int id, Inventory inventory, InteractionHand hand) {
-        super(GraviNetwork.RELOCATOR_MENU.get(), id); this.hand = hand;
-    }
-    public boolean stillValid(Player player) { return player.getItemInHand(hand).is(GraviItems.RELOCATOR.get()); }
-    public ItemStack quickMoveStack(Player player, int slot) { return ItemStack.EMPTY; }
+  public final InteractionHand hand;
+
+  public RelocatorMenu(int id, Inventory inventory, InteractionHand hand) {
+    super(GraviNetwork.RELOCATOR_MENU.get(), id);
+    this.hand = hand;
+  }
+
+  public boolean stillValid(Player player) {
+    return player.getItemInHand(hand).is(GraviItems.RELOCATOR.get());
+  }
+
+  public ItemStack quickMoveStack(Player player, int slot) {
+    return ItemStack.EMPTY;
+  }
 }

@@ -13,7 +13,7 @@
       "tag": "c:ingots/gold"
     },
     "C": {
-      "item": "ic2:glass_cable"
+      "item": "ic2:glass_fibre_cable"
     }
   },
   "result": {

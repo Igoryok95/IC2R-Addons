@@ -3,8 +3,8 @@
 </p>
 
 # GraviSuite Reforged for Minecraft 1.6.4
- - - - 
-This is an attempt to reforge the old-classic IC2 addon - GraviSuite, using [voldeloom](https://github.com/CrackedPolishedBlackstoneBricksMC/voldeloom) as foundation. 
+ - - -
+This is an attempt to reforge the old-classic IC2 addon - GraviSuite, using [voldeloom](https://github.com/CrackedPolishedBlackstoneBricksMC/voldeloom) as foundation.
 
 ## Armors
  - - -
@@ -12,52 +12,52 @@ This is an attempt to reforge the old-classic IC2 addon - GraviSuite, using [vol
 <img src="demo/items/armor/advanced_lappack.png" style="border: solid 5px #CCC">
 
 As the name states, this is an advanced version of IC2's Lappack.
- - Features: 
+ - Features:
    - Energy  provider
  - Specifications:
    - Tier: 3
    - Max Transfer: 1000 EU/t
    - Capacity: 1.000.000 EU/t
- - - - 
+ - - -
 ### Ultimate Lappack
 <img src="demo/items/armor/ultimate_lappack.png" style="border: solid 5px #CCC">
 
 An ultimate portable energy storage!
- - Features: 
+ - Features:
    - Energy provider
  - Specifications:
    - Tier: 3
    - Max Transfer: 50.000 EU/t
    - Max Capacity: 10.000.000 EU
- - - - 
+ - - -
 ### Advanced Electric Jetpack
 <img src="demo/items/armor/advanced_jetpack.png" style="border: solid 5px #CCC">
 
 An advanced electric jetpack.
-- Features: 
-  - Energy provider 
+- Features:
+  - Energy provider
   - Flight with hover and boost modes
   - Jetpack Engine can be turned ON/OFF
 - Specifications:
     - Tier: 2
     - Max Transfer: 5.000 EU/t
     - Max Capacity: 1.000.000 EU
- - - - - 
+ - - - -
 ### Advanced Nano Chestplate
 <img src="demo/items/armor/advanced_nano.png" style="border: solid 5px #CCC">
 
 A hybrid of Advanced Electric Jetpack and IC2's NanoSuit Bodyarmor.
-- Features: 
-  - Protection provider 
-  - Energy provider 
-  - Flight with hover and boost modes 
+- Features:
+  - Protection provider
+  - Energy provider
+  - Flight with hover and boost modes
   - Jetpack Engine can be turned ON/OFF
   - Fire extinguisher (uses IC2's Water Cells from inventory)
 - Specifications:
     - Tier: 2
     - Max Transfer: 5.000 EU/t
     - Max Capacity: 1.000.000 EU
- - - - - 
+ - - - -
 ### Gravitational Chestplate
 <img src="demo/items/armor/advanced_quant.png" style="border: solid 5px #CCC">
 
@@ -131,7 +131,7 @@ Ultimate Mining Tool!
 ### GraviTool
 <img src="demo/items/gravitool/hoe.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/treetap.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/wrench.png" style="border: solid 5px #CCC"> <img src="demo/items/gravitool/screwdriver.png" style="border: solid 5px #CCC">
 
-A 4in1 universal tool  
+A 4in1 universal tool
 - Features:
     - 4 Modes: Hoe, TreeTap, Wrench, Screwdriver
     - Usage: 150 EU/use
@@ -157,8 +157,8 @@ Very useful helper when mining.
 
 Another useful helper when mining.
 - Features:
-  - Voids items based on filter. 
-  - `RightClick` with it on block to se the filter. 
+  - Voids items based on filter.
+  - `RightClick` with it on block to se the filter.
     - Usage: 500 EU/filter
   - Press `Sneak+RightClick` while in hand to remove items from player inventory.
     - Usage: 5 EU/item
@@ -169,4 +169,4 @@ Another useful helper when mining.
   - Max Transfer: 500 EU/t
   - Max Capacity: 10.000 EU
 ## Credits
-I don't own the idea. Full credit for the idea goes to [SeNtiMeL](https://forum.industrial-craft.net/thread/6915-ic2-exp-1-7-10-gravitation-suite-v2-0-3/) and IC2 Dev team. 
+I don't own the idea. Full credit for the idea goes to [SeNtiMeL](https://forum.industrial-craft.net/thread/6915-ic2-exp-1-7-10-gravitation-suite-v2-0-3/) and IC2 Dev team.

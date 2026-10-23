@@ -71,5 +71,14 @@
   "tooltip.gravisuite.voider_keys": "Use on a block: set filter; sneak + use: purge matching items",
   "tooltip.gravisuite.magnet_keys": "Use: toggle; works from the hotbar",
   "tooltip.gravisuite.destination": "Destination: %s",
-  "tooltip.gravisuite.relocator_keys": "Sneak + use: manage points; IC2 mode key + use: switch mode"
+  "tooltip.gravisuite.relocator_keys": "Sneak + use: manage points; IC2 mode key + use: switch mode",
+  "item.gravisuite.advanced_iridium_drill": "Advanced Iridium Drill",
+  "item.gravisuite.advanced_nano_leggings": "Advanced Nano Leggings",
+  "item.gravisuite.advanced_nano_boots": "Advanced Nano Boots",
+  "item.gravisuite.advanced_quantum_leggings": "Advanced Quantum Leggings",
+  "item.gravisuite.advanced_quantum_boots": "Advanced Quantum Boots",
+  "tooltip.gravisuite.nano_sprint": "Sprint: +15%% movement speed, 8 EU/t",
+  "tooltip.gravisuite.nano_fall": "Absorbs heavy falls while sufficient EU remains",
+  "tooltip.gravisuite.quantum_legs": "IC2R quantum speed controls; quadruple EU capacity",
+  "tooltip.gravisuite.quantum_fall": "IC2R quantum jump; fall absorption costs 50%% less EU"
 }

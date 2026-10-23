@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'net.neoforged.moddev' version '2.0.141'
+    id 'com.diffplug.spotless' version '8.8.0'
 }
 
 group = 'reforged.mods'
@@ -8,6 +9,13 @@ version = mod_version
 base.archivesName = "gravisuite-neoforge-${minecraft_version}"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
+
+spotless {
+    java {
+        target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
+        googleJavaFormat('1.35.0')
+    }
+}
 
 repositories {
     mavenCentral()
@@ -45,7 +53,10 @@ neoForge {
 }
 
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
-test { useJUnitPlatform() }
+test {
+    useJUnitPlatform()
+    systemProperty 'gravisuite.projectDir', projectDir.absolutePath
+}
 processResources {
     inputs.property 'version', project.version
     filesMatching('META-INF/neoforge.mods.toml') { expand version: project.version }

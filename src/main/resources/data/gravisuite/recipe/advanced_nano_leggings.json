@@ -1,0 +1,26 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SCS",
+    "BAB",
+    "SCS"
+  ],
+  "key": {
+    "S": {
+      "item": "gravisuite:superconductor"
+    },
+    "A": {
+      "item": "ic2:nano_leggings"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "gravisuite:cooling_core"
+    }
+  },
+  "result": {
+    "item": "gravisuite:advanced_nano_leggings",
+    "count": 1
+  }
+}
