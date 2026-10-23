@@ -61,6 +61,8 @@ set has **100 million EU per piece**. The hybrid helmet remains an intermediate 
 Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior and voltage
 tiers are retained; no duplicate base nano / quantum equipment or additional helmets are added.
 
+![Powered armor icons and capacities](docs/images/powered-armor.png)
+
 The new leggings and boots have blue energy details in both item icons and worn armor,
 matching the existing chestplates. Existing chestplate and solar helmet artwork is retained.
 Nano boots retain the 5,000 EU-per-damage fall cost while removing the base heavy-fall cutoff;
@@ -164,6 +166,10 @@ The isolated client smoke command is `./gradlew runClient -PclientSmoke`. It ope
 item / world / GUI captures and exits. Prepare this isolated world by copying `run/world` to
 `run/saves/SolarClientSmoke` after a server test run. The developer harness is disabled unless
 explicitly enabled and clears old test inventories / dropped items / armor stands.
+
+A real Russian-locale client with IC2R 21.1.67 and JEI 19.64.0.455 loads the combined mod,
+renders both complete armor sets and blue leg / boot details, and opens the transformer GUI.
+The screenshots above were captured from that client.
 
 The full multiplayer modpack, worn movement controls and shader combinations still need manual
 validation. No Sodium / Iris incompatibility rule is imposed. Historical double-slab cosmetics,
