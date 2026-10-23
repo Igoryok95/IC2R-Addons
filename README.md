@@ -167,7 +167,7 @@ item / world / GUI captures and exits. Prepare this isolated world by copying `r
 `run/saves/SolarClientSmoke` after a server test run. The developer harness is disabled unless
 explicitly enabled and clears old test inventories / dropped items / armor stands.
 
-A real Russian-locale client with IC2R 21.1.67 and JEI 19.64.0.455 loads the combined mod,
+A real English-locale client with IC2R 21.1.67 and JEI 19.64.0.455 loads the combined mod,
 renders both complete armor sets and blue leg / boot details, and opens the transformer GUI.
 The screenshots above were captured from that client.
 
