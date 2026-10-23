@@ -32,12 +32,12 @@ neoForge {
  runs {
   client { client(); if (providers.gradleProperty('clientSmoke').isPresent()) { systemProperty 'asp.clientSmoke', 'true'; programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke' } }
   server { server(); programArgument '--nogui' }
-  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'advanced_solar_panels,gravisuite' }
+  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'solar_gravisuite' }
  }
- mods { advanced_solar_panels { sourceSet sourceSets.main } }
- unitTest { enable(); testedMod = mods.advanced_solar_panels }
+ mods { solar_gravisuite { sourceSet sourceSets.main } }
+ unitTest { enable(); testedMod = mods.solar_gravisuite }
 }
-test { useJUnitPlatform(); systemProperty 'asp.projectDir', projectDir.absolutePath; systemProperty 'gravisuite.projectDir', projectDir.absolutePath }
+test { useJUnitPlatform(); systemProperty 'asp.projectDir', projectDir.absolutePath; systemProperty 'solar_gravisuite.projectDir', projectDir.absolutePath }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 processResources {
  inputs.property 'version', project.version

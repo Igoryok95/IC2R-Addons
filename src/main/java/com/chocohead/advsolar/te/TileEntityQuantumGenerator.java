@@ -105,7 +105,7 @@ public class TileEntityQuantumGenerator extends TileEntityBaseGenerator
 
   public String getTier() {
     return this.tier > 5
-        ? Component.translatable("advanced_solar_panels.gui.max").getString()
+        ? Component.translatable("solar_gravisuite.gui.max").getString()
         : Integer.toString(this.tier);
   }
 }

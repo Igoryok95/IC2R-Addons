@@ -1,0 +1,11 @@
+{
+  "type": "solar_gravisuite:molecular_transformer",
+  "input": {
+    "item": "minecraft:sand"
+  },
+  "output": {
+    "id": "minecraft:gravel",
+    "count": 1
+  },
+  "energy": 50000
+}

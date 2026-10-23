@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SSS",
+    "SCS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "solar_gravisuite:hybrid_solar_panel"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:ultimate_solar_panel"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "EFE"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2:carbon_plate"
+    },
+    "B": {
+      "item": "ic2:jetpack_electric"
+    },
+    "C": {
+      "item": "solar_gravisuite:engine_booster"
+    },
+    "D": {
+      "item": "ic2:energy_pack"
+    },
+    "E": {
+      "item": "ic2:glass_fibre_cable"
+    },
+    "F": {
+      "item": "ic2:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:advanced_jetpack",
+    "count": 1
+  }
+}

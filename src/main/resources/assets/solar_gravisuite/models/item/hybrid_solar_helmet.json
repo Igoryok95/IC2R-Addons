@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "solar_gravisuite:item/hybridsolarhelmet",
+    "layer1": "solar_gravisuite:item/hybridsolarhelmetoverlay"
+  }
+}

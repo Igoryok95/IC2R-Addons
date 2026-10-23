@@ -44,7 +44,7 @@ public final class AdvancedNanoArmor extends ItemArmorNanoSuit {
     tooltip.add(
         Component.translatable(
             getEquipmentSlot() == EquipmentSlot.LEGS
-                ? "tooltip.gravisuite.nano_sprint"
-                : "tooltip.gravisuite.nano_fall"));
+                ? "tooltip.solar_gravisuite.nano_sprint"
+                : "tooltip.solar_gravisuite.nano_fall"));
   }
 }

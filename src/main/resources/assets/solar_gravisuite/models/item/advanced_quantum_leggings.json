@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "solar_gravisuite:item/advanced_quantum_leggings",
+    "layer1": "solar_gravisuite:item/advanced_quantum_leggings_overlay"
+  }
+}

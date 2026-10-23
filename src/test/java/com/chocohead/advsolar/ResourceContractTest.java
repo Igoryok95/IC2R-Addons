@@ -18,9 +18,31 @@ class ResourceContractTest {
   }
 
   @Test
+  void onlyTheCombinedNamespaceIsPublished() throws Exception {
+    for (String directory : List.of("assets", "data")) {
+      assertFalse(Files.exists(RES.resolve(directory + "/advanced_solar_panels")));
+      assertFalse(Files.exists(RES.resolve(directory + "/gravisuite")));
+      assertTrue(Files.isDirectory(RES.resolve(directory + "/solar_gravisuite")));
+    }
+    String metadata = Files.readString(RES.resolve("META-INF/neoforge.mods.toml"));
+    assertTrue(metadata.contains("modId=\"solar_gravisuite\""));
+    try (var paths = Files.walk(RES)) {
+      for (Path p :
+          paths
+              .filter(Files::isRegularFile)
+              .filter(p -> p.toString().endsWith(".json") || p.toString().endsWith(".xml"))
+              .toList()) {
+        String text = Files.readString(p);
+        assertFalse(text.contains("advanced_solar_panels:"), p.toString());
+        assertFalse(text.contains("\"gravisuite:"), p.toString());
+      }
+    }
+  }
+
+  @Test
   void russianMatchesEnglishKeysAndArguments() throws Exception {
-    JsonObject en = read(RES.resolve("assets/advanced_solar_panels/lang/en_us.json")),
-        ru = read(RES.resolve("assets/advanced_solar_panels/lang/ru_ru.json"));
+    JsonObject en = read(RES.resolve("assets/solar_gravisuite/lang/en_us.json")),
+        ru = read(RES.resolve("assets/solar_gravisuite/lang/ru_ru.json"));
     assertEquals(en.keySet(), ru.keySet());
     for (String k : en.keySet()) {
       String text = ru.get(k).getAsString();
@@ -39,17 +61,16 @@ class ResourceContractTest {
 
   @Test
   void allModelTexturesResolve() throws Exception {
-    try (var paths = Files.walk(RES.resolve("assets/advanced_solar_panels/models"))) {
+    try (var paths = Files.walk(RES.resolve("assets/solar_gravisuite/models"))) {
       for (Path p : paths.filter(x -> x.toString().endsWith(".json")).toList()) {
         JsonObject model = read(p);
         if (!model.has("textures")) continue;
         for (var e : model.getAsJsonObject("textures").entrySet()) {
           String id = e.getValue().getAsString();
-          if (!id.startsWith("advanced_solar_panels:")) continue;
+          if (!id.startsWith("solar_gravisuite:")) continue;
           assertTrue(
               Files.isRegularFile(
-                  RES.resolve(
-                      "assets/advanced_solar_panels/textures/" + id.split(":", 2)[1] + ".png")),
+                  RES.resolve("assets/solar_gravisuite/textures/" + id.split(":", 2)[1] + ".png")),
               p + " -> " + id);
         }
       }
@@ -58,7 +79,7 @@ class ResourceContractTest {
 
   @Test
   void recipesHaveNoLegacyForgeTags() throws Exception {
-    try (var paths = Files.walk(RES.resolve("data/advanced_solar_panels/recipe"))) {
+    try (var paths = Files.walk(RES.resolve("data/solar_gravisuite/recipe"))) {
       for (Path p : paths.filter(x -> x.toString().endsWith(".json")).toList()) {
         JsonObject recipe = read(p);
         assertTrue(recipe.has("type"), p.toString());
@@ -72,14 +93,12 @@ class ResourceContractTest {
     for (String name : List.of("spectral", "singular", "light_absorbing", "photonic")) {
       var image =
           javax.imageio.ImageIO.read(
-              RES.resolve("assets/advanced_solar_panels/textures/block/" + name + "_solar_top.png")
+              RES.resolve("assets/solar_gravisuite/textures/block/" + name + "_solar_top.png")
                   .toFile());
       assertEquals(96, image.getWidth());
       assertEquals(16, image.getHeight());
       var model =
-          read(
-              RES.resolve(
-                  "assets/advanced_solar_panels/models/block/" + name + "_solar_panel.json"));
+          read(RES.resolve("assets/solar_gravisuite/models/block/" + name + "_solar_panel.json"));
       var faces =
           model.getAsJsonArray("elements").get(0).getAsJsonObject().getAsJsonObject("faces");
       assertEquals(6, faces.size());

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "solar_gravisuite:block/quantum_solar_side",
+    "down": "solar_gravisuite:block/quantum_solar_bottom",
+    "up": "solar_gravisuite:block/quantum_solar_top",
+    "north": "solar_gravisuite:block/quantum_solar_side",
+    "east": "solar_gravisuite:block/quantum_solar_side",
+    "south": "solar_gravisuite:block/quantum_solar_side",
+    "west": "solar_gravisuite:block/quantum_solar_side"
+  }
+}

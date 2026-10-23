@@ -44,7 +44,7 @@ public final class AdvancedQuantumArmor extends ItemArmorQuantumSuit {
     tooltip.add(
         Component.translatable(
             getEquipmentSlot() == EquipmentSlot.LEGS
-                ? "tooltip.gravisuite.quantum_legs"
-                : "tooltip.gravisuite.quantum_fall"));
+                ? "tooltip.solar_gravisuite.quantum_legs"
+                : "tooltip.solar_gravisuite.quantum_fall"));
   }
 }

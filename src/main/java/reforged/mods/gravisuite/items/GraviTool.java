@@ -85,10 +85,10 @@ public final class GraviTool extends ItemToolWrenchElectric {
     super.appendHoverText(stack, context, tooltip, flag);
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.tool",
+            "tooltip.solar_gravisuite.tool",
             Component.translatable(
-                "mode.gravisuite."
+                "mode.solar_gravisuite."
                     + new String[] {"wrench", "treetap", "hoe", "screwdriver"}[mode(stack)])));
-    tooltip.add(Component.translatable("tooltip.gravisuite.mode_key"));
+    tooltip.add(Component.translatable("tooltip.solar_gravisuite.mode_key"));
   }
 }

@@ -1,0 +1,11 @@
+{
+  "type": "solar_gravisuite:molecular_transformer",
+  "input": {
+    "item": "minecraft:coal"
+  },
+  "output": {
+    "id": "minecraft:diamond",
+    "count": 1
+  },
+  "energy": 9000000
+}

@@ -1,0 +1,23 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "CEC",
+    "EPE",
+    "CEC"
+  ],
+  "key": {
+    "C": {
+      "item": "solar_gravisuite:cooling_core"
+    },
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "P": {
+      "item": "ic2:teleporter"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:relocator",
+    "count": 1
+  }
+}

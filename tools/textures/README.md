@@ -19,6 +19,6 @@ From the repository root, with Java 21:
 java tools/textures/BlueArmor.java
 ```
 
-Final resources are under `src/main/resources/assets/gravisuite/textures/item/` and
-`src/main/resources/assets/gravisuite/textures/models/armor/`. Source artwork is retained under
+Final resources are under `src/main/resources/assets/solar_gravisuite/textures/item/` and
+`src/main/resources/assets/solar_gravisuite/textures/models/armor/`. Source artwork is retained under
 `source/`; authorship and rights are documented in the root NOTICE.md.

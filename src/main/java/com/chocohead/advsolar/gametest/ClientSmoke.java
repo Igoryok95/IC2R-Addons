@@ -181,7 +181,11 @@ public final class ClientSmoke {
     }
     if (ticks >= 200 && ticks < 240 && mc.screen != null) mc.setScreen(null);
     if (ticks == 230) screenshot(mc, "solar-smoke-world.png");
-    if (ticks == 260) {
+    if (ticks == 260) com.chocohead.advsolar.compat.JeiSearchSmoke.show("@solar");
+    if (ticks == 280) screenshot(mc, "solar-smoke-jei-solar.png");
+    if (ticks == 290) com.chocohead.advsolar.compat.JeiSearchSmoke.show("@gravi");
+    if (ticks == 310) screenshot(mc, "solar-smoke-jei-gravi.png");
+    if (ticks == 330) {
       AdvancedSolarPanels.LOGGER.info("ASP_CLIENT_SMOKE_COMPLETE");
       mc.stop();
     }
@@ -197,7 +201,7 @@ public final class ClientSmoke {
 
   private static final class ItemsScreen extends Screen {
     private ItemsScreen() {
-      super(Component.translatable("itemGroup.advanced_solar_panels"));
+      super(Component.translatable("itemGroup.solar_gravisuite.technology"));
     }
 
     public boolean isPauseScreen() {

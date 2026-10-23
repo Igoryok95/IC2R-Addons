@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.gametest.*;
 
-@GameTestHolder("advanced_solar_panels")
+@GameTestHolder("solar_gravisuite")
 @PrefixGameTestTemplate(false)
 public final class SolarGameTests {
   private static final String EMPTY = "gametest/empty3x3x3";
@@ -48,7 +48,7 @@ public final class SolarGameTests {
       var block =
           BuiltInRegistries.BLOCK.get(
               ResourceLocation.fromNamespaceAndPath(
-                  "advanced_solar_panels", type.name().toLowerCase(Locale.ROOT) + "_solar_panel"));
+                  "solar_gravisuite", type.name().toLowerCase(Locale.ROOT) + "_solar_panel"));
       h.setBlock(new BlockPos(1, 1, 1), block);
       TileEntitySolarPanel te = h.getBlockEntity(new BlockPos(1, 1, 1));
       double before = te.getComponent(Energy.class).getEnergy();
@@ -242,7 +242,7 @@ public final class SolarGameTests {
             .getRecipeManager()
             .byKey(
                 ResourceLocation.fromNamespaceAndPath(
-                    "advanced_solar_panels", "shaped/advanced_solar_helmet"))
+                    "solar_gravisuite", "shaped/advanced_solar_helmet"))
             .orElseThrow();
     CraftingRecipe recipe = (CraftingRecipe) holder.value();
     ItemStack original = ElectricItemManager.getCharged(Ic2Items.NANO_HELMET, 5000),
@@ -275,7 +275,7 @@ public final class SolarGameTests {
   @GameTest(template = EMPTY)
   public static void craftingIngredientsResolve(GameTestHelper h) {
     for (var holder : h.getLevel().getRecipeManager().getRecipes()) {
-      if (!holder.id().getNamespace().equals("advanced_solar_panels")) continue;
+      if (!holder.id().getNamespace().equals("solar_gravisuite")) continue;
       if (holder.value() instanceof CraftingRecipe || holder.value() instanceof MTRecipe) {
         for (var ingredient : holder.value().getIngredients())
           h.assertTrue(
@@ -287,10 +287,35 @@ public final class SolarGameTests {
   }
 
   @GameTest(template = EMPTY)
+  public static void everyItemUsesTheUnifiedCreatorModId(GameTestHelper h) {
+    var modList = net.neoforged.fml.ModList.get();
+    h.assertTrue(
+        !modList.isLoaded("advanced_solar_panels") && !modList.isLoaded("gravisuite"),
+        "no legacy loader identities");
+    var items =
+        java.util.stream.Stream.concat(
+                AdvSolarBlocks.ITEMS.getEntries().stream(),
+                reforged.mods.gravisuite.GraviItems.ITEMS.getEntries().stream())
+            .map(java.util.function.Supplier::get)
+            .toList();
+    h.assertTrue(items.size() > 40, "both families must be included");
+    for (Item item : items) {
+      ItemStack stack = new ItemStack(item);
+      h.assertTrue(
+          BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(AdvancedSolarPanels.MODID),
+          "unified registry identity: " + item);
+      h.assertTrue(
+          AdvancedSolarPanels.MODID.equals(item.getCreatorModId(stack)),
+          "JEI creator lookup must use the combined mod: " + item);
+    }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
   public static void integratedArmorSetsHaveMatchingCapacityAndOneModContainer(GameTestHelper h) {
     h.assertTrue(
-        !net.neoforged.fml.ModList.get().isLoaded("gravisuite"),
-        "GraviSuite is integrated into the solar addon");
+        net.neoforged.fml.ModList.get().isLoaded(AdvancedSolarPanels.MODID),
+        "combined mod must use its own loader identity");
     Item[][] sets = {
       {
         AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
@@ -326,7 +351,7 @@ public final class SolarGameTests {
 
   @GameTest(template = EMPTY)
   public static void solarHelmetChargesGraviArmorWhenPresent(GameTestHelper h) {
-    var id = ResourceLocation.fromNamespaceAndPath("gravisuite", "advanced_quant");
+    var id = ResourceLocation.fromNamespaceAndPath("solar_gravisuite", "advanced_quant");
     h.assertTrue(
         BuiltInRegistries.ITEM.containsKey(id), "integrated GraviSuite armor must be present");
     h.getLevel().setDayTime(6000);
@@ -365,7 +390,7 @@ public final class SolarGameTests {
                 .getRecipeManager()
                 .byKey(
                     ResourceLocation.fromNamespaceAndPath(
-                        "advanced_solar_panels", "shaped/" + entry.getId().getPath()))
+                        "solar_gravisuite", "shaped/" + entry.getId().getPath()))
                 .isPresent(),
             "craftable machine " + entry.getId());
     }
@@ -374,8 +399,7 @@ public final class SolarGameTests {
       h.assertTrue(
           h.getLevel()
               .getRecipeManager()
-              .byKey(
-                  ResourceLocation.fromNamespaceAndPath("advanced_solar_panels", "shaped/" + name))
+              .byKey(ResourceLocation.fromNamespaceAndPath("solar_gravisuite", "shaped/" + name))
               .isPresent(),
           "helmet crafting recipe");
     h.succeed();

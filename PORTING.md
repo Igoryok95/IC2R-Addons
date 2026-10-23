@@ -36,3 +36,16 @@ armor material layers. Nano layer 1 combines the original chestplate art with th
 boot regions; layer 2 contains the leggings. Quantum layers use IC2R UVs with blue accents.
 Existing chestplate and helmet artwork is retained. Storage is synchronized across advanced
 nano pieces (8M EU) and top quantum / gravitational pieces (100M EU); the hybrid helmet has 40M.
+
+## Solar GraviSuite 1.1.1 unified identity
+
+The loader entry, all registries, assets, datapacks, localization keys, network payloads and
+armor / attribute resources now use `solar_gravisuite`. The 1.1.0 namespaces described above
+are historical only. No registry aliases or missing-mapping migration are supplied.
+Both former resource trees are merged with collision checking, including localization maps.
+The two config specs use `solar_gravisuite-solar.toml` and `solar_gravisuite-equipment.toml`.
+
+JEI obtains the item creator ID through NeoForge's Item API. The shared namespace therefore
+provides the same display mod name for both content families. The developer-only JEI smoke
+check compares full result sets for `@solar`, `@gravi`, `@Solar` and `@solar_gravisuite`,
+including all registered items rather than checking only counts or representative samples.

@@ -13,7 +13,7 @@ import org.slf4j.Logger;
  */
 @Mod(AdvancedSolarPanels.MODID)
 public final class AdvancedSolarPanels {
-  public static final String MODID = "advanced_solar_panels";
+  public static final String MODID = "solar_gravisuite";
 
   public static net.minecraft.resources.ResourceLocation id(String path) {
     return net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(MODID, path);
@@ -25,7 +25,7 @@ public final class AdvancedSolarPanels {
     container.registerConfig(
         net.neoforged.fml.config.ModConfig.Type.COMMON,
         AspConfig.SPEC,
-        "advanced_solar_panels-common.toml");
+        "solar_gravisuite-solar.toml");
     reforged.mods.gravisuite.GraviSuite.initialize(modBus, container);
     AdvSolarBlocks.register(modBus);
     com.chocohead.advsolar.recipe.MolecularTransformerRecipes.TYPES.register(modBus);

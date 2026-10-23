@@ -25,11 +25,10 @@ public class ItemSolarPanel extends BlockItem {
       @NotNull List<Component> tooltip,
       @NotNull TooltipFlag flag) {
     tooltip.add(
-        Component.translatable("advanced_solar_panels.tooltip.generation.day", this.type.dayPower)
+        Component.translatable("solar_gravisuite.tooltip.generation.day", this.type.dayPower)
             .withStyle(ChatFormatting.GRAY));
     tooltip.add(
-        Component.translatable(
-                "advanced_solar_panels.tooltip.generation.night", this.type.nightPower)
+        Component.translatable("solar_gravisuite.tooltip.generation.night", this.type.nightPower)
             .withStyle(ChatFormatting.GRAY));
     tooltip.add(
         Component.translatable("ic2.item.tooltip.Output", this.type.getMaxOutput())

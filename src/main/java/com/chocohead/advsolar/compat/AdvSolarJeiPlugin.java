@@ -26,6 +26,11 @@ public class AdvSolarJeiPlugin implements IModPlugin {
   }
 
   @Override
+  public void onRuntimeAvailable(mezz.jei.api.runtime.IJeiRuntime runtime) {
+    JeiSearchSmoke.verify(runtime);
+  }
+
+  @Override
   public void registerCategories(IRecipeCategoryRegistration registration) {
     registration.addRecipeCategories(
         new MolecularTransformerCategory(registration.getJeiHelpers().getGuiHelper()));

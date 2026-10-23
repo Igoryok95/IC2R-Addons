@@ -11,13 +11,12 @@ public final class AspConfig {
   static {
     var b = new ModConfigSpec.Builder();
     GENERATION =
-        b.translation("config.advanced_solar_panels.generation_multiplier")
+        b.translation("config.solar_gravisuite.generation_multiplier")
             .defineInRange("generationMultiplier", 1.0, 0.0, 64.0);
     ARMOR_ONLY =
-        b.translation("config.advanced_solar_panels.armor_only")
-            .define("helmetsChargeArmorOnly", false);
+        b.translation("config.solar_gravisuite.armor_only").define("helmetsChargeArmorOnly", false);
     ACTIVE_CORE =
-        b.translation("config.advanced_solar_panels.active_core")
+        b.translation("config.solar_gravisuite.active_core")
             .define("drawActiveTransformerCore", true);
     SPEC = b.build();
   }

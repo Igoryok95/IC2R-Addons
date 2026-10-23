@@ -17,7 +17,7 @@ public final class ItemSolarHelmet {
   private ItemSolarHelmet() {}
 
   private static Holder<ArmorMaterial> material(String name) {
-    var id = ResourceLocation.fromNamespaceAndPath("advanced_solar_panels", name + "_solar_helmet");
+    var id = ResourceLocation.fromNamespaceAndPath("solar_gravisuite", name + "_solar_helmet");
     List<ArmorMaterial.Layer> layers = new ArrayList<>();
     layers.add(new ArmorMaterial.Layer(id));
     if (!name.equals("advanced")) layers.add(new ArmorMaterial.Layer(id, "_overlay", false));
@@ -68,8 +68,8 @@ public final class ItemSolarHelmet {
   }
 
   private static void tooltip(List<Component> list, int day, int night) {
-    list.add(Component.translatable("advanced_solar_panels.tooltip.generation.day", day));
-    list.add(Component.translatable("advanced_solar_panels.tooltip.generation.night", night));
+    list.add(Component.translatable("solar_gravisuite.tooltip.generation.day", day));
+    list.add(Component.translatable("solar_gravisuite.tooltip.generation.night", night));
   }
 
   public static final class Nano extends ItemArmorNanoSuit {

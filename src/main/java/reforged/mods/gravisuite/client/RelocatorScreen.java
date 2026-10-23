@@ -33,9 +33,9 @@ public final class RelocatorScreen extends AbstractContainerScreen<RelocatorMenu
             topPos + 150,
             256,
             18,
-            Component.translatable("screen.gravisuite.point_name"));
+            Component.translatable("screen.solar_gravisuite.point_name"));
     name.setMaxLength(48);
-    name.setHint(Component.translatable("screen.gravisuite.point_name"));
+    name.setHint(Component.translatable("screen.solar_gravisuite.point_name"));
     addRenderableWidget(name);
     addButton(
         "add",
@@ -58,7 +58,8 @@ public final class RelocatorScreen extends AbstractContainerScreen<RelocatorMenu
 
   private void addButton(String key, int x, int y, int width, Runnable run) {
     addRenderableWidget(
-        Button.builder(Component.translatable("screen.gravisuite." + key), button -> run.run())
+        Button.builder(
+                Component.translatable("screen.solar_gravisuite." + key), button -> run.run())
             .bounds(leftPos + x, topPos + y, width, 20)
             .build());
   }
@@ -90,9 +91,9 @@ public final class RelocatorScreen extends AbstractContainerScreen<RelocatorMenu
     graphics.drawString(
         font,
         Component.translatable(
-            "screen.gravisuite.title",
+            "screen.solar_gravisuite.title",
             Component.translatable(
-                "mode.gravisuite." + modes[ItemState.mode(stack(), "relocator", 3)])),
+                "mode.solar_gravisuite." + modes[ItemState.mode(stack(), "relocator", 3)])),
         8,
         6,
         0xe0f4ff);

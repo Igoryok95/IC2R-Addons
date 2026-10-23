@@ -2,7 +2,7 @@
   "pack": {
     "pack_format": 34,
     "description": {
-      "translate": "pack.advanced_solar_panels.description"
+      "translate": "pack.solar_gravisuite.description"
     }
   }
 }

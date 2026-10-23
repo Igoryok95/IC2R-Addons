@@ -3,30 +3,36 @@ loaderVersion="[4,)"
 license="All Rights Reserved"
 issueTrackerURL="https://github.com/Igoryok95/SolarGraviSuite-IC2R/issues"
 [[mods]]
-modId="advanced_solar_panels"
+modId="solar_gravisuite"
 version="${version}"
 displayName="Solar GraviSuite for IC2R"
 authors="Icedfire, SeNtiMeL, Chocohead; craftorio; VintageModsReforged; NeoForge IC2R adaptation: Igoryok95"
 description="Advanced Solar Panels and GraviSuite in one IC2R addon for Minecraft 1.21.1 NeoForge: eight solar tiers, solar helmets, a Molecular Transformer, powered armor, flight and electric tools."
-[[dependencies.advanced_solar_panels]]
+[[dependencies.solar_gravisuite]]
 modId="ic2"
 type="required"
 versionRange="[21.1.67,22)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.advanced_solar_panels]]
+[[dependencies.solar_gravisuite]]
 modId="minecraft"
 type="required"
 versionRange="[1.21.1]"
 side="BOTH"
-[[dependencies.advanced_solar_panels]]
+[[dependencies.solar_gravisuite]]
 modId="neoforge"
 type="required"
 versionRange="[21.1.264,)"
 side="BOTH"
 
-[[dependencies.advanced_solar_panels]]
+[[dependencies.solar_gravisuite]]
 modId="gravisuite"
+type="incompatible"
+versionRange="[0,)"
+side="BOTH"
+
+[[dependencies.solar_gravisuite]]
+modId="advanced_solar_panels"
 type="incompatible"
 versionRange="[0,)"
 side="BOTH"

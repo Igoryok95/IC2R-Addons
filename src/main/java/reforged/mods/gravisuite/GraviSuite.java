@@ -16,7 +16,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import reforged.mods.gravisuite.network.GraviNetwork;
 
 public final class GraviSuite {
-  public static final String ID = "gravisuite";
+  public static final String ID = com.chocohead.advsolar.AdvancedSolarPanels.MODID;
   public static final String MODID = com.chocohead.advsolar.AdvancedSolarPanels.MODID;
   public static final DeferredRegister<CreativeModeTab> TABS =
       DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ID);
@@ -26,7 +26,7 @@ public final class GraviSuite {
         "equipment",
         () ->
             CreativeModeTab.builder()
-                .title(Component.translatable("itemGroup.gravisuite"))
+                .title(Component.translatable("itemGroup.solar_gravisuite.equipment"))
                 .icon(() -> new ItemStack(GraviItems.GRAVI_CHESTPLATE.get()))
                 .displayItems(
                     (parameters, output) ->
@@ -52,7 +52,8 @@ public final class GraviSuite {
     GraviNetwork.MENUS.register(bus);
     TABS.register(bus);
     bus.addListener(GraviNetwork::register);
-    container.registerConfig(ModConfig.Type.COMMON, GraviConfig.SPEC, "gravisuite-common.toml");
+    container.registerConfig(
+        ModConfig.Type.COMMON, GraviConfig.SPEC, "solar_gravisuite-equipment.toml");
     NeoForge.EVENT_BUS.addListener(GraviEvents::tick);
     NeoForge.EVENT_BUS.addListener(GraviEvents::fall);
   }

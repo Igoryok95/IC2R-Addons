@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "solar_gravisuite:block/singular_solar_panel"
+    },
+    "facing=east": {
+      "model": "solar_gravisuite:block/singular_solar_panel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "solar_gravisuite:block/singular_solar_panel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "solar_gravisuite:block/singular_solar_panel",
+      "y": 270
+    }
+  }
+}

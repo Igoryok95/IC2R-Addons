@@ -24,7 +24,7 @@ class BlueArmor {
     System.out.printf("Generated reference palette: #%06X, hue %.3f%n", selected & 0xffffff, hue);
     float nanoHue = 0.9f * Color.RGBtoHSB(119, 187, 255, null)[0] + 0.1f * hue;
     float quantumHue = 0.9f * Color.RGBtoHSB(105, 211, 255, null)[0] + 0.1f * hue;
-    Path target = Path.of("src/main/resources/assets/gravisuite/textures");
+    Path target = Path.of("src/main/resources/assets/solar_gravisuite/textures");
     for (String item : new String[] {"advanced_nano_leggings", "advanced_nano_boots",
         "advanced_quantum_leggings", "advanced_quantum_boots",
         "advanced_quantum_leggings_overlay", "advanced_quantum_boots_overlay"})

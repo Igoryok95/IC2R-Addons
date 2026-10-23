@@ -135,10 +135,12 @@ public class GraviArmor extends ItemArmorElectric implements IBoostingJetpack, I
     if (kind == Kind.GRAVI || kind == Kind.JETPACK || kind == Kind.NANO) {
       tooltip.add(
           Component.translatable(
-              "tooltip.gravisuite.engine",
+              "tooltip.solar_gravisuite.engine",
               Component.translatable(
-                  ItemState.enabled(stack, "engine") ? "gravisuite.on" : "gravisuite.off")));
-      tooltip.add(Component.translatable("tooltip.gravisuite.engine_key"));
+                  ItemState.enabled(stack, "engine")
+                      ? "solar_gravisuite.on"
+                      : "solar_gravisuite.off")));
+      tooltip.add(Component.translatable("tooltip.solar_gravisuite.engine_key"));
     }
   }
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "solar_gravisuite:block/relocator_portal",
+    "particle": "solar_gravisuite:block/relocator_portal"
+  },
+  "render_type": "minecraft:translucent"
+}

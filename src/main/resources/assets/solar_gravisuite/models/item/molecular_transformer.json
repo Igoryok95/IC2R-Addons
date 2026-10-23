@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:builtin/entity",
+  "textures": {
+    "particle": "solar_gravisuite:block/molecular_transformer"
+  }
+}

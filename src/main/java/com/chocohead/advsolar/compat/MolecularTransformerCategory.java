@@ -43,7 +43,7 @@ public class MolecularTransformerCategory implements IRecipeCategory<MTRecipe> {
 
   @Override
   public Component getTitle() {
-    return Component.translatable("block.advanced_solar_panels.molecular_transformer");
+    return Component.translatable("block.solar_gravisuite.molecular_transformer");
   }
 
   @Override
@@ -78,7 +78,7 @@ public class MolecularTransformerCategory implements IRecipeCategory<MTRecipe> {
     String energy =
         String.format(
             "%s %,d %s",
-            Component.translatable("advanced_solar_panels.gui.energyPerOperation").getString(),
+            Component.translatable("solar_gravisuite.gui.energyPerOperation").getString(),
             recipe.totalEU,
             Component.translatable("ic2.generic.text.EU").getString());
     var font = Minecraft.getInstance().font;

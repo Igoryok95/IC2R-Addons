@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "solar_gravisuite:item/advanced_diamond_drill"
+  }
+}

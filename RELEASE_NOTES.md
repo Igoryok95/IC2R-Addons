@@ -1,3 +1,23 @@
+# Solar GraviSuite for IC2R 1.1.1
+
+- Fixes inconsistent JEI mod-name search: `@solar`, `@gravi`, `@Solar` and
+  `@solar_gravisuite` now identify the same complete item set.
+- Corrects the loader ID to `solar_gravisuite`, with one namespace for all items, blocks,
+  resources, recipes, creative tabs, localization and network payloads.
+- Intentionally removes the early `advanced_solar_panels` / `gravisuite` registry identities;
+  no migration of existing 1.1.0 items or placed blocks is included.
+- Uses `solar_gravisuite-solar.toml` and `solar_gravisuite-equipment.toml` for common config.
+- Adds registry / creator-ID checks and a real JEI runtime search regression test.
+
+Minecraft 1.21.1, NeoForge 21.1.264+, IC2R 21.1.67+ and Java 21 remain required.
+Validation: 41 server game tests, 10 resource tests and a real JEI client comparison of all
+50 item IDs for four searches pass. English captures are included in docs/images.
+
+Replace the old combined / standalone JARs on both client and server. This release is intended
+for early installations before content from the previous registry namespaces has been used.
+
+---
+
 # Solar GraviSuite for IC2R 1.1.0
 
 Advanced Solar Panels and GraviSuite now ship as **one mod and one JAR** for Minecraft 1.21.1,

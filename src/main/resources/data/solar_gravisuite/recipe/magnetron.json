@@ -1,0 +1,23 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "tag": "c:ingots/copper"
+    },
+    "C": {
+      "item": "solar_gravisuite:superconductor"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:magnetron",
+    "count": 1
+  }
+}

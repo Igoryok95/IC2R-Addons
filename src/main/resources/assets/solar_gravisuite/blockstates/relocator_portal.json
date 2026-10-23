@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "solar_gravisuite:block/relocator_portal"
+    }
+  }
+}

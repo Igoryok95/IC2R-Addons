@@ -1,0 +1,22 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "CAC"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2:overclocker_upgrade"
+    },
+    "B": {
+      "item": "ic2:diamond_drill"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:advanced_diamond_drill",
+    "count": 1
+  }
+}

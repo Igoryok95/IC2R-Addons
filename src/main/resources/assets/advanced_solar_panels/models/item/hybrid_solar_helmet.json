@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "advanced_solar_panels:item/hybridsolarhelmet",
-    "layer1": "advanced_solar_panels:item/hybridsolarhelmetoverlay"
-  }
-}

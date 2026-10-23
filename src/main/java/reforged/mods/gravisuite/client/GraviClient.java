@@ -33,16 +33,16 @@ import reforged.mods.gravisuite.network.GraviNetwork;
 public final class GraviClient {
   public static final KeyMapping ENGINE =
       new KeyMapping(
-          "key.gravisuite.engine",
+          "key.solar_gravisuite.engine",
           InputConstants.Type.KEYSYM,
           GLFW.GLFW_KEY_G,
-          "key.categories.gravisuite");
+          "key.categories.solar_gravisuite");
   public static final KeyMapping MAGNET =
       new KeyMapping(
-          "key.gravisuite.magnet",
+          "key.solar_gravisuite.magnet",
           InputConstants.Type.KEYSYM,
           GLFW.GLFW_KEY_H,
-          "key.categories.gravisuite");
+          "key.categories.solar_gravisuite");
 
   @SubscribeEvent
   public static void keys(RegisterKeyMappingsEvent event) {
@@ -87,7 +87,7 @@ public final class GraviClient {
                 (int) (100 * ElectricItem.manager.getCharge(chest) / armor.getMaxCharge(chest));
             graphics.drawString(
                 client.font,
-                Component.translatable("hud.gravisuite.energy", percent),
+                Component.translatable("hud.solar_gravisuite.energy", percent),
                 5,
                 5,
                 0x64deff);
@@ -97,9 +97,11 @@ public final class GraviClient {
               graphics.drawString(
                   client.font,
                   Component.translatable(
-                      "tooltip.gravisuite.engine",
+                      "tooltip.solar_gravisuite.engine",
                       Component.translatable(
-                          ItemState.enabled(chest, "engine") ? "gravisuite.on" : "gravisuite.off")),
+                          ItemState.enabled(chest, "engine")
+                              ? "solar_gravisuite.on"
+                              : "solar_gravisuite.off")),
                   5,
                   17,
                   0x64deff);

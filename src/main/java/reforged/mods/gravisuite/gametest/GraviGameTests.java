@@ -30,7 +30,7 @@ import reforged.mods.gravisuite.*;
 import reforged.mods.gravisuite.items.Relocator;
 import reforged.mods.gravisuite.network.GraviNetwork;
 
-@GameTestHolder("gravisuite")
+@GameTestHolder("solar_gravisuite")
 @PrefixGameTestTemplate(false)
 public final class GraviGameTests {
   private static final String EMPTY = "gametest/empty3x3x3";
@@ -571,7 +571,8 @@ public final class GraviGameTests {
   private static ServerPlayer player(GameTestHelper helper) {
     var cookie =
         net.minecraft.server.network.CommonListenerCookie.createInitial(
-            new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(), "gravisuite-test"),
+            new com.mojang.authlib.GameProfile(
+                java.util.UUID.randomUUID(), "solar_gravisuite-test"),
             false);
     ServerPlayer player =
         new ServerPlayer(

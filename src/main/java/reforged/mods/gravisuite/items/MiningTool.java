@@ -184,16 +184,16 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
     String[] efficiencies = {"normal", "low_power", "fine"};
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.mining",
+            "tooltip.solar_gravisuite.mining",
             Component.translatable(
-                "mode.gravisuite." + modes[ItemState.mode(stack, "mining", modes.length)])));
+                "mode.solar_gravisuite." + modes[ItemState.mode(stack, "mining", modes.length)])));
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.efficiency",
+            "tooltip.solar_gravisuite.efficiency",
             Component.translatable(
-                "mode.gravisuite." + efficiencies[ItemState.mode(stack, "efficiency", 3)])));
-    tooltip.add(Component.translatable("tooltip.gravisuite.mining_keys"));
+                "mode.solar_gravisuite." + efficiencies[ItemState.mode(stack, "efficiency", 3)])));
+    tooltip.add(Component.translatable("tooltip.solar_gravisuite.mining_keys"));
     if (vajra || iridium)
-      tooltip.add(Component.translatable("tooltip.gravisuite.enchantment_keys"));
+      tooltip.add(Component.translatable("tooltip.solar_gravisuite.enchantment_keys"));
   }
 }

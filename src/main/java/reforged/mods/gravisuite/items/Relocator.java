@@ -66,7 +66,7 @@ public final class Relocator extends ElectricUtility {
 
     public Component title(int index) {
       return name.isBlank()
-          ? Component.translatable("screen.gravisuite.point", index + 1)
+          ? Component.translatable("screen.solar_gravisuite.point", index + 1)
           : Component.literal(name);
     }
   }
@@ -174,7 +174,7 @@ public final class Relocator extends ElectricUtility {
         server.openMenu(
             new SimpleMenuProvider(
                 (id, inventory, ignored) -> new RelocatorMenu(id, inventory, hand),
-                Component.translatable("screen.gravisuite.relocator")),
+                Component.translatable("screen.solar_gravisuite.relocator")),
             buffer -> buffer.writeEnum(hand));
       } else {
         Destination destination = selected(stack);
@@ -187,7 +187,7 @@ public final class Relocator extends ElectricUtility {
           if (level.addFreshEntity(ball)) ElectricItem.manager.use(stack, cost, null);
         } else
           player.displayClientMessage(
-              Component.translatable("message.gravisuite.destination_or_energy"), true);
+              Component.translatable("message.solar_gravisuite.destination_or_energy"), true);
       }
     }
     return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
@@ -204,17 +204,17 @@ public final class Relocator extends ElectricUtility {
     String[] modes = {"personal", "translocator", "portal"};
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.tool",
+            "tooltip.solar_gravisuite.tool",
             Component.translatable(
-                "mode.gravisuite." + modes[ItemState.mode(stack, "relocator", 3)])));
+                "mode.solar_gravisuite." + modes[ItemState.mode(stack, "relocator", 3)])));
     Destination point = selected(stack);
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.destination",
+            "tooltip.solar_gravisuite.destination",
             point == null
-                ? Component.translatable("gravisuite.none")
+                ? Component.translatable("solar_gravisuite.none")
                 : point.title(
                     ItemState.mode(stack, "selected", Math.max(1, points(stack).size())))));
-    tooltip.add(Component.translatable("tooltip.gravisuite.relocator_keys"));
+    tooltip.add(Component.translatable("tooltip.solar_gravisuite.relocator_keys"));
   }
 }

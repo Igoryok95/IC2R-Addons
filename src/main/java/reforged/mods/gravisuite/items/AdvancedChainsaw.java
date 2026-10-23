@@ -54,11 +54,11 @@ public final class AdvancedChainsaw extends ItemElectricToolChainsaw {
       if (!level.isClientSide)
         player.displayClientMessage(
             Component.translatable(
-                "tooltip.gravisuite.tree",
+                "tooltip.solar_gravisuite.tree",
                 Component.translatable(
                     ItemState.toggle(player.getItemInHand(hand), "tree")
-                        ? "gravisuite.on"
-                        : "gravisuite.off")),
+                        ? "solar_gravisuite.on"
+                        : "solar_gravisuite.off")),
             true);
       return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }

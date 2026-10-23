@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
 class ResourceContractTest {
-  private static final Path ROOT = Path.of(System.getProperty("gravisuite.projectDir"));
+  private static final Path ROOT = Path.of(System.getProperty("solar_gravisuite.projectDir"));
   private static final Path RESOURCES = ROOT.resolve("src/main/resources");
   private static final Pattern ARGUMENT =
       Pattern.compile("%(?:\\d+\\$)?[-#+ 0,(<]*\\d*(?:\\.\\d+)?[a-zA-Z%]");
@@ -31,7 +31,7 @@ class ResourceContractTest {
         }) {
       var image =
           ImageIO.read(
-              RESOURCES.resolve("assets/gravisuite/textures/item/" + part + ".png").toFile());
+              RESOURCES.resolve("assets/solar_gravisuite/textures/item/" + part + ".png").toFile());
       int blue = 0;
       for (int y = 0; y < image.getHeight(); y++)
         for (int x = 0; x < image.getWidth(); x++) {
@@ -47,7 +47,11 @@ class ResourceContractTest {
       for (int layer = 1; layer <= 2; layer++) {
         var path =
             RESOURCES.resolve(
-                "assets/gravisuite/textures/models/armor/" + material + "_layer_" + layer + ".png");
+                "assets/solar_gravisuite/textures/models/armor/"
+                    + material
+                    + "_layer_"
+                    + layer
+                    + ".png");
         var image = ImageIO.read(path.toFile());
         assertEquals(64, image.getWidth(), path.toString());
         assertEquals(32, image.getHeight(), path.toString());
@@ -56,8 +60,8 @@ class ResourceContractTest {
 
   @Test
   void russianCoversEnglishAndPreservesArguments() throws IOException {
-    JsonObject english = json("assets/gravisuite/lang/en_us.json"),
-        russian = json("assets/gravisuite/lang/ru_ru.json");
+    JsonObject english = json("assets/solar_gravisuite/lang/en_us.json"),
+        russian = json("assets/solar_gravisuite/lang/ru_ru.json");
     assertEquals(english.keySet(), russian.keySet());
     for (String key : english.keySet()) {
       String translated = russian.get(key).getAsString();
@@ -69,27 +73,46 @@ class ResourceContractTest {
 
   @Test
   void everyRecipeOutputHasNameModelAndTexture() throws IOException {
-    JsonObject english = json("assets/gravisuite/lang/en_us.json");
-    try (var files = Files.list(RESOURCES.resolve("data/gravisuite/recipe"))) {
-      for (Path file : files.toList()) {
+    JsonObject english = json("assets/solar_gravisuite/lang/en_us.json");
+    try (var files = Files.walk(RESOURCES.resolve("data/solar_gravisuite/recipe"))) {
+      for (Path file : files.filter(Files::isRegularFile).toList()) {
         JsonObject recipe =
             JsonParser.parseString(Files.readString(file, StandardCharsets.UTF_8))
                 .getAsJsonObject();
-        assertEquals("ic2:shaped", recipe.get("type").getAsString(), file.toString());
+        if (!recipe.get("type").getAsString().equals("ic2:shaped")) continue;
         String item = recipe.getAsJsonObject("result").get("item").getAsString();
-        assertTrue(english.has("item." + item.replace(':', '.')), item);
+        assertTrue(
+            english.has("item." + item.replace(':', '.'))
+                || english.has("block." + item.replace(':', '.')),
+            item);
         JsonObject model =
             json(
                 "assets/"
-                    + item.replace(':', '/').replace("gravisuite/", "gravisuite/models/item/")
+                    + item.replace(':', '/')
+                        .replace("solar_gravisuite/", "solar_gravisuite/models/item/")
                     + ".json");
+        if (!model.has("textures")) {
+          assertTrue(model.has("parent") || model.has("loader"), item);
+          if (model.has("parent")
+              && model.get("parent").getAsString().startsWith("solar_gravisuite:"))
+            assertTrue(
+                Files.isRegularFile(
+                    RESOURCES.resolve(
+                        "assets/solar_gravisuite/models/"
+                            + model.get("parent").getAsString().split(":", 2)[1]
+                            + ".json")),
+                item);
+          continue;
+        }
         for (var layer : model.getAsJsonObject("textures").entrySet()) {
           String texture = layer.getValue().getAsString();
           assertTrue(
               Files.isRegularFile(
                   RESOURCES.resolve(
                       "assets/"
-                          + texture.replace(':', '/').replace("gravisuite/", "gravisuite/textures/")
+                          + texture
+                              .replace(':', '/')
+                              .replace("solar_gravisuite/", "solar_gravisuite/textures/")
                           + ".png")),
               texture);
         }
@@ -99,10 +122,10 @@ class ResourceContractTest {
 
   @Test
   void allStaticUiKeysAreLocalized() throws IOException {
-    JsonObject english = json("assets/gravisuite/lang/en_us.json");
+    JsonObject english = json("assets/solar_gravisuite/lang/en_us.json");
     Pattern calls =
         Pattern.compile(
-            "(?:translatable|KeyMapping|translation)\\(\\\"([^\\\"]*gravisuite[^\\\"]*)\\\"");
+            "(?:translatable|KeyMapping|translation)\\(\\\"([^\\\"]*solar_gravisuite[^\\\"]*)\\\"");
     try (var files = Files.walk(ROOT.resolve("src/main/java"))) {
       for (Path file : files.filter(p -> p.toString().endsWith(".java")).toList()) {
         var matcher = calls.matcher(Files.readString(file, StandardCharsets.UTF_8));
@@ -118,7 +141,8 @@ class ResourceContractTest {
   void addonDoesNotOverrideIc2RecipeFiles() throws IOException {
     assertFalse(Files.exists(RESOURCES.resolve("data/ic2/recipe")));
     assertTrue(
-        Files.exists(RESOURCES.resolve("data/gravisuite/recipe/advanced_iridium_drill.json")));
+        Files.exists(
+            RESOURCES.resolve("data/solar_gravisuite/recipe/advanced_iridium_drill.json")));
   }
 
   private static Map<String, Integer> arguments(String value) {

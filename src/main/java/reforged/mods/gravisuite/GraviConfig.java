@@ -14,17 +14,21 @@ public final class GraviConfig {
     ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
     MAGNET_RANGE =
         builder
-            .translation("config.gravisuite.magnet_range")
+            .translation("config.solar_gravisuite.magnet_range")
             .defineInRange("magnetRange", 8, 1, 16);
     VEIN_LIMIT =
-        builder.translation("config.gravisuite.vein_limit").defineInRange("veinLimit", 64, 1, 256);
+        builder
+            .translation("config.solar_gravisuite.vein_limit")
+            .defineInRange("veinLimit", 64, 1, 256);
     TREE_LIMIT =
-        builder.translation("config.gravisuite.tree_limit").defineInRange("treeLimit", 128, 1, 512);
+        builder
+            .translation("config.solar_gravisuite.tree_limit")
+            .defineInRange("treeLimit", 128, 1, 512);
     PORTAL_LIFETIME =
         builder
-            .translation("config.gravisuite.portal_lifetime")
+            .translation("config.solar_gravisuite.portal_lifetime")
             .defineInRange("portalLifetimeTicks", 400, 20, 1200);
-    HUD = builder.translation("config.gravisuite.hud").define("showHud", true);
+    HUD = builder.translation("config.solar_gravisuite.hud").define("showHud", true);
     SPEC = builder.build();
   }
 

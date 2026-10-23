@@ -12,17 +12,21 @@ one release, one mod container and one installation JAR. English and Russian are
 - IC2R **21.1.67+ within 21.x**, installed separately.
 - Optional: JEI for crafting and Molecular Transformer recipes.
 
-Install `solar-gravisuite-neoforge-1.21.1-1.1.0.jar` on **both client and server**.
+Install `solar-gravisuite-neoforge-1.21.1-1.1.1.jar` on **both client and server**.
 Remove the separate Advanced Solar Panels and GraviSuite JARs when replacing them. The combined
 mod explicitly rejects a standalone `gravisuite` mod to prevent duplicate registrations.
 The sources JAR is for development only.
 
 This project continues AdvancedSolarPanels-IC2R. The public repository is now
 [Igoryok95/SolarGraviSuite-IC2R](https://github.com/Igoryok95/SolarGraviSuite-IC2R).
-The old `advanced_solar_panels:*` and `gravisuite:*` registry IDs and data-component keys are
-retained, including existing equipment charge, machines, recipes, portals and key bindings.
-There is one `advanced_solar_panels` mod container, displayed as **Solar GraviSuite for IC2R**;
-its two creative tabs organize solar technology and equipment.
+Version 1.1.1 uses **`solar_gravisuite`** for the loader ID and every item, block, recipe,
+resource, payload and creative tab. JEI searches such as `@solar`, `@gravi` and
+`@solar_gravisuite` all return the same complete set. The display name is
+**Solar GraviSuite for IC2R**; two creative tabs organize technology and equipment.
+
+This early-version cleanup intentionally does not migrate `advanced_solar_panels:*` or
+`gravisuite:*` entries from 1.1.0. Use it before placing or storing content from those versions;
+old items and blocks are not preserved by this release.
 
 ## Solar progression
 
@@ -109,9 +113,9 @@ Example datapack recipe under `data/<namespace>/recipe/`:
 
 ```json
 {
-  "type": "advanced_solar_panels:molecular_transformer",
+  "type": "solar_gravisuite:molecular_transformer",
   "input": { "item": "minecraft:glowstone_dust" },
-  "output": { "id": "advanced_solar_panels:sunnarium_part", "count": 1 },
+  "output": { "id": "solar_gravisuite:sunnarium_part", "count": 1 },
   "energy": 1000000
 }
 ```
@@ -137,11 +141,11 @@ Bindings can be changed in Minecraft's Controls screen.
 
 ## Configuration
 
-Both existing common config names are retained:
+Common configuration is organized into two files:
 
-- `config/advanced_solar_panels-common.toml`: `generationMultiplier` (default 1.0, range 0-64),
+- `config/solar_gravisuite-solar.toml`: `generationMultiplier` (default 1.0, range 0-64),
   `helmetsChargeArmorOnly` (false), `drawActiveTransformerCore` (true).
-- `config/gravisuite-common.toml`: `magnetRange` (8), `veinLimit` (64), `treeLimit` (128),
+- `config/solar_gravisuite-equipment.toml`: `magnetRange` (8), `veinLimit` (64), `treeLimit` (128),
   `portalLifetimeTicks` (400), `showHud` (true).
 
 Use matching settings on client and server. Recipes can be changed with datapacks.
@@ -156,10 +160,14 @@ Use Java 21. The public [IC2R 21.1.67 release](https://github.com/Igoryok95/IC2R
 is resolved automatically. For a local dependency, pass
 `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`. No separate GraviSuite dependency is used.
 
-The combined suite has **40 NeoForge server game tests and 9 JUnit resource tests**. It covers
+The combined suite has **41 NeoForge server game tests and 10 JUnit resource tests**. It covers
 solar generation, charging / EU conservation, real energy-network transfer, armor capacities,
 charge-preserving recipes / serialization, mining, flight cleanup, fall protection, portals,
-packet validation, machine persistence, GUI parsing, localization and blue armor resources.
+packet validation, machine persistence, GUI parsing, localization, blue armor resources and
+unified registry / creator identities. A real client additionally compares the complete JEI
+results for four mod-name queries. In 1.1.1, each returns the same 50 distinct registered items.
+See the English captures for [@solar](docs/images/jei-solar-en-1.1.1.png) and
+[@gravi](docs/images/jei-gravi-en-1.1.1.png), and the [full comparison report](docs/validation/jei-search-1.1.1.json).
 
 The isolated client smoke command is `./gradlew runClient -PclientSmoke`. It opens
 `run/saves/SolarClientSmoke`, places solar machines and two equipped armor stands, renders

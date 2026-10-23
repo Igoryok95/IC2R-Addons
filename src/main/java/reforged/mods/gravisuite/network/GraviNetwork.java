@@ -74,8 +74,8 @@ public final class GraviNetwork {
         boolean enabled = ItemState.toggle(chest, "engine");
         player.displayClientMessage(
             Component.translatable(
-                "tooltip.gravisuite.engine",
-                Component.translatable(enabled ? "gravisuite.on" : "gravisuite.off")),
+                "tooltip.solar_gravisuite.engine",
+                Component.translatable(enabled ? "solar_gravisuite.on" : "solar_gravisuite.off")),
             true);
       }
     } else if (packet.action == 1) {
@@ -93,7 +93,7 @@ public final class GraviNetwork {
         case 10 -> {
           if (!Relocator.addPoint(stack, player, packet.text))
             player.displayClientMessage(
-                Component.translatable("message.gravisuite.point_limit"), true);
+                Component.translatable("message.solar_gravisuite.point_limit"), true);
         }
         case 11 -> Relocator.removePoint(stack, packet.index);
         case 12 -> {
@@ -104,7 +104,7 @@ public final class GraviNetwork {
           if (Relocator.personalTeleport(stack, player)) player.closeContainer();
           else
             player.displayClientMessage(
-                Component.translatable("message.gravisuite.destination_or_energy"), true);
+                Component.translatable("message.solar_gravisuite.destination_or_energy"), true);
         }
         case 14 -> ItemState.cycle(stack, "relocator", 3);
         default -> {}

@@ -182,7 +182,7 @@ public final class AdvSolarBlocks {
           "main",
           () ->
               CreativeModeTab.builder()
-                  .title(Component.translatable("itemGroup.advanced_solar_panels"))
+                  .title(Component.translatable("itemGroup.solar_gravisuite.technology"))
                   .icon(() -> new ItemStack(ADVANCED_SOLAR_PANEL.get()))
                   .displayItems(
                       (params, output) -> {

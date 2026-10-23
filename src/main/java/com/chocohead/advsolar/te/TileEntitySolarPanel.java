@@ -146,7 +146,7 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
   public String getMaxOutput() {
     return String.format(
         "%s %d %s",
-        tr("advanced_solar_panels.gui.maxOutput"),
+        tr("solar_gravisuite.gui.maxOutput"),
         (int) ic2.api.energy.EnergyNet.instance.getPowerFromTier(this.tier),
         tr("ic2.generic.text.EUt"));
   }
@@ -159,7 +159,7 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
           default -> 0;
         };
     return String.format(
-        "%s %d %s", tr("advanced_solar_panels.gui.generating"), power, tr("ic2.generic.text.EUt"));
+        "%s %d %s", tr("solar_gravisuite.gui.generating"), power, tr("ic2.generic.text.EUt"));
   }
 
   private static String tr(String key) {

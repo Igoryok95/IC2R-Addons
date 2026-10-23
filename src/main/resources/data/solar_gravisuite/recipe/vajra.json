@@ -1,0 +1,32 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "FGF"
+  ],
+  "key": {
+    "A": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "ic2:energy_crystal"
+    },
+    "C": {
+      "item": "ic2:carbon_plate"
+    },
+    "D": {
+      "item": "solar_gravisuite:vajra_core"
+    },
+    "F": {
+      "item": "ic2:alloy"
+    },
+    "G": {
+      "item": "ic2:lapotron_crystal"
+    }
+  },
+  "result": {
+    "item": "solar_gravisuite:vajra",
+    "count": 1
+  }
+}

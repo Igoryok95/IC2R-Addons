@@ -114,18 +114,20 @@ public final class UtilityItem extends ElectricUtility {
     super.appendHoverText(stack, context, tooltip, flag);
     tooltip.add(
         Component.translatable(
-            "tooltip.gravisuite.enabled",
+            "tooltip.solar_gravisuite.enabled",
             Component.translatable(
-                ItemState.enabled(stack, "enabled") ? "gravisuite.on" : "gravisuite.off")));
+                ItemState.enabled(stack, "enabled")
+                    ? "solar_gravisuite.on"
+                    : "solar_gravisuite.off")));
     if (voider) {
       ResourceLocation filter =
           ResourceLocation.tryParse(ItemState.read(stack).getString("filter"));
       Component name =
           filter != null && BuiltInRegistries.ITEM.containsKey(filter)
               ? BuiltInRegistries.ITEM.get(filter).getDescription()
-              : Component.translatable("gravisuite.none");
-      tooltip.add(Component.translatable("tooltip.gravisuite.filter", name));
-      tooltip.add(Component.translatable("tooltip.gravisuite.voider_keys"));
-    } else tooltip.add(Component.translatable("tooltip.gravisuite.magnet_keys"));
+              : Component.translatable("solar_gravisuite.none");
+      tooltip.add(Component.translatable("tooltip.solar_gravisuite.filter", name));
+      tooltip.add(Component.translatable("tooltip.solar_gravisuite.voider_keys"));
+    } else tooltip.add(Component.translatable("tooltip.solar_gravisuite.magnet_keys"));
   }
 }

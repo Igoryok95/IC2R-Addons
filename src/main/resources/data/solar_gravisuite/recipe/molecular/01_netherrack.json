@@ -1,0 +1,11 @@
+{
+  "type": "solar_gravisuite:molecular_transformer",
+  "input": {
+    "item": "minecraft:netherrack"
+  },
+  "output": {
+    "id": "minecraft:gunpowder",
+    "count": 2
+  },
+  "energy": 70000
+}
