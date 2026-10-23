@@ -31,3 +31,21 @@ code and artwork. No additional license grant for those materials is inferred fr
 availability. Original copyrights and applicable terms remain with their respective authors.
 The mod metadata retains the baseline's `All Rights Reserved` designation; this repository does
 not relicense original IC2 / ASP assets or claim ownership of the original projects.
+
+## GraviSuite integration in Solar GraviSuite 1.1.0
+
+- GraviSuite Reforged upstream: https://github.com/VintageModsReforged/GraviSuiteReforged .
+  Original concept: SeNtiMeL and the IC2 Dev Team; Reforged implementation / artwork:
+  VintageModsReforged and upstream contributors.
+- Integrated NeoForge / IC2R port: former Igoryok95/GraviSuiteReforged,
+  branch `neoforge-1.21.1`, revision `8344f20989fd2df928421b7d9c9729da2eb171e4`.
+  Its Git ancestry is preserved by the 1.1.0 merge, and the 1.6.4 baseline is retained in
+  `legacy/gravisuite/1.6.4`. The standalone personal fork is retired after integration.
+- New leggings / boots reuse IC2R artwork with blue energy accents. A built-in imagegen edit
+  supplied the cyan-blue reference; `tools/textures/BlueArmor.java` transfers its hue while
+  retaining the original pixel grid, alpha and worn-armor UV layout. Reference and input
+  images are retained under `tools/textures`; existing chestplate / helmet artwork is unchanged.
+  Run `java tools/textures/BlueArmor.java` from the project root to reproduce these textures.
+
+The source- and asset-rights statement above also applies to integrated GraviSuite / IC2R
+materials; no ownership of original artwork or additional permissive license is claimed.

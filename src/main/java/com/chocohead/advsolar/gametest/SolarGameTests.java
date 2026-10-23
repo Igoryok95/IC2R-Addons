@@ -110,7 +110,7 @@ public final class SolarGameTests {
       AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(),
       AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get()
     };
-    double[] capacities = {4000000, 20000000, 40000000};
+    double[] capacities = {8000000, 40000000, 100000000};
     for (int i = 0; i < helmets.length; i++) {
       ItemStack stack = new ItemStack(helmets[i]);
       IElectricItem electric = (IElectricItem) helmets[i];
@@ -287,12 +287,48 @@ public final class SolarGameTests {
   }
 
   @GameTest(template = EMPTY)
+  public static void integratedArmorSetsHaveMatchingCapacityAndOneModContainer(GameTestHelper h) {
+    h.assertTrue(
+        !net.neoforged.fml.ModList.get().isLoaded("gravisuite"),
+        "GraviSuite is integrated into the solar addon");
+    Item[][] sets = {
+      {
+        AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_NANO.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_LEGGINGS.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_BOOTS.get()
+      },
+      {
+        AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+        reforged.mods.gravisuite.GraviItems.GRAVI_CHESTPLATE.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_LEGGINGS.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_BOOTS.get()
+      }
+    };
+    double[] capacity = {8_000_000, 100_000_000};
+    for (int i = 0; i < sets.length; i++)
+      for (Item item : sets[i]) {
+        ItemStack stack = new ItemStack(item);
+        h.assertTrue(
+            ((IElectricItem) item).getMaxCharge(stack) == capacity[i],
+            "uniform upgraded set capacity: " + item);
+        ElectricItem.manager.charge(stack, 1_234_567, Integer.MAX_VALUE, true, false);
+        var restored =
+            ItemStack.parseOptional(
+                h.getLevel().registryAccess(),
+                (net.minecraft.nbt.CompoundTag) stack.save(h.getLevel().registryAccess()));
+        h.assertTrue(
+            restored.is(item) && ElectricItem.manager.getCharge(restored) == 1_234_567,
+            "legacy item IDs and EU survive serialization");
+      }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
   public static void solarHelmetChargesGraviArmorWhenPresent(GameTestHelper h) {
     var id = ResourceLocation.fromNamespaceAndPath("gravisuite", "advanced_quant");
-    if (!BuiltInRegistries.ITEM.containsKey(id)) {
-      h.succeed();
-      return;
-    }
+    h.assertTrue(
+        BuiltInRegistries.ITEM.containsKey(id), "integrated GraviSuite armor must be present");
     h.getLevel().setDayTime(6000);
     h.getLevel().updateSkyBrightness();
     h.getLevel().setWeatherParameters(10000, 0, false, false);

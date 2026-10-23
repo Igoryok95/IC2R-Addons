@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "gravisuite:block/relocator_portal",
+    "particle": "gravisuite:block/relocator_portal"
+  },
+  "render_type": "minecraft:translucent"
+}

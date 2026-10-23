@@ -22,7 +22,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: advanced-solar-panels-neoforge-1.21.1
+          name: solar-gravisuite-neoforge-1.21.1
           path: |
             build/libs/*.jar
             build/test-results/

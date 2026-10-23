@@ -1,0 +1,86 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url "https://maven.fabricmc.net" }
+		maven { url "https://repo.sleeping.town" } //Commented out to use the version of voldeloom in the settings.gradle includeBuild (hopefully??)
+	}
+	dependencies {
+		classpath "agency.highlysuspect:voldeloom:2.5-SNAPSHOT"
+	}
+}
+
+apply plugin: "agency.highlysuspect.voldeloom"
+
+java {
+	toolchain {
+		//Last version able to set a --release as low as 6.
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+compileJava {
+	//Forge doesn't understand classes compiled to versions of the class-file format newer than Java 6's.
+	options.release.set(6)
+}
+
+String minecraftVersion = project.minecraft
+String forgeVersion = project.minecraft_forge
+archivesBaseName = project.modid
+version = project.modVersion
+
+volde {
+	runs {
+		client {
+			programArg "--username=quaternary"
+		}
+	}
+}
+
+repositories {
+	maven {
+		url = "https://api.modrinth.com/maven"
+	}
+}
+
+dependencies {
+
+	implementation 'net.jcip:jcip-annotations:1.0'
+	implementation 'org.jetbrains:annotations-java5:24.0.0'
+
+	minecraft "com.mojang:minecraft:${minecraftVersion}"
+	forge "net.minecraftforge:forge:${forgeVersion}:universal" //no @zip classifier this time
+	mappings "net.minecraftforge:forge:${forgeVersion}:src@zip"
+
+	modImplementation files("libs/VintageCore-1.6.4-2.0.1-dev.jar")
+	modImplementation files("libs/ic2exp.jar")
+	modImplementation files("libs/gregtechmod408s.zip")
+
+	modImplementation files("libs/CodeChickenLib-dev-1.6.4-1.0.0.62.jar")
+	modImplementation files("libs/CodeChickenCore-1.6.4-0.9.0.9-universal.jar")
+	modImplementation files("libs/NotEnoughItems-1.6.4-1.6.1.9-universal.jar")
+}
+
+def props = ['modName', 'modid', 'modVersion', 'modDescription', 'modAuthors', 'modDeps', 'minecraft', 'url']
+processResources {
+	filesMatching("mcmod.info") {
+		expand(project.properties.subMap(props))
+	}
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDirs 'src/main/java'
+		}
+	}
+}
+
+task sourcesJar(type: Jar) {
+	archiveClassifier.set("sources")
+	from sourceSets.main.allSource
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+artifacts {
+	archives sourcesJar
+}

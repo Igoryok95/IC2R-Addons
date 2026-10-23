@@ -5,7 +5,7 @@ plugins {
 }
 group = 'com.chocohead.advsolar'
 version = mod_version
-base.archivesName = 'advanced-solar-panels-neoforge-1.21.1'
+base.archivesName = 'solar-gravisuite-neoforge-1.21.1'
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 spotless { java { target 'src/main/java/**/*.java', 'src/test/java/**/*.java'; googleJavaFormat('1.35.0') } }
@@ -20,7 +20,6 @@ repositories {
  }
 }
 dependencies {
- if (providers.gradleProperty('gravisuiteJar').isPresent()) runtimeOnly files(providers.gradleProperty('gravisuiteJar').get())
  if (providers.gradleProperty('ic2rJar').isPresent()) implementation files(providers.gradleProperty('ic2rJar').get())
  else implementation "ic2r:ic2-neoforge:${ic2r_version}@jar"
  compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.64.0.455'
@@ -33,12 +32,12 @@ neoForge {
  runs {
   client { client(); if (providers.gradleProperty('clientSmoke').isPresent()) { systemProperty 'asp.clientSmoke', 'true'; programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke' } }
   server { server(); programArgument '--nogui' }
-  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'advanced_solar_panels' }
+  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'advanced_solar_panels,gravisuite' }
  }
  mods { advanced_solar_panels { sourceSet sourceSets.main } }
  unitTest { enable(); testedMod = mods.advanced_solar_panels }
 }
-test { useJUnitPlatform(); systemProperty 'asp.projectDir', projectDir.absolutePath }
+test { useJUnitPlatform(); systemProperty 'asp.projectDir', projectDir.absolutePath; systemProperty 'gravisuite.projectDir', projectDir.absolutePath }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 processResources {
  inputs.property 'version', project.version

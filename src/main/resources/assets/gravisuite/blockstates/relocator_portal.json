@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gravisuite:block/relocator_portal"
+    }
+  }
+}

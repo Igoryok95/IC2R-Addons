@@ -81,7 +81,7 @@ public final class ItemSolarHelmet {
     }
 
     public double getMaxCharge(ItemStack stack) {
-      return 4_000_000;
+      return 8_000_000;
     }
 
     public double getTransferLimit(ItemStack stack) {
@@ -113,7 +113,7 @@ public final class ItemSolarHelmet {
     }
 
     public double getMaxCharge(ItemStack stack) {
-      return ultimate ? 40_000_000 : 20_000_000;
+      return ultimate ? 100_000_000 : 40_000_000;
     }
 
     public double getTransferLimit(ItemStack stack) {

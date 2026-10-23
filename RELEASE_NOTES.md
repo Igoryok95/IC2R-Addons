@@ -1,3 +1,28 @@
+# Solar GraviSuite for IC2R 1.1.0
+
+Advanced Solar Panels and GraviSuite now ship as **one mod and one JAR** for Minecraft 1.21.1,
+NeoForge 21.1.264+, IC2R 21.1.67+ and Java 21.
+
+- Includes all eight solar tiers, three solar helmets, Molecular Transformer, powered armor,
+  advanced tools, lappacks, jetpack, gravitational flight, magnet, voider and relocator.
+- Fixes the new nano / quantum leggings and boots: blue energy details match the existing
+  chestplates, both in inventory icons and on worn armor. Chestplate and helmet art is retained.
+- Uniform advanced nano capacity: helmet / chestplate / leggings / boots each hold **8M EU**.
+  Top quantum / gravitational set: **100M EU per piece**. Hybrid solar helmet: **40M EU**.
+- Preserves legacy item / block / payload IDs, component data and both existing config files.
+- Integrates both test suites, adds full-set capacity / serialization and blue-texture checks.
+- Renames the project and repository to Solar GraviSuite; retains GraviSuite Git history and
+  historical sources in the combined project.
+
+Validation: 40 server game tests and 9 JUnit resource tests. Client smoke testing covers the
+combined mod, two worn armor sets, inventory icons and the transformer GUI with JEI.
+Complete multiplayer modpack / controls / shader compatibility still needs manual validation.
+
+Install the main `solar-gravisuite-neoforge-1.21.1-1.1.0.jar` and IC2R on both client and server;
+remove the separate ASP / GraviSuite JARs. IC2R remains a separate required dependency.
+
+---
+
 # Advanced Solar Panels for IC2R 1.0.0
 
 Initial Minecraft 1.21.1 / NeoForge 21.1.264+ adaptation targeting IC2R 21.1.67+ and Java 21.

@@ -1,0 +1,29 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " A ",
+    "BCB",
+    "FDF"
+  ],
+  "key": {
+    "A": {
+      "item": "gravisuite:magnetron"
+    },
+    "B": {
+      "item": "ic2:iridium"
+    },
+    "C": {
+      "item": "ic2:tesla_coil"
+    },
+    "F": {
+      "item": "gravisuite:superconductor"
+    },
+    "D": {
+      "item": "ic2:hv_transformer"
+    }
+  },
+  "result": {
+    "item": "gravisuite:vajra_core",
+    "count": 1
+  }
+}

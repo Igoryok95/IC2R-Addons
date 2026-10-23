@@ -22,3 +22,17 @@ partial work. The normal IC2R component serialization retains the energy buffer.
 The original 3D transformer geometry uses NeoForge's block-entity and item renderer extension
 points. Active-core billboards use the supplied ASP 4.3.0 textures. No external updater or custom
 IC2 energy implementation is included.
+
+## Solar GraviSuite 1.1.0 integration
+
+The existing ASP mod ID is retained as the only loader entry. GraviSuite initialization now
+runs from that entry point; its client subscribers attach to the same mod container. Its
+registrations, resource locations, payload IDs and test-template namespaces remain `gravisuite`.
+Both existing config filenames are explicitly registered on the combined container.
+The standalone GraviSuite mod is marked incompatible to prevent duplicate registrations.
+
+Leg / boot subclasses retain IC2R movement, armor and fall behavior, but select addon-owned
+armor material layers. Nano layer 1 combines the original chestplate art with the upgraded
+boot regions; layer 2 contains the leggings. Quantum layers use IC2R UVs with blue accents.
+Existing chestplate and helmet artwork is retained. Storage is synchronized across advanced
+nano pieces (8M EU) and top quantum / gravitational pieces (100M EU); the hybrid helmet has 40M.

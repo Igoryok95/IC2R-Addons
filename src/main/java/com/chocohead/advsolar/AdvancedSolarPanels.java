@@ -22,7 +22,11 @@ public final class AdvancedSolarPanels {
   public static final Logger LOGGER = LogUtils.getLogger();
 
   public AdvancedSolarPanels(IEventBus modBus, net.neoforged.fml.ModContainer container) {
-    container.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, AspConfig.SPEC);
+    container.registerConfig(
+        net.neoforged.fml.config.ModConfig.Type.COMMON,
+        AspConfig.SPEC,
+        "advanced_solar_panels-common.toml");
+    reforged.mods.gravisuite.GraviSuite.initialize(modBus, container);
     AdvSolarBlocks.register(modBus);
     com.chocohead.advsolar.recipe.MolecularTransformerRecipes.TYPES.register(modBus);
     com.chocohead.advsolar.recipe.MolecularTransformerRecipes.SERIALIZERS.register(modBus);
@@ -31,6 +35,6 @@ public final class AdvancedSolarPanels {
 
   private void commonSetup(FMLCommonSetupEvent event) {
 
-    LOGGER.info("Advanced Solar Panels {} loaded.", MODID);
+    LOGGER.info("Solar GraviSuite {} loaded.", MODID);
   }
 }

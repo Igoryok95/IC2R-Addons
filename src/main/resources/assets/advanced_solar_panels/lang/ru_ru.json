@@ -40,7 +40,7 @@
   "advanced_solar_panels.gui.generating": "Генерация:",
   "advanced_solar_panels.tooltip.generation.day": "День: %s EU/t",
   "advanced_solar_panels.tooltip.generation.night": "Ночь/дождь: %s EU/t",
-  "itemGroup.advanced_solar_panels": "Advanced Solar Panels",
+  "itemGroup.advanced_solar_panels": "Solar GraviSuite: Солнечные технологии",
   "block.advanced_solar_panels.spectral_solar_panel": "Спектральная солнечная панель",
   "container.advanced_solar_panels.spectral_solar_panel": "Спектральная солнечная панель",
   "pack.advanced_solar_panels.description": "Advanced Solar Panels для Minecraft 1.21.1 + IC2R",
@@ -52,5 +52,6 @@
   "container.advanced_solar_panels.photonic_solar_panel": "Фотонная солнечная панель",
   "config.advanced_solar_panels.generation_multiplier": "Множитель солнечной генерации",
   "config.advanced_solar_panels.armor_only": "Шлемы заряжают только броню",
-  "config.advanced_solar_panels.active_core": "Показывать активное ядро преобразователя"
+  "config.advanced_solar_panels.active_core": "Показывать активное ядро преобразователя",
+  "tooltip.solar_gravisuite.capacity": "Ёмкость: %s EU"
 }

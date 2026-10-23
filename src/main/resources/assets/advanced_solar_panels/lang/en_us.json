@@ -40,7 +40,7 @@
   "advanced_solar_panels.gui.generating": "Generating:",
   "advanced_solar_panels.tooltip.generation.day": "Day: %s EU/t",
   "advanced_solar_panels.tooltip.generation.night": "Night/rain: %s EU/t",
-  "itemGroup.advanced_solar_panels": "Advanced Solar Panels",
+  "itemGroup.advanced_solar_panels": "Solar GraviSuite: Solar Technology",
   "block.advanced_solar_panels.spectral_solar_panel": "Spectral Solar Panel",
   "container.advanced_solar_panels.spectral_solar_panel": "Spectral Solar Panel",
   "pack.advanced_solar_panels.description": "Advanced Solar Panels for Minecraft 1.21.1 + IC2R",
@@ -52,5 +52,6 @@
   "container.advanced_solar_panels.photonic_solar_panel": "Photonic Solar Panel",
   "config.advanced_solar_panels.generation_multiplier": "Solar generation multiplier",
   "config.advanced_solar_panels.armor_only": "Helmets charge armor only",
-  "config.advanced_solar_panels.active_core": "Draw active transformer core"
+  "config.advanced_solar_panels.active_core": "Draw active transformer core",
+  "tooltip.solar_gravisuite.capacity": "Capacity: %s EU"
 }

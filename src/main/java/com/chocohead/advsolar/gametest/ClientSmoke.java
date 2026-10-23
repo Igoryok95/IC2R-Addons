@@ -73,6 +73,50 @@ public final class ClientSmoke {
                             base.getY() + 7,
                             base.getZ() + 12))
                     .forEach(net.minecraft.world.entity.Entity::discard);
+                level
+                    .getEntitiesOfClass(
+                        net.minecraft.world.entity.decoration.ArmorStand.class,
+                        new net.minecraft.world.phys.AABB(
+                            net.minecraft.world.phys.Vec3.atLowerCornerOf(base.offset(-6, -2, -3)),
+                            net.minecraft.world.phys.Vec3.atLowerCornerOf(base.offset(7, 7, 11))))
+                    .forEach(net.minecraft.world.entity.Entity::discard);
+                var equipment =
+                    new Item[][] {
+                      {
+                        AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
+                            reforged.mods.gravisuite.GraviItems.ADVANCED_NANO.get(),
+                        reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_LEGGINGS.get(),
+                            reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_BOOTS.get()
+                      },
+                      {
+                        AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+                            reforged.mods.gravisuite.GraviItems.GRAVI_CHESTPLATE.get(),
+                        reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_LEGGINGS.get(),
+                            reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_BOOTS.get()
+                      }
+                    };
+                var slots =
+                    new net.minecraft.world.entity.EquipmentSlot[] {
+                      net.minecraft.world.entity.EquipmentSlot.HEAD,
+                          net.minecraft.world.entity.EquipmentSlot.CHEST,
+                      net.minecraft.world.entity.EquipmentSlot.LEGS,
+                          net.minecraft.world.entity.EquipmentSlot.FEET
+                    };
+                for (int i = 0; i < equipment.length; i++) {
+                  var stand =
+                      new net.minecraft.world.entity.decoration.ArmorStand(
+                          level,
+                          base.getX() + (i == 0 ? -1.5 : 2.5),
+                          base.getY(),
+                          base.getZ() + 3.5);
+                  stand.setNoGravity(true);
+                  stand.setYRot(180);
+                  for (int j = 0; j < slots.length; j++)
+                    stand.setItemSlot(
+                        slots[j],
+                        ic2.core.item.ElectricItemManager.getCharged(equipment[i][j], 1_234_567));
+                  level.addFreshEntity(stand);
+                }
                 machine = base.offset(0, 0, 4);
                 level.setBlockAndUpdate(
                     machine, AdvSolarBlocks.MOLECULAR_TRANSFORMER.get().defaultBlockState());
@@ -163,17 +207,36 @@ public final class ClientSmoke {
     public void render(GuiGraphics g, int mouseX, int mouseY, float partial) {
       g.fill(0, 0, width, height, 0xff262b35);
       g.drawCenteredString(font, title, width / 2, 8, 0xffffffff);
+      Item[] equipment = {
+        AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
+            reforged.mods.gravisuite.GraviItems.ADVANCED_NANO.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_LEGGINGS.get(),
+            reforged.mods.gravisuite.GraviItems.ADVANCED_NANO_BOOTS.get(),
+        AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(), AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+        reforged.mods.gravisuite.GraviItems.GRAVI_CHESTPLATE.get(),
+            reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_LEGGINGS.get(),
+        reforged.mods.gravisuite.GraviItems.ADVANCED_QUANTUM_BOOTS.get()
+      };
       int i = 0;
-      for (var entry : AdvSolarBlocks.ITEMS.getEntries()) {
-        var stack = new ItemStack(entry.get());
-        int x = 12 + (i % 6) * 64, y = 34 + (i / 6) * 42;
-        g.renderItem(stack, x + 20, y);
+      for (Item item : equipment) {
+        var stack = new ItemStack(item);
+        int cell = width / 3;
+        int x = (i % 3) * cell, y = 32 + (i / 3) * 58;
+        g.renderItem(stack, x + cell / 2 - 8, y);
         g.drawCenteredString(
             font,
-            font.plainSubstrByWidth(stack.getHoverName().getString(), 62),
-            x + 28,
+            font.plainSubstrByWidth(stack.getHoverName().getString(), cell - 4),
+            x + cell / 2,
             y + 20,
             0xffeeeeee);
+        double charge = ((ic2.api.item.IElectricItem) item).getMaxCharge(stack);
+        g.drawCenteredString(
+            font,
+            Component.translatable(
+                "tooltip.solar_gravisuite.capacity", ic2.core.util.Util.toSiString(charge, 2)),
+            x + cell / 2,
+            y + 32,
+            0xff4edffd);
         i++;
       }
     }

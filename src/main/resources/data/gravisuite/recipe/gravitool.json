@@ -1,0 +1,35 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "CDC",
+    "EFG"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2:carbon_plate"
+    },
+    "B": {
+      "item": "ic2:electric_hoe"
+    },
+    "C": {
+      "item": "ic2:alloy"
+    },
+    "D": {
+      "item": "ic2:energy_crystal"
+    },
+    "E": {
+      "item": "ic2:electric_wrench"
+    },
+    "F": {
+      "item": "ic2:advanced_circuit"
+    },
+    "G": {
+      "item": "ic2:electric_treetap"
+    }
+  },
+  "result": {
+    "item": "gravisuite:gravitool",
+    "count": 1
+  }
+}

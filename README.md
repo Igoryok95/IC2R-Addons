@@ -1,30 +1,30 @@
-# Advanced Solar Panels for IC2R
+# Solar GraviSuite for IC2R
 
-An Advanced Solar Panels adaptation for **Minecraft 1.21.1 / NeoForge**, integrated with
-**IndustrialCraft 2: Refactored (IC2R) 21.1.67+**.
+**Advanced Solar Panels + GraviSuite in one mod** for Minecraft **1.21.1 / NeoForge** and
+**IndustrialCraft 2: Refactored (IC2R)**. Solar generation, powered equipment and mobility share
+one release, one mod container and one installation JAR. English and Russian are included.
 
-This project combines the classic four solar tiers and three solar helmets with the extended
-solar progression from AdvancedSolarPanelsReforged. It uses IC2R's real EU network, electric-item
-API, machines and dynamic GUIs. English and Russian localizations are included.
+![Solar technology and upgraded armor](docs/images/panels-and-transformer.png)
 
-![Panels and Molecular Transformer](docs/images/panels-and-transformer.png)
+## Requirements and installation
 
-## Requirements
+- Minecraft **1.21.1**, NeoForge **21.1.264+**, Java **21**.
+- IC2R **21.1.67+ within 21.x**, installed separately.
+- Optional: JEI for crafting and Molecular Transformer recipes.
 
-- Minecraft **1.21.1**
-- NeoForge **21.1.264 or newer**
-- IC2R **21.1.67 or newer within 21.x**
-- Java **21**
-- Optional: JEI for crafting and Molecular Transformer recipes
-- Optional: GraviSuite for additional equipment that the solar helmets can charge
+Install `solar-gravisuite-neoforge-1.21.1-1.1.0.jar` on **both client and server**.
+Remove the separate Advanced Solar Panels and GraviSuite JARs when replacing them. The combined
+mod explicitly rejects a standalone `gravisuite` mod to prevent duplicate registrations.
+The sources JAR is for development only.
 
-Install this addon and IC2R on both the client and server. VintageCore, the original IC2 and
-other Advanced Solar Panels implementations are not required. Do not install another mod using
-the `advanced_solar_panels` ID alongside this one.
+This project continues AdvancedSolarPanels-IC2R. The public repository is now
+[Igoryok95/SolarGraviSuite-IC2R](https://github.com/Igoryok95/SolarGraviSuite-IC2R).
+The old `advanced_solar_panels:*` and `gravisuite:*` registry IDs and data-component keys are
+retained, including existing equipment charge, machines, recipes, portals and key bindings.
+There is one `advanced_solar_panels` mod container, displayed as **Solar GraviSuite for IC2R**;
+its two creative tabs organize solar technology and equipment.
 
 ## Solar progression
-
-Default values, before the configuration multiplier:
 
 | Panel | Day EU/t | Night / rain EU/t | Storage EU | Output tier |
 | --- | ---: | ---: | ---: | ---: |
@@ -37,48 +37,73 @@ Default values, before the configuration multiplier:
 | Light Absorbing | 131,072 | 65,536 | 1,000,000,000 | 7 |
 | Photonic | 524,288 | 262,144 | 1,000,000,000 | 8 |
 
-Panels need an unobstructed sky. Opaque roofs and dimensions without skylight stop generation;
-night and local rain use the lower output. Generation runs every server tick. EU is buffered,
-can charge an inserted electric item and is emitted through IC2R's normal energy network.
-High tiers follow IC2R's voltage rules: use suitable cables and transformers.
+Panels need an unobstructed sky. Opaque roofs and dimensions without skylight stop generation.
+EU is generated every server tick, buffered, offered to an inserted electric item and emitted
+through IC2R's real energy network. Match cables and transformers to each panel's voltage tier.
+Higher tiers require their predecessor and late-game components. World generation is unchanged.
 
-The four extended tiers require their predecessor and late-game components. Their recipes are
-adapted to modern IC2R rather than being copies of the old numeric-ID recipes.
+## Powered armor and solar helmets
 
-## Solar helmets
+| Equipment | Capacity EU | Transfer EU/t | Tier | Features |
+| --- | ---: | ---: | ---: | --- |
+| Advanced Solar Helmet | 8,000,000 | 5,000 | 3 | Nano helmet abilities, 8 / 1 EU/t solar generation |
+| Advanced Nano Chestplate | 8,000,000 | 5,000 | 3 | Nano protection, advanced jetpack, hover, boost, held-tool charging |
+| Advanced Nano Leggings | 8,000,000 | 5,000 | 3 | Nano protection, +15% sprint speed for 8 EU/t |
+| Advanced Nano Boots | 8,000,000 | 5,000 | 3 | Nano protection, heavy-fall absorption while energy lasts |
+| Hybrid Solar Helmet | 40,000,000 | 12,000 | 4 | Intermediate quantum helmet, 64 / 8 EU/t solar generation |
+| Ultimate Hybrid Solar Helmet | 100,000,000 | 50,000 | 4 | Quantum helmet abilities, 512 / 64 EU/t solar generation |
+| Gravitational Chestplate | 100,000,000 | 50,000 | 4 | Powered creative flight, boost, energy-backed protection |
+| Advanced Quantum Leggings | 100,000,000 | 50,000 | 4 | IC2R quantum sprint / swimming abilities |
+| Advanced Quantum Boots | 100,000,000 | 50,000 | 4 | IC2R quantum jump and reduced fall energy cost |
 
-| Helmet | Day / night EU/t | Capacity EU | Transfer EU/t | Tier | Inherited armor |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Advanced | 8 / 1 | 4,000,000 | 5,000 | 3 | IC2R Nano Helmet |
-| Hybrid | 64 / 8 | 20,000,000 | 12,000 | 4 | IC2R Quantum Helmet |
-| Ultimate Hybrid | 512 / 64 | 40,000,000 | 50,000 | 4 | IC2R Quantum Helmet |
+The full advanced nano set now has **8 million EU per piece**; the top quantum / gravitational
+set has **100 million EU per piece**. The hybrid helmet remains an intermediate step.
+Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior and voltage
+tiers are retained; no duplicate base nano / quantum equipment or additional helmets are added.
 
-The nano helmet's night vision / HUD and the quantum helmet's powered abilities are inherited
-from IC2R. Storage is larger than the corresponding base IC2R helmet: 4x for Advanced, 2x for
-Hybrid and 4x for Ultimate. The original solar helmet armor and item textures are retained.
+The new leggings and boots have blue energy details in both item icons and worn armor,
+matching the existing chestplates. Existing chestplate and solar helmet artwork is retained.
+Nano boots retain the 5,000 EU-per-damage fall cost while removing the base heavy-fall cutoff;
+quantum boots spend 10,000 instead of 20,000 EU per point beyond the first ten blocks.
 
-Helmets generate only while equipped. They charge chest / leg / foot armor first, then the
-offhand and inventory, and finally their own buffer. Each EU is allocated once; generation has
-no shared item-instance timer. This also works with compatible GraviSuite equipment.
-Helmet upgrade recipes carry charge from their electric ingredients through IC2R's serializers.
+Solar helmets generate only while worn and charge chest / legs / boots first, then offhand and
+inventory, then their own buffer. Each generated EU is allocated once. Upgrade recipes use
+IC2R's shaped serializer and carry charge from ingredients into the result.
+
+## Tools, mobility and storage
+
+| Equipment | Capacity EU | Tier | Features |
+| --- | ---: | ---: | --- |
+| Advanced Lappack | 40,000,000 | 4 | Upgrade of IC2R's 20M EU lappack, held-tool charging |
+| Ultimate Lappack | 100,000,000 | 4 | Portable EU storage and tool charging |
+| Advanced Electric Jetpack | 4,000,000 | 3 | Stronger thrust, hover and boost |
+| Advanced Diamond Drill | 45,000 | 2 | 3x3 mining, efficiency modes and torch placement |
+| Advanced Iridium Drill | 1,000,000 | 3 | IC2R iridium-drill upgrade, 3x3 mining, Silk Touch / Fortune III |
+| Advanced Chainsaw | 45,000 | 2 | Faster cutting, IC2R shearing and bounded tree felling |
+| Vajra | 10,000,000 | 3 | Universal tool, vein / connected mining, Silk Touch / Fortune III |
+| GraviTool | 100,000 | 2 | Electric wrench, treetap, hoe and block rotation |
+| Magnet | 10,000 | 1 | Attracts dropped items while enabled in the hotbar |
+| Voider | 10,000 | 1 | Removes matching inventory items using an explicitly chosen filter |
+| Relocator | 10,000,000 | 4 | Ten destinations, personal teleportation, translocator orbs and temporary portals |
+
+Relocator costs: 1M EU within one dimension, 1.5M across dimensions, 2M for a translocator orb
+and 2.5M for a portal orb. The server validates destinations and rejects obstructed locations.
+Original IC2R progression recipes, including its quantum chestplate recipe, remain available.
 
 ## Molecular Transformer
 
-The Molecular Transformer accepts EU through the IC2R network and converts items using
-recipe-defined energy costs. It has its original 3D model, animated active core, dynamic GUI,
-input / output slots and an optional JEI category.
+The transformer uses IC2R EU and 15 native, synchronized datapack recipes for vanilla materials,
+sunnarium, iridium and IC2R dust / isotopes. It retains the original 3D geometry, animated core,
+dynamic GUI and optional JEI category. This is an adapted recipe set, not exact historical parity.
 
-- The input stays in its slot until a conversion finishes.
-- Blocked output pauses the conversion without spending EU or consuming input.
-- Changing the input resets incompatible partial work.
-- Partial work, input and buffered EU are saved with the block entity.
-- Recipes are native, synchronized, reloadable datapack recipes, not a mutable global table.
+- Input is consumed only when a conversion completes.
+- Blocked output pauses work without consuming input or energy.
+- Changing input resets incompatible partial work.
+- Input, output, buffered EU and partial work survive saving.
 
-The initial recipe set includes 15 transformations involving vanilla materials, sunnarium,
-iridium and IC2R uranium / diamond dust. It is an adapted set, not a claim of exact recipe
-parity with every historical ASP release.
+![Molecular Transformer GUI](docs/images/molecular-transformer-gui.png)
 
-Example under `data/<namespace>/recipe/`:
+Example datapack recipe under `data/<namespace>/recipe/`:
 
 ```json
 {
@@ -89,71 +114,68 @@ Example under `data/<namespace>/recipe/`:
 }
 ```
 
-Crafting components retain the classic sunnarium / irradiant / iridium progression. The addon
-reuses IC2R's uranium ingot instead of registering an equivalent duplicate.
-A creative-only Quantum Generator is retained at 512 EU/t, disabled by a redstone signal;
-it has no survival recipe. Its output is fixed in this initial version.
+The creative-only Quantum Generator produces a fixed 512 EU/t, stops with redstone power and
+has no survival recipe. Crafting components reuse IC2R's uranium ingot instead of a duplicate.
+
+## Controls
+
+Bindings can be changed in Minecraft's Controls screen.
+
+- **G**: toggle the worn GraviSuite flight engine.
+- **H**, or right-click the magnet: toggle the hotbar magnet.
+- **IC2 mode key + right-click**: cycle tool / mining / relocator mode.
+- **IC2 Alt key + right-click**: cycle mining efficiency.
+- **Sneak + IC2 mode key + right-click** with the iridium drill or Vajra: Silk Touch / Fortune III.
+- The same combination with the chainsaw: toggle tree felling.
+- **Sneak while mining**: operate on one block.
+- **Right-click a block** with a drill or Vajra: place a torch from inventory.
+- **Right-click a block** with the voider: choose its filter; **sneak + right-click**: apply it.
+- **Sneak + right-click** with the relocator: manage saved destinations.
+- IC2 jump / boost / quantum movement controls retain their usual functions.
 
 ## Configuration
 
-`config/advanced_solar_panels-common.toml`:
+Both existing common config names are retained:
 
-- `generationMultiplier`: multiplier for panel and helmet generation, default 1.0, range 0вЂ“64.
-- `helmetsChargeArmorOnly`: restrict external helmet charging to worn armor, default false.
-- `drawActiveTransformerCore`: show the animated transformer core, default true.
+- `config/advanced_solar_panels-common.toml`: `generationMultiplier` (default 1.0, range 0-64),
+  `helmetsChargeArmorOnly` (false), `drawActiveTransformerCore` (true).
+- `config/gravisuite-common.toml`: `magnetRange` (8), `veinLimit` (64), `treeLimit` (128),
+  `portalLifetimeTicks` (400), `showHud` (true).
 
-Use matching common settings on the client and server. Crafting and conversion recipes can be
-changed using datapacks. Generation does not add or alter world-generation features.
+Use matching settings on client and server. Recipes can be changed with datapacks.
 
-## Build
+## Build and validation
 
 ```sh
 ./gradlew build runGameTestServer
 ```
 
-The Gradle wrapper requires Java 21. IC2R is resolved from the public release in
-[Igoryok95/IC2R](https://github.com/Igoryok95/IC2R/releases/tag/21.1.67).
-To use a local IC2R JAR, pass `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`.
+Use Java 21. The public [IC2R 21.1.67 release](https://github.com/Igoryok95/IC2R/releases/tag/21.1.67)
+is resolved automatically. For a local dependency, pass
+`-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`. No separate GraviSuite dependency is used.
 
-Optional GraviSuite integration run in PowerShell:
+The combined suite has **40 NeoForge server game tests and 9 JUnit resource tests**. It covers
+solar generation, charging / EU conservation, real energy-network transfer, armor capacities,
+charge-preserving recipes / serialization, mining, flight cleanup, fall protection, portals,
+packet validation, machine persistence, GUI parsing, localization and blue armor resources.
 
-```powershell
-.\gradlew.bat build runGameTestServer '-PgravisuiteJar=C:/GIT/GraviSuiteReforged/build/libs/gravisuite-neoforge-1.21.1-3.0.0.jar'
-```
+The isolated client smoke command is `./gradlew runClient -PclientSmoke`. It opens
+`run/saves/SolarClientSmoke`, places solar machines and two equipped armor stands, renders
+item / world / GUI captures and exits. Prepare this isolated world by copying `run/world` to
+`run/saves/SolarClientSmoke` after a server test run. The developer harness is disabled unless
+explicitly enabled and clears old test inventories / dropped items / armor stands.
 
-Output: `build/libs/advanced-solar-panels-neoforge-1.21.1-1.0.0.jar`.
-The separate sources JAR is for development and must not be installed as a mod.
+The full multiplayer modpack, worn movement controls and shader combinations still need manual
+validation. No Sodium / Iris incompatibility rule is imposed. Historical double-slab cosmetics,
+exact old GUI styling, helmet dye recipes and legacy engine audio are outside this release.
 
-## Validation and scope
+## Credits and history
 
-Local validation passes **15 server game tests** and **4 JUnit resource-contract tests**.
-The suite covers solar generation, roof / night behavior, real IC2R charging and network
-transfer, helmet capacity / EU conservation, GraviSuite charging when present, charge-preserving
-upgrades, transformer energy costs / blocked outputs / input changes / persistence, recipes,
-GUI parsing, model textures and English / Russian localization parity. It also checks the six-cell UV layout
-of the extended panels and the transformer's non-occluding block state.
+Original ASP: **Icedfire, SeNtiMeL, Chocohead**, original textures including **Krezzard**.
+Original GraviSuite: **SeNtiMeL and the IC2 Dev Team**. GraviSuite Reforged implementation and
+assets: **VintageModsReforged and upstream contributors**. NeoForge / IC2R adaptation: **Igoryok95**.
 
-A Russian-locale client smoke test with IC2R 21.1.67, GraviSuite 3.0.0 and JEI 19.64.0.455
-loads a real world, renders the registered items and the transformer, opens its actual dynamic
-GUI and registers the molecular JEI category. See the [GUI capture](docs/images/molecular-transformer-gui.png).
-
-This is an initial compatibility release. Further manual validation of armor appearance, controls,
-multiplayer behavior and shader combinations in a complete modpack remains necessary.
-No Sodium / Iris incompatibility rule is imposed; the transformer uses ordinary NeoForge
-rendering APIs, but compatibility is not established merely by a successful build.
-Historical double-stone-slab cosmetics, old GUI styling details and helmet dye recipes have not
-been reproduced. Existing IC2R gameplay and world generation are preserved.
-
-## Credits and source history
-
-See [NOTICE.md](NOTICE.md) for source revisions, asset provenance and original authorship.
-This is an unofficial adaptation, not a release by the original ASP or IC2 authors.
-
-## Reproduce the client smoke test
-
-After `runGameTestServer` has created `run/world`, copy that test world into
-`run/saves/SolarClientSmoke` once. Then run `./gradlew runClient -PclientSmoke` with the optional
-GraviSuite argument shown above if desired. The harness is disabled unless this property is set.
-It replaces a small platform around the test player, clears old test inventories and dropped
-items, renders item / world / GUI captures in `run/screenshots`, and exits the client.
-Use only the isolated test world for this developer command.
+See [NOTICE.md](NOTICE.md) for exact source revisions and asset provenance. GraviSuite's port
+history is retained as a parent of the integration commit; historical 1.6.4 sources and the
+3.0.0 port README are retained under [legacy/gravisuite](legacy/gravisuite).
+This is an unofficial adaptation, not a release by the original IC2 / ASP authors.
