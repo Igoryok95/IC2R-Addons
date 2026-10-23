@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SSS",
+    "SQS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "advanced_solar_panels:ultimate_solar_panel"
+    },
+    "Q": {
+      "item": "advanced_solar_panels:quantum_core"
+    }
+  },
+  "result": {
+    "item": "advanced_solar_panels:quantum_solar_panel"
+  }
+}

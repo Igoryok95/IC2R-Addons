@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "PRP",
+    "P P",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "advanced_solar_panels:irradiant_glass_pane"
+    },
+    "R": {
+      "item": "ic2:thick_neutron_reflector"
+    }
+  },
+  "result": {
+    "item": "advanced_solar_panels:mt_core"
+  }
+}

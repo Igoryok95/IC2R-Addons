@@ -1,0 +1,25 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "MTM",
+    "CcC",
+    "MTM"
+  ],
+  "key": {
+    "M": {
+      "item": "ic2:advanced_machine"
+    },
+    "T": {
+      "item": "ic2:ev_transformer"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "c": {
+      "item": "advanced_solar_panels:mt_core"
+    }
+  },
+  "result": {
+    "item": "advanced_solar_panels:molecular_transformer"
+  }
+}

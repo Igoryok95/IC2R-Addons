@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "advanced_solar_panels:enriched_sunnarium"
+    },
+    "A": {
+      "item": "advanced_solar_panels:sunnarium_alloy"
+    }
+  },
+  "result": {
+    "item": "advanced_solar_panels:enriched_sunnarium_alloy"
+  }
+}

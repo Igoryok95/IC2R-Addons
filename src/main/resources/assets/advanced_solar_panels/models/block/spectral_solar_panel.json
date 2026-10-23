@@ -1,0 +1,83 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "atlas": "advanced_solar_panels:block/spectral_solar_top",
+    "particle": "advanced_solar_panels:block/quantum_solar_side"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#atlas",
+          "uv": [
+            0.0,
+            0,
+            2.6666666666666665,
+            16
+          ],
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#atlas",
+          "uv": [
+            2.6666666666666665,
+            0,
+            5.333333333333333,
+            16
+          ],
+          "cullface": "up"
+        },
+        "north": {
+          "texture": "#atlas",
+          "uv": [
+            5.333333333333333,
+            0,
+            8.0,
+            16
+          ],
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#atlas",
+          "uv": [
+            8.0,
+            0,
+            10.666666666666666,
+            16
+          ],
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#atlas",
+          "uv": [
+            10.666666666666666,
+            0,
+            13.333333333333334,
+            16
+          ],
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#atlas",
+          "uv": [
+            13.333333333333334,
+            0,
+            16.0,
+            16
+          ],
+          "cullface": "east"
+        }
+      }
+    }
+  ]
+}

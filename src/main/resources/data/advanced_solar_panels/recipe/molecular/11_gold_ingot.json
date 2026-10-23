@@ -1,0 +1,11 @@
+{
+  "type": "advanced_solar_panels:molecular_transformer",
+  "input": {
+    "item": "minecraft:gold_ingot"
+  },
+  "output": {
+    "id": "advanced_solar_panels:iridium_ingot",
+    "count": 1
+  },
+  "energy": 9000000
+}

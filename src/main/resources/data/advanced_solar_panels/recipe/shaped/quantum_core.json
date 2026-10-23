@@ -1,0 +1,22 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ANA",
+    "NEN",
+    "ANA"
+  ],
+  "key": {
+    "A": {
+      "item": "advanced_solar_panels:enriched_sunnarium_alloy"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "advanced_solar_panels:quantum_core"
+  }
+}

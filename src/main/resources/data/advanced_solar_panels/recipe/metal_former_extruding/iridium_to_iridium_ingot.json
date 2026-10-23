@@ -1,0 +1,9 @@
+{
+  "type": "ic2:metal_former_extruding",
+  "ingredient": {
+    "item": "ic2:iridium"
+  },
+  "result": {
+    "item": "advanced_solar_panels:iridium_ingot"
+  }
+}

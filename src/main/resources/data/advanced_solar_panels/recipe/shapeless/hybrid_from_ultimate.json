@@ -1,0 +1,12 @@
+{
+  "type": "ic2:shapeless",
+  "ingredients": [
+    {
+      "item": "advanced_solar_panels:ultimate_solar_panel"
+    }
+  ],
+  "result": {
+    "item": "advanced_solar_panels:hybrid_solar_panel",
+    "count": 8
+  }
+}

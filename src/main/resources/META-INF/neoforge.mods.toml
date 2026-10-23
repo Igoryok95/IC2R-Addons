@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+issueTrackerURL="https://github.com/Igoryok95/AdvancedSolarPanels-IC2R/issues"
+[[mods]]
+modId="advanced_solar_panels"
+version="${version}"
+displayName="Advanced Solar Panels for IC2R"
+authors="Icedfire, SeNtiMeL, Chocohead; craftorio; NeoForge IC2R adaptation: Igoryok95"
+description="Eight solar panel tiers, solar helmets and a Molecular Transformer for Minecraft 1.21.1 NeoForge with IC2R."
+[[dependencies.advanced_solar_panels]]
+modId="ic2"
+type="required"
+versionRange="[21.1.67,22)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.advanced_solar_panels]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1]"
+side="BOTH"
+[[dependencies.advanced_solar_panels]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.264,)"
+side="BOTH"

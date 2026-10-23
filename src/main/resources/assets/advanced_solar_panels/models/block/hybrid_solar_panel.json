@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "advanced_solar_panels:block/hybrid_solar_side",
+    "down": "advanced_solar_panels:block/hybrid_solar_bottom",
+    "up": "advanced_solar_panels:block/hybrid_solar_top",
+    "north": "advanced_solar_panels:block/hybrid_solar_side",
+    "east": "advanced_solar_panels:block/hybrid_solar_side",
+    "south": "advanced_solar_panels:block/hybrid_solar_side",
+    "west": "advanced_solar_panels:block/hybrid_solar_side"
+  }
+}

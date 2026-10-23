@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "advanced_solar_panels:item/ultimatesolarhelmet",
+    "layer1": "advanced_solar_panels:item/ultimatesolarhelmetoverlay"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "advanced_solar_panels:block/quantum_solar_panel"
+    },
+    "facing=east": {
+      "model": "advanced_solar_panels:block/quantum_solar_panel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "advanced_solar_panels:block/quantum_solar_panel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "advanced_solar_panels:block/quantum_solar_panel",
+      "y": 270
+    }
+  }
+}
