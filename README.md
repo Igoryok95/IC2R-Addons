@@ -4,7 +4,7 @@
 **IndustrialCraft 2: Refactored (IC2R)**. Solar generation, powered equipment and mobility share
 one release, one mod container and one installation JAR. English and Russian are included.
 
-![Solar technology and upgraded armor](docs/images/panels-and-transformer.png)
+![Solar technology and upgraded armor](docs/images/panels-and-transformer-en.png)
 
 ## Requirements and installation
 
@@ -61,7 +61,7 @@ set has **100 million EU per piece**. The hybrid helmet remains an intermediate 
 Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior and voltage
 tiers are retained; no duplicate base nano / quantum equipment or additional helmets are added.
 
-![Powered armor icons and capacities](docs/images/powered-armor.png)
+![Powered armor icons and capacities](docs/images/powered-armor-en.png)
 
 The new leggings and boots have blue energy details in both item icons and worn armor,
 matching the existing chestplates. Existing chestplate and solar helmet artwork is retained.
@@ -103,7 +103,7 @@ dynamic GUI and optional JEI category. This is an adapted recipe set, not exact 
 - Changing input resets incompatible partial work.
 - Input, output, buffered EU and partial work survive saving.
 
-![Molecular Transformer GUI](docs/images/molecular-transformer-gui.png)
+![Molecular Transformer GUI](docs/images/molecular-transformer-gui-en.png)
 
 Example datapack recipe under `data/<namespace>/recipe/`:
 
