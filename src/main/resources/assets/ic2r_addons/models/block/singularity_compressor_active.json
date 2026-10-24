@@ -1,0 +1,7 @@
+{
+	"parent": "ic2r_addons:block/singularity_compressor",
+	"textures": {
+		"up": "ic2r_addons:block/compressor/compressor_top_active",
+		"north": "ic2r_addons:block/compressor/compressor_front_active"
+	}
+}

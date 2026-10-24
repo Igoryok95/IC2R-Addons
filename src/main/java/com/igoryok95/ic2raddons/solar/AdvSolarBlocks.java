@@ -150,6 +150,10 @@ public final class AdvSolarBlocks {
                         output.accept(QUANTUM_SOLAR_PANEL.get());
                         output.accept(MOLECULAR_TRANSFORMER.get());
                         output.accept(QUANTUM_GENERATOR.get());
+                        for (Supplier<Item> machine :
+                            com.igoryok95.ic2raddons.machines.AdvMachinesBlocks.ALL_ITEMS) {
+                          output.accept(machine.get());
+                        }
                         output.accept(ADVANCED_SOLAR_HELMET.get());
                         output.accept(HYBRID_SOLAR_HELMET.get());
                         output.accept(ULTIMATE_SOLAR_HELMET.get());

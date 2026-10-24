@@ -1,0 +1,6 @@
+{
+	"parent": "ic2r_addons:block/impellerized_roller",
+	"textures": {
+		"north": "ic2r_addons:block/roller/roller_front_active"
+	}
+}

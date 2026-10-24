@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#M#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "ic2r_addons:sharp_plate"
+    },
+    "M": {
+      "item": "ic2:macerator"
+    },
+    "X": {
+      "item": "ic2:advanced_machine"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:rotary_macerator"
+  }
+}

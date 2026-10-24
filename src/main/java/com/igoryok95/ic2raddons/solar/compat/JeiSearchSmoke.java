@@ -20,7 +20,8 @@ public final class JeiSearchSmoke {
   private static IJeiRuntime runtime;
 
   public static void verify(IJeiRuntime jei) {
-    if (!Boolean.getBoolean("ic2r_addons.clientSmoke")) return;
+    if (!Boolean.getBoolean("ic2r_addons.clientSmoke")
+        && !Boolean.getBoolean("ic2r_addons.machinesSmoke")) return;
     runtime = jei;
     var filter = jei.getIngredientFilter();
     String previous = filter.getFilterText();

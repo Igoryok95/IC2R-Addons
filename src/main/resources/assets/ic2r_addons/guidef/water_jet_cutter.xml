@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui width="176" height="190">
+    <text y="6" align="center">%name%</text>
+
+    <slot name="input" x="85" y="17"/>
+	<fluidtank x="60" y="15" name="tank"/>
+    <slot name="output" x="136" y="28" style="large"/>
+
+    <slot name="discharge" x="85" y="52"/>
+    <environment name="game">
+    	<slotgrid name="upgrade" x="126" y="60" rows="1"/>
+    	<button type="recipe" x="108" y="34" width="22" height="15" event="metal_former2, water_jet_cutter"></button>
+   	</environment>
+    <energygauge x="90" y="37"/>
+    <gauge name="progress" x="108" y="34" style="progressarrow"/>
+    <slot name="fluid" x="7" y="79"/>
+    <slot name="cell" x="25" y="79"/>
+    <text x="48" y="84">{ic2r_addons.machines.gui.water_containers}</text>
+    <playerInventory x="7" y="107"/>
+
+	<text x="7" y="26">{ic2r_addons.machines.gui.pressure}</text>
+	<text x="7" y="36">%base.getHeat()%</text>
+	<text x="7" y="46">{ic2r_addons.machines.gui.pressure.unit}</text>
+</gui>

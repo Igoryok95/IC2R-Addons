@@ -41,7 +41,13 @@ dependencies {
 neoForge {
  version = neo_version
  runs {
-  client { client(); if (providers.gradleProperty('clientSmoke').isPresent()) { systemProperty 'ic2r_addons.clientSmoke', 'true'; programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke' } }
+  client {
+   client()
+   if (providers.gradleProperty('clientSmoke').isPresent() || providers.gradleProperty('machinesSmoke').isPresent()) {
+    systemProperty providers.gradleProperty('machinesSmoke').isPresent() ? 'ic2r_addons.machinesSmoke' : 'ic2r_addons.clientSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke'
+   }
+  }
   server { server(); programArgument '--nogui' }
   gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'ic2r_addons' }
  }

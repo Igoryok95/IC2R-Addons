@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#M#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "ic2:sulfur_dust"
+    },
+    "M": {
+      "item": "ic2:ore_washing_plant"
+    },
+    "X": {
+      "item": "ic2:advanced_machine"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:thermal_washer"
+  }
+}

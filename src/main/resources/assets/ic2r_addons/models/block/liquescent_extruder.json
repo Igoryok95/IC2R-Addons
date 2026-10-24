@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "ic2r_addons:block/extruder/extruder_back",
+		"down": "ic2r_addons:block/extruder/extruder_bottom",
+		"up": "ic2r_addons:block/extruder/extruder_top",
+		"north": "ic2r_addons:block/extruder/extruder_front",
+		"east": "ic2r_addons:block/extruder/extruder_side",
+		"south": "ic2r_addons:block/extruder/extruder_back",
+		"west": "ic2r_addons:block/extruder/extruder_side"
+	}
+}

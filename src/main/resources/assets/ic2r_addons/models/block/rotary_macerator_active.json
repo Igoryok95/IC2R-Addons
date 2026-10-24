@@ -1,0 +1,7 @@
+{
+	"parent": "ic2r_addons:block/rotary_macerator",
+	"textures": {
+		"up": "ic2r_addons:block/macerator/macerator_top_active",
+		"north": "ic2r_addons:block/macerator/macerator_front_active"
+	}
+}

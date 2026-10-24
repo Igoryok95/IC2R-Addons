@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,active=false": { "model": "ic2r_addons:block/impellerized_roller" },
+    "facing=east,active=false":  { "model": "ic2r_addons:block/impellerized_roller", "y": 90 },
+    "facing=south,active=false": { "model": "ic2r_addons:block/impellerized_roller", "y": 180 },
+    "facing=west,active=false":  { "model": "ic2r_addons:block/impellerized_roller", "y": 270 },
+    "facing=north,active=true":  { "model": "ic2r_addons:block/impellerized_roller_active" },
+    "facing=east,active=true":   { "model": "ic2r_addons:block/impellerized_roller_active", "y": 90 },
+    "facing=south,active=true":  { "model": "ic2r_addons:block/impellerized_roller_active", "y": 180 },
+    "facing=west,active=true":   { "model": "ic2r_addons:block/impellerized_roller_active", "y": 270 }
+  }
+}

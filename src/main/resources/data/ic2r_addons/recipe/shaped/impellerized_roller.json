@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#M#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "item": "ic2:forge_hammer"
+    },
+    "M": {
+      "item": "ic2:metal_former"
+    },
+    "X": {
+      "item": "ic2:advanced_machine"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:impellerized_roller"
+  }
+}

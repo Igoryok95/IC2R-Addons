@@ -1,0 +1,7 @@
+{
+	"parent": "ic2r_addons:block/compacting_recycler",
+	"textures": {
+		"top": "ic2r_addons:block/recycler/recycler_top_active",
+		"north": "ic2r_addons:block/recycler/recycler_front_active"
+	}
+}

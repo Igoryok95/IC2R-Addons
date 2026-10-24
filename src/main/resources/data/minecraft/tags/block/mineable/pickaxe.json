@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "ic2r_addons:rotary_macerator",
+    "ic2r_addons:singularity_compressor",
+    "ic2r_addons:centrifuge_extractor",
+    "ic2r_addons:compacting_recycler",
+    "ic2r_addons:liquescent_extruder",
+    "ic2r_addons:impellerized_roller",
+    "ic2r_addons:water_jet_cutter",
+    "ic2r_addons:thermal_washer"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+	"parent": "ic2r_addons:block/water_jet_cutter",
+	"textures": {
+		"bottom": "ic2r_addons:block/cutter/cutter_bottom_active",
+		"north": "ic2r_addons:block/cutter/cutter_front_active"
+	}
+}

@@ -3,6 +3,27 @@
 Original Advanced Solar Panels authors: **Icedfire, SeNtiMeL and Chocohead**.
 Original texture credits include **Krezzard**. IndustrialCraft 2 belongs to the IC2 Dev Team.
 
+## Advanced Machines integration in 1.3.0
+
+Advanced Machines was created by **immibis** and maintained by **Chocohead**. The Forge / IC2R
+migration reference is [craftorio/ic2-advanced-machines](https://github.com/craftorio/ic2-advanced-machines/tree/94d01c01fc292ddcacc4121eaddbe130472e650c),
+branch `forge/1.20.1`, revision `94d01c01fc292ddcacc4121eaddbe130472e650c`. Its `forge/1.12.2`
+branch was also consulted for original warm-up, water use and thermal-shock behavior.
+Original distribution: https://www.curseforge.com/minecraft/mc-mods/advanced-machines .
+
+The eight leaf machine types, crafting patterns, GUI layouts and modern texture set were adapted
+from that reference. The modern 32x32 PNGs are copied without modification from `modern_overlay`;
+the Sharpened Iron Plate retains its original size. The Classic texture pack
+and redundant legacy GUI backgrounds are not bundled. No separate Advanced Machines binary is
+bundled or required. `tools/machines/import_advanced_machines.py` records the initial resource /
+leaf-class import; the heating, water and recycler implementations are maintained in this addon.
+
+The NeoForge registration, safe partial-work persistence, current recipe-result API, explicit
+item / fluid capabilities, water-container handling, IC2R sound lifecycle, JEI scrap-packing
+category, Jade telemetry, English / Russian adaptation and regression checks are maintained
+by **Igoryok95**. Original code and artwork remain attributed to their respective authors;
+the existing rights statement below applies to these adapted materials as well.
+
 - Original ASP 4.3.0 binary reference supplied by the user: SHA-256 `6530286f2cd6545f4d7b510d64199a1ec5a4f77915fea2f7274c9a0fbdbc011a`.
   Original distribution: https://www.curseforge.com/minecraft/mc-mods/advanced-solar-panels/files/2652182
 - Forge 1.20.1 migration baseline: https://github.com/craftorio/ic2-advanced-solar-panels
@@ -15,7 +36,7 @@ Original texture credits include **Krezzard**. IndustrialCraft 2 belongs to the 
   https://github.com/EugeneHeisst/advanced-solar-panels-port
   (revision `146d35feae50859e812f2c0409731cc89ede2093`). Only the renderer was used;
   that project's separate IC2 implementation, updater and installers are not dependencies.
-- IC2R integration target: https://github.com/Igoryok95/IC2R , release 21.1.67.
+- IC2R integration target: https://github.com/Igoryok95/IC2R , release 21.1.68.
 - NeoForge adaptation, modern helmet progression, recipe synchronization, EU / persistence
   fixes, integration tests and English / Russian documentation: **Igoryok95**.
 

@@ -1,3 +1,37 @@
+# IC2R Addons 1.3.0
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.68+ / Java 21.
+
+Integrates all eight Advanced Machines: Rotary Macerator, Singularity Compressor,
+Centrifuge Extractor, Compacting Recycler, Liquescent Extruder, Impellerized Roller,
+Water-Jet Cutter and Thermal Washer. The Induction Furnace remains the existing IC2R machine.
+The Sharpened Iron Plate and all nine original crafting patterns are included.
+
+The machines retain heat / spin-up, redstone standby, tier-2 EU input, 10,000 EU buffers,
+specialized output inventories and original active / idle consumption. Seven machines use
+IC2R's processing recipe managers directly, including datapack modifications. The recycler
+retains IC2R recycling rules and packs nine scrap into a scrap box without random losses.
+Water machines accept pipes and containers, return empty containers and consume water internally.
+The Thermal Washer retains its hot-empty-refill explosion; loading a filled hot tank is safe.
+
+Adds explicit sided item / fluid pipe support, persistent partial work / heat / water,
+IC2R wrench rotation, full English / Russian text, original modern 32x32 textures,
+JEI catalysts and a scrap-packing category. Optional Jade shows warm-up, progress, EU/t,
+water and the thermal hazard. Optional BuildCraft, solar and equipment features remain available.
+
+GUI layouts use standard IC2R slot widgets. The extruder and roller use compact arrows:
+the current IC2R Metal Former indicator is 64 pixels wide and does not fit the legacy layout.
+Regression validation checks actual gauge bounds against inventory slots; client smoke runs
+exercise partially completed recipes with populated inputs / outputs in all eight menus.
+
+Validation passed: 15 JUnit checks, 65 base server GameTests and 73 with BuildCraft / Jade.
+English and Russian client runs opened all eight menus with real partial processing,
+checked all 96 model faces and confirmed 57 addon items under four equivalent JEI searches.
+The packaged JAR's metadata, recipes, 188 matching EN/RU locale keys, ZIP integrity and SHA-256
+were verified. See `docs/validation/1.3.0.json`.
+
+---
+
 # IC2R Addons 1.2.1
 
 For Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.67+.

@@ -1,15 +1,15 @@
 # IC2R Addons
 
-Four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
+All eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.67+ within 21.x**, installed separately.
+- IC2R **21.1.68+ within 21.x**, installed separately.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.2.1.jar` on both client and server, replacing the previous Solar GraviSuite JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry is not required.
+Install `ic2r-addons-neoforge-1.21.1-1.3.0.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -18,6 +18,57 @@ The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2
 Version 1.2.1 removes Spectral, Singular, Light Absorbing and Photonic panels from crafting and creative / JEI lists. Existing blocks and item stacks of these tiers resolve to Quantum panels, including the older `solar_gravisuite` namespace. Stored charging-slot items survive; buffered EU is capped at Quantum's **10,000,000 EU** capacity, so excess stored EU is discarded.
 
 Registry aliases resolve `solar_gravisuite:*` content to its new `ic2r_addons:*` identity. Existing equipment settings / teleport destinations are read from the previous custom-data compound and migrate on modification. Existing solar and equipment configuration files are copied to their new names only if the new files do not exist. Keep a world backup before upgrading a modded installation.
+
+## Advanced Machines
+
+Version 1.3.0 integrates the complete eight-machine set from Advanced Machines. The induction
+furnace remains the existing IC2R machine. All new machines use the native EU network, IC2R
+processing recipes and synchronized inventories; datapack changes to those recipes apply here too.
+
+| Machine | Processing | Active / idle EU/t | Output slots |
+| --- | --- | ---: | ---: |
+| Rotary Macerator | Macerator recipes | 15 / 1 | 2 |
+| Singularity Compressor | Compressor recipes | 15 / 1 | 1 |
+| Centrifuge Extractor | Extractor recipes | 15 / 1 | 3 |
+| Compacting Recycler | IC2R recycling; 9 scrap into 1 scrap box | 15 / 1 | 1 |
+| Liquescent Extruder | Metal Former extruding recipes | 24 / 1 | 3 |
+| Impellerized Roller | Metal Former rolling recipes | 24 / 1 | 1 |
+| Water-Jet Cutter | Metal Former cutting recipes | 24 / 1 | 1 |
+| Thermal Washer | Ore Washing Plant recipes | 48 / 6 | 3 |
+
+- Tier **2**, **128 EU** maximum input packets, **10,000 EU** internal buffer.
+- Running or powered redstone standby increases warm-up by one unit per tick, up to 10,000
+  (8 minutes 20 seconds from cold). Without sufficient power / water, it cools by two per tick.
+- At maximum warm-up, a normal operation takes **12 ticks**; the recycler takes **1 tick**.
+  Redstone maintains warm-up while the machine waits, at the idle cost shown above.
+- Two upgrade slots support redstone behavior and item import / export; water machines also
+  support fluid import. Overclockers, transformer and storage upgrades are not accepted,
+  matching the original Advanced Machines progression.
+- Water machines have **8,000 mB** tanks, accept water through fluid pipes or container slots,
+  and return empty containers. The cutter uses **500 mB** per operation plus up to **2 mB/t**
+  to maintain pressure. The washer uses half the corresponding IC2R washing recipe's water
+  (normally **500 mB**) plus up to **5 mB/t** for heat maintenance.
+- **Thermal Washer hazard:** refilling an empty tank at **50% heat or higher** causes a thermal
+  explosion, as in the original addon. Keep it supplied with water or let it cool first.
+  Loading a filled hot machine from disk does not count as refilling.
+- Recycling preserves IC2R's blacklist / whitelist and **1-in-8** scrap chance. Packing nine
+  scrap is guaranteed; batches smaller than nine wait instead of being recycled away.
+- Blocked outputs pause partial work and do not consume processing EU or input. Warm-up,
+  partial work, inventory, EU and water survive world saving. Changing input resets partial work.
+
+Each machine is crafted from its base IC2R machine, an advanced machine casing and the original
+specialized components. Rotary Macerator crafting also uses the restored Sharpened Iron Plate.
+Use an IC2R wrench to retain the upgraded machine when dismantling it.
+
+JEI lists the seven corresponding IC2R processing categories and a separate scrap-packing
+category for the recycler. Jade adds synchronized warm-up, progress, EU/t and water readings,
+including the hot-empty washer warning. Both integrations remain optional.
+The original modern **32x32** machine faces and active models are retained, with attribution in
+[NOTICE.md](NOTICE.md). World generation is unchanged.
+
+![Liquescent Extruder processing an IC2R recipe](docs/images/extruder-en-1.3.0.png)
+![Thermal Washer with synchronized progress and water](docs/images/washer-en-1.3.0.png)
+![Advanced Machines live Jade diagnostics](docs/images/machines-jade-en-1.3.0.png)
 
 ## Optional BuildCraft bridge
 
@@ -186,18 +237,26 @@ Use Java 21:
 ./gradlew spotlessApply build runGameTestServer
 ./gradlew runGameTestServer -PwithBC -PwithJade
 ./gradlew runClient -PclientSmoke -PwithBC -PwithJade
+./gradlew runClient -PmachinesSmoke -PwithBC -PwithJade
 ```
 
-Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`.
+Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.68.jar`.
 
-Validation: **12 JUnit checks**, **46 server GameTests without BC** and **54 with BC**, tested with Jade present and absent. Real English / Russian clients received live Jade telemetry and matching JEI results (48 items with BC). See [the validation manifest](docs/validation/1.2.1.json).
+The 1.3.0 regression suite contains **15 JUnit checks**, **65 server GameTests without BC** and
+**73 with BC**, with Jade present and absent. The machine client smoke checks all eight menus,
+96 active / inactive model faces, real partial processing progress and the complete JEI search set. See
+[the validation manifest](docs/validation/1.3.0.json) for completed runs.
 
-The server suites exercise solar generation, real IC2 energy-network transfers, powered equipment, persistence, migration aliases, and the optional EU-to-MJ engine. JUnit resource checks verify recipes, removed-tier resources, English / Russian coverage, format arguments, helmet silhouette / armor texture layouts and item resources. The isolated client smoke verifies rendering, GUI opening and matching JEI search results. It is disabled in normal play.
+The server suites exercise the eight advanced machines, processing / water / automation, real IC2
+energy-network transfers, redstone warm-up, blocked outputs, saving, wrench use, buckets and thermal
+shock, alongside solar generation, powered equipment, migration aliases and the EU-to-MJ engine.
+JUnit checks verify recipes, models, 32x32 machine faces, English / Russian coverage, format arguments
+and existing equipment resources. Development smoke hooks are disabled in normal play.
 
 The client smoke modifies only its isolated `run/saves/SolarClientSmoke` development world. It does not use the installed modpack or multiplayer server.
 
 ## Credits and history
 
-Original Advanced Solar Panels: Icedfire, SeNtiMeL, Chocohead and contributors. Solar-tier extensions: VintageModsReforged. GraviSuite: SeNtiMeL, the IC2 Dev Team and VintageModsReforged. ForestryCE engine artwork / geometry: Forestry contributors and thedarkcolour. NeoForge IC2R adaptation and integration: **Igoryok95**.
+Original Advanced Machines: immibis, Chocohead and contributors; Forge reference port: craftorio. Original Advanced Solar Panels: Icedfire, SeNtiMeL, Chocohead and contributors. Solar-tier extensions: VintageModsReforged. GraviSuite: SeNtiMeL, the IC2 Dev Team and VintageModsReforged. ForestryCE engine artwork / geometry: Forestry contributors and thedarkcolour. NeoForge IC2R adaptation and integration: **Igoryok95**.
 
 Original copyrights and applicable licenses remain in force. See [NOTICE.md](NOTICE.md) and bundled `LICENSES/ForestryCE-LGPL-3.0.txt`.

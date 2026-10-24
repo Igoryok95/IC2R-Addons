@@ -3,7 +3,7 @@
 ## Identity and migration
 
 The 1.2.0 loader ID, registry / resource namespace and network identity are `ic2r_addons`.
-Java packages live under `com.igoryok95.ic2raddons`, split into solar, equipment and bridge modules.
+Java packages live under `com.igoryok95.ic2raddons`, split into solar, equipment, machines and bridge modules.
 Registry aliases resolve 1.1.1 `solar_gravisuite` entries, including block entities. Equipment
 custom data falls back to the old compound and migrates on modification. Config migration copies
 existing solar / equipment settings only when their new files are absent.
@@ -23,7 +23,35 @@ mining, relocation and armor progression remain integrated into the single mod c
 The original baselines are documented in NOTICE.md. Earlier 1.1.0 split namespaces and 1.1.1 unified
 Solar GraviSuite identity are historical; current registrations all use the new identity.
 
-## Optional BuildCraft boundary
+## Advanced Machines module (1.3.0)
+
+`machines` registers eight `Ic2TileEntityBlock` processing machines in the existing addon
+namespace and creative tab. The heating base derives from IC2R's electric machine, retaining
+its energy network, sounds, discharge slot, inventory synchronization and wrench handling.
+It uses the live IC2R recipe-manager getters on each lookup; recipe collections are never mutated.
+The recycler adds a nine-scrap packing case before delegating to IC2R's recyclable-item manager,
+preserving its blacklist and random yield without caching a manager across levels / reloads.
+
+Heat and paid partial work are separate: output blockage / energy loss pauses work, and input
+identity changes clear it. Persistent state includes the pending input components, progress,
+heat, EU, inventory and fluid components. Water consumption uses internal tank draining; external
+draining is disabled. Container slots use IC2R's fluid-container processing and return empties.
+Thermal shock is checked before processing, never on a simulated fill. On world loading, the
+previous water level is initialized from the restored tank so a filled hot machine stays safe.
+
+IC2R only registers NeoForge capabilities for its own block-entity registry. The addon explicitly
+registers sided item wrappers for all eight types and a simulation-safe water-only fluid handler
+for the two water machines. Native IC2R fluid import upgrades still use the `Fluids` component.
+The optional integrations reuse IC2R JEI categories, add scrap packing and supply server-owned
+Jade telemetry. Original modern textures are already 32x32 and are copied unchanged.
+
+`-PmachinesSmoke` launches the isolated `SolarClientSmoke` development world, checks all 96
+active / inactive model faces and opens all eight synchronized GUIs. It has no effect during
+ordinary play. The server regression suite also covers real EU transfer, recipe output,
+water / item capabilities, redstone warm-up, output blockage, persistence, empty input inspection,
+wrench rotation, bucket returns and the cancellable native thermal explosion.
+
+## Optional BuildCraft implementation
 
 Only the BuildCraft-present branch loads `bridge.bc` content. The electric engine owns an IC2R
 Energy sink and exposes BC API 2 MjPortProvider endpoints on the piston side. Other sides accept

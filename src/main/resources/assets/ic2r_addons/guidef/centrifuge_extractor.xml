@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui width="176" height="166">
+    <text y="6" align="center">%name%</text>
+
+    <slot name="input" x="50" y="17"/>
+
+    <slotgrid name="output" x="113" y="35" rows="1"/>
+
+    <slot name="discharge" x="50" y="52"/>
+    <environment name="game">
+    	<slotgrid name="upgrade" x="120" y="60" rows="1"/>
+    	<button type="recipe" x="77" y="37" width="22" height="15" event="extractor, centrifuge_extractor"></button>
+   	</environment>
+    <energygauge x="55" y="37"/>
+    <gauge name="progress" x="77" y="37" style="progressdrop"/>
+    <playerInventory x="7" y="83"/>
+
+	<text x="10" y="26">{ic2r_addons.machines.gui.speed}</text>
+	<text x="10" y="36">%base.getHeat()%</text>
+	<text x="10" y="46">{ic2r_addons.machines.gui.speed.vel_unit}</text>
+</gui>

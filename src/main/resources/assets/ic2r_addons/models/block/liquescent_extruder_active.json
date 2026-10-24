@@ -1,0 +1,7 @@
+{
+	"parent": "ic2r_addons:block/liquescent_extruder",
+	"textures": {
+		"up": "ic2r_addons:block/extruder/extruder_top_active",
+		"north": "ic2r_addons:block/extruder/extruder_front_active"
+	}
+}

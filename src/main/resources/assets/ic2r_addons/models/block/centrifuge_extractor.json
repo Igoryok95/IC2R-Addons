@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "ic2r_addons:block/extractor/extractor_back",
+		"down": "ic2r_addons:block/extractor/extractor_bottom",
+		"up": "ic2r_addons:block/extractor/extractor_top",
+		"north": "ic2r_addons:block/extractor/extractor_front",
+		"east": "ic2r_addons:block/extractor/extractor_side",
+		"south": "ic2r_addons:block/extractor/extractor_back",
+		"west": "ic2r_addons:block/extractor/extractor_side"
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"parent": "ic2r_addons:block/thermal_washer",
+	"textures": {
+		"north": "ic2r_addons:block/washer/washer_front_active",
+		"east": "ic2r_addons:block/washer/washer_side_active_a",
+		"south": "ic2r_addons:block/washer/washer_back_active",
+		"west": "ic2r_addons:block/washer/washer_side_active_a"
+	}
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "FPF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "P": {
+      "item": "ic2:iron_plate"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "ic2r_addons:sharp_plate"
+  }
+}

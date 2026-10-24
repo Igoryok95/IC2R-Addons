@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,active=false": { "model": "ic2r_addons:block/compacting_recycler" },
+    "facing=east,active=false":  { "model": "ic2r_addons:block/compacting_recycler", "y": 90 },
+    "facing=south,active=false": { "model": "ic2r_addons:block/compacting_recycler", "y": 180 },
+    "facing=west,active=false":  { "model": "ic2r_addons:block/compacting_recycler", "y": 270 },
+    "facing=north,active=true":  { "model": "ic2r_addons:block/compacting_recycler_active" },
+    "facing=east,active=true":   { "model": "ic2r_addons:block/compacting_recycler_active", "y": 90 },
+    "facing=south,active=true":  { "model": "ic2r_addons:block/compacting_recycler_active", "y": 180 },
+    "facing=west,active=true":   { "model": "ic2r_addons:block/compacting_recycler_active", "y": 270 }
+  }
+}

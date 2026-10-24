@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "ic2r_addons:block/washer/washer_side",
+		"down": "ic2r_addons:block/washer/washer_top_n_bottom",
+		"up": "ic2r_addons:block/washer/washer_top_n_bottom",
+		"north": "ic2r_addons:block/washer/washer_front",
+		"east": "ic2r_addons:block/washer/washer_side",
+		"south": "ic2r_addons:block/washer/washer_back",
+		"west": "ic2r_addons:block/washer/washer_side"
+	}
+}

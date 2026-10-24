@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "ic2r_addons:block/macerator/macerator_back",
+		"down": "ic2r_addons:block/macerator/macerator_bottom",
+		"up": "ic2r_addons:block/macerator/macerator_top",
+		"north": "ic2r_addons:block/macerator/macerator_front",
+		"east": "ic2r_addons:block/macerator/macerator_side",
+		"south": "ic2r_addons:block/macerator/macerator_back",
+		"west": "ic2r_addons:block/macerator/macerator_side"
+	}
+}
