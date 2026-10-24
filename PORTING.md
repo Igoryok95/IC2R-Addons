@@ -10,15 +10,22 @@ existing solar / equipment settings only when their new files are absent.
 
 ## Existing solar and equipment modules
 
-The four classic solar panels stop at Quantum. Removed higher tiers alias to Quantum
-for blocks, item stacks and block entities; restored EU is capped at 10M while charging-slot
-contents survive. The fourth solar helmet uses the Quantum profile (4096 / 2048 EU/t),
+The 1.4.1 development branch restores all eight solar panels. The two highest tiers
+retain their original generation while emitting four / sixteen tier-6 packets, as
+approved for the new IC2R plasma cables and PESU. Restored IDs and legacy aliases
+retain their own tiers, EU and charging-slot contents. The fourth solar helmet uses the Quantum profile (4096 / 2048 EU/t),
 100M EU storage, tier 5 and 200k EU/t transfer.
 
 Solar panels use IC2R TileEntityBaseGenerator; the transformer uses its electric machine / energy
 components, native recipe codec and stream codec. Pending work and EU survive saving. Solar helmets
 inherit IC2R nano / quantum functions and allocate generated EU once per tick. Powered equipment,
 mining, relocation and armor progression remain integrated into the single mod container.
+
+Solar energy gauges use dynamic tooltip expressions evaluated against the live tile.
+The updated IC2R GUI parser resolves these expressions and localization arguments;
+the original numeric storage line is replaced with bounded packet information.
+`-PsolarTiersSmoke` checks all 48 model faces, all eight menus and their live tooltips
+in the isolated development world. Both Russian and English runs are required.
 
 The original baselines are documented in NOTICE.md. Earlier 1.1.0 split namespaces and 1.1.1 unified
 Solar GraviSuite identity are historical; current registrations all use the new identity.

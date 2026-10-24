@@ -20,6 +20,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 /** Isolated development-world rendering/menu smoke; disabled in ordinary clients. */
 @EventBusSubscriber(modid = IC2RAddons.MODID, value = Dist.CLIENT)
 public final class MachineClientSmoke {
+  private static final int MENU_TICKS = 140;
   private static int ticks;
   private static volatile java.util.List<BlockPos> positions;
   private static int menus;
@@ -121,9 +122,9 @@ public final class MachineClientSmoke {
     }
     if (ticks == 80) screenshot(mc, "advanced-machines-world");
     int step = ticks - 100;
-    if (step >= 0 && step < 8 * 45) {
-      int index = step / 45;
-      if (step % 45 == 0) {
+    if (step >= 0 && step < 8 * MENU_TICKS) {
+      int index = step / MENU_TICKS;
+      if (step % MENU_TICKS == 0) {
         mc.setScreen(null);
         var id = mc.player.getUUID();
         mc.getSingleplayerServer()
@@ -140,11 +141,28 @@ public final class MachineClientSmoke {
                     throw new IllegalStateException("Could not open machine menu " + index);
                 });
       }
-      if (step % 45 == 25) {
-        if (!(mc.screen instanceof ic2.core.gui.dynamic.DynamicGui))
+      if (step % MENU_TICKS == 24)
+        com.igoryok95.ic2raddons.solar.gametest.SolarTiersClientSmoke.moveCursor(mc, 4, 4);
+      if (step % MENU_TICKS == 25) {
+        if (!(mc.screen instanceof ic2.core.gui.dynamic.DynamicGui gui))
           throw new IllegalStateException("Machine GUI did not reach client: " + index);
+        if (gui.getTitle().getString().startsWith("container.")
+            || mc.font.width(gui.getTitle()) > gui.getXSize() - 12)
+          throw new IllegalStateException("Untranslated or oversized machine title: " + index);
+        for (var slot : gui.getMenu().slots) {
+          if (slot.x < 0
+              || slot.y < 0
+              || slot.x + 16 > gui.getXSize()
+              || slot.y + 16 > gui.getYSize())
+            throw new IllegalStateException("Slot outside machine screen: " + index);
+        }
         screenshot(mc, "advanced-machines-gui-" + index);
         var machine = (TileEntityHeatingMachine) mc.level.getBlockEntity(positions.get(index));
+        if (!machine.getWarmupText().endsWith("%")
+            || mc.font.width(machine.getWarmupText()) > 40
+            || machine.getWarmupPercent() < 0
+            || machine.getWarmupPercent() > 100)
+          throw new IllegalStateException("Invalid or oversized machine warm-up: " + index);
         if (machine.progress <= 0 || machine.progress >= machine.getMaxProgress())
           throw new IllegalStateException(
               "Expected visible partial processing progress for machine "
@@ -159,14 +177,14 @@ public final class MachineClientSmoke {
         menus++;
       }
     }
-    if (ticks == 465) {
+    if (ticks == 100 + 8 * MENU_TICKS + 5) {
       mc.setScreen(null);
       mc.player.lookAt(
           net.minecraft.commands.arguments.EntityAnchorArgument.Anchor.EYES,
           net.minecraft.world.phys.Vec3.atCenterOf(positions.getLast()));
     }
-    if (ticks == 490) screenshot(mc, "advanced-machines-jade");
-    if (ticks == 510) {
+    if (ticks == 100 + 8 * MENU_TICKS + 30) screenshot(mc, "advanced-machines-jade");
+    if (ticks == 100 + 8 * MENU_TICKS + 50) {
       if (menus != 8) throw new IllegalStateException("Incomplete machine GUI smoke");
       IC2RAddons.LOGGER.info(
           "MACHINE_SMOKE_PASS language={} menus={}", mc.options.languageCode, menus);

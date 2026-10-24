@@ -197,6 +197,17 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
     return heat;
   }
 
+  public double getWarmupPercent() {
+    return Math.clamp(heat * 100D / MAX_HEAT, 0, 100);
+  }
+
+  public String getWarmupText() {
+    String value = java.text.NumberFormat.getNumberInstance(Locale.ROOT).format(getWarmupPercent());
+    return net.minecraft.network.chat.Component.translatable(
+            "ic2r_addons.machines.gui.warmup_percent", value)
+        .getString();
+  }
+
   public int getMaxProgress() {
     return maxProgress;
   }

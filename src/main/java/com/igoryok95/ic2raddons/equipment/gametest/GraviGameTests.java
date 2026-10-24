@@ -69,8 +69,12 @@ public final class GraviGameTests {
         ((IElectricItem) advanced.getItem()).getMaxCharge(advanced) == original * 2,
         "advanced pack should double IC2R storage");
     helper.assertTrue(
-        ((IElectricItem) ultimate.getItem()).getMaxCharge(ultimate) == original * 5,
-        "ultimate pack should provide five times IC2R storage");
+        ((IElectricItem) ultimate.getItem()).getMaxCharge(ultimate) == 1_000_000_000,
+        "ultimate pack exceeds the new 500-million-EU plasma battery");
+    helper.assertTrue(
+        ((IElectricItem) ultimate.getItem()).getTransferLimit(ultimate) == 250_000
+            && ((IElectricItem) ultimate.getItem()).getTier(ultimate) == 5,
+        "late pack has the plasma battery transfer rate and tier");
     helper.succeed();
   }
 
@@ -78,8 +82,8 @@ public final class GraviGameTests {
   public static void mfsuChargesAddonArmor(GameTestHelper helper) {
     helper.setBlock(new BlockPos(1, 1, 1), Ic2Blocks.MFSU);
     TileEntityElectricBlock storage = helper.getBlockEntity(new BlockPos(1, 1, 1));
-    ItemStack pack = new ItemStack(GraviItems.ULTIMATE_LAPPACK.get());
-    helper.assertTrue(storage.chargeSlot.accepts(pack), "MFSU must accept the ultimate pack");
+    ItemStack pack = new ItemStack(GraviItems.ADVANCED_LAPPACK.get());
+    helper.assertTrue(storage.chargeSlot.accepts(pack), "MFSU must accept the advanced pack");
     storage.chargeSlot.put(pack);
     storage.energy.addEnergy(100_000);
     helper.succeedWhen(
@@ -87,6 +91,24 @@ public final class GraviGameTests {
             helper.assertTrue(
                 ElectricItem.manager.getCharge(pack) > 0,
                 "MFSU must actually charge the addon pack"));
+  }
+
+  @GameTest(template = EMPTY)
+  public static void ultimatePackRequiresAndUsesLateGameStorage(GameTestHelper helper) {
+    helper.setBlock(new BlockPos(1, 1, 1), Ic2Blocks.MFSU);
+    TileEntityElectricBlock early = helper.getBlockEntity(new BlockPos(1, 1, 1));
+    ItemStack pack = new ItemStack(GraviItems.ULTIMATE_LAPPACK.get());
+    helper.assertTrue(!early.chargeSlot.accepts(pack), "tier 4 cannot charge a tier 5 pack");
+    helper.setBlock(new BlockPos(1, 1, 1), ic2.core.classic.ClassicEnergy.ISU);
+    TileEntityElectricBlock late = helper.getBlockEntity(new BlockPos(1, 1, 1));
+    helper.assertTrue(late.chargeSlot.accepts(pack), "ISU accepts the plasma-tier pack");
+    late.chargeSlot.put(pack);
+    late.energy.addEnergy(1_000_000);
+    helper.succeedWhen(
+        () ->
+            helper.assertTrue(
+                ElectricItem.manager.getCharge(pack) > 0,
+                "ISU actually charges the pack through the native energy inventory"));
   }
 
   @GameTest(template = EMPTY)

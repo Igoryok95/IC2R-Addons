@@ -1,5 +1,12 @@
 # Texture sources and reproducible processing
 
+## Restored solar panels in the 1.4.1 development branch
+
+Spectral, Singular, Light Absorbing and Photonic restore their existing artwork
+from Git revision `743591c`. Each 192x32 atlas contains six original 32x32 faces;
+no regeneration, scaling or repainting is applied. Original model UVs select each
+32-pixel face. See `docs/restored-solar-textures-1.4.1.json` for dimensions and hashes.
+
 ## 1.2.0 hybrid refresh
 
 `1.2.0-reference.png` contains the original addon silhouettes and IC2R electric-tool style references.

@@ -45,6 +45,22 @@ public final class AdvancedMachinesGameTests {
     }
   }
 
+  @GameTest(template = EMPTY)
+  public static void everyMachineConvertsRawWarmupToPercentages(GameTestHelper h) {
+    for (var entry : AdvMachinesBlocks.BLOCKS.getEntries()) {
+      var machine = machine(h, entry.get());
+      heat(machine, 0);
+      h.assertTrue(machine.getWarmupPercent() == 0, "cold machine displays zero percent");
+      heat(machine, 3750);
+      h.assertTrue(
+          machine.getWarmupPercent() == 37.5 && machine.getRawHeat() == 3750,
+          "display conversion preserves actual processing state");
+      heat(machine, 10000);
+      h.assertTrue(machine.getWarmupPercent() == 100, "full speed or heat displays 100 percent");
+    }
+    h.succeed();
+  }
+
   private static MachineRecipe<IRecipeInput, Collection<ItemStack>> first(
       GameTestHelper h,
       Recipes.IGetter<

@@ -150,7 +150,7 @@
   "tooltip.ic2r_addons.engine_conversion": "Преобразует энергию IC2R EU в BuildCraft MJ",
   "tooltip.ic2r_addons.engine_voltage": "Максимальный входящий пакет: %s EU",
   "tooltip.ic2r_addons.engine_sides": "Вход EU: сзади и по бокам. Выход MJ: со стороны поршня.",
-  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons для Minecraft 1.21.1 NeoForge: экраны Nuclear Control, датчики реактора, сигнализация и счётчики EU; восемь улучшенных машин, четыре уровня солнечных панелей и шлемов, молекулярный преобразователь, энергетическая броня и инструменты. Необязательный мост BuildCraft, диагностика Jade и рецепты JEI. Полный английский и русский перевод.",
+  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons для Minecraft 1.21.1 NeoForge: экраны Nuclear Control, датчики реактора, сигнализация и счётчики EU; восемь улучшенных машин, восемь уровней солнечных панелей и четыре солнечных шлема, молекулярный преобразователь, энергетическая броня и инструменты. Необязательный мост BuildCraft, диагностика Jade и рецепты JEI. Полный английский и русский перевод.",
   "item.ic2r_addons.quantum_solar_helmet": "Квантовый солнечный шлем",
   "block.ic2r_addons.rotary_macerator": "Роторный дробитель",
   "container.ic2r_addons.rotary_macerator": "Роторный дробитель",
@@ -489,5 +489,17 @@
   "tooltip.ic2r_addons.control.assembler_energy": "%s / %s FE",
   "ic2r_addons.configuration.title": "Настройки контроля IC2R Addons",
   "message.ic2r_addons.control.yes": "Да",
-  "message.ic2r_addons.control.no": "Нет"
+  "message.ic2r_addons.control.no": "Нет",
+  "ic2r_addons.machines.gui.warmup_percent": "%s%%",
+  "block.ic2r_addons.spectral_solar_panel": "Спектральная солнечная панель",
+  "container.ic2r_addons.spectral_solar_panel": "Спектральная солнечная панель",
+  "block.ic2r_addons.singular_solar_panel": "Сингулярная солнечная панель",
+  "container.ic2r_addons.singular_solar_panel": "Сингулярная солнечная панель",
+  "block.ic2r_addons.light_absorbing_solar_panel": "Светопоглощающая солнечная панель",
+  "container.ic2r_addons.light_absorbing_solar_panel": "Светопоглощающая панель",
+  "block.ic2r_addons.photonic_solar_panel": "Фотонная солнечная панель",
+  "container.ic2r_addons.photonic_solar_panel": "Фотонная солнечная панель",
+  "screen.ic2r_addons.solar.energy": "%s / %s EU",
+  "screen.ic2r_addons.solar.packets": "Пакет: %s EU x%s/т",
+  "tooltip.ic2r_addons.solar.packets": "%s EU на пакет, до %s пакетов/т"
 }

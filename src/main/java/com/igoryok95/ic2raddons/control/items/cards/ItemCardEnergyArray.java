@@ -46,13 +46,13 @@ public class ItemCardEnergyArray extends ItemCardMain {
             double stored = tag.getDouble(DataHelper.ENERGY);
             double capacity = tag.getDouble(DataHelper.CAPACITY);
             totalEnergy += stored;
-            reader.setInt(String.format("_%denergy", i), (int) stored);
-            reader.setInt(String.format("_%dmaxCapacity", i), (int) capacity);
+            reader.setDouble(String.format("_%denergy", i), stored);
+            reader.setDouble(String.format("_%dmaxCapacity", i), capacity);
             foundAny = true;
-          } else reader.setInt(String.format("_%denergy", i), STATUS_NOT_FOUND);
-        } else reader.setInt(String.format("_%denergy", i), STATUS_NOT_FOUND);
+          } else reader.setDouble(String.format("_%denergy", i), (double) STATUS_NOT_FOUND);
+        } else reader.setDouble(String.format("_%denergy", i), (double) STATUS_NOT_FOUND);
       } else {
-        reader.setInt(String.format("_%denergy", i), STATUS_OUT_OF_RANGE);
+        reader.setDouble(String.format("_%denergy", i), (double) STATUS_OUT_OF_RANGE);
         outOfRange = true;
       }
     }
@@ -77,8 +77,8 @@ public class ItemCardEnergyArray extends ItemCardMain {
     boolean showStorage = (settings & 16) > 0;
     boolean showPercentage = (settings & 32) > 0;
     for (int i = 0; i < reader.getCardCount(); i++) {
-      int energy = reader.getInt(String.format("_%denergy", i));
-      int storage = reader.getInt(String.format("_%dmaxCapacity", i));
+      double energy = reader.getDouble(String.format("_%denergy", i));
+      double storage = reader.getDouble(String.format("_%dmaxCapacity", i));
       boolean isOutOfRange = energy == STATUS_OUT_OF_RANGE;
       boolean isNotFound = energy == STATUS_NOT_FOUND;
       if (showSummary && !isOutOfRange && !isNotFound) {

@@ -1,0 +1,31 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "GMG",
+    "PCP",
+    "ASA"
+  ],
+  "key": {
+    "G": {
+      "item": "ic2r_addons:irradiant_glass_pane"
+    },
+    "M": {
+      "item": "ic2:glowtronic_crystal"
+    },
+    "P": {
+      "item": "ic2r_addons:quantum_solar_panel"
+    },
+    "C": {
+      "item": "ic2:complex_circuit"
+    },
+    "A": {
+      "item": "ic2r_addons:enriched_sunnarium_alloy"
+    },
+    "S": {
+      "item": "ic2:stabilized_machine_block"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:spectral_solar_panel"
+  }
+}

@@ -43,6 +43,10 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('solarTiersSmoke').isPresent()) {
+    systemProperty 'ic2r_addons.solarTiersSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke'
+   }
    if (providers.gradleProperty('clientSmoke').isPresent() || providers.gradleProperty('machinesSmoke').isPresent() || providers.gradleProperty('controlSmoke').isPresent()) {
     systemProperty providers.gradleProperty('controlSmoke').isPresent() ? 'ic2r_addons.controlSmoke' : providers.gradleProperty('machinesSmoke').isPresent() ? 'ic2r_addons.machinesSmoke' : 'ic2r_addons.clientSmoke', 'true'
     systemProperty 'ic2r_addons.controlTickStride', providers.gradleProperty('controlQuick').isPresent() ? '1' : '5'

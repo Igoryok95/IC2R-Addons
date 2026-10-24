@@ -1,0 +1,25 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "PIP",
+    "CQC",
+    "PIP"
+  ],
+  "key": {
+    "P": {
+      "item": "ic2r_addons:spectral_solar_panel"
+    },
+    "I": {
+      "item": "ic2:iridium"
+    },
+    "C": {
+      "item": "ic2:complex_circuit"
+    },
+    "Q": {
+      "item": "ic2:uesc"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:singular_solar_panel"
+  }
+}

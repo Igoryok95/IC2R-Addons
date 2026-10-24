@@ -1,3 +1,14 @@
+# In development: IC2R 21.1.70 compatibility
+
+This branch is not a published release. The complete IC2R restoration still blocks
+installation. See [the development checklist](docs/classic-compatibility-1.4.1.md).
+
+- Restore Spectral, Singular, Light Absorbing and Photonic solar panels with original
+  32x32 faces and distinct recipes using the new IC2R progression.
+- Retain generation while limiting the two highest tiers to safe 32,768-EU packets.
+- Preserve large Nuclear Control energy / tank readings, adapt Ultimate Lappack
+  capacity and recipes, and show every Advanced Machine's warm-up as 0–100%.
+
 # IC2R Addons 1.4.0
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.68+ / Java 21.

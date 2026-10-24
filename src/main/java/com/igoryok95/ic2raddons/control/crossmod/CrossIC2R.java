@@ -71,8 +71,8 @@ public final class CrossIC2R extends CrossModBase {
         data.putDouble("voltage", stats.getVoltage());
       }
     } else if (tile instanceof IEnergyStorage storage) {
-      data.putDouble(DataHelper.ENERGY, storage.getStored());
-      data.putDouble(DataHelper.CAPACITY, storage.getCapacity());
+      data.putDouble(DataHelper.ENERGY, storage.getStoredLong());
+      data.putDouble(DataHelper.CAPACITY, storage.getCapacityLong());
       data.putDouble(DataHelper.OUTPUT, storage.getOutputEnergyUnitsPerTick());
     } else return null;
     data.putString(DataHelper.EUTYPE, "EU");

@@ -25,7 +25,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 public class GraviArmor extends ItemArmorElectric implements IBoostingJetpack, IHazmatLike {
   public enum Kind {
     ADVANCED_LAPPACK("advanced_lappack", 40_000_000, 12_000, 4, 0),
-    ULTIMATE_LAPPACK("ultimate_lappack", 100_000_000, 50_000, 4, 0),
+    ULTIMATE_LAPPACK("ultimate_lappack", 1_000_000_000, 250_000, 5, 0),
     JETPACK("advanced_jetpack", 4_000_000, 5_000, 3, 0),
     NANO("advanced_nano", 8_000_000, 5_000, 3, 0.9),
     GRAVI("advanced_quant", 100_000_000, 50_000, 4, 1.2);

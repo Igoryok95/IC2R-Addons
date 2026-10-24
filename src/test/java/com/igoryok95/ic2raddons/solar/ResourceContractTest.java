@@ -121,20 +121,35 @@ class ResourceContractTest {
   }
 
   @Test
-  void retiredPanelsHaveNoRecipesOrAssets() throws Exception {
+  void restoredPanelsHaveOriginalThirtyTwoPixelFacesAndDistinctRecipes() throws Exception {
+    var materialSets = new HashSet<Set<String>>();
+    var en = read(RES.resolve("assets/ic2r_addons/lang/en_us.json"));
     for (String name : List.of("spectral", "singular", "light_absorbing", "photonic")) {
-      assertFalse(
-          Files.exists(
-              RES.resolve("data/ic2r_addons/recipe/shaped/" + name + "_solar_panel.json")));
-      assertFalse(
+      var image =
+          javax.imageio.ImageIO.read(
+              RES.resolve("assets/ic2r_addons/textures/block/" + name + "_solar_top.png").toFile());
+      assertEquals(32, image.getHeight());
+      assertEquals(6 * 32, image.getWidth(), "six original 32x32 faces in the atlas");
+      assertTrue(
           Files.exists(
               RES.resolve("assets/ic2r_addons/models/block/" + name + "_solar_panel.json")));
-      assertFalse(
+      assertTrue(
           Files.exists(
               RES.resolve("assets/ic2r_addons/blockstates/" + name + "_solar_panel.json")));
-      assertFalse(
-          read(RES.resolve("assets/ic2r_addons/lang/en_us.json"))
-              .has("block.ic2r_addons." + name + "_solar_panel"));
+      assertTrue(en.has("block.ic2r_addons." + name + "_solar_panel"));
+      var recipe =
+          read(RES.resolve("data/ic2r_addons/recipe/shaped/" + name + "_solar_panel.json"));
+      Set<String> materials = new HashSet<>();
+      for (var entry : recipe.getAsJsonObject("key").entrySet()) {
+        String item = entry.getValue().getAsJsonObject().get("item").getAsString();
+        if (!item.endsWith("_solar_panel")) materials.add(item);
+      }
+      assertTrue(
+          materials.stream().anyMatch(item -> item.startsWith("ic2:")),
+          "new IC2R progression participates");
+      assertTrue(
+          materialSets.add(materials),
+          "changing only the previous panel must not reproduce another tier");
     }
   }
 

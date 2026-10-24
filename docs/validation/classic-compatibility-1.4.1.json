@@ -1,0 +1,45 @@
+{
+  "status": "development-compatibility-not-released",
+  "validated_at": "2026-10-25T00:42:44+03:00",
+  "branch": "classic-compatibility-1.4.1",
+  "artifact": {
+    "name": "ic2r-addons-neoforge-1.21.1-1.4.1.jar",
+    "bytes": 1721036,
+    "sha256": "f933ee84e39cd8ad7f066e1b9f040d7c140ca4e174d7ade799c1a134b1800b8f"
+  },
+  "ic2r_artifact": {
+    "name": "ic2-neoforge-21.1.70.jar",
+    "bytes": 8768121,
+    "sha256": "a34ae86358704f8b7c24245e97c900b2a766bb7e657191806dcb57306d1124d9"
+  },
+  "build": "passed",
+  "junit_tests": 17,
+  "required_gametests_without_buildcraft_or_jade": 85,
+  "required_gametests_with_buildcraft_and_jade": 93,
+  "client_checks": {
+    "solar": {
+      "languages": [
+        "ru_ru",
+        "en_us"
+      ],
+      "menus_per_language": 8,
+      "faces": 48,
+      "face_resolution": [
+        32,
+        32
+      ],
+      "live_gauge_tooltips_and_text_bounds": "passed"
+    },
+    "advanced_machines": {
+      "languages": [
+        "ru_ru"
+      ],
+      "menus": 8,
+      "active_and_inactive_model_faces": 96,
+      "warmup_percentages_and_partial_progress": "passed"
+    }
+  },
+  "recipe_and_texture_notes": "docs/classic-compatibility-1.4.1.md",
+  "installed": false,
+  "published": false
+}

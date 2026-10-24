@@ -31,7 +31,14 @@ public class ItemSolarPanel extends BlockItem {
         Component.translatable("ic2r_addons.tooltip.generation.night", this.type.nightPower)
             .withStyle(ChatFormatting.GRAY));
     tooltip.add(
-        Component.translatable("ic2.item.tooltip.Output", this.type.getMaxOutput())
+        Component.translatable(
+                "ic2.item.tooltip.Output", this.type.getMaxOutput() * this.type.getPacketCount())
+            .withStyle(ChatFormatting.GRAY));
+    tooltip.add(
+        Component.translatable(
+                "tooltip.ic2r_addons.solar.packets",
+                this.type.getMaxOutput(),
+                this.type.getPacketCount())
             .withStyle(ChatFormatting.GRAY));
     tooltip.add(
         Component.translatable("ic2.item.tooltip.Capacity", this.type.maxStorage)

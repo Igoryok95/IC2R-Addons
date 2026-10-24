@@ -1,0 +1,50 @@
+{
+  "src/main/resources/assets/ic2r_addons/textures/block/light_absorbing_solar_top.png": {
+    "source_commit": "743591c",
+    "sha256": "7a658a540de451f19ac93216b5ef3e939f6334a51c72b8c05934ac162ddabf45",
+    "atlas_size": [
+      192,
+      32
+    ],
+    "face_size": [
+      32,
+      32
+    ]
+  },
+  "src/main/resources/assets/ic2r_addons/textures/block/photonic_solar_top.png": {
+    "source_commit": "743591c",
+    "sha256": "d3d3d4d17e971c0dbe3778920bcb9967091b10497b992ccea0bb1f6fd0fe90e8",
+    "atlas_size": [
+      192,
+      32
+    ],
+    "face_size": [
+      32,
+      32
+    ]
+  },
+  "src/main/resources/assets/ic2r_addons/textures/block/singular_solar_top.png": {
+    "source_commit": "743591c",
+    "sha256": "69f4a96af80678ff909e501530c55f837926f90bbe94846e04ed74ddb1b17082",
+    "atlas_size": [
+      192,
+      32
+    ],
+    "face_size": [
+      32,
+      32
+    ]
+  },
+  "src/main/resources/assets/ic2r_addons/textures/block/spectral_solar_top.png": {
+    "source_commit": "743591c",
+    "sha256": "ae27d16403169a09028e466ec7660f25313e74b70ff0dc8db779e73b773f0812",
+    "atlas_size": [
+      192,
+      32
+    ],
+    "face_size": [
+      32,
+      32
+    ]
+  }
+}

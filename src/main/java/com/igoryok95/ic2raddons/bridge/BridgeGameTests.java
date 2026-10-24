@@ -17,53 +17,44 @@ public final class BridgeGameTests {
   }
 
   @GameTest(template = EMPTY)
-  public static void retiredSolarTiersMigrateToQuantumWithBoundedStorage(GameTestHelper h) {
+  public static void restoredSolarTiersRetainTheirIdentityAndLegacyData(GameTestHelper h) {
     var pos = new net.minecraft.core.BlockPos(1, 1, 1);
-    h.setBlock(pos, AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get());
-    com.igoryok95.ic2raddons.solar.te.TileEntitySolarPanel panel = h.getBlockEntity(pos);
-    panel.chargeSlot.put(new net.minecraft.world.item.ItemStack(ic2.core.ref.Ic2Items.RE_BATTERY));
-    panel.getComponent(ic2.core.block.comp.Energy.class).forceAddEnergy(100_000_000);
     for (String tier : java.util.List.of("spectral", "singular", "light_absorbing", "photonic")) {
+      var current = IC2RAddons.id(tier + "_solar_panel");
+      var block = BuiltInRegistries.BLOCK.get(current);
+      h.setBlock(pos, block);
+      com.igoryok95.ic2raddons.solar.te.TileEntitySolarPanel panel = h.getBlockEntity(pos);
+      panel.chargeSlot.put(
+          new net.minecraft.world.item.ItemStack(ic2.core.ref.Ic2Items.RE_BATTERY));
+      panel.getComponent(ic2.core.block.comp.Energy.class).forceAddEnergy(50_000_000);
       for (String namespace : java.util.List.of(IC2RAddons.MODID, "solar_gravisuite")) {
-        var old = ResourceLocation.fromNamespaceAndPath(namespace, tier + "_solar_panel");
-        h.assertTrue(
-            !BuiltInRegistries.BLOCK.keySet().contains(old), "retired blocks are aliases only");
-        h.assertTrue(
-            BuiltInRegistries.BLOCK.get(old) == AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get(),
-            "placed panel migration");
-        h.assertTrue(
-            BuiltInRegistries.ITEM.get(old) == AdvSolarBlocks.ITEM_QUANTUM_SOLAR_PANEL.get(),
-            "inventory panel migration");
+        var id = ResourceLocation.fromNamespaceAndPath(namespace, current.getPath());
+        h.assertTrue(BuiltInRegistries.BLOCK.get(id) == block, "restored block keeps its tier");
         var stackTag = new net.minecraft.nbt.CompoundTag();
-        stackTag.putString("id", old.toString());
+        stackTag.putString("id", id.toString());
         stackTag.putInt("count", 3);
         var stack =
             net.minecraft.world.item.ItemStack.parseOptional(
                 h.getLevel().registryAccess(), stackTag);
         h.assertTrue(
-            stack.is(AdvSolarBlocks.ITEM_QUANTUM_SOLAR_PANEL.get()) && stack.getCount() == 3,
-            "serialized item stacks keep their count");
+            stack.is(block.asItem()) && stack.getCount() == 3, "inventory tier and count survive");
         var saved = panel.saveWithFullMetadata(h.getLevel().registryAccess());
-        saved.putString("id", old.toString());
-        var restored =
-            net.minecraft.world.level.block.entity.BlockEntity.loadStatic(
-                panel.getBlockPos(), panel.getBlockState(), saved, h.getLevel().registryAccess());
+        saved.putString("id", id.toString());
+        var copy =
+            (com.igoryok95.ic2raddons.solar.te.TileEntitySolarPanel)
+                net.minecraft.world.level.block.entity.BlockEntity.loadStatic(
+                    panel.getBlockPos(),
+                    panel.getBlockState(),
+                    saved,
+                    h.getLevel().registryAccess());
         h.assertTrue(
-            restored instanceof com.igoryok95.ic2raddons.solar.te.TileEntityQuantumSolar,
-            "retired machine loads as quantum");
-        var copy = (com.igoryok95.ic2raddons.solar.te.TileEntityQuantumSolar) restored;
+            copy != null && copy.getType() == panel.getType(),
+            "saved block entity retains its own tier");
         h.assertTrue(
-            copy.getComponent(ic2.core.block.comp.Energy.class).getEnergy() == 10_000_000,
-            "EU clamps to quantum capacity");
+            copy.getComponent(ic2.core.block.comp.Energy.class).getEnergy() == 50_000_000,
+            "saved EU survives without conversion to Quantum");
         h.assertTrue(
-            copy.chargeSlot.get().is(ic2.core.ref.Ic2Items.RE_BATTERY),
-            "charging slot survives migration");
-        h.assertTrue(
-            h.getLevel()
-                .getRecipeManager()
-                .byKey(IC2RAddons.id("shaped/" + tier + "_solar_panel"))
-                .isEmpty(),
-            "retired tiers cannot be crafted");
+            copy.chargeSlot.get().is(ic2.core.ref.Ic2Items.RE_BATTERY), "charging item survives");
       }
     }
     h.succeed();

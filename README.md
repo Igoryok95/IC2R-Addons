@@ -1,8 +1,16 @@
 # IC2R Addons
 
-Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
+Nuclear Control monitoring, all eight Advanced Machines, eight solar panel tiers, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
 ## Requirements and installation
+
+The `classic-compatibility-1.4.1` development branch targets the unfinished IC2R
+21.1.70 restoration. Its compatibility changes and pending checks are documented in
+[the development checklist](docs/classic-compatibility-1.4.1.md). The 1.4.0 installation
+instructions and equipment values below describe the currently installed release.
+This branch restores Spectral through Photonic panels with distinct recipes using
+the new IC2R materials, unchanged 32x32 faces and safe multi-packet EU output.
+See [the development progression and recipe tables](docs/classic-compatibility-1.4.1.md#restored-solar-progression).
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
 - IC2R **21.1.68+ within 21.x**, installed separately.
@@ -15,7 +23,7 @@ The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2
 
 ### Upgrading from 1.1.1 or 1.2.0
 
-Version 1.2.1 removes Spectral, Singular, Light Absorbing and Photonic panels from crafting and creative / JEI lists. Existing blocks and item stacks of these tiers resolve to Quantum panels, including the older `solar_gravisuite` namespace. Stored charging-slot items survive; buffered EU is capped at Quantum's **10,000,000 EU** capacity, so excess stored EU is discarded.
+Versions 1.2.1 through 1.4.0 removed Spectral, Singular, Light Absorbing and Photonic panels and resolved their saved IDs to Quantum. The 1.4.1 development branch restores their own registrations and legacy namespace aliases. Already converted Quantum panels remain Quantum because their earlier tier was not retained. Directly loading an older extended-tier panel preserves its original tier, charging-slot item and EU within that tier's capacity.
 
 Registry aliases resolve `solar_gravisuite:*` content to its new `ic2r_addons:*` identity. Existing equipment settings / teleport destinations are read from the previous custom-data compound and migrate on modification. Existing solar and equipment configuration files are copied to their new names only if the new files do not exist. Keep a world backup before upgrading a modded installation.
 
@@ -148,7 +156,7 @@ Ultimate solar helmets retain their classic designs; the Quantum helmet uses the
 with a brighter blue crown and lighter shell. Leggings and boots match the existing chestplates.
 Artwork sources and attribution are documented in `tools/textures` and [NOTICE.md](NOTICE.md).
 
-## Solar progression
+## Solar progression in the installed 1.4.0 release
 
 | Panel | Day EU/t | Night / rain EU/t | Storage EU | Output tier |
 | --- | ---: | ---: | ---: | ---: |

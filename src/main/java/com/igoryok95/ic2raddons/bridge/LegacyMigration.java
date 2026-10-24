@@ -14,15 +14,6 @@ public final class LegacyMigration {
         registry.addAlias(
             ResourceLocation.fromNamespaceAndPath("solar_gravisuite", id.getPath()), id);
     }
-    var quantum = IC2RAddons.id("quantum_solar_panel");
-    if (registry.containsKey(quantum)) {
-      for (String tier : java.util.List.of("spectral", "singular", "light_absorbing", "photonic")) {
-        for (String namespace : java.util.List.of(IC2RAddons.MODID, "solar_gravisuite")) {
-          registry.addAlias(
-              ResourceLocation.fromNamespaceAndPath(namespace, tier + "_solar_panel"), quantum);
-        }
-      }
-    }
   }
 
   public static void configs() {

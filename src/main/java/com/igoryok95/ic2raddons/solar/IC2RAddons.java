@@ -7,9 +7,9 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 
 /**
- * Advanced Solar Panels — advanced/hybrid/ultimate/quantum solar panels, the molecular transformer,
- * the quantum generator and chargeable solar helmets. Ported from the classic 1.12.2 IC2 addon to
- * Minecraft 1.21.1 / IC2R.
+ * Advanced Solar Panels — eight tiers of solar panels, the molecular transformer, the quantum
+ * generator and chargeable solar helmets. Ported from the classic 1.12.2 IC2 addon to Minecraft
+ * 1.21.1 / IC2R.
  */
 @Mod(IC2RAddons.MODID)
 public final class IC2RAddons {

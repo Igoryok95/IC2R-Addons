@@ -26,6 +26,169 @@ public final class SolarGameTests {
   private static final String EMPTY = "gametest/empty3x3x3";
 
   @GameTest(template = EMPTY)
+  public static void restoredPanelRecipesCraftWithTheRequiredPreviousTier(GameTestHelper h) {
+    int[] previousCount = {2, 4, 4, 4};
+    String[] names = {"spectral", "singular", "light_absorbing", "photonic"};
+    for (int i = 0; i < names.length; i++) {
+      var recipe =
+          (CraftingRecipe)
+              h.getLevel()
+                  .getRecipeManager()
+                  .byKey(IC2RAddons.id("shaped/" + names[i] + "_solar_panel"))
+                  .orElseThrow()
+                  .value();
+      var stacks =
+          recipe.getIngredients().stream()
+              .map(
+                  ingredient ->
+                      ingredient.isEmpty() ? ItemStack.EMPTY : ingredient.getItems()[0].copy())
+              .toList();
+      var input = CraftingInput.of(3, 3, stacks);
+      h.assertTrue(recipe.matches(input, h.getLevel()), "late-panel recipe can be crafted");
+      var result = recipe.assemble(input, h.getLevel().registryAccess());
+      h.assertTrue(
+          result.is(BuiltInRegistries.ITEM.get(IC2RAddons.id(names[i] + "_solar_panel"))),
+          "correct late-panel output");
+      long consumed =
+          stacks.stream()
+              .filter(
+                  stack ->
+                      stack.getItem() instanceof com.igoryok95.ic2raddons.solar.item.ItemSolarPanel)
+              .count();
+      h.assertTrue(
+          consumed == previousCount[i], "recipe consumes the actual preceding generation capacity");
+    }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
+  public static void latePanelsKeepGenerationWithinSixthTierPackets(GameTestHelper h) {
+    for (var type : SolarPanelType.values()) {
+      var pos = new BlockPos(1, 1, 1);
+      h.setBlock(
+          pos,
+          BuiltInRegistries.BLOCK.get(
+              IC2RAddons.id(type.name().toLowerCase(Locale.ROOT) + "_solar_panel")));
+      TileEntitySolarPanel panel = h.getBlockEntity(pos);
+      var energy = panel.getComponent(Energy.class);
+      h.assertTrue(energy.getSourceTier() <= 6, "all panels support the modern IC2R voltage range");
+      h.assertTrue(
+          energy.getPacketOutput() == type.getPacketCount(),
+          "configured packet count matches the tooltip");
+      h.assertTrue(
+          type.getMaxOutput() * type.getPacketCount() >= type.dayPower,
+          "default generation can leave the panel buffer");
+    }
+    h.assertTrue(
+        SolarPanelType.LIGHT_ABSORBING.getPacketCount() == 4
+            && SolarPanelType.PHOTONIC.getPacketCount() == 16,
+        "approved multi-packet adaptation retains original late-tier power");
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY, timeoutTicks = 120)
+  public static void photonicFeedsPesuThroughPlasmaWithoutOvervoltage(GameTestHelper h) {
+    var wire = new BlockPos(1, 1, 1);
+    h.setBlock(wire.above(), AdvSolarBlocks.PHOTONIC_SOLAR_PANEL.get());
+    h.setBlock(wire.above(2), Blocks.STONE);
+    h.setBlock(wire, ic2.core.classic.ClassicWiring.PLASMA);
+    h.setBlock(wire.below(), ic2.core.classic.ClassicEnergy.PESU);
+    TileEntitySolarPanel source = h.getBlockEntity(wire.above());
+    ic2.core.classic.ClassicEnergy.Storage sink = h.getBlockEntity(wire.below());
+    source.getComponent(Energy.class).addEnergy(10_000_000);
+    h.succeedWhen(
+        () -> {
+          h.assertTrue(
+              sink.energy.getEnergy() > 500_000,
+              "multiple safe packets reach PESU through one cable");
+          h.assertBlockPresent(ic2.core.classic.ClassicWiring.PLASMA, wire);
+          h.assertBlockPresent(ic2.core.classic.ClassicEnergy.PESU, wire.below());
+          h.assertTrue(
+              source.getComponent(Energy.class).getEnergy() + sink.energy.getEnergy() <= 10_000_000,
+              "multi-packet transfer does not create energy");
+        });
+  }
+
+  @GameTest(template = EMPTY, timeoutTicks = 120)
+  public static void quantumFeedsEsuThroughTheNativeEvTransformer(GameTestHelper h) {
+    var middle = new BlockPos(1, 1, 1);
+    h.setBlock(middle.above(), AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get());
+    h.setBlock(middle.above(2), Blocks.STONE);
+    h.setBlock(
+        middle,
+        Ic2Blocks.EV_TRANSFORMER
+            .defaultBlockState()
+            .setValue(
+                ic2.core.block.tileentity.Ic2TileEntityBlock.anyFacingProperty, Direction.UP));
+    h.setBlock(middle.below(), ic2.core.classic.ClassicEnergy.ESU);
+    TileEntitySolarPanel source = h.getBlockEntity(middle.above());
+    source.getComponent(Energy.class).addEnergy(100_000);
+    ic2.core.classic.ClassicEnergy.Storage sink = h.getBlockEntity(middle.below());
+    h.succeedWhen(
+        () -> {
+          h.assertTrue(
+              sink.energy.getEnergy() >= 2048,
+              "Quantum safely charges ESU through native step-down");
+          h.assertBlockPresent(ic2.core.classic.ClassicEnergy.ESU, middle.below());
+        });
+  }
+
+  @GameTest(template = EMPTY, timeoutTicks = 120)
+  public static void quantumFeedsIsuThroughTheClassicIvTransformer(GameTestHelper h) {
+    var middle = new BlockPos(1, 1, 1);
+    h.setBlock(middle.above(), AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get());
+    h.setBlock(middle.above(2), Blocks.STONE);
+    h.setBlock(
+        middle,
+        ic2.core.classic.ClassicWiring.IV_TRANSFORMER
+            .defaultBlockState()
+            .setValue(
+                ic2.core.block.tileentity.Ic2TileEntityBlock.anyFacingProperty, Direction.UP));
+    h.setBlock(middle.below(), ic2.core.classic.ClassicEnergy.ISU);
+    TileEntitySolarPanel source = h.getBlockEntity(middle.above());
+    source.getComponent(Energy.class).addEnergy(100_000);
+    ic2.core.classic.ClassicEnergy.Storage sink = h.getBlockEntity(middle.below());
+    h.succeedWhen(
+        () -> {
+          h.assertTrue(
+              sink.energy.getEnergy() >= 8192,
+              "Quantum safely charges ISU through the new transformer");
+          h.assertBlockPresent(ic2.core.classic.ClassicEnergy.ISU, middle.below());
+        });
+  }
+
+  @GameTest(template = EMPTY, timeoutTicks = 120)
+  public static void quantumChargesLargePesuThroughPlasmaAndPreservesTheSavedReading(
+      GameTestHelper h) {
+    var wire = new BlockPos(1, 1, 1);
+    h.setBlock(wire.above(), AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get());
+    h.setBlock(wire.above(2), Blocks.STONE);
+    h.setBlock(wire, ic2.core.classic.ClassicWiring.PLASMA);
+    h.setBlock(wire.below(), ic2.core.classic.ClassicEnergy.PESU);
+    TileEntitySolarPanel source = h.getBlockEntity(wire.above());
+    source.getComponent(Energy.class).addEnergy(100_000);
+    ic2.core.classic.ClassicEnergy.Storage sink = h.getBlockEntity(wire.below());
+    sink.energy.addEnergy(2_999_999_999D);
+    h.succeedWhen(
+        () -> {
+          h.assertTrue(
+              sink.getStoredLong() > 3_000_000_000L, "Quantum charges PESU above integer range");
+          var saved = sink.saveWithFullMetadata(h.getLevel().registryAccess());
+          var restored =
+              (ic2.core.classic.ClassicEnergy.Storage)
+                  net.minecraft.world.level.block.entity.BlockEntity.loadStatic(
+                      sink.getBlockPos(),
+                      sink.getBlockState(),
+                      saved,
+                      h.getLevel().registryAccess());
+          h.assertTrue(
+              restored != null && restored.getStoredLong() == sink.getStoredLong(),
+              "large network reading survives saving");
+          h.assertBlockPresent(ic2.core.classic.ClassicWiring.PLASMA, wire);
+        });
+  }
+
+  @GameTest(template = EMPTY)
   public static void transformerDoesNotOccludeFloorOrLight(GameTestHelper h) {
     h.setBlock(new BlockPos(1, 1, 1), AdvSolarBlocks.MOLECULAR_TRANSFORMER.get());
     h.assertTrue(
@@ -40,8 +203,8 @@ public final class SolarGameTests {
   }
 
   @GameTest(template = EMPTY)
-  public static void fourPanelProfilesGenerateExactEu(GameTestHelper h) {
-    h.assertTrue(SolarPanelType.values().length == 4, "only four classic solar tiers remain");
+  public static void eightPanelProfilesGenerateExactEu(GameTestHelper h) {
+    h.assertTrue(SolarPanelType.values().length == 8, "all eight solar tiers are registered");
     h.getLevel().setDayTime(6000);
     h.getLevel().updateSkyBrightness();
     h.getLevel().setWeatherParameters(10000, 0, false, false);
@@ -65,14 +228,24 @@ public final class SolarGameTests {
   public static void nightAndRoofGeneration(GameTestHelper h) {
     h.getLevel().setDayTime(18000);
     h.getLevel().updateSkyBrightness();
-    h.setBlock(new BlockPos(1, 1, 1), AdvSolarBlocks.ADVANCED_SOLAR_PANEL.get());
-    TileEntitySolarPanel te = h.getBlockEntity(new BlockPos(1, 1, 1));
-    te.gainEnergy();
-    h.assertTrue(te.getComponent(Energy.class).getEnergy() == 1, "night output is 1 EU/t");
-    h.setBlock(new BlockPos(1, 2, 1), Blocks.STONE);
-    te.gainEnergy();
-    h.assertTrue(
-        te.getComponent(Energy.class).getEnergy() == 1, "a roof must stop generation immediately");
+    for (var profile : SolarPanelType.values()) {
+      var pos = new BlockPos(1, 1, 1);
+      h.setBlock(pos.above(), Blocks.AIR);
+      h.setBlock(
+          pos,
+          BuiltInRegistries.BLOCK.get(
+              IC2RAddons.id(profile.name().toLowerCase(Locale.ROOT) + "_solar_panel")));
+      TileEntitySolarPanel panel = h.getBlockEntity(pos);
+      panel.gainEnergy();
+      h.assertTrue(
+          panel.getComponent(Energy.class).getEnergy() == profile.nightPower,
+          "rated night output: " + profile);
+      h.setBlock(pos.above(), Blocks.STONE);
+      panel.gainEnergy();
+      h.assertTrue(
+          panel.getComponent(Energy.class).getEnergy() == profile.nightPower,
+          "roof stops generation: " + profile);
+    }
     h.succeed();
   }
 

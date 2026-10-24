@@ -4,12 +4,7 @@ package com.igoryok95.ic2raddons.control.utils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 
 public class StringUtils {
   private static DecimalFormat formatter;
@@ -39,12 +34,6 @@ public class StringUtils {
   }
 
   public static String getItemName(ItemStack stack) {
-    List<Component> list =
-        stack.getTooltipLines(
-            Item.TooltipContext.of(Minecraft.getInstance().level),
-            Minecraft.getInstance().player,
-            TooltipFlag.Default.NORMAL);
-    if (list.size() == 0) return stack.getItem().getDescriptionId();
-    return list.get(0).getString(); // .getFormattedText();
+    return stack.getHoverName().getString();
   }
 }

@@ -31,7 +31,10 @@ the existing rights statement below applies to these adapted materials as well.
   and modernized resource paths were adapted to NeoForge 1.21.1 and IC2R.
 - Extended solar tier values and top textures: https://github.com/VintageModsReforged/AdvancedSolarPanelsReforged
   (revision `29067c116d51b0b8853d5b8b2da90b7b78423e05`). The four extended tiers and their
-  recipes were adapted in earlier versions and are removed in 1.2.1.
+  recipes were adapted in earlier versions and removed in 1.2.1. The 1.4.1 development
+  branch restores the original extended-tier atlases unchanged from this fork's
+  `743591c` revision (six 32x32 faces per atlas). IC2R progression recipes and the
+  approved safe multi-packet adaptation are maintained by Igoryok95.
 - Minecraft 1.21.1 Molecular Transformer renderer adaptation:
   https://github.com/EugeneHeisst/advanced-solar-panels-port
   (revision `146d35feae50859e812f2c0409731cc89ede2093`). Only the renderer was used;

@@ -1,0 +1,25 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "PCP",
+    "EQE",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "item": "ic2r_addons:light_absorbing_solar_panel"
+    },
+    "C": {
+      "item": "ic2:colossal_base_block"
+    },
+    "E": {
+      "item": "ic2:pesu"
+    },
+    "Q": {
+      "item": "ic2r_addons:quantum_core"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:photonic_solar_panel"
+  }
+}
