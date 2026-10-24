@@ -1,7 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "ic2r_addons:item/hybridsolarhelmet",
-    "layer1": "ic2r_addons:item/hybridsolarhelmetoverlay"
+    "layer0": "ic2r_addons:item/hybridsolarhelmet"
   }
 }

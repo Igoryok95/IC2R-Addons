@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Base for the eight Advanced Solar Panels. A solar panel is an IC2 energy source that fills an
+ * Base for the four Advanced Solar Panels. A solar panel is an IC2 energy source that fills an
  * internal buffer from sunlight: full {@code dayPower} EU/t in daylight, reduced {@code nightPower}
  * at night or in the rain, and emits at the configured tier. Rebuilt on top of IC2: Refactored's
  * {@link TileEntityBaseGenerator} for 1.21.1.
@@ -64,6 +64,15 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
     this.nightPower = nightPower;
     this.maxStorage = maxStorage;
     this.tier = tier;
+  }
+
+  @Override
+  protected void loadAdditional(
+      net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+    super.loadAdditional(tag, registries);
+    // Retired panel IDs resolve to Quantum; their larger buffers must obey its capacity.
+    double stored = energy.getEnergy();
+    if (stored > maxStorage) energy.forceAddEnergy(maxStorage - stored);
   }
 
   @Override

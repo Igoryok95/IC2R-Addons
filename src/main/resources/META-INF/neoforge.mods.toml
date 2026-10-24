@@ -7,7 +7,7 @@ modId="ic2r_addons"
 version="${version}"
 displayName="IC2R Addons"
 authors="Icedfire, SeNtiMeL, Chocohead; craftorio; VintageModsReforged; NeoForge IC2R adaptation: Igoryok95"
-description="IC2R Addons for Minecraft 1.21.1 NeoForge: advanced solar power, solar helmets, a Molecular Transformer, powered armor and electric tools, with an optional BuildCraft EU-to-MJ engine, compatible wrenches and Jade diagnostics."
+description="IC2R Addons for Minecraft 1.21.1 NeoForge: four classic solar panel tiers up to Quantum, four solar helmets including the Quantum Solar Helmet, a Molecular Transformer, powered armor, flight and electric tools. Optional BuildCraft integration adds compatible wrenches and a native EU-to-MJ electric engine; Jade shows live energy diagnostics."
 displayURL="https://github.com/Igoryok95/IC2R-Addons"
 [[dependencies.ic2r_addons]]
 modId="solar_gravisuite"

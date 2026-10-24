@@ -41,15 +41,7 @@
   "ic2r_addons.tooltip.generation.day": "Day: %s EU/t",
   "ic2r_addons.tooltip.generation.night": "Night/rain: %s EU/t",
   "itemGroup.ic2r_addons.technology": "IC2R Addons: Solar Technology",
-  "block.ic2r_addons.spectral_solar_panel": "Spectral Solar Panel",
-  "container.ic2r_addons.spectral_solar_panel": "Spectral Solar Panel",
   "pack.ic2r_addons.description": "IC2R Addons for Minecraft 1.21.1 + IC2R",
-  "block.ic2r_addons.singular_solar_panel": "Singular Solar Panel",
-  "container.ic2r_addons.singular_solar_panel": "Singular Solar Panel",
-  "block.ic2r_addons.light_absorbing_solar_panel": "Light Absorbing Solar Panel",
-  "container.ic2r_addons.light_absorbing_solar_panel": "Light Absorbing Solar Panel",
-  "block.ic2r_addons.photonic_solar_panel": "Photonic Solar Panel",
-  "container.ic2r_addons.photonic_solar_panel": "Photonic Solar Panel",
   "config.ic2r_addons.generation_multiplier": "Solar generation multiplier",
   "config.ic2r_addons.armor_only": "Helmets charge armor only",
   "config.ic2r_addons.active_core": "Draw active transformer core",
@@ -158,5 +150,6 @@
   "tooltip.ic2r_addons.engine_conversion": "Converts native IC2R EU to BuildCraft MJ",
   "tooltip.ic2r_addons.engine_voltage": "Maximum input packet: %s EU",
   "tooltip.ic2r_addons.engine_sides": "EU input: sides and rear. MJ output: piston face.",
-  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons for Minecraft 1.21.1 NeoForge: advanced solar panels and helmets, a Molecular Transformer, powered armor, flight and electric tools. Optional BuildCraft integration adds compatible wrenches and a native EU-to-MJ electric engine; Jade shows live energy diagnostics."
+  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons for Minecraft 1.21.1 NeoForge: four classic solar panel tiers up to Quantum, four solar helmets including the Quantum Solar Helmet, a Molecular Transformer, powered armor, flight and electric tools. Optional BuildCraft integration adds compatible wrenches and a native EU-to-MJ electric engine; Jade shows live energy diagnostics.",
+  "item.ic2r_addons.quantum_solar_helmet": "Quantum Solar Helmet"
 }

@@ -41,15 +41,7 @@
   "ic2r_addons.tooltip.generation.day": "День: %s EU/t",
   "ic2r_addons.tooltip.generation.night": "Ночь/дождь: %s EU/t",
   "itemGroup.ic2r_addons.technology": "IC2R Addons: Солнечные технологии",
-  "block.ic2r_addons.spectral_solar_panel": "Спектральная солнечная панель",
-  "container.ic2r_addons.spectral_solar_panel": "Спектральная солнечная панель",
   "pack.ic2r_addons.description": "IC2R Addons для Minecraft 1.21.1 + IC2R",
-  "block.ic2r_addons.singular_solar_panel": "Сингулярная солнечная панель",
-  "container.ic2r_addons.singular_solar_panel": "Сингулярная солнечная панель",
-  "block.ic2r_addons.light_absorbing_solar_panel": "Светопоглощающая солнечная панель",
-  "container.ic2r_addons.light_absorbing_solar_panel": "Светопоглощающая солнечная панель",
-  "block.ic2r_addons.photonic_solar_panel": "Фотонная солнечная панель",
-  "container.ic2r_addons.photonic_solar_panel": "Фотонная солнечная панель",
   "config.ic2r_addons.generation_multiplier": "Множитель солнечной генерации",
   "config.ic2r_addons.armor_only": "Шлемы заряжают только броню",
   "config.ic2r_addons.active_core": "Показывать активное ядро преобразователя",
@@ -158,5 +150,6 @@
   "tooltip.ic2r_addons.engine_conversion": "Преобразует энергию IC2R EU в BuildCraft MJ",
   "tooltip.ic2r_addons.engine_voltage": "Максимальный входящий пакет: %s EU",
   "tooltip.ic2r_addons.engine_sides": "Вход EU: сзади и по бокам. Выход MJ: со стороны поршня.",
-  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons для Minecraft 1.21.1 NeoForge: улучшенные солнечные панели и шлемы, молекулярный преобразователь, электрическая броня, полёт и инструменты. Необязательная интеграция с BuildCraft добавляет совместимые ключи и электродвигатель EU → MJ; Jade показывает состояние и расход энергии."
+  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons для Minecraft 1.21.1 NeoForge: четыре классических уровня солнечных панелей до квантовой, четыре солнечных шлема, включая квантовый, молекулярный преобразователь, электрическая броня, полёт и инструменты. Необязательная интеграция с BuildCraft добавляет совместимые ключи и электродвигатель EU → MJ; Jade показывает состояние и расход энергии.",
+  "item.ic2r_addons.quantum_solar_helmet": "Квантовый солнечный шлем"
 }

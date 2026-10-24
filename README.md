@@ -1,6 +1,6 @@
 # IC2R Addons
 
-Advanced solar power, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
+Four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
 ## Requirements and installation
 
@@ -9,11 +9,13 @@ Advanced solar power, powered equipment and optional BuildCraft integration for 
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.2.0.jar` on both client and server, replacing the previous Solar GraviSuite JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry is not required.
+Install `ic2r-addons-neoforge-1.21.1-1.2.1.jar` on both client and server, replacing the previous Solar GraviSuite JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry is not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
-### Upgrading from 1.1.1
+### Upgrading from 1.1.1 or 1.2.0
+
+Version 1.2.1 removes Spectral, Singular, Light Absorbing and Photonic panels from crafting and creative / JEI lists. Existing blocks and item stacks of these tiers resolve to Quantum panels, including the older `solar_gravisuite` namespace. Stored charging-slot items survive; buffered EU is capped at Quantum's **10,000,000 EU** capacity, so excess stored EU is discarded.
 
 Registry aliases resolve `solar_gravisuite:*` content to its new `ic2r_addons:*` identity. Existing equipment settings / teleport destinations are read from the previous custom-data compound and migrate on modification. Existing solar and equipment configuration files are copied to their new names only if the new files do not exist. Keep a world backup before upgrading a modded installation.
 
@@ -45,9 +47,9 @@ The localized engine overlay shows stored / maximum EU, actual EU/t and MJ/t, ma
 
 ## Textures
 
-The 1.2.0 refresh combines IC2R-style 32-pixel tool detail with the addon's original silhouettes and blue energy accents. Twenty tool, armor and device icons use new generated pixel-art atlases based on the original 16-pixel designs. Remaining component / block art uses edge-aware pixel refinement from the original assets. Armor UV layouts and transparency are preserved. Source artwork, processing instructions and provenance are in `tools/textures` and [NOTICE.md](NOTICE.md).
+The texture refresh combines IC2R-style 32-pixel tool detail with the addon's original silhouettes and blue energy accents. Eighteen tool, armor and device icons use generated pixel-art atlases based on the original 16-pixel designs. The Hybrid and Ultimate solar-helmet icons restore the classic designs supplied by the user, copied to strict 32x32 transparent sprites rather than redesigned. Remaining component / block art uses edge-aware pixel refinement from the original assets. Armor UV layouts and transparency are preserved. The 1.2.1 Quantum Solar Helmet is a restrained palette variant of the restored classic Ultimate helmet: identical 32x32 silhouette, brighter blue solar crown and lighter shell. Worn armor preserves the same UV layout. The generated reference is used only for its blue palette; it does not replace the existing helmet geometry. Source artwork, processing instructions and provenance are in `tools/textures` and [NOTICE.md](NOTICE.md).
 
-![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.2.0.png)
+![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.2.1.png)
 
 ## Solar progression
 
@@ -57,10 +59,6 @@ The 1.2.0 refresh combines IC2R-style 32-pixel tool detail with the addon's orig
 | Hybrid | 64 | 8 | 100,000 | 2 |
 | Ultimate Hybrid | 512 | 64 | 1,000,000 | 3 |
 | Quantum | 4,096 | 2,048 | 10,000,000 | 5 |
-| Spectral | 8,192 | 4,096 | 100,000,000 | 5 |
-| Singular | 32,768 | 16,384 | 1,000,000,000 | 6 |
-| Light Absorbing | 131,072 | 65,536 | 1,000,000,000 | 7 |
-| Photonic | 524,288 | 262,144 | 1,000,000,000 | 8 |
 
 Panels need an unobstructed sky. Opaque roofs and dimensions without skylight stop generation.
 EU is generated every server tick, buffered, offered to an inserted electric item and emitted
@@ -77,14 +75,17 @@ Higher tiers require their predecessor and late-game components. World generatio
 | Advanced Nano Boots | 8,000,000 | 5,000 | 3 | Nano protection, heavy-fall absorption while energy lasts |
 | Hybrid Solar Helmet | 40,000,000 | 12,000 | 4 | Intermediate quantum helmet, 64 / 8 EU/t solar generation |
 | Ultimate Hybrid Solar Helmet | 100,000,000 | 50,000 | 4 | Quantum helmet abilities, 512 / 64 EU/t solar generation |
+| Quantum Solar Helmet | 100,000,000 | 200,000 | 5 | Quantum helmet abilities, 4,096 / 2,048 EU/t solar generation |
 | Gravitational Chestplate | 100,000,000 | 50,000 | 4 | Powered creative flight, boost, energy-backed protection |
 | Advanced Quantum Leggings | 100,000,000 | 50,000 | 4 | IC2R quantum sprint / swimming abilities |
 | Advanced Quantum Boots | 100,000,000 | 50,000 | 4 | IC2R quantum jump and reduced fall energy cost |
 
 The full advanced nano set now has **8 million EU per piece**; the top quantum / gravitational
 set has **100 million EU per piece**. The hybrid helmet remains an intermediate step.
-Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior and voltage
-tiers are retained; no duplicate base nano / quantum equipment or additional helmets are added.
+Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior is retained. The Quantum Solar Helmet is the fourth solar tier,
+crafted from an Ultimate Hybrid Solar Helmet, a Quantum Solar Panel, two advanced circuits
+and a lapotron crystal. Its 100M EU buffer matches the top armor set; its tier-5 charging
+and solar output improve on the tier-4 Ultimate helmet. Base IC2R nano / quantum recipes remain available.
 
 
 
@@ -97,7 +98,7 @@ Solar helmets generate only while worn and charge chest / legs / boots first, th
 inventory, then their own buffer. Each generated EU is allocated once. Upgrade recipes use
 IC2R's shaped serializer and carry charge from ingredients into the result.
 
-![Upgraded equipment and capacities](docs/images/armor-en-1.2.0.png)
+![Upgraded equipment and capacities](docs/images/armor-en-1.2.1.png)
 
 ## Tools, mobility and storage
 
@@ -146,7 +147,7 @@ Example datapack recipe under `data/<namespace>/recipe/`:
 The creative-only Quantum Generator produces a fixed 512 EU/t, stops with redstone power and
 has no survival recipe. Crafting components reuse IC2R's uranium ingot instead of a duplicate.
 
-![Molecular Transformer interface](docs/images/transformer-gui-en-1.2.0.png)
+![Molecular Transformer interface](docs/images/transformer-gui-en-1.2.1.png)
 
 ## Controls
 
@@ -189,9 +190,9 @@ Use Java 21:
 
 Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`.
 
-Validation: **11 JUnit checks**, **43 server GameTests without BC** and **51 with BC**, tested with Jade present and absent. Real English / Russian clients received live Jade telemetry and matching JEI results (51 items with BC). See [the validation manifest](docs/validation/1.2.0.json).
+Validation: **12 JUnit checks**, **46 server GameTests without BC** and **54 with BC**, tested with Jade present and absent. Real English / Russian clients received live Jade telemetry and matching JEI results (48 items with BC). See [the validation manifest](docs/validation/1.2.1.json).
 
-The server suites exercise solar generation, real IC2 energy-network transfers, powered equipment, persistence, migration aliases, and the optional EU-to-MJ engine. JUnit resource checks verify recipes, atlas UVs, English / Russian coverage, format arguments, armor texture layouts and item resources. The isolated client smoke verifies rendering, GUI opening and matching JEI search results. It is disabled in normal play.
+The server suites exercise solar generation, real IC2 energy-network transfers, powered equipment, persistence, migration aliases, and the optional EU-to-MJ engine. JUnit resource checks verify recipes, removed-tier resources, English / Russian coverage, format arguments, helmet silhouette / armor texture layouts and item resources. The isolated client smoke verifies rendering, GUI opening and matching JEI search results. It is disabled in normal play.
 
 The client smoke modifies only its isolated `run/saves/SolarClientSmoke` development world. It does not use the installed modpack or multiplayer server.
 

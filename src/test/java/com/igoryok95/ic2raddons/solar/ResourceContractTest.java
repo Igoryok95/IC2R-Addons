@@ -121,26 +121,61 @@ class ResourceContractTest {
   }
 
   @Test
-  void extendedPanelsUseOneAtlasTilePerFace() throws Exception {
+  void retiredPanelsHaveNoRecipesOrAssets() throws Exception {
     for (String name : List.of("spectral", "singular", "light_absorbing", "photonic")) {
-      var image =
-          javax.imageio.ImageIO.read(
-              RES.resolve("assets/ic2r_addons/textures/block/" + name + "_solar_top.png").toFile());
-      assertEquals(192, image.getWidth());
-      assertEquals(32, image.getHeight());
-      var model =
-          read(RES.resolve("assets/ic2r_addons/models/block/" + name + "_solar_panel.json"));
-      var faces =
-          model.getAsJsonArray("elements").get(0).getAsJsonObject().getAsJsonObject("faces");
-      assertEquals(6, faces.size());
-      for (var entry : faces.entrySet()) {
-        var uv = entry.getValue().getAsJsonObject().getAsJsonArray("uv");
-        assertEquals(
-            16.0 / 6,
-            uv.get(2).getAsDouble() - uv.get(0).getAsDouble(),
-            0.000001,
-            name + " " + entry.getKey());
+      assertFalse(
+          Files.exists(
+              RES.resolve("data/ic2r_addons/recipe/shaped/" + name + "_solar_panel.json")));
+      assertFalse(
+          Files.exists(
+              RES.resolve("assets/ic2r_addons/models/block/" + name + "_solar_panel.json")));
+      assertFalse(
+          Files.exists(
+              RES.resolve("assets/ic2r_addons/blockstates/" + name + "_solar_panel.json")));
+      assertFalse(
+          read(RES.resolve("assets/ic2r_addons/lang/en_us.json"))
+              .has("block.ic2r_addons." + name + "_solar_panel"));
+    }
+  }
+
+  @Test
+  void quantumHelmetRetainsExistingPixelSilhouetteAndArmorUvs() throws Exception {
+    Path textures = RES.resolve("assets/ic2r_addons/textures");
+    var original =
+        javax.imageio.ImageIO.read(textures.resolve("item/ultimatesolarhelmet.png").toFile());
+    var combined =
+        new java.awt.image.BufferedImage(32, 32, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+    var g = combined.createGraphics();
+    g.drawImage(original, 0, 0, null);
+    g.dispose();
+    var quantum =
+        javax.imageio.ImageIO.read(textures.resolve("item/quantumsolarhelmet.png").toFile());
+    assertEquals(32, quantum.getWidth());
+    assertEquals(32, quantum.getHeight());
+    int changed = 0;
+    for (int y = 0; y < 32; y++)
+      for (int x = 0; x < 32; x++) {
+        assertEquals(combined.getRGB(x, y) >>> 24, quantum.getRGB(x, y) >>> 24, "same outline");
+        if (combined.getRGB(x, y) != quantum.getRGB(x, y)) changed++;
       }
+    assertTrue(changed > 0, "quantum palette must distinguish the new tier");
+    for (String suffix : List.of("", "_overlay")) {
+      var oldArmor =
+          javax.imageio.ImageIO.read(
+              textures
+                  .resolve("models/armor/ultimate_solar_helmet_layer_1" + suffix + ".png")
+                  .toFile());
+      var armor =
+          javax.imageio.ImageIO.read(
+              textures
+                  .resolve("models/armor/quantum_solar_helmet_layer_1" + suffix + ".png")
+                  .toFile());
+      assertEquals(128, armor.getWidth());
+      assertEquals(64, armor.getHeight());
+      for (int y = 0; y < 64; y++)
+        for (int x = 0; x < 128; x++)
+          assertEquals(
+              oldArmor.getRGB(x, y) >>> 24, armor.getRGB(x, y) >>> 24, "same armor UV coverage");
     }
   }
 }

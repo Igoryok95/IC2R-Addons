@@ -1,7 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "ic2r_addons:item/ultimatesolarhelmet",
-    "layer1": "ic2r_addons:item/ultimatesolarhelmetoverlay"
+    "layer0": "ic2r_addons:item/ultimatesolarhelmet"
   }
 }

@@ -1,0 +1,79 @@
+{
+  "version": "1.2.1",
+  "mod_id": "ic2r_addons",
+  "verified_at_utc": "2026-10-24T15:30:17.876086+00:00",
+  "environment": {
+    "minecraft": "1.21.1",
+    "neoforge": "21.1.264",
+    "ic2r": "21.1.67",
+    "buildcraft": "8.0.25+1.21.1+neoforge",
+    "jade": "15.10.6+neoforge",
+    "java": 21
+  },
+  "junit": {
+    "tests": 12,
+    "failures": 0,
+    "errors": 0
+  },
+  "server_tests": {
+    "base": {
+      "passed": 46,
+      "required": 46
+    },
+    "jade_without_bc": {
+      "passed": 46,
+      "required": 46
+    },
+    "bc_without_jade": {
+      "passed": 54,
+      "required": 54
+    },
+    "bc_and_jade": {
+      "passed": 54,
+      "required": 54
+    }
+  },
+  "client": {
+    "languages": [
+      "en_us",
+      "ru_ru"
+    ],
+    "real_jade_server_response": true,
+    "jei_queries_return_same_items": true,
+    "jei_items_with_bc": 48
+  },
+  "progression": {
+    "panels": [
+      "advanced",
+      "hybrid",
+      "ultimate",
+      "quantum"
+    ],
+    "solar_helmets": 4,
+    "quantum_helmet": {
+      "capacity_eu": 100000000,
+      "day_eu_per_tick": 4096,
+      "night_rain_eu_per_tick": 2048,
+      "tier": 5,
+      "transfer_eu_per_tick": 200000
+    },
+    "retired_panel_migration": "Quantum aliases preserve item counts and charging-slot items; EU is capped at 10000000"
+  },
+  "textures": {
+    "classic_hybrid_and_ultimate": "Copied from user-provided reference, no replacement geometry",
+    "quantum": "Same 32x32 silhouette as restored Ultimate, brighter blue crown; original armor UV coverage"
+  },
+  "artifacts": [
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.2.1-sources.jar",
+      "bytes": 564595,
+      "sha256": "d9a3598102df6dc070b1598d82497a1e529a40b29b24cfaa2677ac93f1c2e166"
+    },
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.2.1.jar",
+      "bytes": 694610,
+      "sha256": "2d1cae1fd7992145773f66024e3e432f17ca99177b150e3a9b187421b297ecb5"
+    }
+  ],
+  "screenshots": "docs/images/*-en-1.2.1.png"
+}

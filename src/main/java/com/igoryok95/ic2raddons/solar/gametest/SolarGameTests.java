@@ -40,7 +40,8 @@ public final class SolarGameTests {
   }
 
   @GameTest(template = EMPTY)
-  public static void eightPanelProfilesGenerateExactEu(GameTestHelper h) {
+  public static void fourPanelProfilesGenerateExactEu(GameTestHelper h) {
+    h.assertTrue(SolarPanelType.values().length == 4, "only four classic solar tiers remain");
     h.getLevel().setDayTime(6000);
     h.getLevel().updateSkyBrightness();
     h.getLevel().setWeatherParameters(10000, 0, false, false);
@@ -108,13 +109,18 @@ public final class SolarGameTests {
     Item[] helmets = {
       AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
       AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(),
-      AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get()
+      AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+      AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get()
     };
-    double[] capacities = {8000000, 40000000, 100000000};
+    double[] capacities = {8000000, 40000000, 100000000, 100000000};
+    int[] tiers = {3, 4, 4, 5};
+    double[] transfers = {5000, 12000, 50000, 200000};
     for (int i = 0; i < helmets.length; i++) {
       ItemStack stack = new ItemStack(helmets[i]);
       IElectricItem electric = (IElectricItem) helmets[i];
       h.assertTrue(electric.getMaxCharge(stack) == capacities[i], "modern helmet capacity");
+      h.assertTrue(electric.getTier(stack) == tiers[i], "helmet voltage progression");
+      h.assertTrue(electric.getTransferLimit(stack) == transfers[i], "helmet transfer progression");
       h.assertTrue(
           ElectricItem.manager.charge(
                   stack, Double.POSITIVE_INFINITY, electric.getTier(stack), true, false)
@@ -126,6 +132,76 @@ public final class SolarGameTests {
     h.assertTrue(
         helmets[1] instanceof ic2.core.item.armor.ItemArmorQuantumSuit,
         "quantum abilities retained");
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
+  public static void quantumHelmetProducesItsRatedEuOnlyWhileWorn(GameTestHelper h) {
+    var level = h.getLevel();
+    level.setDayTime(6000);
+    level.updateSkyBrightness();
+    level.setWeatherParameters(10000, 0, false, false);
+    var player = com.igoryok95.ic2raddons.bridge.TestPlayers.create(h);
+    ItemStack helmet = new ItemStack(AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get());
+    var item = helmet.getItem();
+    var pos = h.absolutePos(new BlockPos(1, 1, 1));
+    player.teleportTo(pos.getX() + .5, pos.getY(), pos.getZ() + .5);
+    player.setItemSlot(EquipmentSlot.HEAD, helmet);
+    item.inventoryTick(helmet, level, player, 0, false);
+    h.assertTrue(ElectricItem.manager.getCharge(helmet) == 4096, "quantum daylight generation");
+    level.setDayTime(18000);
+    level.updateSkyBrightness();
+    item.inventoryTick(helmet, level, player, 0, false);
+    h.assertTrue(ElectricItem.manager.getCharge(helmet) == 6144, "quantum night generation");
+    var roof = player.blockPosition().above();
+    level.setBlockAndUpdate(roof, Blocks.STONE.defaultBlockState());
+    item.inventoryTick(helmet, level, player, 0, false);
+    h.assertTrue(ElectricItem.manager.getCharge(helmet) == 6144, "a roof stops helmet generation");
+    player.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+    level.setBlockAndUpdate(roof, Blocks.AIR.defaultBlockState());
+    item.inventoryTick(helmet, level, player, 0, false);
+    h.assertTrue(
+        ElectricItem.manager.getCharge(helmet) == 6144, "inventory helmets cannot generate");
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
+  public static void quantumHelmetRecipeCarriesChargeAndRequiresThePreviousTier(GameTestHelper h) {
+    CraftingRecipe recipe =
+        (CraftingRecipe)
+            h.getLevel()
+                .getRecipeManager()
+                .byKey(IC2RAddons.id("shaped/quantum_solar_helmet"))
+                .orElseThrow()
+                .value();
+    var previous =
+        ElectricItemManager.getCharged(AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(), 1234567);
+    var crystal = ElectricItemManager.getCharged(Ic2Items.LAPOTRON_CRYSTAL, 2000);
+    var input =
+        CraftingInput.of(
+            3,
+            3,
+            List.of(
+                ItemStack.EMPTY,
+                new ItemStack(AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get()),
+                ItemStack.EMPTY,
+                new ItemStack(Ic2Items.ADVANCED_CIRCUIT),
+                previous,
+                new ItemStack(Ic2Items.ADVANCED_CIRCUIT),
+                ItemStack.EMPTY,
+                crystal,
+                ItemStack.EMPTY));
+    h.assertTrue(
+        recipe.matches(input, h.getLevel()),
+        "quantum upgrade requires ultimate helmet and quantum panel");
+    var result = recipe.assemble(input, h.getLevel().registryAccess());
+    h.assertTrue(result.is(AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get()), "new quantum helmet output");
+    h.assertTrue(
+        ElectricItem.manager.getCharge(result) == 1236567,
+        "ingredient EU survives quantum upgrade");
+    h.assertTrue(
+        ElectricItem.manager.getCharge(previous) == 1234567,
+        "recipe preview cannot drain ingredients");
     h.succeed();
   }
 
@@ -395,7 +471,11 @@ public final class SolarGameTests {
             "craftable machine " + entry.getId());
     }
     for (String name :
-        List.of("advanced_solar_helmet", "hybrid_solar_helmet", "ultimate_solar_helmet"))
+        List.of(
+            "advanced_solar_helmet",
+            "hybrid_solar_helmet",
+            "ultimate_solar_helmet",
+            "quantum_solar_helmet"))
       h.assertTrue(
           h.getLevel()
               .getRecipeManager()

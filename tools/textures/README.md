@@ -21,3 +21,23 @@ with restrained 32-pixel metallic detail and blue energy indicators. Imported Fo
 and textures remain LGPL-3.0-or-later (see NOTICE.md and the bundled license).
 
 The older `BlueArmor.java` and its references document the original 1.1.0 blue-armor adaptation.
+
+## 1.2.1 classic solar helmets
+
+Hybrid and Ultimate item icons restore the user's supplied classic reference in
+`source/classic-solar-helmets-reference.png`. The 32x32 icons copy that design, remove the
+green background and use one texture layer so the legacy overlay cannot cover the restored
+detail. The existing Nano icon remains unchanged. Quantum preserves the restored Ultimate
+silhouette, uses a brighter blue crown, and retains the existing worn armor UV coordinates.
+The built-in imagegen output in `1.2.1-helmet-palette.png` supplies color only.
+
+Run the full sequence after refreshing the original assets:
+
+```sh
+java tools/textures/RefreshTextures.java
+java tools/textures/ClassicHelmets.java
+java tools/textures/QuantumHelmet.java
+```
+
+The exact palette prompt is in `1.2.1-prompts.md`. The enlarged four-helmet comparison is
+`1.2.1-helmets-preview.png`; runtime icons remain 32x32.

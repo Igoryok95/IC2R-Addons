@@ -10,7 +10,7 @@ Original texture credits include **Krezzard**. IndustrialCraft 2 belongs to the 
   and modernized resource paths were adapted to NeoForge 1.21.1 and IC2R.
 - Extended solar tier values and top textures: https://github.com/VintageModsReforged/AdvancedSolarPanelsReforged
   (revision `29067c116d51b0b8853d5b8b2da90b7b78423e05`). The four extended tiers and their
-  recipes are adapted for current IC2R.
+  recipes were adapted in earlier versions and are removed in 1.2.1.
 - Minecraft 1.21.1 Molecular Transformer renderer adaptation:
   https://github.com/EugeneHeisst/advanced-solar-panels-port
   (revision `146d35feae50859e812f2c0409731cc89ede2093`). Only the renderer was used;
@@ -72,3 +72,17 @@ armor / device icons from `1.2.0-equipment-reference.png`. The prompt preserves 
 original angular silhouettes and equipment colors, adds restrained IC2R steel / graphite shading
 at 32 pixels, and keeps blue / cyan armor indicators. Both atlases are sampled onto strict
 32x32 transparent pixel grids by `RefreshTextures.java`; worn armor retains its original UV layout.
+
+## IC2R Addons 1.2.1
+
+The Quantum Solar Helmet reuses the existing Ultimate Solar Helmet's item silhouette,
+classic item design and worn-armor UV sheets. The user-supplied comparison image
+`tools/textures/source/classic-solar-helmets-reference.png` is the reference for restoring
+the Hybrid / Ultimate item icons. `ClassicHelmets.java` samples the two supplied icons onto
+a 32x32 grid and removes only the green background; no replacement silhouette is generated. A built-in imagegen edit of the existing helmet
+strip supplied only the brighter blue palette in `tools/textures/1.2.1-helmet-palette.png`.
+`QuantumHelmet.java` transfers that palette to the original pixels, slightly brightens the
+shell and preserves all alpha / UV coordinates. The generated reference's geometry is not
+used in the runtime assets. Run `java tools/textures/ClassicHelmets.java` and then
+`java tools/textures/QuantumHelmet.java` after any full `RefreshTextures.java` refresh. See `tools/textures/1.2.1-prompts.md` for the exact prompt.
+Original artwork attribution and licensing above remain applicable.

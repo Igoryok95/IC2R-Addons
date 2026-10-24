@@ -4,6 +4,7 @@ public class RefreshTextures {
  public static void main(String[] args)throws Exception{
   Path root=Path.of("src/main/resources/assets/ic2r_addons/textures");
   try(var files=Files.walk(root)){for(Path p:files.filter(p->p.toString().endsWith(".png")&&!p.toString().contains("gui")).toList()){
+   if(p.getFileName().toString().startsWith("quantumsolarhelmet")||p.getFileName().toString().startsWith("quantum_solar_helmet"))continue;
    String oldPath=p.toString().replace('\\','/').replace("ic2r_addons/","solar_gravisuite/");
    Process original=new ProcessBuilder("git","show","64b4c20:"+oldPath).redirectError(ProcessBuilder.Redirect.DISCARD).start();
    byte[] bytes=original.getInputStream().readAllBytes(); original.waitFor();
@@ -18,6 +19,7 @@ public class RefreshTextures {
   BufferedImage equipment=ImageIO.read(Path.of("tools/textures/1.2.0-equipment-generated.png").toFile());
   String[] eq={"advsolarhelmet","armor/advanced_nano","advanced_nano_leggings","advanced_nano_boots","hybridsolarhelmet","ultimatesolarhelmet","armor/advanced_quant","advanced_quantum_leggings","advanced_quantum_boots","armor/advanced_jetpack","armor/advanced_lappack","armor/ultimate_lappack","vajra","magnet","voider","relocator"};
   for(int i=0;i<eq.length;i++){
+   if(i==4||i==5)continue; // ClassicHelmets.java restores the supplied classic solar-helmet designs.
    BufferedImage icon=new BufferedImage(32,32,2);int cellW=equipment.getWidth()/4,cellH=equipment.getHeight()/4;
    for(int y=0;y<32;y++)for(int x=0;x<32;x++){
     int c=equipment.getRGB((i%4)*cellW+(2*x+1)*cellW/64,(i/4)*cellH+(2*y+1)*cellH/64);

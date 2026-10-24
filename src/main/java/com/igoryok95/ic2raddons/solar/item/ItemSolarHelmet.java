@@ -1,5 +1,6 @@
 package com.igoryok95.ic2raddons.solar.item;
 
+import com.igoryok95.ic2raddons.solar.SolarPanelType;
 import ic2.api.item.*;
 import ic2.core.item.armor.*;
 import java.util.*;
@@ -102,35 +103,45 @@ public final class ItemSolarHelmet {
   }
 
   public static final class Quantum extends ItemArmorQuantumSuit {
-    private final boolean ultimate;
+    private final SolarPanelType profile;
 
-    public Quantum(boolean ultimate) {
+    public Quantum(SolarPanelType profile) {
       super(
-          material(ultimate ? "ultimate" : "hybrid"),
+          material(profile.name().toLowerCase(Locale.ROOT)),
           EquipmentSlot.HEAD,
           new Item.Properties().stacksTo(1));
-      this.ultimate = ultimate;
+      if (profile == SolarPanelType.ADVANCED) throw new IllegalArgumentException("Nano profile");
+      this.profile = profile;
     }
 
     public double getMaxCharge(ItemStack stack) {
-      return ultimate ? 100_000_000 : 40_000_000;
+      return profile == SolarPanelType.HYBRID ? 40_000_000 : 100_000_000;
     }
 
     public double getTransferLimit(ItemStack stack) {
-      return ultimate ? 50_000 : 12_000;
+      return switch (profile) {
+        case HYBRID -> 12_000;
+        case ULTIMATE -> 50_000;
+        case QUANTUM -> 200_000;
+        default -> throw new IllegalStateException("Nano profile");
+      };
+    }
+
+    public int getTier(ItemStack stack) {
+      return profile == SolarPanelType.QUANTUM ? 5 : 4;
     }
 
     public void inventoryTick(
         ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
       super.inventoryTick(stack, level, entity, slot, selected);
       if (entity instanceof Player player)
-        generateAndCharge(player, stack, ultimate ? 512 : 64, ultimate ? 64 : 8);
+        generateAndCharge(player, stack, profile.dayPower, profile.nightPower);
     }
 
     public void appendHoverText(
         ItemStack stack, TooltipContext context, List<Component> list, TooltipFlag flag) {
       super.appendHoverText(stack, context, list, flag);
-      tooltip(list, ultimate ? 512 : 64, ultimate ? 64 : 8);
+      tooltip(list, profile.dayPower, profile.nightPower);
     }
   }
 }

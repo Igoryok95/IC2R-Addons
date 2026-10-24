@@ -89,7 +89,7 @@ public final class ClientSmoke {
                             com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO_BOOTS.get()
                       },
                       {
-                        AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+                        AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get(),
                             com.igoryok95.ic2raddons.equipment.GraviItems.GRAVI_CHESTPLATE.get(),
                         com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_QUANTUM_LEGGINGS
                                 .get(),
@@ -128,7 +128,7 @@ public final class ClientSmoke {
                 }
                 level.setBlockAndUpdate(
                     base.offset(-1, 0, 4),
-                    AdvSolarBlocks.PHOTONIC_SOLAR_PANEL.get().defaultBlockState());
+                    AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get().defaultBlockState());
                 level.setBlockAndUpdate(
                     base.offset(2, 0, 4),
                     AdvSolarBlocks.HYBRID_SOLAR_PANEL.get().defaultBlockState());
@@ -137,7 +137,7 @@ public final class ClientSmoke {
                 player.setXRot(10);
                 player.setItemSlot(
                     net.minecraft.world.entity.EquipmentSlot.HEAD,
-                    new ItemStack(AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get()));
+                    new ItemStack(AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get()));
                 ready = true;
               });
     }
@@ -218,19 +218,24 @@ public final class ClientSmoke {
       g.drawCenteredString(font, title, width / 2, 8, 0xffffffff);
       Item[] equipment = {
         AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
-            com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO.get(),
+        com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO.get(),
         com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO_LEGGINGS.get(),
-            com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO_BOOTS.get(),
-        AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(), AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+        com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO_BOOTS.get(),
+        AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(),
+        AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+        AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get(),
         com.igoryok95.ic2raddons.equipment.GraviItems.GRAVI_CHESTPLATE.get(),
-            com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_QUANTUM_LEGGINGS.get(),
+        com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_QUANTUM_LEGGINGS.get(),
         com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_QUANTUM_BOOTS.get()
       };
       int i = 0;
       for (Item item : equipment) {
         var stack = new ItemStack(item);
-        int cell = width / 3;
-        int x = (i % 3) * cell, y = 32 + (i / 3) * 58;
+        int columns = 3;
+        int cell = width / columns;
+        int rows = (equipment.length + columns - 1) / columns;
+        int rowHeight = Math.min(58, (height - 32) / rows);
+        int x = (i % columns) * cell, y = 28 + (i / columns) * rowHeight;
         g.renderItem(stack, x + cell / 2 - 8, y);
         g.drawCenteredString(
             font,

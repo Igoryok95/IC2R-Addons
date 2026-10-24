@@ -33,7 +33,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 /**
  * Forge registration for all Advanced Solar Panels content: the four solar panels, the molecular
  * transformer and the quantum generator (each an {@link Ic2TileEntityBlock} with a matching {@link
- * BlockEntityType} and {@link BlockItem}), the crafting components, the three solar helmets, and a
+ * BlockEntityType} and {@link BlockItem}), the crafting components, the four solar helmets, and a
  * creative tab.
  */
 public final class AdvSolarBlocks {
@@ -78,66 +78,6 @@ public final class AdvSolarBlocks {
       be("quantum_solar_panel", QUANTUM_SOLAR_PANEL, TileEntityQuantumSolar::new);
   public static final Supplier<Item> ITEM_QUANTUM_SOLAR_PANEL =
       solarPanelItem("quantum_solar_panel", QUANTUM_SOLAR_PANEL, SolarPanelType.QUANTUM);
-
-  public static final Supplier<Block> SPECTRAL_SOLAR_PANEL =
-      block(
-          "spectral_solar_panel",
-          com.igoryok95.ic2raddons.solar.te.TileEntitySpectralSolar.class,
-          false);
-  public static final Supplier<
-          BlockEntityType<com.igoryok95.ic2raddons.solar.te.TileEntitySpectralSolar>>
-      BE_SPECTRAL_SOLAR_PANEL =
-          be(
-              "spectral_solar_panel",
-              SPECTRAL_SOLAR_PANEL,
-              com.igoryok95.ic2raddons.solar.te.TileEntitySpectralSolar::new);
-  public static final Supplier<Item> ITEM_SPECTRAL_SOLAR_PANEL =
-      solarPanelItem("spectral_solar_panel", SPECTRAL_SOLAR_PANEL, SolarPanelType.SPECTRAL);
-  public static final Supplier<Block> SINGULAR_SOLAR_PANEL =
-      block(
-          "singular_solar_panel",
-          com.igoryok95.ic2raddons.solar.te.TileEntitySingularSolar.class,
-          false);
-  public static final Supplier<
-          BlockEntityType<com.igoryok95.ic2raddons.solar.te.TileEntitySingularSolar>>
-      BE_SINGULAR_SOLAR_PANEL =
-          be(
-              "singular_solar_panel",
-              SINGULAR_SOLAR_PANEL,
-              com.igoryok95.ic2raddons.solar.te.TileEntitySingularSolar::new);
-  public static final Supplier<Item> ITEM_SINGULAR_SOLAR_PANEL =
-      solarPanelItem("singular_solar_panel", SINGULAR_SOLAR_PANEL, SolarPanelType.SINGULAR);
-  public static final Supplier<Block> LIGHT_ABSORBING_SOLAR_PANEL =
-      block(
-          "light_absorbing_solar_panel",
-          com.igoryok95.ic2raddons.solar.te.TileEntityLightAbsorbingSolar.class,
-          false);
-  public static final Supplier<
-          BlockEntityType<com.igoryok95.ic2raddons.solar.te.TileEntityLightAbsorbingSolar>>
-      BE_LIGHT_ABSORBING_SOLAR_PANEL =
-          be(
-              "light_absorbing_solar_panel",
-              LIGHT_ABSORBING_SOLAR_PANEL,
-              com.igoryok95.ic2raddons.solar.te.TileEntityLightAbsorbingSolar::new);
-  public static final Supplier<Item> ITEM_LIGHT_ABSORBING_SOLAR_PANEL =
-      solarPanelItem(
-          "light_absorbing_solar_panel",
-          LIGHT_ABSORBING_SOLAR_PANEL,
-          SolarPanelType.LIGHT_ABSORBING);
-  public static final Supplier<Block> PHOTONIC_SOLAR_PANEL =
-      block(
-          "photonic_solar_panel",
-          com.igoryok95.ic2raddons.solar.te.TileEntityPhotonicSolar.class,
-          false);
-  public static final Supplier<
-          BlockEntityType<com.igoryok95.ic2raddons.solar.te.TileEntityPhotonicSolar>>
-      BE_PHOTONIC_SOLAR_PANEL =
-          be(
-              "photonic_solar_panel",
-              PHOTONIC_SOLAR_PANEL,
-              com.igoryok95.ic2raddons.solar.te.TileEntityPhotonicSolar::new);
-  public static final Supplier<Item> ITEM_PHOTONIC_SOLAR_PANEL =
-      solarPanelItem("photonic_solar_panel", PHOTONIC_SOLAR_PANEL, SolarPanelType.PHOTONIC);
 
   // --- Molecular Transformer ---
   public static final Supplier<Block> MOLECULAR_TRANSFORMER =
@@ -184,9 +124,15 @@ public final class AdvSolarBlocks {
   public static final Supplier<Item> ADVANCED_SOLAR_HELMET =
       ITEMS.register("advanced_solar_helmet", () -> new ItemSolarHelmet.Nano());
   public static final Supplier<Item> HYBRID_SOLAR_HELMET =
-      ITEMS.register("hybrid_solar_helmet", () -> new ItemSolarHelmet.Quantum(false));
+      ITEMS.register(
+          "hybrid_solar_helmet", () -> new ItemSolarHelmet.Quantum(SolarPanelType.HYBRID));
   public static final Supplier<Item> ULTIMATE_SOLAR_HELMET =
-      ITEMS.register("ultimate_solar_helmet", () -> new ItemSolarHelmet.Quantum(true));
+      ITEMS.register(
+          "ultimate_solar_helmet", () -> new ItemSolarHelmet.Quantum(SolarPanelType.ULTIMATE));
+
+  public static final Supplier<Item> QUANTUM_SOLAR_HELMET =
+      ITEMS.register(
+          "quantum_solar_helmet", () -> new ItemSolarHelmet.Quantum(SolarPanelType.QUANTUM));
 
   // --- Creative tab ---
   public static final Supplier<CreativeModeTab> TAB =
@@ -202,15 +148,12 @@ public final class AdvSolarBlocks {
                         output.accept(HYBRID_SOLAR_PANEL.get());
                         output.accept(ULTIMATE_SOLAR_PANEL.get());
                         output.accept(QUANTUM_SOLAR_PANEL.get());
-                        output.accept(PHOTONIC_SOLAR_PANEL.get());
-                        output.accept(LIGHT_ABSORBING_SOLAR_PANEL.get());
-                        output.accept(SINGULAR_SOLAR_PANEL.get());
-                        output.accept(SPECTRAL_SOLAR_PANEL.get());
                         output.accept(MOLECULAR_TRANSFORMER.get());
                         output.accept(QUANTUM_GENERATOR.get());
                         output.accept(ADVANCED_SOLAR_HELMET.get());
                         output.accept(HYBRID_SOLAR_HELMET.get());
                         output.accept(ULTIMATE_SOLAR_HELMET.get());
+                        output.accept(QUANTUM_SOLAR_HELMET.get());
                         for (Supplier<Item> crafting : CRAFTING.values()) {
                           output.accept(crafting.get());
                         }
