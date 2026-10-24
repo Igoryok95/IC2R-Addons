@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BKB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "K": {
+      "item": "ic2r_addons:kit_liquid"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:kit_liquid_advanced"
+  }
+}

@@ -107,3 +107,26 @@ shell and preserves all alpha / UV coordinates. The generated reference's geomet
 used in the runtime assets. Run `java tools/textures/ClassicHelmets.java` and then
 `java tools/textures/QuantumHelmet.java` after any full `RefreshTextures.java` refresh. See `tools/textures/1.2.1-prompts.md` for the exact prompt.
 Original artwork attribution and licensing above remain applicable.
+
+## Nuclear Control / Energy Control integration (1.4.0)
+
+- Original Nuclear Control: **Shedar (Oleg Romanovskiy)**; original idea: **Nargon and
+  Noosius**. Nuclear Control 2 contributors include **Xbony2, dmf444 and Pyrolusite**.
+- Modern monitoring implementation / artwork: **Zuxelus / Energy Control**, branch
+  `1.21.1-neoforge`, revision `f3ec46404a6cd3f27e7a0276e589377a491f157c`:
+  https://github.com/Zuxelus/Energy-Control/tree/f3ec46404a6cd3f27e7a0276e589377a491f157c .
+  The imported `control` / `control.lib` module retains **GPL-3.0-only**. The complete
+  license is bundled as `LICENSES/Energy-Control-GPL-3.0.txt`; adapted source files are
+  published in this repository and in the matching source JAR. The import manifest records
+  source paths and excluded optional integrations. No original author identity is replaced.
+- Classic counter-card and thermometer icons: Nuclear Control 2, revision
+  `43b6371957d2448f0128b52b8a486ff9e7ac3c7f`:
+  https://github.com/xbony2/Nuclear-Control/tree/43b6371957d2448f0128b52b8a486ff9e7ac3c7f .
+  These original PNGs are copied unchanged; its BSD-3-Clause license is bundled as
+  `LICENSES/Nuclear-Control-BSD-3-Clause.txt`.
+- IC2R adapters, restored native EU counters / menus, current registry / data-component
+  integration, completed English / Russian text and regression checks: **Igoryok95**.
+
+The earlier rights section describes the ASP / GraviSuite / Advanced Machines materials;
+it does not revoke the GPL or BSD permissions of this monitoring module. This integration
+does not claim that the entire collection of third-party artwork has been relicensed.

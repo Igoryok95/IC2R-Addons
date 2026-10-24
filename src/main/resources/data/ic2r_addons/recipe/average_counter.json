@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CEC",
+    " R "
+  ],
+  "key": {
+    "C": {
+      "item": "ic2:circuit"
+    },
+    "E": {
+      "item": "ic2r_addons:energy_counter"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:average_counter"
+  }
+}

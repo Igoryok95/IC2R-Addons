@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RF",
+    "PO"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "O": {
+      "tag": "c:dyes/red"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:kit_energy"
+  }
+}

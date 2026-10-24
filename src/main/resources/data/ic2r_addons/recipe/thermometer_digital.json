@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    " BT",
+    " R "
+  ],
+  "key": {
+    "C": {
+      "item": "ic2:circuit"
+    },
+    "B": {
+      "item": "ic2:re_battery"
+    },
+    "T": {
+      "item": "ic2r_addons:thermometer"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:thermometer_digital"
+  }
+}

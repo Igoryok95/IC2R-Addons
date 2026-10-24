@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.blocks;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.MapColor;
+
+public class BlockLight extends Block {
+  public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
+  public BlockLight(Properties properties, MapColor color) {
+    super(
+        properties
+            .mapColor(color)
+            .lightLevel(state -> state.getValue(LIT) ? 15 : 0)
+            .strength(1.0F, 3.0F)
+            .sound(SoundType.GLASS));
+    registerDefaultState(defaultBlockState().setValue(LIT, Boolean.valueOf(false)));
+  }
+
+  @Override
+  protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+    builder.add(LIT);
+  }
+
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    return defaultBlockState()
+        .setValue(LIT, context.getLevel().hasNeighborSignal(context.getClickedPos()));
+  }
+
+  @Override
+  protected void neighborChanged(
+      BlockState state,
+      Level level,
+      BlockPos pos,
+      Block block,
+      BlockPos fromPos,
+      boolean isMoving) {
+    if (level.isClientSide()) return;
+
+    boolean flag = state.getValue(LIT);
+    if (flag == level.hasNeighborSignal(pos)) return;
+
+    if (flag) level.scheduleTick(pos, this, 4);
+    else level.setBlock(pos, state.cycle(LIT), 2);
+  }
+
+  @Override
+  protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    if (state.getValue(LIT) && !level.hasNeighborSignal(pos))
+      level.setBlock(pos, state.cycle(LIT), 2);
+  }
+}

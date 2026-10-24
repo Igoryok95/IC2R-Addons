@@ -1,0 +1,78 @@
+{
+  "version": "1.4.0",
+  "verified_at_utc": "2026-10-24T17:38:48.693955+00:00",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.264",
+  "ic2r": "21.1.68",
+  "energy_control_reference": {
+    "repository": "https://github.com/Zuxelus/Energy-Control",
+    "revision": "f3ec46404a6cd3f27e7a0276e589377a491f157c",
+    "license": "GPL-3.0-only"
+  },
+  "monitoring_mod_adapters": [
+    "IC2R"
+  ],
+  "existing_optional_buildcraft_bridge_retained": true,
+  "junit": {
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "gametests": {
+    "base": 75,
+    "buildcraft_jade": 83
+  },
+  "clients": {
+    "en": {
+      "menus": 8,
+      "additional_settings_screens": 2,
+      "empty_slot_sprites": 7,
+      "block_models": 17,
+      "deferred_item_models": 45,
+      "individual_block_screenshots": 17,
+      "live_reactor_panel": true,
+      "partial_assembler_progress": true,
+      "active_timer_countdown": true,
+      "native_eu_counter_menu": true,
+      "jade_engine_running": true
+    },
+    "ru": {
+      "menus": 8,
+      "additional_settings_screens": 2,
+      "empty_slot_sprites": 7,
+      "block_models": 17,
+      "deferred_item_models": 45,
+      "individual_block_screenshots": 17,
+      "live_reactor_panel": true,
+      "partial_assembler_progress": true,
+      "active_timer_countdown": true,
+      "native_eu_counter_menu": true,
+      "jade_engine_running": true
+    }
+  },
+  "gui_fixes": [
+    "Seven slot sprites mapped into the block atlas",
+    "Energy / Average Counter bodies use MODEL render shape",
+    "Assembler / Timer menus register their opening server player for updates",
+    "Gauges and edit boxes render after the GUI background",
+    "Long translated titles fit the screen width",
+    "Remaining upstream English labels translated into Russian"
+  ],
+  "locale_keys": 491,
+  "kit_assembler_textures": "Original Energy Control PNGs copied unchanged; SHA-256 compared against pinned upstream",
+  "artifacts": [
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.4.0.jar",
+      "bytes": 1684220,
+      "sha256": "37e2e1b8e6a0e2355f940a5aab8746a552df34d661e84c8a965eb4faea1e0fa0"
+    },
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.4.0-sources.jar",
+      "bytes": 1266921,
+      "sha256": "4956dcfe2913d6ca173b53edaf32026f230aa7e5f7751653c52e2c618dd9b840"
+    }
+  ],
+  "installed_modpack_changed": false,
+  "multiplayer_server_changed": false
+}

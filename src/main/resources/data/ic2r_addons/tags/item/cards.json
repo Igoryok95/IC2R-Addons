@@ -1,0 +1,12 @@
+{
+  "values": [
+    "ic2r_addons:card_energy",
+    "ic2r_addons:card_energy_array",
+    "ic2r_addons:card_inventory",
+    "ic2r_addons:card_liquid_advanced",
+    "ic2r_addons:card_liquid_array",
+    "ic2r_addons:card_liquid",
+    "ic2r_addons:card_redstone",
+    "ic2r_addons:card_toggle"
+  ]
+}

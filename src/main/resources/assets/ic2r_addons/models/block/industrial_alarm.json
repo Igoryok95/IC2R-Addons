@@ -1,0 +1,9 @@
+{
+  "parent": "ic2r_addons:block/small_box",
+  "textures": {
+    "particle": "ic2r_addons:block/industrial_alarm/side",
+    "side": "ic2r_addons:block/industrial_alarm/side",
+    "face": "ic2r_addons:block/industrial_alarm/face",
+    "back": "ic2r_addons:block/industrial_alarm/back"
+  }
+}

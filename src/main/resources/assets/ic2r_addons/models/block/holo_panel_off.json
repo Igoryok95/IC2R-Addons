@@ -1,0 +1,9 @@
+{
+  "parent": "ic2r_addons:block/plate_box",
+  "textures": {
+    "particle": "ic2r_addons:block/holo_panel/panel_back",
+    "back": "ic2r_addons:block/holo_panel/panel_back",
+    "top": "ic2r_addons:block/holo_panel/panel_top",
+    "side": "ic2r_addons:block/holo_panel/panel_side"
+  }
+}

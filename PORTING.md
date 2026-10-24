@@ -3,7 +3,7 @@
 ## Identity and migration
 
 The 1.2.0 loader ID, registry / resource namespace and network identity are `ic2r_addons`.
-Java packages live under `com.igoryok95.ic2raddons`, split into solar, equipment, machines and bridge modules.
+Java packages live under `com.igoryok95.ic2raddons`, split into solar, equipment, machines, control and bridge modules.
 Registry aliases resolve 1.1.1 `solar_gravisuite` entries, including block entities. Equipment
 custom data falls back to the old compound and migrates on modification. Config migration copies
 existing solar / equipment settings only when their new files are absent.
@@ -85,3 +85,35 @@ Server GameTests use non-networked FakePlayer actors so Jade / BC do not try to 
 with vanilla mock connections. The real client smoke independently verifies networked Jade data,
 JEI searches, machines / armor / GUI rendering and English / Russian text. The smoke property is
 `ic2r_addons.clientSmoke`; it is disabled in normal play.
+
+## Nuclear Control / Energy Control (1.4.0)
+
+`tools/control-import.json` pins Zuxelus/Energy-Control's `1.21.1-neoforge` revision.
+Its monitoring core and internal utility classes are namespaced under `control` /
+`control.lib`; there is no second common mod entrypoint. The existing addon constructor
+registers its content, networking, capabilities and common config. Client registrations
+remain physically client-only. Optional upstream integrations that require unrelated mods
+are not copied as dependencies; the mandatory integration is `CrossIC2R`.
+
+CrossIC2R uses IReactor / IReactorChamber, native Energy components, IEnergyStorage,
+EnergyNet NodeStats and IC2R fuel-use data. EU is labelled as EU. Unregistered delegates
+are tolerated during initialization; remote reads check loaded chunks before accessing tiles.
+The restored counters implement IEnergyConductor directly and sample native throughput once
+per server tick. Menu properties split double bits into four 16-bit values to avoid network
+truncation. Persistent totals / sample counts use doubles / longs and survive reloading.
+
+`-PcontrolSmoke -PwithBC -PwithJade` opens eight real synchronized menus, thermal / alarm
+screens and a live reactor panel in the isolated developer world. It then captures the
+actual Jade engine overlay. Run in en_us and ru_ru; screenshots in documentation use en_us.
+No developer smoke executes during normal play.
+
+Control rendering explicitly maps seven empty-slot sprites into the block atlas. The restored
+counter body overrides the base entity block's invisible render shape. Kit Assembler gauges
+and panel / timer edit boxes render after their background; assembler and timer menus attach
+the opening server player to their update listeners and remove that reference on close.
+The assembler pauses without discarding partial work during a power interruption. Smoke
+coverage uses a real partially processed recipe and an active server countdown, then captures
+each registered control block separately. The original Kit Assembler PNGs are unchanged.
+
+The control module registers only CrossIC2R. It adds no BuildCraft monitoring adapter;
+the pre-existing optional EU engine / wrench bridge remains a separate feature.

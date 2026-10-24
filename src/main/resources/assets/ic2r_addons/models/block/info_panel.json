@@ -1,0 +1,8 @@
+{
+  "parent": "ic2r_addons:block/full_box",
+  "textures": {
+    "particle": "ic2r_addons:block/info_panel/panel_face",
+    "face": "ic2r_addons:block/info_panel/panel_face",
+    "all": "ic2r_addons:block/info_panel/panel_all"
+  }
+}

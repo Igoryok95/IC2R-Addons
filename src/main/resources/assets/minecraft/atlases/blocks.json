@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_card",
+      "sprite": "ic2r_addons:slots/slot_card"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_range",
+      "sprite": "ic2r_addons:slots/slot_range"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_color",
+      "sprite": "ic2r_addons:slots/slot_color"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_touch",
+      "sprite": "ic2r_addons:slots/slot_touch"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_power",
+      "sprite": "ic2r_addons:slots/slot_power"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_dischargeable",
+      "sprite": "ic2r_addons:slots/slot_dischargeable"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ic2r_addons:gui/sprites/slots/slot_transformer",
+      "sprite": "ic2r_addons:slots/slot_transformer"
+    }
+  ]
+}

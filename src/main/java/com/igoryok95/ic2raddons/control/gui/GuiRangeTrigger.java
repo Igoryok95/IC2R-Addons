@@ -1,0 +1,153 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui;
+
+import com.igoryok95.ic2raddons.control.EnergyControl;
+import com.igoryok95.ic2raddons.control.containers.ContainerRangeTrigger;
+import com.igoryok95.ic2raddons.control.gui.controls.CompactButton;
+import com.igoryok95.ic2raddons.control.gui.controls.GuiRangeTriggerInvertRedstone;
+import com.igoryok95.ic2raddons.control.lib.gui.GuiContainerBase;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityRangeTrigger;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor.ARGB32;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+
+public class GuiRangeTrigger extends GuiContainerBase<ContainerRangeTrigger> {
+  private static final ResourceLocation TEXTURE =
+      ResourceLocation.parse(EnergyControl.MODID + ":textures/gui/gui_range_trigger.png");
+
+  private ContainerRangeTrigger container;
+  private ItemStack prevCard;
+
+  public GuiRangeTrigger(ContainerRangeTrigger container, Inventory inventory, Component title) {
+    super(container, inventory, title, TEXTURE, 176, 190);
+    this.container = container;
+  }
+
+  private void initControls() {
+    ItemStack card = container.getSlot(TileEntityRangeTrigger.SLOT_CARD).getItem();
+    if (!card.isEmpty() && card.equals(prevCard)) return;
+    clearWidgets();
+    prevCard = card;
+    // ten digits, up to 10 billions
+    for (int i = 0; i < 10; i++) {
+      addRenderableWidget(
+          new CompactButton(
+              i * 10,
+              leftPos + 30 + i * 12 + (i + 2) / 3 * 6,
+              topPos + 20,
+              12,
+              12,
+              Component.translatable("screen.ic2r_addons.control.decrease"),
+              (button) -> {
+                actionPerformed(button);
+              }));
+      addRenderableWidget(
+          new CompactButton(
+              i * 10 + 1,
+              leftPos + 30 + i * 12 + (i + 2) / 3 * 6,
+              topPos + 42,
+              12,
+              12,
+              Component.translatable("screen.ic2r_addons.control.increase"),
+              (button) -> {
+                actionPerformed(button);
+              }));
+    }
+    for (int i = 0; i < 10; i++) {
+      addRenderableWidget(
+          new CompactButton(
+              100 + i * 10,
+              leftPos + 30 + i * 12 + (i + 2) / 3 * 6,
+              topPos + 57,
+              12,
+              12,
+              Component.translatable("screen.ic2r_addons.control.decrease"),
+              (button) -> {
+                actionPerformed(button);
+              }));
+      addRenderableWidget(
+          new CompactButton(
+              100 + i * 10 + 1,
+              leftPos + 30 + i * 12 + (i + 2) / 3 * 6,
+              topPos + 79,
+              12,
+              12,
+              Component.translatable("screen.ic2r_addons.control.increase"),
+              (button) -> {
+                actionPerformed(button);
+              }));
+    }
+    addRenderableWidget(new GuiRangeTriggerInvertRedstone(leftPos + 8, topPos + 62, container.te));
+  }
+
+  @Override
+  public void init() {
+    super.init();
+    initControls();
+  }
+
+  private void renderValue(GuiGraphics matrixStack, double value, int x, int y) {
+    x += 114;
+    for (int i = 0; i < 10; i++) {
+      byte digit = (byte) (value % 10);
+      String str = Byte.toString(digit);
+      matrixStack.drawString(
+          font,
+          str,
+          x - 12 * i - font.width("0") / 2 + (9 - i + 2) / 3 * 6,
+          y,
+          ARGB32.opaque(0x404040),
+          false);
+      value /= 10;
+    }
+  }
+
+  protected void actionPerformed(Button button) {
+    int id = ((CompactButton) button).getId();
+    boolean isPlus = id % 2 == 1;
+    id /= 10;
+    int power = 9 - (id % 10);
+    id /= 10;
+    boolean isEnd = id % 2 == 1;
+    double initValue = isEnd ? container.te.levelEnd : container.te.levelStart;
+    double newValue = initValue;
+    double delta = (long) Math.pow(10, power);
+    double digit = (initValue / delta) % 10;
+
+    if (isPlus && digit < 9) newValue += delta;
+    else if (!isPlus && digit > 0) newValue -= delta;
+
+    if (newValue != initValue) {
+      TileEntityRangeTrigger trigger = container.te;
+
+      CompoundTag tag = new CompoundTag();
+      tag.putDouble("value", newValue);
+      if (isEnd) {
+        tag.putInt("type", 3);
+        NetworkHelper.updateSeverTileEntity(trigger.getBlockPos(), tag);
+        trigger.setLevelEnd(newValue);
+      } else {
+        tag.putInt("type", 1);
+        NetworkHelper.updateSeverTileEntity(trigger.getBlockPos(), tag);
+        trigger.setLevelStart(newValue);
+      }
+    }
+  }
+
+  @Override
+  protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
+    drawCenteredText(matrixStack, title, imageWidth, 6);
+    drawLeftAlignedText(matrixStack, I18n.get("container.inventory"), 8, (imageHeight - 96) + 2);
+
+    renderValue(matrixStack, container.te.levelStart, 30, 33);
+    renderValue(matrixStack, container.te.levelEnd, 30, 70);
+  }
+}

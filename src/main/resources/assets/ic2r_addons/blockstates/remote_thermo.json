@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ic2r_addons:block/remote_thermo",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ic2r_addons:block/remote_thermo",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ic2r_addons:block/remote_thermo",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "ic2r_addons:block/remote_thermo"
+    }
+  }
+}

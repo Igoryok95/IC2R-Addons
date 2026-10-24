@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.blocks;
+
+import com.igoryok95.ic2raddons.control.gui.ScreenHandler;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.blocks.FacingBlockSmall;
+import com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityHowlerAlarm;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class HowlerAlarm extends FacingBlockSmall {
+  protected static final VoxelShape AABB_DOWN = Block.box(2.0D, 9.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+  protected static final VoxelShape AABB_UP = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
+  protected static final VoxelShape AABB_NORTH = Block.box(2.0D, 2.0D, 9.0D, 14.0D, 14.0D, 16.0D);
+  protected static final VoxelShape AABB_SOUTH = Block.box(2.0D, 2.0D, 0.0D, 14.0D, 14.0D, 7.0D);
+  protected static final VoxelShape AABB_WEST = Block.box(9.0D, 2.0D, 2.0D, 16.0D, 14.0D, 14.0D);
+  protected static final VoxelShape AABB_EAST = Block.box(0.0D, 2.0D, 2.0D, 7.0D, 14.0D, 14.0D);
+  public static final MapCodec<HowlerAlarm> CODEC = simpleCodec(HowlerAlarm::new);
+
+  @Override
+  protected MapCodec<? extends BaseEntityBlock> codec() {
+    return CODEC;
+  }
+
+  public HowlerAlarm(Properties properties) {
+    super(metal(properties));
+  }
+
+  @Override
+  protected BlockEntityFacing createBlockEntity(BlockPos pos, BlockState state) {
+    return ModTileEntityTypes.howler_alarm.get().create(pos, state);
+  }
+
+  @Override
+  protected void neighborChanged(
+      BlockState state,
+      Level level,
+      BlockPos pos,
+      Block block,
+      BlockPos fromPos,
+      boolean isMoving) {
+    if (!level.isClientSide()) level.sendBlockUpdated(pos, state, state, 2);
+  }
+
+  @Override
+  protected VoxelShape getShape(
+      BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    switch (state.getValue(FACING)) {
+      case EAST:
+        return AABB_EAST;
+      case WEST:
+        return AABB_WEST;
+      case SOUTH:
+        return AABB_SOUTH;
+      case NORTH:
+      default:
+        return AABB_NORTH;
+      case UP:
+        return AABB_UP;
+      case DOWN:
+        return AABB_DOWN;
+    }
+  }
+
+  @Override
+  protected InteractionResult useWithoutItem(
+      BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    if (level.isClientSide()) {
+      BlockEntity te = level.getBlockEntity(pos);
+      if (te instanceof TileEntityHowlerAlarm)
+        ScreenHandler.openHowlerAlarmScreen((TileEntityHowlerAlarm) te);
+    }
+    return InteractionResult.SUCCESS;
+  }
+}

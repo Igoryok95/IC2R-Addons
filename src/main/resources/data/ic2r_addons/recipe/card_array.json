@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:array",
+  "ingredients": [
+    {
+      "item": "ic2r_addons:card_energy_array"
+    }
+  ],
+  "result": {
+    "id": "ic2r_addons:card_energy_array"
+  }
+}

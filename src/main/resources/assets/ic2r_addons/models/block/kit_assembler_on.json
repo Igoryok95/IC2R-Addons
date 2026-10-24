@@ -1,0 +1,8 @@
+{
+  "parent": "ic2r_addons:block/full_box",
+  "textures": {
+    "particle": "ic2r_addons:block/kit_assembler/face_active",
+    "face": "ic2r_addons:block/kit_assembler/face_active",
+    "all": "ic2r_addons:block/kit_assembler/all"
+  }
+}

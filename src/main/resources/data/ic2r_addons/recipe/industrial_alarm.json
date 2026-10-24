@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BLB",
+    "BHB"
+  ],
+  "key": {
+    "B": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "L": {
+      "item": "ic2r_addons:orange_lamp"
+    },
+    "H": {
+      "item": "ic2r_addons:howler_alarm"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:industrial_alarm"
+  }
+}

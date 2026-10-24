@@ -1,0 +1,29 @@
+{
+  "alarm-default": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "ic2r_addons:alarm-default",
+        "stream": true
+      }
+    ]
+  },
+  "alarm-sci-fi": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "ic2r_addons:alarm-sci-fi",
+        "stream": true
+      }
+    ]
+  },
+  "alarm-siren": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "ic2r_addons:alarm-siren",
+        "stream": true
+      }
+    ]
+  }
+}

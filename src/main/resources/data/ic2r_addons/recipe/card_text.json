@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "PCP",
+    " S "
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "C": {
+      "tag": "c:circuits/basic"
+    },
+    "S": {
+      "item": "ic2r_addons:strong_string"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:card_text"
+  }
+}

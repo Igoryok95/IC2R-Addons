@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "ic2r_addons:block/thermal_monitor"
+    },
+    "facing=down": {
+      "model": "ic2r_addons:block/thermal_monitor",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "ic2r_addons:block/thermal_monitor",
+      "x": 90,
+      "y": 90
+    },
+    "facing=west": {
+      "model": "ic2r_addons:block/thermal_monitor",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south": {
+      "model": "ic2r_addons:block/thermal_monitor",
+      "x": 90,
+      "y": 180
+    },
+    "facing=north": {
+      "model": "ic2r_addons:block/thermal_monitor",
+      "x": 90
+    }
+  }
+}

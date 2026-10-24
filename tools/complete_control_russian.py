@@ -1,0 +1,86 @@
+"""Complete untranslated upstream control labels without altering format arguments."""
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+PATH = ROOT / 'src/main/resources/assets/ic2r_addons/lang/ru_ru.json'
+values = json.loads(PATH.read_text(encoding='utf-8'))
+values.update({
+    'ic2r_addons.gui.max': 'МАКС',
+    'item.ic2r_addons.kit_redstone': 'Набор с датчиком редстоуна',
+    'item.ic2r_addons.kit_inventory': 'Набор с датчиком инвентаря',
+    'item.ic2r_addons.card_redstone': 'Карта датчика редстоуна',
+    'item.ic2r_addons.card_inventory': 'Карта датчика инвентаря',
+    'item.ic2r_addons.upgrade_web': 'Улучшение веб-мониторинга',
+})
+labels = {
+    'PanelRefreshRate': 'Период обновления панели',
+    'Ticks': '%s такт(ов)',
+    'InfoPanelBlades': 'Лопасти: %s',
+    'InfoPanelBoilRate': 'Скорость кипения: %s мВ/т',
+    'InfoPanelBlockPowered': 'Блок получает сигнал: %s',
+    'InfoPanelBurnRate': 'Расход топлива: %s мВ/т',
+    'InfoPanelBurnupRatemb': 'Скорость выгорания: %s мВ/т',
+    'InfoPanelCanProvidePower': 'Может выдавать сигнал: %s',
+    'InfoPanelCasingHeat': 'Нагрев корпуса: %s',
+    'InfoPanelCoreHeat': 'Нагрев ядра: %s',
+    'InfoPanelFlowRate': 'Поток: %s мВ/т',
+    'InfoPanelFuel': 'Топливо: %s',
+    'InfoPanelFuelmb': 'Топливо: %s мВ',
+    'InfoPanelFuelRods': 'Топливные стержни: %s',
+    'InfoPanelHeatRate': 'Скорость нагрева: %s мВ/т',
+    'InfoPanelIndirectPower': 'Косвенный сигнал: %s',
+    'InfoPanelInjectionRate': 'Скорость подачи: %s',
+    'InfoPanelInput': 'Вход: %s',
+    'InfoPanelObstructedBlocks': 'Заблокировано блоков: %s',
+    'InfoPanelPassiveCooling': 'Пассивное охлаждение: %s',
+    'InfoPanelPlasma': 'Плазма: %s',
+    'InfoPanelRateLimit': 'Ограничение потока: %s мВ/т',
+    'InfoPanelRedstonePower': 'Сила сигнала: %s',
+    'InfoPanelRotorEfficiency': 'КПД ротора: %s',
+    'InfoPanelRotorMass': 'Масса ротора: %s',
+    'InfoPanelRotorSpeed': 'Скорость ротора: %s об/мин',
+    'InfoPanelSendStrongPower': 'Сильный сигнал: %s',
+    'InfoPanelSendWeekPower': 'Слабый сигнал: %s',
+    'InfoPanelSidedInventory': 'Доступ к инвентарю по сторонам: %s',
+    'InfoPanelSize': 'Размер: %s',
+    'InfoPanelSlotsUsed': 'Занято ячеек: %s',
+    'InfoPanelStorageCells': 'Ячейки хранения: %s',
+    'InfoPanelTank': 'Бак: %s',
+    'InfoPanelTemperature': 'Температура: %s',
+    'InfoPanelTotalNodes': 'Всего узлов: %s',
+    'InfoPanelRotorHealth': 'Состояние ротора: %s',
+    'InfoPanelUsing': 'Потребление: %s',
+    'InfoPanelWastemb': 'Отходы: %s мВ',
+    'cbInfoPanelRate': 'Скорость',
+    'cbInfoPanelTank': 'Баки',
+    'cbInfoPanelUsing': 'Потребление',
+}
+values.update({'message.ic2r_addons.control.' + key: value for key, value in labels.items()})
+descriptions = {
+    'blockLightWhite': 'Белая лампа, включаемая сигналом редстоуна.',
+    'blockLightOrange': 'Оранжевая лампа, включаемая сигналом редстоуна.',
+    'blockHowlerAlarm': 'Звуковая сирена с настраиваемой дальностью, включаемая редстоуном.',
+    'blockIndustrialAlarm': 'Сирена с настраиваемой дальностью и мигающим светом, включаемая редстоуном.',
+    'blockThermalMonitor': 'Установите рядом с ядром или камерой реактора IC2R. При достижении заданного нагрева датчик выдаёт сигнал редстоуна.',
+    'blockInfoPanel': 'Выводит сведения об объекте, к которому привязана вставленная карта датчика.',
+    'blockInfoPanelExtender': 'Объединяется с информационной панелью в бесшовный экран.',
+    'blockInfoPanelAdvanced': 'Показывает несколько объектов. Позволяет настроить цвет фона и текста, а также угол экрана. Требуются карты датчиков.',
+    'blockInfoPanelAdvancedExtender': 'Объединяется с расширенной информационной панелью в бесшовный экран.',
+    'blockHoloPanel': 'Работает как информационная панель. Улучшенные электросхемы увеличивают высоту проекции.',
+    'blockKitAssembler': 'Собирает наборы датчиков из карт и компонентов. Принимает FE, заряженные предметы IC2R и вёдра лавы в энергетической ячейке.',
+    'cards': 'Нажмите набором датчика на подходящий блок, чтобы получить привязанную карту. Например, набором датчика энергии — на хранилище энергии IC2R.',
+    'itemCardHolder': 'Переносное хранилище на 54 карты датчиков.',
+    'itemPortablePanel': 'Переносной вариант информационной панели.',
+    'upgradeColor': 'Позволяет менять цвет текста и фона информационной панели.',
+    'upgradeRange': 'Увеличивает дальность информационных, расширенных и переносных панелей.',
+    'upgradeTouch': 'Включает сенсорное управление информационной панелью.',
+    'kitAppEng': 'Карта сети Applied Energistics 2 из оригинального мода; интеграция в этой версии не включена.',
+    'kitBigReactors': 'Карта реактора или турбины из оригинального мода; интеграция в этой версии не включена.',
+    'kitEnergy': 'Получает сведения о запасе и вместимости хранилища энергии IC2R.',
+    'kitLiquid': 'Получает сведения о первом баке выбранного блока.',
+    'kitLiquidAdv': 'Получает сведения обо всех баках выбранного блока.',
+    'kitToggle': 'Позволяет удалённо переключать рычаг. Вставьте карту и сенсорное улучшение в панель, затем нажмите на экран с зажатой клавишей Alt.',
+}
+values.update({'control.ic2r_addons.jei.' + key: value for key, value in descriptions.items()})
+PATH.write_text(json.dumps(values, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

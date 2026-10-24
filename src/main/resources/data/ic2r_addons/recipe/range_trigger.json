@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PFP",
+    "AMA",
+    " R "
+  ],
+  "key": {
+    "P": {
+      "tag": "c:ingots/iron"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "A": {
+      "tag": "c:circuits/advanced"
+    },
+    "M": {
+      "item": "ic2:machine"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:range_trigger"
+  }
+}

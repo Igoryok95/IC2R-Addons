@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.items.cards;
+
+import com.igoryok95.ic2raddons.control.api.ICardReader;
+import com.igoryok95.ic2raddons.control.api.PanelSetting;
+import com.igoryok95.ic2raddons.control.api.PanelString;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.world.level.Level;
+
+public class ItemCardTime extends ItemCardMain {
+
+  public ItemCardTime(Properties properties) {
+    super(properties);
+  }
+
+  @Override
+  public List<PanelString> getStringData(
+      Level level, int settings, ICardReader reader, boolean isServer, boolean showLabels) {
+    List<PanelString> result = reader.getTitleList();
+    int time = 0;
+    if (level != null) time = (int) ((level.getDayTime() + 6000) % 24000);
+    int hours = time / 1000;
+    int minutes = (time % 1000) * 6 / 100;
+    String suffix = "";
+    if ((settings & 1) == 0) {
+      suffix = hours < 12 ? "AM" : "PM";
+      hours %= 12;
+      if (hours == 0) hours += 12;
+    }
+    result.add(
+        new PanelString(
+            "message.ic2r_addons.control.InfoPanelTime",
+            String.format("%02d:%02d%s", hours, minutes, suffix),
+            showLabels));
+    return result;
+  }
+
+  @Override
+  public List<PanelSetting> getSettingsList() {
+    List<PanelSetting> result = new ArrayList<>(1);
+    result.add(new PanelSetting("message.ic2r_addons.control.cb24h", 1));
+    return result;
+  }
+}

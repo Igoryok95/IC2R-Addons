@@ -1,0 +1,299 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.items.cards;
+
+import com.igoryok95.ic2raddons.control.api.CardState;
+import com.igoryok95.ic2raddons.control.api.ICardReader;
+import com.igoryok95.ic2raddons.control.api.PanelSetting;
+import com.igoryok95.ic2raddons.control.api.PanelString;
+import com.igoryok95.ic2raddons.control.crossmod.CrossModLoader;
+import com.igoryok95.ic2raddons.control.crossmod.ModIDs;
+import com.igoryok95.ic2raddons.control.utils.DataHelper;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+
+public class ItemCardIC2 extends ItemCardMain {
+
+  public ItemCardIC2(Properties properties) {
+    super(properties);
+  }
+
+  @Override
+  public CardState update(Level level, ICardReader reader, int range, BlockPos pos) {
+    BlockPos target = reader.getTarget();
+    if (target == null || !level.hasChunkAt(target)) return CardState.NO_TARGET;
+
+    BlockEntity te = level.getBlockEntity(target);
+    CompoundTag tag = CrossModLoader.getCrossMod(ModIDs.IC2).getCardData(te);
+    if (tag == null) return CardState.NO_TARGET;
+    reader.reset();
+    reader.copyFrom(tag);
+    return CardState.OK;
+  }
+
+  @Override
+  public List<PanelString> getStringData(
+      Level level, int settings, ICardReader reader, boolean isServer, boolean showLabels) {
+    List<PanelString> result = reader.getTitleList();
+    if (reader.hasField(DataHelper.HEAT) && (settings & 1) > 0)
+      addHeat(
+          result,
+          "message.ic2r_addons.control.InfoPanelTemp",
+          reader.getInt(DataHelper.HEAT),
+          reader.getInt(DataHelper.MAXHEAT),
+          showLabels);
+    if (reader.hasField(DataHelper.MAXHEAT) && (settings & 1) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelMaxHeat",
+              reader.getInt(DataHelper.MAXHEAT),
+              showLabels));
+    if (reader.hasField(DataHelper.MAXHEAT) && (settings & 1) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelMelting",
+              reader.getInt(DataHelper.MAXHEAT) * 85 / 100,
+              showLabels));
+    if (reader.hasField("heatD") && (settings & 1) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelTemp",
+              reader.getDouble("heatD"),
+              "°C",
+              showLabels));
+    if (reader.hasField("heatChange") && (settings & 1) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelHeatChange",
+              reader.getInt("heatChange"),
+              showLabels));
+    if (reader.hasField(DataHelper.ENERGY) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelEnergy",
+              reader.getLong(DataHelper.ENERGY),
+              "EU",
+              showLabels));
+    if (reader.hasField(DataHelper.ENERGYHU) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelEnergy",
+              reader.getLong(DataHelper.ENERGYHU),
+              "HU",
+              showLabels));
+    if (reader.hasField(DataHelper.ENERGYKU) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelEnergy",
+              reader.getLong(DataHelper.ENERGYKU),
+              "KU",
+              showLabels));
+    if (reader.hasField(DataHelper.CAPACITY) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelCapacity",
+              reader.getLong(DataHelper.CAPACITY),
+              "EU",
+              showLabels));
+    if (reader.hasField(DataHelper.CAPACITYHU) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelCapacity",
+              reader.getLong(DataHelper.CAPACITYHU),
+              "HU",
+              showLabels));
+    if (reader.hasField(DataHelper.CAPACITYKU) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelCapacity",
+              reader.getLong(DataHelper.CAPACITYKU),
+              "KU",
+              showLabels));
+    if (reader.hasField(DataHelper.DIFF) && (settings & 2) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelDifference",
+              reader.getDouble(DataHelper.DIFF),
+              "EU/t",
+              showLabels));
+    if (reader.hasField(DataHelper.CONSUMPTION) && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelConsumption",
+              reader.getDouble(DataHelper.CONSUMPTION),
+              "mB/t",
+              showLabels));
+    if (reader.hasField("consumptionEU") && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelConsumption",
+              reader.getDouble("consumptionEU"),
+              "EU/t",
+              showLabels));
+    if (reader.hasField(DataHelper.OUTPUT) && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelOutput",
+              reader.getDouble(DataHelper.OUTPUT),
+              "EU/t",
+              showLabels));
+    if (reader.hasField(DataHelper.OUTPUTHU) && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelOutput",
+              reader.getDouble(DataHelper.OUTPUTHU),
+              "HU/t",
+              showLabels));
+    if (reader.hasField(DataHelper.OUTPUTKU) && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelOutput",
+              reader.getDouble(DataHelper.OUTPUTKU),
+              "KU/t",
+              showLabels));
+    if (reader.hasField(DataHelper.OUTPUTMB) && (settings & 4) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelOutput",
+              reader.getDouble(DataHelper.OUTPUTMB),
+              "mB/t",
+              showLabels));
+    if (reader.hasField(DataHelper.MULTIPLIER) && (settings & 8) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelMultiplier",
+              reader.getDouble(DataHelper.MULTIPLIER),
+              showLabels));
+    if (reader.hasField(DataHelper.TANK) && (settings & 16) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelTank",
+              reader.getString(DataHelper.TANK),
+              showLabels));
+    if (reader.hasField(DataHelper.TANK2) && (settings & 16) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelTank",
+              reader.getString(DataHelper.TANK2),
+              showLabels));
+    if (reader.hasField(DataHelper.TANK3) && (settings & 16) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelTank",
+              reader.getString(DataHelper.TANK3),
+              showLabels));
+    if (reader.hasField(DataHelper.FUEL) && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelFuel",
+              reader.getInt(DataHelper.FUEL),
+              showLabels));
+    if (reader.hasField("pellets") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelPellets",
+              reader.getInt("pellets"),
+              showLabels));
+    if (reader.hasField("motors") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelMotors", reader.getInt("motors"), showLabels));
+    if (reader.hasField("coils") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelCoils", reader.getInt("coils"), showLabels));
+    if (reader.hasField("conductors") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelConductors",
+              reader.getInt("conductors"),
+              showLabels));
+    if (reader.hasField("wind") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelWindStrength",
+              reader.getDouble("wind"),
+              showLabels));
+    if (reader.hasField("obstructedBlocks") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelObstructedBlocks",
+              reader.getInt("obstructedBlocks"),
+              showLabels));
+    if (reader.hasField("waterFlow") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelWaterFlow",
+              reader.getDouble("waterFlow"),
+              showLabels));
+    if (reader.hasField("height") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelHeight", reader.getInt("height"), showLabels));
+    if (reader.hasField("health") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelRotorHealth",
+              reader.getDouble("health"),
+              showLabels));
+    if (reader.hasField("progress") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelProgress",
+              reader.getDouble("progress"),
+              showLabels));
+    if (reader.hasField("pressure") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelPressure",
+              reader.getInt("pressure"),
+              "bar",
+              showLabels));
+    if (reader.hasField("calcification") && (settings & 64) > 0)
+      result.add(
+          new PanelString(
+              "ic2.SteamGenerator.gui.calcification",
+              reader.getDouble("calcification"),
+              "%",
+              showLabels));
+    if (reader.hasField("timeLeft") && (settings & 64) > 0) {
+      int timeLeft = reader.getInt("timeLeft");
+      int hours = timeLeft / 3600;
+      int minutes = (timeLeft % 3600) / 60;
+      int seconds = timeLeft % 60;
+      result.add(
+          new PanelString(
+              "message.ic2r_addons.control.InfoPanelTimeRemaining",
+              String.format("%d:%02d:%02d", hours, minutes, seconds),
+              showLabels));
+    }
+    if (reader.hasField(DataHelper.ACTIVE) && (settings & 32) > 0)
+      addOnOff(result, isServer, reader.getBoolean(DataHelper.ACTIVE));
+    return result;
+  }
+
+  protected void addHeat(
+      List<PanelString> result, String name, int heat, int maxHeat, boolean showLabels) {
+    PanelString line = new PanelString(name, heat, showLabels);
+    int rate = maxHeat == 0 ? 0 : 10 * heat / maxHeat;
+    line.colorLeft = rate < 4 ? 0x00ff00 : rate < 8 ? 0xffff00 : 0xff0000;
+    result.add(line);
+  }
+
+  @Override
+  public List<PanelSetting> getSettingsList() {
+    List<PanelSetting> result = new ArrayList<PanelSetting>(7);
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelHeat", 1));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelEnergy", 2));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelOutput", 4));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelMultiplier", 8));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelTank", 16));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelOnOff", 32));
+    result.add(new PanelSetting("message.ic2r_addons.control.cbInfoPanelOther", 64));
+    return result;
+  }
+}

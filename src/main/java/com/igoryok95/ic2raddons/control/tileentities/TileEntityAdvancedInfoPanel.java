@@ -1,0 +1,291 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.tileentities;
+
+import com.igoryok95.ic2raddons.control.blocks.AdvancedInfoPanel;
+import com.igoryok95.ic2raddons.control.containers.ContainerAdvancedInfoPanel;
+import com.igoryok95.ic2raddons.control.init.ModItems;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardMain;
+import com.igoryok95.ic2raddons.control.lib.blocks.FacingBlockActive;
+import com.igoryok95.ic2raddons.control.renderers.RotationOffset;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+
+public class TileEntityAdvancedInfoPanel extends TileEntityInfoPanel {
+  public static final String NAME = "info_panel_advanced";
+  private static final byte SLOT_CARD1 = 0;
+  private static final byte SLOT_CARD2 = 1;
+  private static final byte SLOT_CARD3 = 2;
+  private static final byte SLOT_UPGRADE_RANGE = 3;
+
+  public static final int POWER_REDSTONE = 0;
+  public static final int POWER_INVERTED = 1;
+  public static final int POWER_ON = 2;
+  public static final int POWER_OFF = 3;
+
+  public static final int OFFSET_THICKNESS = 100;
+  public static final int OFFSET_ROTATE_HOR = 200;
+  public static final int OFFSET_ROTATE_VERT = 300;
+
+  public static final int DEFAULT_TEXT = 0xFFFFFFFF;
+  public static final int DEFAULT_BACKGROUND = 0xFF464646;
+
+  public byte powerMode;
+  public byte thickness;
+  public byte rotateHor;
+  public byte rotateVert;
+
+  public TileEntityAdvancedInfoPanel(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+    colorText = DEFAULT_TEXT;
+    colorBackground = DEFAULT_BACKGROUND;
+    colored = true;
+    thickness = 16;
+  }
+
+  public TileEntityAdvancedInfoPanel(BlockPos pos, BlockState state) {
+    this(ModTileEntityTypes.info_panel_advanced.get(), pos, state);
+  }
+
+  public byte getPowerMode() {
+    return powerMode;
+  }
+
+  public void setPowerMode(byte mode) {
+    powerMode = mode;
+    if (level != null && !level.isClientSide()) updatePower();
+  }
+
+  // The power mode decides whether the panel is on, so the block state (and its light) follows it
+  // here
+  // instead of following redstone in the block
+  public void updatePower() { // server
+    calcPowered();
+    BlockState state = level.getBlockState(worldPosition);
+    if (state.getBlock() instanceof AdvancedInfoPanel
+        && state.getValue(FacingBlockActive.ACTIVE) != powered) {
+      level.setBlock(worldPosition, state.setValue(FacingBlockActive.ACTIVE, powered), 2);
+      updateExtenders(level, powered);
+    }
+  }
+
+  @Override
+  protected void tick() {
+    boolean firstTick = !init;
+    super.tick();
+    if (firstTick && !level.isClientSide()) updatePower();
+  }
+
+  public byte getNextPowerMode() {
+    switch (powerMode) {
+      case POWER_REDSTONE:
+        return POWER_INVERTED;
+      case POWER_INVERTED:
+        return POWER_ON;
+      case POWER_ON:
+        return POWER_OFF;
+      case POWER_OFF:
+        return POWER_REDSTONE;
+    }
+    return POWER_REDSTONE;
+  }
+
+  @Override
+  protected void calcPowered() { // server
+    boolean newPowered = level.hasNeighborSignal(worldPosition);
+    switch (powerMode) {
+      case POWER_ON:
+        newPowered = true;
+        break;
+      case POWER_OFF:
+        newPowered = false;
+        break;
+      case POWER_REDSTONE:
+        break;
+      case POWER_INVERTED:
+        newPowered = !newPowered;
+        break;
+    }
+    setPowered(newPowered);
+  }
+
+  public void setValues(int i) {
+    if (i >= 0 && i < 100) {
+      switch (i) {
+        case POWER_ON:
+        case POWER_OFF:
+        case POWER_REDSTONE:
+        case POWER_INVERTED:
+          powerMode = (byte) i;
+      }
+    } else if (i >= OFFSET_THICKNESS && i < OFFSET_THICKNESS + 100) {
+      i -= OFFSET_THICKNESS;
+      thickness = (byte) i;
+    } else if (i >= OFFSET_ROTATE_HOR && i < OFFSET_ROTATE_HOR + 100) {
+      i -= OFFSET_ROTATE_HOR + 8;
+      i = -(i * 7);
+      rotateHor = (byte) i;
+    } else if (i >= OFFSET_ROTATE_VERT && i < OFFSET_ROTATE_VERT + 100) {
+      i -= OFFSET_ROTATE_VERT + 8;
+      i = -(i * 7);
+      rotateVert = (byte) i;
+    }
+    // the panel body is a baked model, so its chunk has to be rebuilt to show the new shape
+    if (level == null) return;
+    if (level.isClientSide()) refreshScreenModel();
+    else {
+      setChanged();
+      notifyBlockUpdate();
+    }
+  }
+
+  @Override
+  protected int getDefaultBackground() {
+    return DEFAULT_BACKGROUND;
+  }
+
+  @Override
+  protected RotationOffset getRenderOffset() {
+    return getRenderOffset(
+        thickness, rotateHor, rotateVert, screen, getBlockPos(), getFacing(), getRotation());
+  }
+
+  public static RotationOffset getRenderOffset(
+      byte thickness,
+      byte rotateHor,
+      byte rotateVert,
+      Screen screen,
+      BlockPos pos,
+      Direction facing,
+      Direction rotation) {
+    if (thickness < 1 || thickness > 16) thickness = 16;
+    int hor = rotateHor / 7;
+    int vert = rotateVert / 7;
+    if (thickness == 16 && hor == 0 && vert == 0) return null;
+    RotationOffset offset = new RotationOffset(thickness * 2, hor, vert);
+    return screen == null ? offset : offset.addOffset(screen, pos, facing, rotation);
+  }
+
+  @Override
+  public void onServerMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    int type = tag.getInt("type");
+    if (type < 10) {
+      super.onServerMessageReceived(tag);
+      return;
+    }
+    switch (type) {
+      case 10:
+        setValues(tag.getInt("value"));
+        break;
+      case 11:
+        setPowerMode((byte) tag.getInt("value"));
+        break;
+    }
+  }
+
+  @Override
+  protected void deserializeDisplaySettings(CompoundTag tag) {
+    deserializeSlotSettings(tag, "dSettings1", SLOT_CARD1);
+    deserializeSlotSettings(tag, "dSettings2", SLOT_CARD2);
+    deserializeSlotSettings(tag, "dSettings3", SLOT_CARD3);
+  }
+
+  @Override
+  protected void readProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.readProperties(tag, registries);
+    setPowerMode((tag.contains("powerMode") ? tag.getByte("powerMode") : powerMode));
+    thickness = (tag.contains("thickness") ? tag.getByte("thickness") : thickness);
+    rotateHor = (tag.contains("rotateHor") ? tag.getByte("rotateHor") : rotateHor);
+    rotateVert = (tag.contains("rotateVert") ? tag.getByte("rotateVert") : rotateVert);
+  }
+
+  @Override
+  protected void serializeDisplaySettings(CompoundTag tag) {
+    serializeSlotSettings(tag, "dSettings1", SLOT_CARD1);
+    serializeSlotSettings(tag, "dSettings2", SLOT_CARD2);
+    serializeSlotSettings(tag, "dSettings3", SLOT_CARD3);
+  }
+
+  @Override
+  protected void writeProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.writeProperties(tag, registries);
+    tag.putByte("powerMode", powerMode);
+    tag.putByte("thickness", thickness);
+    tag.putByte("rotateHor", rotateHor);
+    tag.putByte("rotateVert", rotateVert);
+  }
+
+  @Override
+  public NonNullList<ItemStack> getCards() {
+    NonNullList<ItemStack> data = NonNullList.create();
+    data.add(getItem(SLOT_CARD1));
+    data.add(getItem(SLOT_CARD2));
+    data.add(getItem(SLOT_CARD3));
+    return data;
+  }
+
+  @Override
+  public boolean isColoredEval() {
+    return true;
+  }
+
+  @Override
+  public byte getSlotUpgradeRange() {
+    return SLOT_UPGRADE_RANGE;
+  }
+
+  @Override
+  public boolean isCardSlot(int slot) {
+    return slot == SLOT_CARD1 || slot == SLOT_CARD2 || slot == SLOT_CARD3;
+  }
+
+  @Override
+  public int getContainerSize() {
+    return 4;
+  }
+
+  @Override
+  public boolean isItemValid(int index, ItemStack stack) { // ISlotItemFilter
+    switch (index) {
+      case SLOT_CARD1:
+      case SLOT_CARD2:
+      case SLOT_CARD3:
+        return ItemCardMain.isCard(stack);
+      case SLOT_UPGRADE_RANGE:
+        return stack.getItem().equals(ModItems.upgrade_range.get());
+      default:
+        return false;
+    }
+  }
+
+  @Override
+  public boolean runTouchAction(ItemStack stack, BlockPos pos, Vec3 hit) {
+    if (level.isClientSide()) return false;
+    ItemStack card = getItem(SLOT_CARD1);
+    runTouchAction(this, card, stack, SLOT_CARD1, false);
+    return true;
+  }
+
+  @Override
+  public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
+    return new ContainerAdvancedInfoPanel(windowId, inventory, this);
+  }
+
+  @Override
+  public Component getDisplayName() {
+    return Component.translatable(ModItems.info_panel_advanced.get().getDescriptionId());
+  }
+}

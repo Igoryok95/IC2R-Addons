@@ -8,6 +8,23 @@
     "ic2r_addons:liquescent_extruder",
     "ic2r_addons:impellerized_roller",
     "ic2r_addons:water_jet_cutter",
-    "ic2r_addons:thermal_washer"
+    "ic2r_addons:thermal_washer",
+    "ic2r_addons:white_lamp",
+    "ic2r_addons:orange_lamp",
+    "ic2r_addons:howler_alarm",
+    "ic2r_addons:industrial_alarm",
+    "ic2r_addons:thermal_monitor",
+    "ic2r_addons:range_trigger",
+    "ic2r_addons:remote_thermo",
+    "ic2r_addons:info_panel",
+    "ic2r_addons:info_panel_extender",
+    "ic2r_addons:info_panel_advanced",
+    "ic2r_addons:info_panel_advanced_extender",
+    "ic2r_addons:holo_panel",
+    "ic2r_addons:holo_panel_extender",
+    "ic2r_addons:kit_assembler",
+    "ic2r_addons:timer",
+    "ic2r_addons:energy_counter",
+    "ic2r_addons:average_counter"
   ]
 }

@@ -1,0 +1,94 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui.controls;
+
+import com.igoryok95.ic2raddons.control.EnergyControl;
+import com.igoryok95.ic2raddons.control.config.ConfigHandler;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityHowlerAlarm;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor.ARGB32;
+
+public class GuiHowlerAlarmSlider extends AbstractButton {
+  private static final ResourceLocation TEXTURE =
+      ResourceLocation.fromNamespaceAndPath(
+          EnergyControl.MODID, "textures/gui/gui_howler_alarm.png");
+
+  public float sliderValue;
+  public boolean dragging;
+  private int minValue = 0;
+  private int maxValue = 256;
+  private int step = 8;
+  private TileEntityHowlerAlarm alarm;
+
+  @SuppressWarnings("resource")
+  public GuiHowlerAlarmSlider(int x, int y, TileEntityHowlerAlarm alarm) {
+    super(x, y, 107, 16, CommonComponents.EMPTY);
+    this.alarm = alarm;
+    dragging = false;
+    if (alarm.getLevel().isClientSide()) maxValue = ConfigHandler.MAX_ALARM_RANGE.get();
+    int currentRange = alarm.getRange();
+    if (alarm.getLevel().isClientSide() && currentRange > maxValue) currentRange = maxValue;
+    sliderValue = ((float) currentRange - minValue) / (maxValue - minValue);
+    setMessage(
+        Component.translatable(
+            "message.ic2r_addons.control.HowlerAlarmSoundRange", getNormalizedValue()));
+  }
+
+  private int getNormalizedValue() {
+    return (minValue + (int) Math.floor((maxValue - minValue) * sliderValue)) / step * step;
+  }
+
+  @SuppressWarnings("resource")
+  private void setSliderPos(double targetX) {
+    sliderValue = (float) (targetX - (getX() + 4)) / (float) (width - 8);
+
+    if (sliderValue < 0.0F) sliderValue = 0.0F;
+
+    if (sliderValue > 1.0F) sliderValue = 1.0F;
+
+    int newValue = getNormalizedValue();
+    if (alarm.getLevel().isClientSide() && alarm.getRange() != newValue) {
+      NetworkHelper.updateSeverTileEntity(alarm.getBlockPos(), 2, newValue);
+      alarm.setRange(newValue);
+    }
+    setMessage(
+        Component.translatable("message.ic2r_addons.control.HowlerAlarmSoundRange", newValue));
+  }
+
+  @Override
+  protected void renderWidget(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
+    Minecraft minecraft = Minecraft.getInstance();
+    Font fontRenderer = minecraft.font;
+    if (dragging) setSliderPos(mouseX);
+
+    matrixStack.blit(
+        TEXTURE, getX() + (int) (sliderValue * (width - 8)), getY(), 131, 0, 8, 16, 256, 256);
+    matrixStack.drawString(
+        fontRenderer, getMessage(), getX(), getY() - 12, ARGB32.opaque(0x404040), false);
+  }
+
+  @Override
+  public void onPress() {}
+
+  @Override
+  public void onClick(double mouseX, double mouseY) {
+    setSliderPos(mouseX);
+    dragging = true;
+  }
+
+  @Override
+  public void onRelease(double mouseX, double mouseY) {
+    dragging = false;
+  }
+
+  @Override
+  protected void updateWidgetNarration(NarrationElementOutput output) {}
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CF",
+    "PB"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "C": {
+      "item": "minecraft:bucket"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "B": {
+      "tag": "c:dyes/blue"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:kit_liquid"
+  }
+}

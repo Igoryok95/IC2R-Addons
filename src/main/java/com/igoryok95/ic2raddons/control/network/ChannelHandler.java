@@ -1,0 +1,56 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.network;
+
+import com.igoryok95.ic2raddons.control.lib.network.PacketTileEntity;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityInfoPanel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+
+public class ChannelHandler {
+
+  public static void register(RegisterPayloadHandlersEvent event) {
+    PayloadRegistrar registrar = event.registrar("1");
+    registrar.playBidirectional(
+        PacketCard.TYPE,
+        PacketCard.STREAM_CODEC,
+        new DirectionalPayloadHandler<>(PacketCard::handleClient, PacketCard::handleServer));
+    registrar.playBidirectional(
+        PacketTileEntity.TYPE,
+        PacketTileEntity.STREAM_CODEC,
+        new DirectionalPayloadHandler<>(
+            PacketTileEntity::handleClient, PacketTileEntity::handleServer));
+    registrar.playToClient(PacketAlarm.TYPE, PacketAlarm.STREAM_CODEC, PacketAlarm::handle);
+    registrar.playToServer(PacketKeys.TYPE, PacketKeys.STREAM_CODEC, PacketKeys::handle);
+    registrar.playToServer(
+        PacketPortableBars.TYPE, PacketPortableBars.STREAM_CODEC, PacketPortableBars::handle);
+  }
+
+  // server
+  public static void updateClientCard(ItemStack card, TileEntityInfoPanel panel, int slot) {
+    if (card.isEmpty() || panel == null || slot < 0) return;
+
+    Level level = panel.getLevel();
+    if (level == null || level.isClientSide) return;
+
+    NetworkHelper.sendPacketToAllAround(
+        panel.getLevel(), panel.getBlockPos(), new PacketCard(card, panel.getBlockPos(), slot));
+  }
+
+  // client
+  public static void updateServerCard(ItemStack card, TileEntityInfoPanel panel, int slot) {
+    if (card.isEmpty() || panel == null || slot < 0) return;
+
+    Level level = panel.getLevel();
+    if (level == null || !level.isClientSide) return;
+
+    NetworkHelper.sendToServer(new PacketCard(card, panel.getBlockPos(), slot));
+  }
+
+  public static void updateSeverKeys(boolean altPressed) {
+    NetworkHelper.sendToServer(new PacketKeys(altPressed));
+  }
+}

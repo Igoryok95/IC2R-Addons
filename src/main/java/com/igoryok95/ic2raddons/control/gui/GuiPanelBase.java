@@ -1,0 +1,136 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui;
+
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardMain;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardReader;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardText;
+import com.igoryok95.ic2raddons.control.lib.gui.GuiContainerBase;
+import com.igoryok95.ic2raddons.control.lib.gui.controls.GuiButtonGeneral;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityInfoPanel;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.item.ItemStack;
+
+public abstract class GuiPanelBase<T extends AbstractContainerMenu> extends GuiContainerBase<T>
+    implements ContainerListener {
+  protected static final int ID_LABELS = 1;
+  protected static final int ID_SLOPE = 2;
+  protected static final int ID_COLORS = 3;
+  protected static final int ID_POWER = 4;
+  protected static final int ID_TEXT = 5;
+  protected static final int ID_TICKRATE = 6;
+
+  protected String name;
+  protected TileEntityInfoPanel panel;
+  protected EditBox textboxTitle;
+  protected byte activeTab;
+  protected boolean modified;
+  protected ItemStack oldStack = ItemStack.EMPTY;
+
+  public GuiPanelBase(
+      T container, Inventory inv, Component name, ResourceLocation texture, int imageHeight) {
+    super(container, inv, name, texture, 176, imageHeight);
+    activeTab = 0;
+    modified = false;
+  }
+
+  protected abstract void initButtons();
+
+  protected abstract void initControls();
+
+  @Override
+  public void init() {
+    super.init();
+    initButtons();
+    initControls();
+    menu.removeSlotListener(this);
+    menu.addSlotListener(this);
+  }
+
+  @Override
+  protected void renderLabels(GuiGraphics matrixStack, int mouseX, int mouseY) {
+    drawCenteredText(matrixStack, title, imageWidth, 6);
+  }
+
+  @Override
+  public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    if (textboxTitle != null) {
+      textboxTitle.mouseReleased(mouseX, mouseY, button);
+      // the screen places a carried item in a slot on mouse release, so the release must reach it
+      if (textboxTitle.isFocused()) return super.mouseReleased(mouseX, mouseY, button);
+      setFocused(null);
+      updateTitle();
+    }
+    return super.mouseReleased(mouseX, mouseY, button);
+  }
+
+  protected void updateTitle() {
+    if (textboxTitle == null) return;
+    if (panel.getLevel().isClientSide()) {
+      CompoundTag tag = new CompoundTag();
+      tag.putInt("type", 4);
+      tag.putInt("slot", activeTab);
+      tag.putString("title", textboxTitle.getValue());
+      NetworkHelper.updateSeverTileEntity(panel.getBlockPos(), tag);
+      ItemStack card = panel.getItem(activeTab);
+      if (ItemCardMain.isCard(card)) new ItemCardReader(card).setTitle(textboxTitle.getValue());
+    }
+  }
+
+  @Override
+  public void onClose() {
+    updateTitle();
+    super.onClose();
+    menu.removeSlotListener(this);
+  }
+
+  protected void actionPerformed(Button button, int id) {
+    switch (id) {
+      case ID_LABELS:
+        boolean checked = !panel.getShowLabels();
+        ((GuiButtonGeneral) button).setTextureTop(checked ? 15 : 31);
+        NetworkHelper.updateSeverTileEntity(panel.getBlockPos(), 3, checked ? 1 : 0);
+        panel.setShowLabels(checked);
+        break;
+      case ID_COLORS:
+        Screen colorGui = new GuiScreenColor(this, panel);
+        minecraft.setScreen(colorGui);
+        break;
+      case ID_TEXT:
+        // the controls are rebuilt from the card when this gui comes back, so save the typed title
+        // first
+        updateTitle();
+        oldStack = ItemStack.EMPTY;
+        openTextGui();
+        break;
+      case ID_TICKRATE:
+        GuiHorizontalSlider slider = new GuiHorizontalSlider(this, panel);
+        minecraft.setScreen(slider);
+        break;
+    }
+  }
+
+  protected void openTextGui() {
+    ItemStack card = panel.getCards().get(activeTab);
+    if (!card.isEmpty() && card.getItem() instanceof ItemCardText)
+      minecraft.setScreen(new GuiCardText(card, panel, this, activeTab));
+  }
+
+  @Override
+  public void slotChanged(AbstractContainerMenu container, int slot, ItemStack stack) {
+    initControls();
+  }
+
+  @Override
+  public void dataChanged(AbstractContainerMenu container, int varToUpdate, int newValue) {}
+}

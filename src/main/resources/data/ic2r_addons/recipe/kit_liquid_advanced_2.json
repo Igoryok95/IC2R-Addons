@@ -1,0 +1,24 @@
+{
+  "type": "ic2r_addons:kit_assembler",
+  "input1": {
+    "ingredient": {
+      "item": "ic2r_addons:card_liquid_advanced"
+    }
+  },
+  "input2": {
+    "ingredient": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "count": 2
+  },
+  "input3": {
+    "ingredient": {
+      "item": "ic2r_addons:card_liquid_advanced"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:kit_liquid_advanced",
+    "count": 2
+  },
+  "time": 1000
+}

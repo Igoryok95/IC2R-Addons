@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=east,state=off": {
+      "model": "ic2r_addons:block/range_trigger0",
+      "y": 90
+    },
+    "facing=west,state=off": {
+      "model": "ic2r_addons:block/range_trigger0",
+      "y": 270
+    },
+    "facing=south,state=off": {
+      "model": "ic2r_addons:block/range_trigger0",
+      "y": 180
+    },
+    "facing=north,state=off": {
+      "model": "ic2r_addons:block/range_trigger0"
+    },
+    "facing=east,state=on": {
+      "model": "ic2r_addons:block/range_trigger1",
+      "y": 90
+    },
+    "facing=west,state=on": {
+      "model": "ic2r_addons:block/range_trigger1",
+      "y": 270
+    },
+    "facing=south,state=on": {
+      "model": "ic2r_addons:block/range_trigger1",
+      "y": 180
+    },
+    "facing=north,state=on": {
+      "model": "ic2r_addons:block/range_trigger1"
+    },
+    "facing=east,state=error": {
+      "model": "ic2r_addons:block/range_trigger2",
+      "y": 90
+    },
+    "facing=west,state=error": {
+      "model": "ic2r_addons:block/range_trigger2",
+      "y": 270
+    },
+    "facing=south,state=error": {
+      "model": "ic2r_addons:block/range_trigger2",
+      "y": 180
+    },
+    "facing=north,state=error": {
+      "model": "ic2r_addons:block/range_trigger2"
+    }
+  }
+}

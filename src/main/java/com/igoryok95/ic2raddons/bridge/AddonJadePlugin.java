@@ -11,16 +11,22 @@ import snownee.jade.api.config.IPluginConfig;
 @WailaPlugin
 public final class AddonJadePlugin implements IWailaPlugin {
   private static final EngineProvider ENGINE = new EngineProvider();
+  private static final com.igoryok95.ic2raddons.control.ControlJadeProvider CONTROL =
+      new com.igoryok95.ic2raddons.control.ControlJadeProvider();
   private static final com.igoryok95.ic2raddons.machines.compat.MachineJadeProvider MACHINES =
       new com.igoryok95.ic2raddons.machines.compat.MachineJadeProvider();
 
   public void register(IWailaCommonRegistration r) {
+    r.registerBlockDataProvider(
+        CONTROL, com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing.class);
     r.registerBlockDataProvider(ENGINE, Ic2TileEntity.class);
     r.registerBlockDataProvider(
         MACHINES, com.igoryok95.ic2raddons.machines.te.TileEntityHeatingMachine.class);
   }
 
   public void registerClient(IWailaClientRegistration r) {
+    r.registerBlockComponent(
+        CONTROL, com.igoryok95.ic2raddons.control.lib.blocks.FacingBlock.class);
     r.registerBlockComponent(ENGINE, Ic2TileEntityBlock.class);
     r.registerBlockComponent(MACHINES, Ic2TileEntityBlock.class);
   }

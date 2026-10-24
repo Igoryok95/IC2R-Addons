@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "ICI",
+    " A "
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "I": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "C": {
+      "tag": "c:circuits/basic"
+    },
+    "A": {
+      "item": "minecraft:charcoal"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:upgrade_touch"
+  }
+}

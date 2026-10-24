@@ -1,0 +1,203 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.crossmod;
+
+import com.igoryok95.ic2raddons.control.api.ItemStackHelper;
+import com.igoryok95.ic2raddons.control.init.ModItems;
+import com.igoryok95.ic2raddons.control.utils.DataHelper;
+import com.igoryok95.ic2raddons.control.utils.FluidInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.registries.RegisterEvent;
+
+public class CrossModLoader {
+  private static final Map<String, CrossModBase> CROSS_MODS = new HashMap<>();
+  private static final CrossModBase EMPTY = new CrossModBase();
+
+  public static void init() {
+    loadCrossModSafely(ModIDs.IC2, () -> CrossIC2R::new);
+  }
+
+  @SuppressWarnings("unused")
+  private static void loadCrossMod(String modid, Supplier<? extends CrossModBase> factory) {
+    CROSS_MODS.put(modid, ModList.get().isLoaded(modid) ? factory.get() : new CrossModBase());
+  }
+
+  @SuppressWarnings("unused")
+  private static void loadCrossModSafely(
+      String modid, Supplier<Supplier<? extends CrossModBase>> factory) {
+    CROSS_MODS.put(modid, ModList.get().isLoaded(modid) ? factory.get().get() : new CrossModBase());
+  }
+
+  public static CrossModBase getCrossMod(String modid) {
+    return CROSS_MODS.getOrDefault(modid, EMPTY);
+  }
+
+  public static ItemStack getEnergyCard(Level level, BlockPos pos) {
+    BlockEntity te = level.getBlockEntity(pos);
+    if (te == null) return ItemStack.EMPTY;
+    CompoundTag data = getEnergyData(te);
+    if (data != null) {
+      ItemStack card = new ItemStack(ModItems.card_energy.get());
+      ItemStackHelper.setCoordinates(card, pos);
+      return card;
+    }
+    return ItemStack.EMPTY;
+  }
+
+  public static CompoundTag getEnergyData(BlockEntity te) {
+    if (te == null) return null;
+    for (CrossModBase crossMod : CROSS_MODS.values()) {
+      CompoundTag tag = crossMod.getEnergyData(te);
+      if (tag != null) return tag;
+    }
+    IEnergyStorage handler =
+        te.getLevel()
+            .getCapability(
+                Capabilities.EnergyStorage.BLOCK, te.getBlockPos(), te.getBlockState(), te, null);
+    if (handler != null) {
+      CompoundTag tag = new CompoundTag();
+      tag.putString(DataHelper.EUTYPE, "FE");
+      tag.putDouble(DataHelper.ENERGY, handler.getEnergyStored());
+      tag.putDouble(DataHelper.CAPACITY, handler.getMaxEnergyStored());
+      return tag;
+    }
+    return null;
+  }
+
+  public static List<FluidInfo> getAllTanks(Level level, BlockPos pos) {
+    BlockEntity te = level.getBlockEntity(pos);
+    if (te == null) return null;
+    for (CrossModBase crossMod : CROSS_MODS.values()) {
+      List<FluidInfo> list = crossMod.getAllTanks(te);
+      if (list != null) return list;
+    }
+    IFluidHandler handler =
+        level.getCapability(Capabilities.FluidHandler.BLOCK, pos, te.getBlockState(), te, null);
+    if (handler != null) {
+      List<FluidInfo> result = new ArrayList<>();
+      for (int i = 0; i < handler.getTanks(); i++)
+        result.add(new FluidInfo(handler.getFluidInTank(i), handler.getTankCapacity(i)));
+      return result;
+    }
+    return null;
+  }
+
+  public static FluidInfo getTankAt(Level level, BlockPos pos) {
+    List<FluidInfo> tanks = getAllTanks(level, pos);
+    return tanks != null && tanks.size() > 0 ? tanks.get(0) : null;
+  }
+
+  public static int getReactorHeat(Level level, BlockPos pos) {
+    for (CrossModBase crossMod : CROSS_MODS.values()) {
+      int heat = crossMod.getReactorHeat(level, pos);
+      if (heat != -1) return heat;
+    }
+    return -1;
+  }
+
+  public static CompoundTag getInventoryData(BlockEntity te) {
+    if (te == null) return null;
+    for (CrossModBase crossMod : CROSS_MODS.values()) {
+      CompoundTag tag = crossMod.getInventoryData(te);
+      if (tag != null) return tag;
+    }
+    IItemHandler handler =
+        te.getLevel()
+            .getCapability(
+                Capabilities.ItemHandler.BLOCK, te.getBlockPos(), te.getBlockState(), te, null);
+    if (handler == null && !(te instanceof Container)) return null;
+    CompoundTag tag = new CompoundTag();
+    if (handler != null) {
+      int inUse = 0;
+      int items = 0;
+      tag.putInt("size", handler.getSlots());
+      for (int i = 0; i < handler.getSlots(); i++) {
+        ItemStack stack = handler.getStackInSlot(i);
+        if (!stack.isEmpty()) {
+          inUse++;
+          items += stack.getCount();
+        }
+        if (i < 6)
+          tag.put("slot" + Integer.toString(i), stack.saveOptional(te.getLevel().registryAccess()));
+      }
+      tag.putInt("used", inUse);
+      tag.putInt("items", items);
+    }
+    if (te instanceof Container) {
+      Container inv = (Container) te;
+      if (te instanceof BaseContainerBlockEntity)
+        tag.putString("name", ((BaseContainerBlockEntity) te).getDisplayName().getString());
+      tag.putBoolean("sided", inv instanceof WorldlyContainer);
+      if (handler == null) {
+        int inUse = 0;
+        int items = 0;
+        tag.putInt("size", inv.getContainerSize());
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+          if (!inv.getItem(i).isEmpty()) {
+            inUse++;
+            items += inv.getItem(i).getCount();
+          }
+          if (i < 6)
+            tag.put(
+                "slot" + Integer.toString(i),
+                inv.getItem(i).saveOptional(te.getLevel().registryAccess()));
+        }
+        tag.putInt("used", inUse);
+        tag.putInt("items", items);
+      }
+    }
+    return tag;
+  }
+
+  public static boolean isElectricItem(ItemStack stack) {
+    if (stack.isEmpty()) return false;
+
+    for (CrossModBase crossMod : CROSS_MODS.values())
+      if (crossMod.isElectricItem(stack)) return true;
+    return false;
+  }
+
+  public static double dischargeItem(ItemStack stack, int amount, int tier) {
+    for (CrossModBase crossMod : CROSS_MODS.values())
+      if (crossMod.isElectricItem(stack)) {
+        double result = crossMod.dischargeItem(stack, amount, tier);
+        if (result > 0) return result;
+      }
+    return 0;
+  }
+
+  public static void onRegister(RegisterEvent event) {
+    event.register(
+        Registries.ITEM,
+        helper -> {
+          for (CrossModBase crossMod : CROSS_MODS.values()) crossMod.registerItems(helper);
+        });
+  }
+
+  public static void addKitsToCreativeTab(CreativeModeTab.Output output) {
+    for (CrossModBase crossMod : CROSS_MODS.values()) crossMod.addKitsToCreativeTab(output);
+  }
+
+  public static void addCardsToCreativeTab(CreativeModeTab.Output output) {
+    for (CrossModBase crossMod : CROSS_MODS.values()) crossMod.addCardsToCreativeTab(output);
+  }
+}

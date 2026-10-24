@@ -1,0 +1,166 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.tileentities;
+
+import com.igoryok95.ic2raddons.control.blocks.RemoteThermalMonitor;
+import com.igoryok95.ic2raddons.control.blocks.ThermalMonitor;
+import com.igoryok95.ic2raddons.control.config.ConfigHandler;
+import com.igoryok95.ic2raddons.control.crossmod.CrossModLoader;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.tileentities.TileEntityInventory;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class TileEntityThermalMonitor extends TileEntityInventory implements ITilePacketHandler {
+  private int heatLevel;
+  private boolean invertRedstone;
+  protected int status;
+  private boolean poweredBlock;
+
+  protected int updateTicker;
+  protected int tickRate;
+
+  public TileEntityThermalMonitor(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+    invertRedstone = false;
+    heatLevel = 500;
+    updateTicker = 0;
+    tickRate = ConfigHandler.THERMAL_MONITOR_REFRESH_PERIOD.get();
+    status = -1;
+  }
+
+  public TileEntityThermalMonitor(BlockPos pos, BlockState state) {
+    this(ModTileEntityTypes.thermal_monitor.get(), pos, state);
+  }
+
+  public int getHeatLevel() {
+    return heatLevel;
+  }
+
+  public void setHeatLevel(int value) {
+    int old = heatLevel;
+    heatLevel = value;
+    if (!level.isClientSide() && heatLevel != old) notifyBlockUpdate();
+  }
+
+  public boolean getInvertRedstone() {
+    return invertRedstone;
+  }
+
+  public void setInvertRedstone(boolean value) {
+    boolean old = invertRedstone;
+    invertRedstone = value;
+    if (!level.isClientSide() && invertRedstone != old) notifyBlockUpdate();
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int newStatus) {
+    status = newStatus;
+  }
+
+  public boolean getPowered() {
+    return poweredBlock;
+  }
+
+  @Override
+  public void onServerMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    switch (tag.getInt("type")) {
+      case 1:
+        if (tag.contains("value")) setHeatLevel(tag.getInt("value"));
+        break;
+      case 2:
+        if (tag.contains("value")) setInvertRedstone(tag.getInt("value") == 1);
+        break;
+    }
+  }
+
+  @Override
+  public void onClientMessageReceived(CompoundTag tag) {}
+
+  @Override
+  protected void writeUpdateData(CompoundTag tag, HolderLookup.Provider registries) {
+    tag.putInt("status", status);
+    tag.putBoolean("poweredBlock", poweredBlock);
+  }
+
+  @Override
+  protected void readProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.readProperties(tag, registries);
+    heatLevel = (tag.contains("heatLevel") ? tag.getInt("heatLevel") : heatLevel);
+    invertRedstone = (tag.contains("invert") ? tag.getBoolean("invert") : invertRedstone);
+    if (tag.contains("status")) setStatus(tag.getInt("status"));
+    poweredBlock = (tag.contains("poweredBlock") ? tag.getBoolean("poweredBlock") : poweredBlock);
+  }
+
+  @Override
+  protected void writeProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.writeProperties(tag, registries);
+    tag.putInt("heatLevel", heatLevel);
+    tag.putBoolean("invert", invertRedstone);
+  }
+
+  public static void tickStatic(Level level, BlockPos pos, BlockState state, BlockEntity be) {
+    if (!(be instanceof TileEntityThermalMonitor)) return;
+    TileEntityThermalMonitor te = (TileEntityThermalMonitor) be;
+    te.tick();
+  }
+
+  protected void tick() {
+    if (level.isClientSide()) return;
+
+    if (updateTicker-- > 0) return;
+    updateTicker = tickRate;
+    checkStatus();
+  }
+
+  protected void checkStatus() {
+    int heat = CrossModLoader.getReactorHeat(level, worldPosition);
+    int newStatus = heat == -1 ? -2 : heat >= heatLevel ? 1 : 0;
+
+    if (newStatus != status) {
+      status = newStatus;
+      notifyBlockUpdate();
+      level.updateNeighborsAt(worldPosition, level.getBlockState(worldPosition).getBlock());
+    }
+  }
+
+  public void notifyBlockUpdate() {
+    BlockState state = level.getBlockState(worldPosition);
+    Block block = state.getBlock();
+    if (block instanceof ThermalMonitor || block instanceof RemoteThermalMonitor) {
+      boolean newValue = status < 0 ? false : status == 1 ? !invertRedstone : invertRedstone;
+      if (poweredBlock != newValue) {
+        poweredBlock = newValue;
+        level.updateNeighborsAt(worldPosition, block);
+      }
+      level.sendBlockUpdated(worldPosition, state, state, 2);
+    }
+  }
+
+  @Override
+  protected boolean hasRotation() {
+    return true;
+  }
+
+  // ------- Inventory -------
+  @Override
+  public int getContainerSize() {
+    return 0;
+  }
+
+  @Override
+  public boolean canPlaceItem(int index, ItemStack stack) {
+    return false;
+  }
+}

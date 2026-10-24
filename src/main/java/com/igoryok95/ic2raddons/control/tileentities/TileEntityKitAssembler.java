@@ -1,0 +1,375 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.tileentities;
+
+import com.igoryok95.ic2raddons.control.blocks.KitAssembler;
+import com.igoryok95.ic2raddons.control.containers.ContainerKitAssembler;
+import com.igoryok95.ic2raddons.control.crossmod.CrossModLoader;
+import com.igoryok95.ic2raddons.control.init.ModItems;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardMain;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardReader;
+import com.igoryok95.ic2raddons.control.lib.containers.EnergyStorage;
+import com.igoryok95.ic2raddons.control.lib.containers.slots.ISlotItemFilter;
+import com.igoryok95.ic2raddons.control.lib.tileentities.TileEntityInventory;
+import com.igoryok95.ic2raddons.control.recipes.KitAssemblerRecipe;
+import com.igoryok95.ic2raddons.control.recipes.KitAssemblerRecipeType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+
+public class TileEntityKitAssembler extends TileEntityInventory
+    implements MenuProvider, ITilePacketHandler, ISlotItemFilter, IEnergyBlockEntity {
+  public static final byte SLOT_INFO = 0;
+  public static final byte SLOT_CARD1 = 1;
+  public static final byte SLOT_ITEM = 2;
+  public static final byte SLOT_CARD2 = 3;
+  public static final byte SLOT_RESULT = 4;
+  public static final byte SLOT_DISCHARGER = 5;
+  public static final byte SLOT_TRANSFORMER = 6;
+  private static final int[] SLOTS_TOP = {SLOT_CARD1, SLOT_ITEM, SLOT_CARD2};
+  private static final int[] SLOTS_BOTTOM = {SLOT_RESULT};
+  private static final int[] SLOTS_NONE = {};
+  private EnergyStorage storage;
+  private int buffer;
+  private static final int CONSUMPTION = 5;
+  private KitAssemblerRecipe recipe;
+  private int recipeTime; // client Only
+  public static final int CAPACITY = 5000;
+  public static final int OUTPUT = 32;
+  private double production;
+  private boolean active;
+
+  public TileEntityKitAssembler(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+    storage = new EnergyStorage(CAPACITY, OUTPUT, OUTPUT, 0);
+    active = false;
+    production = 0;
+  }
+
+  public TileEntityKitAssembler(BlockPos pos, BlockState state) {
+    this(ModTileEntityTypes.kit_assembler.get(), pos, state);
+  }
+
+  public double getEnergy() {
+    return storage.getEnergyStored();
+  }
+
+  public int getEnergyFactor() {
+    return (int) Math.round(storage.getEnergyStored() * 52.0F / CAPACITY);
+  }
+
+  public double getProduction() {
+    return production;
+  }
+
+  public int getProductionFactor() {
+    if (recipeTime == 0) return 0;
+    return Math.clamp(Math.round(production * 24.0 / recipeTime), 0, 24);
+  }
+
+  public int getRecipeTime() {
+    return recipe != null ? recipe.time : recipeTime;
+  }
+
+  private int getUpgrades() {
+    return Math.min(3, getItem(SLOT_TRANSFORMER).getCount());
+  }
+
+  // each transformer upgrade doubles speed and consumption and quadruples the input rate
+  private int getInputRate() {
+    return OUTPUT * (int) Math.pow(4, getUpgrades());
+  }
+
+  private int getEnergyNeeded() {
+    return CONSUMPTION * (int) Math.pow(2, getUpgrades());
+  }
+
+  @Override
+  public void onServerMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    switch (tag.getInt("type")) {
+      case 4:
+        if (tag.contains("slot") && tag.contains("title")) {
+          ItemStack itemStack = getItem(tag.getInt("slot"));
+          if (ItemCardMain.isCard(itemStack))
+            new ItemCardReader(itemStack).setTitle(tag.getString("title"));
+        }
+        break;
+    }
+  }
+
+  @Override
+  public void onClientMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    switch (tag.getInt("type")) {
+      case 1:
+        if (tag.contains("energy") && tag.contains("production")) {
+          storage.setEnergy((int) tag.getDouble("energy"));
+          production = tag.getDouble("production");
+        }
+        if (tag.contains("time")) recipeTime = tag.getInt("time");
+        else recipeTime = 0;
+        break;
+    }
+  }
+
+  @Override
+  protected void writeUpdateData(CompoundTag tag, HolderLookup.Provider registries) {
+    tag.putBoolean("active", active);
+  }
+
+  @Override
+  protected void readProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.readProperties(tag, registries);
+    if (tag.contains("energy")) storage.setEnergy(tag.getInt("energy"));
+    buffer = (tag.contains("buffer") ? tag.getInt("buffer") : buffer);
+    production = (tag.contains("production") ? tag.getDouble("production") : production);
+    active = (tag.contains("active") ? tag.getBoolean("active") : active);
+  }
+
+  @Override
+  protected void writeProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.writeProperties(tag, registries);
+    tag.putInt("energy", storage.getEnergyStored());
+    tag.putInt("buffer", buffer);
+    tag.putDouble("production", production);
+  }
+
+  public static void tickStatic(Level level, BlockPos pos, BlockState state, BlockEntity be) {
+    if (!(be instanceof TileEntityKitAssembler)) return;
+    TileEntityKitAssembler te = (TileEntityKitAssembler) be;
+    te.tick();
+  }
+
+  protected void tick() {
+    if (level.isClientSide()) return;
+    int energyBefore = storage.getEnergyStored();
+    handleDischarger(SLOT_DISCHARGER);
+    updateState();
+    if (!active || recipe == null) {
+      if (storage.getEnergyStored() != energyBefore) super.setChanged();
+      return;
+    }
+    storage.extractEnergy(getEnergyNeeded(), false);
+    production += Math.pow(2, getUpgrades());
+    if (production >= recipe.time) {
+      getItem(SLOT_CARD1).shrink(recipe.count1);
+      getItem(SLOT_ITEM).shrink(recipe.count2);
+      getItem(SLOT_CARD2).shrink(recipe.count3);
+      var result = getItem(SLOT_RESULT);
+      if (result.isEmpty()) inventory.set(SLOT_RESULT, recipe.getOutput());
+      else result.grow(recipe.output.getCount());
+      production = 0;
+      recipe = null;
+      updateState();
+    }
+    super.setChanged();
+  }
+
+  private void handleDischarger(int slot) {
+    int needed = Math.min(getInputRate(), storage.getMaxEnergyStored() - storage.getEnergyStored());
+    if (needed <= 0) return;
+    if (buffer > 0) buffer -= storage.receiveEnergy(buffer, false);
+    needed = Math.min(getInputRate(), storage.getMaxEnergyStored() - storage.getEnergyStored());
+    ItemStack stack = getItem(slot);
+    if (stack.isEmpty() || needed <= 0) return;
+    if (stack.getItem().equals(Items.LAVA_BUCKET)) {
+      buffer += 5000;
+      buffer -= storage.receiveEnergy(buffer, false);
+      setItem(slot, new ItemStack(Items.BUCKET));
+      return;
+    }
+    IEnergyStorage stackStorage = getStackEnergyStorage(stack);
+    if (stackStorage != null) {
+      int extracted = stackStorage.extractEnergy(needed, false);
+      storage.receiveEnergy(extracted, false);
+    } else if (CrossModLoader.isElectricItem(stack)) {
+      double old = storage.getEnergyStored();
+      storage.receiveEnergy(
+          (int) CrossModLoader.dischargeItem(stack, needed, getSinkTier()), false);
+      if (!active && storage.getEnergyStored() > old) setChanged();
+    }
+  }
+
+  private IEnergyStorage getStackEnergyStorage(ItemStack stack) { // forge only
+    if (stack.isEmpty()) return null;
+    return stack.getCapability(Capabilities.EnergyStorage.ITEM);
+  }
+
+  public void notifyBlockUpdate() {
+    BlockState iblockstate = level.getBlockState(worldPosition);
+    level.sendBlockUpdated(worldPosition, iblockstate, iblockstate, 2);
+  }
+
+  @Override
+  public void setChanged() {
+    super.setChanged();
+    if (level == null || level.isClientSide()) return;
+    updateState();
+  }
+
+  private void updateActive() {
+    active = false;
+    storage.setMax(getInputRate());
+    KitAssemblerRecipe newRecipe;
+    if (recipe == null) {
+      newRecipe = KitAssemblerRecipeType.findRecipe(level, this);
+      if (newRecipe == null) return;
+      recipe = newRecipe;
+    } else if (!recipe.isSuitable(this)) {
+      newRecipe = KitAssemblerRecipeType.findRecipe(level, this);
+      if (newRecipe == null) {
+        recipe = null;
+        production = 0;
+        return;
+      }
+      recipe = newRecipe;
+      production = 0;
+    }
+    active = storage.getEnergyStored() >= getEnergyNeeded();
+  }
+
+  private void updateState() {
+    boolean old = active;
+    updateActive();
+    if (active == old) return;
+
+    BlockState blockstate = level.getBlockState(worldPosition);
+    Block block = blockstate.getBlock();
+    if (!(block instanceof KitAssembler) || blockstate.getValue(KitAssembler.ACTIVE) == active)
+      return;
+    BlockState newState =
+        block
+            .defaultBlockState()
+            .setValue(KitAssembler.FACING, blockstate.getValue(KitAssembler.FACING))
+            .setValue(KitAssembler.ACTIVE, active);
+    level.setBlock(worldPosition, newState, 3);
+  }
+
+  // ------- Inventory -------
+  @Override
+  public int getContainerSize() {
+    return 7;
+  }
+
+  @Override
+  public boolean canPlaceItem(int slot, ItemStack stack) {
+    return isItemValid(slot, stack);
+  }
+
+  @Override
+  public boolean isItemValid(int slot, ItemStack stack) { // ISlotItemFilter
+    switch (slot) {
+      case SLOT_CARD1:
+      case SLOT_CARD2:
+      case SLOT_ITEM:
+        return true;
+      case SLOT_INFO:
+        return ItemCardMain.isCard(stack);
+      case SLOT_DISCHARGER:
+        return getStackEnergyStorage(stack) != null
+            || CrossModLoader.isElectricItem(stack)
+            || stack.getItem().equals(Items.LAVA_BUCKET);
+      case SLOT_TRANSFORMER:
+        return stack.getItem().getDescriptionId().equals("item.ic2.upgrade_transformer");
+      case SLOT_RESULT:
+      default:
+        return false;
+    }
+  }
+
+  // IEnergyBlockEntity
+  public boolean canAcceptEnergy(Direction side) {
+    return side != getFacing();
+  }
+
+  public int getRequestedEnergy() {
+    return Math.max(0, storage.getMaxEnergyStored() - storage.getEnergyStored());
+  }
+
+  public int getSinkTier() {
+    return 1 + getUpgrades();
+  }
+
+  public int acceptEnergy(Direction directionFrom, int amount, int voltage) {
+    int left = 0;
+    int input = getInputRate();
+    if (amount > input) {
+      left = amount - input;
+      amount = input;
+    }
+    left += amount - storage.receiveEnergy((int) amount, false);
+    return left;
+  }
+
+  @Override
+  public boolean canEmitEnergy(Direction side) {
+    return false;
+  }
+
+  @Override
+  public void consumeEnergy(int amount) {}
+
+  @Override
+  public int getMaxEnergyOutput() {
+    return 0;
+  }
+
+  @Override
+  public int getProvidedEnergy() {
+    return 0;
+  }
+
+  @Override
+  public int getSourceTier() {
+    return 0;
+  }
+
+  public IEnergyStorage getEnergyHandler(Direction side) {
+    return storage;
+  }
+
+  // ISidedInventory
+  @Override
+  public int[] getSlotsForFace(Direction side) {
+    if (side == Direction.UP) return SLOTS_TOP;
+    if (side == Direction.DOWN) return SLOTS_BOTTOM;
+    return SLOTS_NONE;
+  }
+
+  @Override
+  public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction side) {
+    return side == Direction.UP && (slot == SLOT_CARD1 || slot == SLOT_ITEM || slot == SLOT_CARD2);
+  }
+
+  @Override
+  public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+    return side == Direction.DOWN && slot == SLOT_RESULT;
+  }
+
+  @Override
+  public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
+    return new ContainerKitAssembler(windowId, inventory, this);
+  }
+
+  @Override
+  public Component getDisplayName() {
+    return Component.translatable(ModItems.kit_assembler.get().getDescriptionId());
+  }
+}

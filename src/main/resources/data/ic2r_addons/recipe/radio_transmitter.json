@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#C#",
+    " S "
+  ],
+  "key": {
+    "#": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "C": {
+      "tag": "c:circuits/basic"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:radio_transmitter"
+  }
+}

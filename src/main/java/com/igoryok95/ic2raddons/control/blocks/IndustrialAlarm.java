@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.blocks;
+
+import com.igoryok95.ic2raddons.control.gui.ScreenHandler;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityHowlerAlarm;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityIndustrialAlarm;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
+
+public class IndustrialAlarm extends HowlerAlarm {
+  public static final IntegerProperty LIGHT = IntegerProperty.create("light", 0, 3);
+  // light level of each LIGHT state, the alarm steps through them in order
+  public static final int[] lightSteps = {0, 7, 14, 7};
+  public static final MapCodec<IndustrialAlarm> CODEC = simpleCodec(IndustrialAlarm::new);
+
+  @Override
+  protected MapCodec<? extends BaseEntityBlock> codec() {
+    return CODEC;
+  }
+
+  public IndustrialAlarm(Properties properties) {
+    super(properties.lightLevel(state -> lightSteps[state.getValue(LIGHT)]));
+  }
+
+  @Override
+  protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+    super.createBlockStateDefinition(builder);
+    builder.add(LIGHT);
+  }
+
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    return super.getStateForPlacement(context).setValue(LIGHT, 0);
+  }
+
+  @Override
+  protected BlockEntityFacing createBlockEntity(BlockPos pos, BlockState state) {
+    return ModTileEntityTypes.industrial_alarm.get().create(pos, state);
+  }
+
+  @Override
+  protected InteractionResult useWithoutItem(
+      BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    if (level.isClientSide()) {
+      BlockEntity te = level.getBlockEntity(pos);
+      if (te instanceof TileEntityHowlerAlarm)
+        ScreenHandler.openIndustrialAlarmScreen((TileEntityIndustrialAlarm) te);
+    }
+    return InteractionResult.SUCCESS;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "CMC",
+    " W "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "ic2:circuit"
+    },
+    "M": {
+      "item": "ic2:machine"
+    },
+    "W": {
+      "item": "ic2:insulated_copper_cable"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:energy_counter"
+  }
+}

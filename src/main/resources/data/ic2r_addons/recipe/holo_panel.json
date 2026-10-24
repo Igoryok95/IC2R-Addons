@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " # ",
+    "RPR",
+    " # "
+  ],
+  "key": {
+    "P": {
+      "item": "ic2r_addons:info_panel"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "#": {
+      "item": "ic2r_addons:strong_string"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:holo_panel"
+  }
+}

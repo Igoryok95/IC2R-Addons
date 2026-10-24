@@ -1,0 +1,9 @@
+{
+  "loader": "ic2r_addons:panel",
+  "default_color": -16724992,
+  "textures": {
+    "body": "ic2r_addons:block/info_panel/panel_all",
+    "screen": "ic2r_addons:block/info_panel/panel_screen",
+    "particle": "ic2r_addons:block/info_panel/panel_back"
+  }
+}

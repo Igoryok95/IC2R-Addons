@@ -1,0 +1,72 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui.controls;
+
+import com.igoryok95.ic2raddons.control.EnergyControl;
+import com.igoryok95.ic2raddons.control.api.PanelSetting;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityInfoPanel;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor.ARGB32;
+
+public class GuiInfoPanelCheckBox extends AbstractButton {
+  private static final ResourceLocation TEXTURE =
+      ResourceLocation.fromNamespaceAndPath(EnergyControl.MODID, "textures/gui/gui_info_panel.png");
+
+  private TileEntityInfoPanel panel;
+  private boolean checked;
+  private PanelSetting setting;
+  private int slot;
+
+  public GuiInfoPanelCheckBox(
+      int x, int y, PanelSetting setting, TileEntityInfoPanel panel, int slot, Font renderer) {
+    super(
+        x,
+        y,
+        renderer.width(setting.title) + 8,
+        renderer.lineHeight + 1,
+        Component.literal(setting.title));
+    this.setting = setting;
+    this.slot = slot;
+    this.panel = panel;
+    checked = (panel.getDisplaySettingsForCardInSlot(slot) & setting.displayBit) > 0;
+  }
+
+  @Override
+  protected void renderWidget(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
+    Minecraft minecraft = Minecraft.getInstance();
+    Font fontRenderer = minecraft.font;
+    int delta = checked ? 6 : 0;
+    matrixStack.blit(TEXTURE, getX(), getY() + 1, 176, delta, 6, 6, 256, 256);
+    matrixStack.drawString(
+        fontRenderer, getMessage(), getX() + 8, getY(), ARGB32.opaque(0x404040), false);
+  }
+
+  @Override
+  public void onPress() {
+    checked = !checked;
+    int value;
+    if (checked) value = panel.getDisplaySettingsForCardInSlot(slot) | setting.displayBit;
+    else value = panel.getDisplaySettingsForCardInSlot(slot) & (~setting.displayBit);
+    UpdateServerSettings(value);
+    panel.setDisplaySettings(slot, value);
+  }
+
+  private void UpdateServerSettings(int value) {
+    CompoundTag tag = new CompoundTag();
+    tag.putInt("type", 1);
+    tag.putInt("slot", slot);
+    tag.putInt("value", value);
+    NetworkHelper.updateSeverTileEntity(panel.getBlockPos(), tag);
+  }
+
+  @Override
+  protected void updateWidgetNarration(NarrationElementOutput output) {}
+}

@@ -1,0 +1,93 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.blocks;
+
+import com.igoryok95.ic2raddons.control.gui.ScreenHandler;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.blocks.FacingBlockSmall;
+import com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityThermalMonitor;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class ThermalMonitor extends FacingBlockSmall {
+  protected static final VoxelShape AABB_DOWN = Block.box(1.0F, 9.0F, 1.0F, 15.0F, 15.0F, 15.0F);
+  protected static final VoxelShape AABB_UP = Block.box(1.0F, 0.0F, 1.0F, 15.0F, 7.0F, 15.0F);
+  protected static final VoxelShape AABB_NORTH = Block.box(1.0F, 1.0F, 9.0F, 15.0F, 15.0F, 15.0F);
+  protected static final VoxelShape AABB_SOUTH = Block.box(1.0F, 1.0F, 0.0F, 15.0F, 15.0F, 7.0F);
+  protected static final VoxelShape AABB_WEST = Block.box(9.0F, 1.0F, 1.0F, 15.0F, 15.0F, 15.0F);
+  protected static final VoxelShape AABB_EAST = Block.box(0.0F, 1.0F, 1.0F, 7.0F, 15.0F, 15.0F);
+  public static final MapCodec<ThermalMonitor> CODEC = simpleCodec(ThermalMonitor::new);
+
+  @Override
+  protected MapCodec<? extends BaseEntityBlock> codec() {
+    return CODEC;
+  }
+
+  public ThermalMonitor(Properties properties) {
+    super(metal(properties));
+  }
+
+  @Override
+  protected BlockEntityFacing createBlockEntity(BlockPos pos, BlockState state) {
+    return ModTileEntityTypes.thermal_monitor.get().create(pos, state);
+  }
+
+  @Override
+  protected int getSignal(BlockState state, BlockGetter blockAccess, BlockPos pos, Direction side) {
+    BlockEntity te = blockAccess.getBlockEntity(pos);
+    if (!(te instanceof TileEntityThermalMonitor)) return 0;
+    return ((TileEntityThermalMonitor) te).getPowered()
+        ? side != state.getValue(FACING) ? 15 : 0
+        : 0;
+  }
+
+  @Override
+  protected VoxelShape getShape(
+      BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    switch (state.getValue(FACING)) {
+      case EAST:
+        return AABB_EAST;
+      case WEST:
+        return AABB_WEST;
+      case SOUTH:
+        return AABB_SOUTH;
+      case NORTH:
+      default:
+        return AABB_NORTH;
+      case UP:
+        return AABB_UP;
+      case DOWN:
+        return AABB_DOWN;
+    }
+  }
+
+  @Override
+  protected InteractionResult useWithoutItem(
+      BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    if (level.isClientSide()) {
+      BlockEntity te = level.getBlockEntity(pos);
+      if (te instanceof TileEntityThermalMonitor)
+        ScreenHandler.openThermalMonitorScreen((TileEntityThermalMonitor) te);
+    }
+    return InteractionResult.SUCCESS;
+  }
+
+  @Override
+  protected RenderShape getRenderShape(BlockState state) {
+    return RenderShape.INVISIBLE;
+  }
+}

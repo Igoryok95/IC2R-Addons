@@ -1,0 +1,58 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.api;
+
+import com.igoryok95.ic2raddons.control.utils.Translator;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+public class PanelString {
+
+  public PanelString() {}
+
+  public PanelString(String text) {
+    textLeft = text;
+  }
+
+  public PanelString(String resourceName, double value, boolean showLabels) {
+    this(resourceName, getFormatter().format(value), showLabels);
+  }
+
+  public PanelString(String resourceName, String value, boolean showLabels) {
+    textLeft = getFormatted(resourceName, value, showLabels);
+  }
+
+  public PanelString(String resourceName, double value, String eu, boolean showLabels) {
+    this(resourceName, String.format("%s %s", getFormatter().format(value), eu), showLabels);
+  }
+
+  private static DecimalFormat formatter;
+
+  public static DecimalFormat getFormatter() {
+    if (formatter == null) {
+      DecimalFormat lFormatter = new DecimalFormat("#,###.###");
+      DecimalFormatSymbols smb = new DecimalFormatSymbols();
+      smb.setGroupingSeparator(' ');
+      lFormatter.setDecimalFormatSymbols(smb);
+      formatter = lFormatter;
+    }
+    return formatter;
+  }
+
+  public String textLeft;
+
+  public String textCenter;
+
+  public String textRight;
+
+  public int colorLeft;
+
+  public int colorCenter;
+
+  public int colorRight;
+
+  private static String getFormatted(String resourceName, String value, boolean showLabels) {
+    if (showLabels) return Translator.get(resourceName, value);
+    return value;
+  }
+}

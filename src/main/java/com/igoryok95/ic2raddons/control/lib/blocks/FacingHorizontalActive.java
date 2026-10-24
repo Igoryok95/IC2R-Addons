@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.lib.blocks;
+
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+
+public abstract class FacingHorizontalActive extends FacingHorizontal {
+  public static final BooleanProperty ACTIVE = FacingBlockActive.ACTIVE;
+
+  public FacingHorizontalActive(Properties properties) {
+    super(properties);
+    registerDefaultState(defaultBlockState().setValue(ACTIVE, false));
+  }
+
+  @Override
+  protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+    super.createBlockStateDefinition(builder);
+    builder.add(ACTIVE);
+  }
+
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    return super.getStateForPlacement(context).setValue(ACTIVE, false);
+  }
+}

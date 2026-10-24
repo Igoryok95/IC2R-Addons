@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "ic2r_addons:block/light/white_lamp_on"
+  }
+}

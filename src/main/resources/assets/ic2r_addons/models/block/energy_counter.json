@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "ic2r_addons:block/energy_counter/input",
+    "down": "ic2r_addons:block/energy_counter/input",
+    "up": "ic2r_addons:block/energy_counter/output",
+    "north": "ic2r_addons:block/energy_counter/input",
+    "east": "ic2r_addons:block/energy_counter/input",
+    "south": "ic2r_addons:block/energy_counter/input",
+    "west": "ic2r_addons:block/energy_counter/input"
+  }
+}

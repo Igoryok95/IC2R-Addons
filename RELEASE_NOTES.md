@@ -1,3 +1,33 @@
+# IC2R Addons 1.4.0
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.68+ / Java 21.
+
+Integrates Energy Control / Nuclear Control monitoring into the single addon JAR and
+`ic2r_addons` namespace: information / advanced / holographic panels and extensions,
+portable displays, card holder, sensor kits / cards, thermal monitors, alarms, lamps,
+timer and Kit Assembler. A native IC2R integration reads EU storage / flow, reactor heat,
+output and real fuel wear, including the existing addon processing machines and solar equipment.
+
+Restores native EU Energy / Average Counters, counter cards and classic thermometers.
+Counter menus synchronize full double-precision readings, support Transformer Upgrades,
+explicit reset and persistent totals / sample duration. Jade shows server-provided readings.
+Reuses IC2R circuits / casings, completes English / Russian localization and guards remote
+sensor reads against forced chunk loading. Network edits require a nearby non-spectator player.
+
+Fixes the corrupted engine rate separator (`в†’`) by using `|` in both locales. Adds a
+regression check that rejects misdecoded Cyrillic in English translations. Documentation
+screenshots are captured again from the corrected client in English.
+
+Fixes all seven missing empty-slot icons, invisible counter bodies and hidden GUI fields /
+gauges. Kit Assembler and Timer menus now synchronize live values with their opening player.
+The assembler retains partial work through a power interruption and saving; it consumes
+inputs only after processing completes. Original Kit Assembler world textures are preserved.
+
+The integrated Energy Control module retains GPL-3.0 and source / artwork attribution.
+See NOTICE.md, the bundled LICENSES directory and docs/validation/1.4.0.json for evidence.
+
+---
+
 # IC2R Addons 1.3.0
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.68+ / Java 21.

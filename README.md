@@ -1,6 +1,6 @@
 # IC2R Addons
 
-All eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
+Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
 ## Requirements and installation
 
@@ -9,7 +9,7 @@ All eight Advanced Machines, four classic solar panel tiers up to Quantum, four 
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.3.0.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.0.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -18,6 +18,55 @@ The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2
 Version 1.2.1 removes Spectral, Singular, Light Absorbing and Photonic panels from crafting and creative / JEI lists. Existing blocks and item stacks of these tiers resolve to Quantum panels, including the older `solar_gravisuite` namespace. Stored charging-slot items survive; buffered EU is capped at Quantum's **10,000,000 EU** capacity, so excess stored EU is discarded.
 
 Registry aliases resolve `solar_gravisuite:*` content to its new `ic2r_addons:*` identity. Existing equipment settings / teleport destinations are read from the previous custom-data compound and migrate on modification. Existing solar and equipment configuration files are copied to their new names only if the new files do not exist. Keep a world backup before upgrading a modded installation.
+
+## Nuclear Control monitoring (1.4.0)
+
+The monitoring core of Energy Control's NeoForge 1.21.1 branch is integrated into the same
+`ic2r_addons` mod container, resource namespace and JAR. A separate Energy Control installation
+is not required. Original authors and GPL-3.0 source / asset terms are preserved in
+[NOTICE.md](NOTICE.md) and the bundled `LICENSES/Energy-Control-GPL-3.0.txt`.
+
+- Information Panels, Advanced Information Panels, Holographic Panels and their extensions;
+  a Portable Panel, Card Holder, Kit Assembler and programmable Timer.
+- Local / Remote Thermal Monitors, Howler / Industrial Alarms and signal lamps.
+  Thermal thresholds produce redstone signals; wire an inverted safe-temperature signal
+  into the IC2R reactor to stop it when the threshold is exceeded.
+- Reactor cards read native heat, maximum heat, EU/t, running state and remaining fuel life.
+  Fuel duration uses IC2R's component wear, including MOX, rather than vanilla item damage.
+- Energy / fluid / inventory / redstone / text / time cards, combined storage arrays and
+  sensor range / display upgrades. Native EU cards work with IC2R storage, solar panels,
+  the Molecular Transformer and all eight Advanced Machines.
+- Restored Energy Counter and Average Energy Counter measure actual IC2R network flow.
+  Five sides accept EU; the marked front face is the output. The base maximum packet is
+  32 EU; up to four IC2R Transformer Upgrades raise it to 128 / 512 / 2048 / 8192 EU.
+  Counters retain fractional accumulated EU, sampling time and upgrades on disk. Their
+  synchronized menus show cumulative EU, current / average EU/t and include an explicit reset.
+- Restored Counter Sensor Kit / Card and classic thermometers. The Digital Thermometer
+  has 12,000 EU capacity, tier 1 and consumes 50 EU per reading.
+- Jade reports server-owned counter readings and monitor thresholds. JEI includes crafting
+  and Kit Assembler recipes. Control uses existing IC2R circuits / machine casings rather
+  than registering duplicate components.
+- The Kit Assembler synchronizes its energy / processing gauges and preserves partial work
+  across a power interruption and saving. Empty-slot sprites use the correct block atlas;
+  both restored counters have visible world / inventory models.
+- Nuclear Control has one dedicated mod adapter: IC2R. No BuildCraft, AE2, Mekanism,
+  Big Reactors or other mod-specific monitoring adapter is added. The existing optional
+  BuildCraft electric-engine / wrench bridge is independent of monitoring and remains available.
+  Inventory and fluid sensor cards retain their standard core capabilities.
+
+`ic2r_addons-control.toml` controls refresh periods, range, allowed / custom alarm sounds and
+the dedicated-server translation language (`en_us` / `ru_ru`). External web monitoring is
+disabled by default. Sensor reads do not force-load an unloaded target chunk.
+All interface labels, tooltips, messages and configuration labels have English / Russian keys.
+
+The engine's previous mojibake separator is replaced with an ASCII `|` in both languages;
+the screenshot below is captured from the actual corrected client.
+
+![Native IC2R reactor monitoring](docs/images/control-world-en-1.4.0.png)
+![Synchronized energy counter](docs/images/control-counter-en-1.4.0.png)
+![Information Panel settings](docs/images/control-panel-en-1.4.0.png)
+![Kit Assembler with synchronized energy and partial progress](docs/images/control-assembler-en-1.4.0.png)
+![Range Trigger with resolved empty-slot sprites](docs/images/control-range-en-1.4.0.png)
 
 ## Advanced Machines
 
@@ -100,7 +149,7 @@ The localized engine overlay shows stored / maximum EU, actual EU/t and MJ/t, ma
 
 The texture refresh combines IC2R-style 32-pixel tool detail with the addon's original silhouettes and blue energy accents. Eighteen tool, armor and device icons use generated pixel-art atlases based on the original 16-pixel designs. The Hybrid and Ultimate solar-helmet icons restore the classic designs supplied by the user, copied to strict 32x32 transparent sprites rather than redesigned. Remaining component / block art uses edge-aware pixel refinement from the original assets. Armor UV layouts and transparency are preserved. The 1.2.1 Quantum Solar Helmet is a restrained palette variant of the restored classic Ultimate helmet: identical 32x32 silhouette, brighter blue solar crown and lighter shell. Worn armor preserves the same UV layout. The generated reference is used only for its blue palette; it does not replace the existing helmet geometry. Source artwork, processing instructions and provenance are in `tools/textures` and [NOTICE.md](NOTICE.md).
 
-![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.2.1.png)
+![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.4.0.png)
 
 ## Solar progression
 
@@ -238,14 +287,20 @@ Use Java 21:
 ./gradlew runGameTestServer -PwithBC -PwithJade
 ./gradlew runClient -PclientSmoke -PwithBC -PwithJade
 ./gradlew runClient -PmachinesSmoke -PwithBC -PwithJade
+./gradlew runClient -PcontrolSmoke -PwithBC -PwithJade
 ```
 
 Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.68.jar`.
 
-The 1.3.0 regression suite contains **15 JUnit checks**, **65 server GameTests without BC** and
-**73 with BC**, with Jade present and absent. The machine client smoke checks all eight menus,
-96 active / inactive model faces, real partial processing progress and the complete JEI search set. See
-[the validation manifest](docs/validation/1.3.0.json) for completed runs.
+The 1.4.0 regression suite contains **16 JUnit checks**, **75 server GameTests without BC**
+and **83 with BC**, with Jade present and absent. The control client smoke opens eight real
+menus plus thermal / alarm settings, verifies seven empty-slot sprites, 17 block models and
+45 registered item models, checks a working assembler / timer and captures each control block.
+It runs in English and Russian; documentation images use English. See
+[the current validation manifest](docs/validation/1.4.0.json) for completed runs.
+
+The earlier [1.3.0 machine validation](docs/validation/1.3.0.json) also records all eight
+processing menus, 96 active / inactive model faces, real partial processing and JEI searches.
 
 The server suites exercise the eight advanced machines, processing / water / automation, real IC2
 energy-network transfers, redstone warm-up, blocked outputs, saving, wrench use, buckets and thermal
@@ -257,6 +312,6 @@ The client smoke modifies only its isolated `run/saves/SolarClientSmoke` develop
 
 ## Credits and history
 
-Original Advanced Machines: immibis, Chocohead and contributors; Forge reference port: craftorio. Original Advanced Solar Panels: Icedfire, SeNtiMeL, Chocohead and contributors. Solar-tier extensions: VintageModsReforged. GraviSuite: SeNtiMeL, the IC2 Dev Team and VintageModsReforged. ForestryCE engine artwork / geometry: Forestry contributors and thedarkcolour. NeoForge IC2R adaptation and integration: **Igoryok95**.
+Original Advanced Machines: immibis, Chocohead and contributors; Forge reference port: craftorio. Original Advanced Solar Panels: Icedfire, SeNtiMeL, Chocohead and contributors. Solar-tier extensions: VintageModsReforged. GraviSuite: SeNtiMeL, the IC2 Dev Team and VintageModsReforged. ForestryCE engine artwork / geometry: Forestry contributors and thedarkcolour. Energy Control: Zuxelus. Nuclear Control: Shedar, Xbony2, dmf444, Pyrolusite and contributors. NeoForge IC2R adaptation and integration: **Igoryok95**.
 
 Original copyrights and applicable licenses remain in force. See [NOTICE.md](NOTICE.md) and bundled `LICENSES/ForestryCE-LGPL-3.0.txt`.

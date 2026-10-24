@@ -39,6 +39,7 @@ public final class IC2RAddons {
         net.neoforged.fml.config.ModConfig.Type.COMMON, AspConfig.SPEC, "ic2r_addons-solar.toml");
     com.igoryok95.ic2raddons.equipment.GraviSuite.initialize(modBus, container);
     AdvSolarBlocks.register(modBus);
+    new com.igoryok95.ic2raddons.control.EnergyControl(modBus, container);
     com.igoryok95.ic2raddons.machines.AdvMachinesBlocks.register(modBus);
     com.igoryok95.ic2raddons.solar.recipe.MolecularTransformerRecipes.TYPES.register(modBus);
     com.igoryok95.ic2raddons.solar.recipe.MolecularTransformerRecipes.SERIALIZERS.register(modBus);

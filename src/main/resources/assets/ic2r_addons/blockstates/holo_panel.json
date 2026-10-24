@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "active=false,facing=east": {
+      "model": "ic2r_addons:block/holo_panel_off",
+      "y": 90
+    },
+    "active=false,facing=west": {
+      "model": "ic2r_addons:block/holo_panel_off",
+      "y": 270
+    },
+    "active=false,facing=south": {
+      "model": "ic2r_addons:block/holo_panel_off",
+      "y": 180
+    },
+    "active=false,facing=north": {
+      "model": "ic2r_addons:block/holo_panel_off"
+    },
+    "active=true,facing=east": {
+      "model": "ic2r_addons:block/holo_panel_on",
+      "y": 90
+    },
+    "active=true,facing=west": {
+      "model": "ic2r_addons:block/holo_panel_on",
+      "y": 270
+    },
+    "active=true,facing=south": {
+      "model": "ic2r_addons:block/holo_panel_on",
+      "y": 180
+    },
+    "active=true,facing=north": {
+      "model": "ic2r_addons:block/holo_panel_on"
+    }
+  }
+}

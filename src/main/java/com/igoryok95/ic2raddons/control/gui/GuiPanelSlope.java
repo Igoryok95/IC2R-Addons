@@ -1,0 +1,78 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui;
+
+import com.igoryok95.ic2raddons.control.EnergyControl;
+import com.igoryok95.ic2raddons.control.lib.gui.GuiBase;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityAdvancedInfoPanel;
+import net.minecraft.client.gui.GuiGraphics;
+
+public class GuiPanelSlope extends GuiBase {
+  private GuiPanelBase<?> parentGui;
+  private TileEntityAdvancedInfoPanel panel;
+
+  public GuiPanelSlope(GuiPanelBase<?> parentGui, TileEntityAdvancedInfoPanel panel) {
+    super("", 171, 94, EnergyControl.MODID + ":textures/gui/gui_slope.png");
+    this.parentGui = parentGui;
+    this.panel = panel;
+  }
+
+  @Override
+  public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+    mouseX -= guiLeft;
+    mouseY -= guiTop;
+    if (mouseY >= 23 && mouseY <= 89) {
+      int amount = (int) ((87 - mouseY + 2) / 4);
+      int offset = 0;
+      if (mouseX >= 21 && mouseX <= 34) {
+        offset = TileEntityAdvancedInfoPanel.OFFSET_THICKNESS;
+        if (amount < 1) amount = 1;
+      } else if (mouseX >= 79 && mouseX <= 92) {
+        offset = TileEntityAdvancedInfoPanel.OFFSET_ROTATE_HOR;
+        if (amount < 0) amount = 0;
+      } else if (mouseX >= 137 && mouseX <= 150) {
+        offset = TileEntityAdvancedInfoPanel.OFFSET_ROTATE_VERT;
+        if (amount < 0) amount = 0;
+      }
+      NetworkHelper.updateSeverTileEntity(panel.getBlockPos(), 10, offset + amount);
+      panel.setValues(offset + amount);
+      return true;
+    }
+    return super.mouseClicked(mouseX, mouseY, mouseButton);
+  }
+
+  @Override
+  public void drawGuiContainerBackgroundLayer(
+      GuiGraphics matrixStack, float partialTicks, int mouseX, int mouseY) {
+    super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
+    int textureHeight = 4 * (16 - panel.thickness);
+
+    matrixStack.blit(texture, guiLeft + 21, guiTop + 25, 172, 0, 14, textureHeight, 256, 256);
+    matrixStack.blit(
+        texture,
+        guiLeft + 79,
+        guiTop + 25 + (panel.rotateHor < 0 ? 32 + panel.rotateHor * 4 / 7 : 32),
+        186,
+        0,
+        14,
+        Math.abs(panel.rotateHor * 4 / 7),
+        256,
+        256);
+    matrixStack.blit(
+        texture,
+        guiLeft + 137,
+        guiTop + 25 + (panel.rotateVert < 0 ? 32 + panel.rotateVert * 4 / 7 : 32),
+        186,
+        0,
+        14,
+        Math.abs(panel.rotateVert * 4 / 7),
+        256,
+        256);
+  }
+
+  @Override
+  public void onClose() {
+    minecraft.setScreen(parentGui);
+  }
+}

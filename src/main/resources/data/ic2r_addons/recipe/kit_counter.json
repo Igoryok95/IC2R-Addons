@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RP",
+    "CF"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "C": {
+      "item": "ic2r_addons:energy_counter"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:kit_counter"
+  }
+}

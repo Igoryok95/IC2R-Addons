@@ -1,0 +1,113 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.blocks;
+
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.blocks.FacingBlock;
+import com.igoryok95.ic2raddons.control.lib.blocks.FacingHorizontal;
+import com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityRangeTrigger;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
+
+public class RangeTrigger extends FacingHorizontal {
+  public static final MapCodec<RangeTrigger> CODEC = simpleCodec(RangeTrigger::new);
+
+  @Override
+  protected MapCodec<? extends BaseEntityBlock> codec() {
+    return CODEC;
+  }
+
+  public static final EnumProperty<EnumState> STATE = EnumProperty.create("state", EnumState.class);
+
+  public RangeTrigger(Properties properties) {
+    super(FacingBlock.metal(properties));
+  }
+
+  @Override
+  protected BlockEntityFacing createBlockEntity(BlockPos pos, BlockState state) {
+    return ModTileEntityTypes.range_trigger.get().create(pos, state);
+  }
+
+  @Override
+  protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+    super.createBlockStateDefinition(builder);
+    builder.add(STATE);
+  }
+
+  @Override
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
+    return super.getStateForPlacement(context).setValue(STATE, EnumState.OFF);
+  }
+
+  @Override
+  protected InteractionResult useWithoutItem(
+      BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    BlockEntity te = level.getBlockEntity(pos);
+    if (!(te instanceof TileEntityRangeTrigger)) return InteractionResult.PASS;
+    if (!level.isClientSide())
+      player.openMenu((TileEntityRangeTrigger) te, buf -> buf.writeBlockPos(pos));
+    return InteractionResult.SUCCESS;
+  }
+
+  @Override
+  protected int getSignal(
+      BlockState blockState, BlockGetter blockAccess, BlockPos pos, Direction side) {
+    BlockEntity te = blockAccess.getBlockEntity(pos);
+    if (!(te instanceof TileEntityRangeTrigger)) return 0;
+    return ((TileEntityRangeTrigger) te).getPowered() ? 15 : 0;
+  }
+
+  @Override
+  protected boolean isSignalSource(BlockState state) {
+    return true;
+  }
+
+  public enum EnumState implements StringRepresentable {
+    OFF(0, "off"),
+    ON(1, "on"),
+    ERROR(2, "error");
+
+    private final int id;
+    private final String name;
+
+    EnumState(int id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+
+    public int getId() {
+      return this.id;
+    }
+
+    @Override
+    public String getSerializedName() {
+      return name;
+    }
+
+    public static EnumState getState(int id) {
+      switch (id) {
+        default:
+          return OFF;
+        case 1:
+          return ON;
+        case 2:
+          return ERROR;
+      }
+    }
+  }
+}

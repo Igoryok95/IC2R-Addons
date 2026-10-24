@@ -1,13 +1,13 @@
 modLoader="javafml"
 loaderVersion="[4,)"
-license="All Rights Reserved"
+license="Mixed: Nuclear Control GPL-3.0-only; see NOTICE.md and LICENSES"
 issueTrackerURL="https://github.com/Igoryok95/IC2R-Addons/issues"
 [[mods]]
 modId="ic2r_addons"
 version="${version}"
 displayName="IC2R Addons"
-authors="Icedfire, SeNtiMeL, immibis, Chocohead; craftorio; VintageModsReforged; NeoForge IC2R adaptation: Igoryok95"
-description="IC2R Addons for Minecraft 1.21.1 NeoForge: all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor, flight and electric tools. Optional BuildCraft integration adds compatible wrenches and a native EU-to-MJ engine; Jade shows live energy and machine diagnostics."
+authors="Icedfire, SeNtiMeL, immibis, Chocohead; craftorio; VintageModsReforged; Shedar, Xbony2, dmf444, Pyrolusite, Zuxelus; NeoForge IC2R adaptation: Igoryok95"
+description="IC2R Addons for Minecraft 1.21.1 NeoForge: Nuclear Control screens, reactor sensors, alarms and native EU counters; all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor and electric tools. Optional BuildCraft EU engine and wrench integration; Jade diagnostics and JEI recipes. English and Russian localization."
 displayURL="https://github.com/Igoryok95/IC2R-Addons"
 [[dependencies.ic2r_addons]]
 modId="solar_gravisuite"
@@ -51,6 +51,18 @@ side="BOTH"
 
 [[dependencies.ic2r_addons]]
 modId="advanced_solar_panels"
+type="incompatible"
+versionRange="[0,)"
+side="BOTH"
+
+[[dependencies.ic2r_addons]]
+modId="energycontrol"
+type="incompatible"
+versionRange="[0,)"
+side="BOTH"
+
+[[dependencies.ic2r_addons]]
+modId="nuclearcontrol"
 type="incompatible"
 versionRange="[0,)"
 side="BOTH"

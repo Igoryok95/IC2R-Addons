@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IFI",
+    "IMI",
+    "ITI"
+  ],
+  "key": {
+    "T": {
+      "item": "ic2r_addons:thermal_monitor"
+    },
+    "M": {
+      "item": "ic2:machine"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:remote_thermo"
+  }
+}

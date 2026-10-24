@@ -1,0 +1,7 @@
+{
+  "parent": "ic2r_addons:block/average_counter",
+  "textures": {
+    "up": "ic2r_addons:block/average_counter/input",
+    "north": "ic2r_addons:block/average_counter/output"
+  }
+}

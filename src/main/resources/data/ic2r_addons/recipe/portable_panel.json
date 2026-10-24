@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "A  ",
+    "CMC",
+    "RPP"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "C": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "M": {
+      "item": "ic2r_addons:info_panel_extender"
+    },
+    "R": {
+      "item": "ic2r_addons:upgrade_range"
+    },
+    "P": {
+      "item": "minecraft:charcoal"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:portable_panel"
+  }
+}

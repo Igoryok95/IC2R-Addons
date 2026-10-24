@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CCC",
+    "SFS"
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:strong_string"
+    },
+    "F": {
+      "item": "ic2r_addons:radio_transmitter"
+    },
+    "C": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:upgrade_range"
+  }
+}

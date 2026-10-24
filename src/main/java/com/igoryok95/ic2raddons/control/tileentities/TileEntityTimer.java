@@ -1,0 +1,214 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.tileentities;
+
+import com.igoryok95.ic2raddons.control.blocks.TimerBlock;
+import com.igoryok95.ic2raddons.control.containers.ContainerTimer;
+import com.igoryok95.ic2raddons.control.init.ModItems;
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class TileEntityTimer extends BlockEntityFacing implements MenuProvider, ITilePacketHandler {
+  private int time;
+  private int startingTime;
+  private boolean invertRedstone;
+  private boolean isTicks;
+  private boolean isWorking;
+  private boolean sendSignal;
+  private boolean isPowered;
+
+  public TileEntityTimer(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+    time = 0;
+    invertRedstone = false;
+    isTicks = false;
+    isWorking = false;
+  }
+
+  public TileEntityTimer(BlockPos pos, BlockState state) {
+    this(ModTileEntityTypes.timer.get(), pos, state);
+  }
+
+  public int getTime() {
+    return time;
+  }
+
+  public String getTimeString() {
+    if (isTicks) return Integer.toString(time);
+    int seconds = time / 20;
+    return String.format("%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+  }
+
+  public void setTime(int value) {
+    int old = time;
+    time = value;
+    if (!level.isClientSide() && time != old) notifyBlockUpdate();
+  }
+
+  public boolean getInvertRedstone() {
+    return invertRedstone;
+  }
+
+  public void setInvertRedstone(boolean value) {
+    boolean old = invertRedstone;
+    invertRedstone = value;
+    if (!level.isClientSide() && invertRedstone != old) notifyBlockUpdate();
+  }
+
+  public boolean getIsWorking() {
+    return isWorking;
+  }
+
+  public void setIsWorking(boolean value) {
+    boolean old = isWorking;
+    isWorking = value;
+    if (isWorking) startingTime = time;
+    if (!level.isClientSide() && isWorking != old) notifyBlockUpdate();
+  }
+
+  public boolean getIsTicks() {
+    return isTicks;
+  }
+
+  public void setIsTicks(boolean value) {
+    boolean old = isTicks;
+    isTicks = value;
+    if (!level.isClientSide() && isTicks != old) notifyBlockUpdate();
+  }
+
+  public boolean getPowered() {
+    return sendSignal;
+  }
+
+  public void onNeighborChange(Block fromBlock) { // server
+    boolean newPowered = level.getSignal(worldPosition.relative(rotation), rotation) > 0;
+    if (newPowered != isPowered) {
+      if (!isPowered && newPowered) {
+        time = startingTime;
+        setIsWorking(true);
+      }
+      isPowered = newPowered;
+    }
+  }
+
+  @Override
+  public void onServerMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    switch (tag.getInt("type")) {
+      case 1:
+        if (tag.contains("value")) setTime(tag.getInt("value"));
+        break;
+      case 2:
+        if (tag.contains("value")) setInvertRedstone(tag.getInt("value") == 1);
+        break;
+      case 3:
+        if (tag.contains("value")) setIsWorking(tag.getInt("value") == 1);
+        break;
+      case 4:
+        if (tag.contains("value")) setIsTicks(tag.getInt("value") == 1);
+        break;
+    }
+  }
+
+  @Override
+  public void onClientMessageReceived(CompoundTag tag) {
+    if (!tag.contains("type")) return;
+    switch (tag.getInt("type")) {
+      case 1:
+        if (tag.contains("value")) time = tag.getInt("value");
+        break;
+      case 2:
+        if (tag.contains("value")) isWorking = tag.getInt("value") == 1;
+        break;
+    }
+  }
+
+  @Override
+  protected void writeUpdateData(CompoundTag tag, HolderLookup.Provider registries) {
+    tag.putBoolean("isTicks", isTicks);
+    tag.putBoolean("poweredBlock", sendSignal);
+  }
+
+  @Override
+  protected void readProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.readProperties(tag, registries);
+    time = (tag.contains("timer") ? tag.getInt("timer") : time);
+    startingTime = (tag.contains("startingTime") ? tag.getInt("startingTime") : startingTime);
+    invertRedstone = (tag.contains("invert") ? tag.getBoolean("invert") : invertRedstone);
+    isWorking = (tag.contains("isWorking") ? tag.getBoolean("isWorking") : isWorking);
+    isTicks = (tag.contains("isTicks") ? tag.getBoolean("isTicks") : isTicks);
+    sendSignal = (tag.contains("poweredBlock") ? tag.getBoolean("poweredBlock") : sendSignal);
+    isPowered = (tag.contains("isPowered") ? tag.getBoolean("isPowered") : isPowered);
+  }
+
+  @Override
+  protected void writeProperties(CompoundTag tag, HolderLookup.Provider registries) {
+    super.writeProperties(tag, registries);
+    tag.putInt("timer", time);
+    tag.putInt("startingTime", startingTime);
+    tag.putBoolean("invert", invertRedstone);
+    tag.putBoolean("isWorking", isWorking);
+    tag.putBoolean("isTicks", isTicks);
+    tag.putBoolean("isPowered", isPowered);
+  }
+
+  public static void tickStatic(Level level, BlockPos pos, BlockState state, BlockEntity be) {
+    if (!(be instanceof TileEntityTimer)) return;
+    TileEntityTimer te = (TileEntityTimer) be;
+    te.tick();
+  }
+
+  protected void tick() {
+    if (level.isClientSide()) return;
+    if (!isWorking) return;
+    if (time == 0) {
+      setIsWorking(false);
+      time = startingTime;
+      return;
+    }
+    time--;
+    if (time % 20 == 0) notifyBlockUpdate();
+  }
+
+  public void notifyBlockUpdate() {
+    setChanged();
+    BlockState state = level.getBlockState(worldPosition);
+    Block block = state.getBlock();
+    if (block instanceof TimerBlock) {
+      boolean newValue = time > 0 && isWorking ? !invertRedstone : invertRedstone;
+      if (sendSignal != newValue) {
+        sendSignal = newValue;
+        level.updateNeighborsAt(worldPosition, block);
+      }
+      level.sendBlockUpdated(worldPosition, state, state, 2);
+    }
+  }
+
+  @Override
+  protected boolean hasRotation() {
+    return true;
+  }
+
+  @Override
+  public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
+    return new ContainerTimer(windowId, inventory, this);
+  }
+
+  @Override
+  public Component getDisplayName() {
+    return Component.translatable(ModItems.timer.get().getDescriptionId());
+  }
+}

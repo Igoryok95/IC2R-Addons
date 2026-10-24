@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.tileentities;
+
+import com.igoryok95.ic2raddons.control.init.ModTileEntityTypes;
+import com.igoryok95.ic2raddons.control.renderers.RotationOffset;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class TileEntityAdvancedInfoPanelExtender extends TileEntityInfoPanelExtender {
+
+  public TileEntityAdvancedInfoPanelExtender(
+      BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    super(type, pos, state);
+  }
+
+  public TileEntityAdvancedInfoPanelExtender(BlockPos pos, BlockState state) {
+    this(ModTileEntityTypes.info_panel_advanced_extender.get(), pos, state);
+  }
+
+  @Override
+  protected int getDefaultBackground() {
+    return TileEntityAdvancedInfoPanel.DEFAULT_BACKGROUND;
+  }
+
+  @Override
+  protected RotationOffset getRenderOffset() {
+    return TileEntityAdvancedInfoPanel.getRenderOffset(
+        getThickness(),
+        getRotateHor(),
+        getRotateVert(),
+        screen,
+        getBlockPos(),
+        getFacing(),
+        getRotation());
+  }
+
+  public byte getThickness() {
+    if (screen == null) return 16;
+    TileEntityInfoPanel core = screen.getCore(level);
+    if (core == null || !(core instanceof TileEntityAdvancedInfoPanel)) return 16;
+    return ((TileEntityAdvancedInfoPanel) core).thickness;
+  }
+
+  public byte getRotateHor() {
+    if (screen == null) return 0;
+    TileEntityInfoPanel core = screen.getCore(level);
+    if (core == null || !(core instanceof TileEntityAdvancedInfoPanel)) return 0;
+    return ((TileEntityAdvancedInfoPanel) core).rotateHor;
+  }
+
+  public byte getRotateVert() {
+    if (screen == null) return 0;
+    TileEntityInfoPanel core = screen.getCore(level);
+    if (core == null || !(core instanceof TileEntityAdvancedInfoPanel)) return 0;
+    return ((TileEntityAdvancedInfoPanel) core).rotateVert;
+  }
+
+  @Override
+  public Direction getRotation() {
+    if (screen == null) return Direction.NORTH;
+    TileEntityInfoPanel core = screen.getCore(level);
+    if (core == null || !(core instanceof TileEntityAdvancedInfoPanel)) return Direction.NORTH;
+    return ((TileEntityAdvancedInfoPanel) core).getRotation();
+  }
+}

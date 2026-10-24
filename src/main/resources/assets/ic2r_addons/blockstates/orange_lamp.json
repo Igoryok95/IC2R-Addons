@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "ic2r_addons:block/orange_lamp"
+    },
+    "lit=true": {
+      "model": "ic2r_addons:block/orange_lamp_on"
+    }
+  }
+}

@@ -1,0 +1,143 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.lib.gui.controls;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+public class GuiButtonGeneral extends Button {
+  private final ResourceLocation texture;
+  public int textureLeft;
+  protected int textureTop;
+  public int textureTopOff;
+  public int scale;
+  public String tooltip;
+  private boolean hasGradient;
+
+  public GuiButtonGeneral(
+      int left,
+      int top,
+      int width,
+      int height,
+      ResourceLocation texture,
+      int textureLeft,
+      int textureTop,
+      Button.OnPress onPress) {
+    this(
+        left,
+        top,
+        width,
+        height,
+        CommonComponents.EMPTY,
+        texture,
+        textureLeft,
+        textureTop,
+        0,
+        "",
+        onPress);
+  }
+
+  public GuiButtonGeneral(
+      int left,
+      int top,
+      int width,
+      int height,
+      ResourceLocation texture,
+      int textureLeft,
+      int textureTop,
+      int textureTopOff,
+      Button.OnPress onPress) {
+    this(
+        left,
+        top,
+        width,
+        height,
+        CommonComponents.EMPTY,
+        texture,
+        textureLeft,
+        textureTop,
+        textureTopOff,
+        "",
+        onPress);
+  }
+
+  public GuiButtonGeneral(
+      int left, int top, int width, int height, Component text, Button.OnPress onPress) {
+    this(left, top, width, height, text, null, 0, 0, 0, "", onPress);
+  }
+
+  public GuiButtonGeneral(
+      int left,
+      int top,
+      int width,
+      int height,
+      Component text,
+      ResourceLocation texture,
+      int textureLeft,
+      int textureTop,
+      int textureTopOff,
+      String tooltip,
+      Button.OnPress onPress) {
+    super(left, top, width, height, text, onPress, DEFAULT_NARRATION);
+    this.texture = texture;
+    this.textureLeft = textureLeft;
+    this.textureTop = textureTop;
+    this.textureTopOff = textureTopOff;
+    this.tooltip = tooltip;
+    scale = 1;
+  }
+
+  @Override
+  protected void renderWidget(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
+    Minecraft minecraft = Minecraft.getInstance();
+    Font fontRenderer = minecraft.font;
+    if (isHovered() && hasGradient)
+      matrixStack.fillGradient(
+          getX(), getY(), getX() + width, getY() + height, 0x80FFFFFF, 0x80FFFFFF);
+    if (texture != null)
+      matrixStack.blit(
+          texture,
+          getX(),
+          getY(),
+          textureLeft / scale,
+          isHovered() ? (textureTop + textureTopOff) / scale : textureTop / scale,
+          width,
+          height,
+          256 / scale,
+          256 / scale);
+    String displayString = getMessage().getString();
+    if (!displayString.equals(""))
+      matrixStack.drawString(
+          fontRenderer,
+          displayString,
+          getX() + (width - fontRenderer.width(displayString)) / 2,
+          getY() - 3 + height / 2,
+          0x404040,
+          false);
+  }
+
+  public GuiButtonGeneral setGradient() {
+    hasGradient = true;
+    return this;
+  }
+
+  public GuiButtonGeneral setScale(int scale) {
+    this.scale = scale;
+    return this;
+  }
+
+  public void setTextureTop(int y) {
+    textureTop = y;
+  }
+
+  public String getActiveTooltip(int mouseX, int mouseY) {
+    if (mouseX < getX() || mouseX >= getX() + width || mouseY < getY() || mouseY >= getY() + height)
+      return null;
+    return tooltip;
+  }
+}

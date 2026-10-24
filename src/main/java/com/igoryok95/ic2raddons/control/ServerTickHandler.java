@@ -1,0 +1,81 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.igoryok95.ic2raddons.control.config.ConfigHandler;
+import com.igoryok95.ic2raddons.control.containers.ContainerTimer;
+import com.igoryok95.ic2raddons.control.lib.containers.ContainerBase;
+import com.igoryok95.ic2raddons.control.network.NetworkHelper;
+import com.igoryok95.ic2raddons.control.network.PacketAlarm;
+import com.igoryok95.ic2raddons.control.websockets.SocketClient;
+import java.util.HashMap;
+import java.util.Map;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+
+public class ServerTickHandler {
+  public static final ServerTickHandler instance = new ServerTickHandler();
+  public Map<String, JsonObject> cards = new HashMap<String, JsonObject>();
+  public int updateTicker;
+
+  @SubscribeEvent
+  public void onWorldUnload(LevelEvent.Unload event) {
+    EnergyControl.screenManager.clearWorld(event.getLevel());
+  }
+
+  @SubscribeEvent
+  public void onPlayerLogin(PlayerLoggedInEvent event) {
+    if (!(event.getEntity() instanceof ServerPlayer)) return;
+    EnergyControl.altPressed.put(event.getEntity(), false);
+    NetworkHelper.sendToPlayer(
+        (ServerPlayer) event.getEntity(),
+        new PacketAlarm(ConfigHandler.MAX_ALARM_RANGE.get(), ConfigHandler.ALLOWED_ALARMS.get()));
+    /*if (EnergyControl.oreHelper != null)
+    NetworkHelper.network.sendTo(new PacketOreHelper(EnergyControl.oreHelper), (EntityPlayerMP) event.player);*/
+  }
+
+  @SubscribeEvent
+  public void onPlayerContainerOpen(PlayerContainerEvent.Open event) {
+    if (!(event.getEntity() instanceof ServerPlayer player)) return;
+    AbstractContainerMenu container = event.getContainer();
+    if (container instanceof ContainerBase<?> base) base.listeners.add(player);
+    if (container instanceof ContainerTimer timer) timer.listeners.add(player);
+  }
+
+  @SubscribeEvent
+  public void onServerTick(ServerTickEvent.Post event) {
+    if (ConfigHandler.WS_ENABLED.get())
+      if (updateTicker-- < 0) {
+        updateTicker = ConfigHandler.WS_REFRESH_RATE.get() - 1;
+        if (!cards.isEmpty()) {
+          JsonObject json = new JsonObject();
+          json.addProperty("id", ConfigHandler.WS_SERVER_ID.get());
+          JsonArray array = new JsonArray();
+          for (Map.Entry<String, JsonObject> card : cards.entrySet()) array.add(card.getValue());
+          json.add("cards", array);
+          SocketClient.sendMessage(json.toString());
+          cards.clear();
+        }
+      }
+  }
+
+  @SubscribeEvent
+  public void onServerStarting(ServerStartingEvent event) {
+    if (ConfigHandler.WS_ENABLED.get() && !ConfigHandler.WS_HOST.get().isEmpty())
+      SocketClient.connect(ConfigHandler.WS_HOST.get(), ConfigHandler.WS_PORT.get());
+  }
+
+  @SubscribeEvent
+  public void onServerStopping(ServerStoppingEvent event) {
+    if (ConfigHandler.WS_ENABLED.get()) SocketClient.close();
+  }
+}

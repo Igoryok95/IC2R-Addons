@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " U ",
+    "UCU",
+    " U "
+  ],
+  "key": {
+    "U": {
+      "item": "ic2r_addons:upgrade_range"
+    },
+    "C": {
+      "tag": "c:circuits/advanced"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:upgrade_web"
+  }
+}

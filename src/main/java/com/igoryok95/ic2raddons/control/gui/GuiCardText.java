@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Energy Control by Zuxelus; IC2R integration by Igoryok95. See NOTICE.md.
+package com.igoryok95.ic2raddons.control.gui;
+
+import com.igoryok95.ic2raddons.control.EnergyControl;
+import com.igoryok95.ic2raddons.control.api.ICardReader;
+import com.igoryok95.ic2raddons.control.items.cards.ItemCardReader;
+import com.igoryok95.ic2raddons.control.lib.gui.GuiBase;
+import com.igoryok95.ic2raddons.control.lib.gui.controls.GuiTextArea;
+import com.igoryok95.ic2raddons.control.tileentities.TileEntityInfoPanel;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+public class GuiCardText extends GuiBase {
+  private ICardReader reader;
+  private ItemStack stack;
+  private TileEntityInfoPanel panel;
+  private GuiPanelBase<?> parentGui;
+  private int slot;
+  private GuiTextArea textArea;
+
+  private static final int lineCount = 10;
+
+  public GuiCardText(ItemStack card, TileEntityInfoPanel panel, GuiPanelBase<?> gui, int slot) {
+    super("", 256, 146, EnergyControl.MODID + ":textures/gui/gui_text_card.png");
+    this.reader = new ItemCardReader(card);
+    this.stack = card;
+    this.panel = panel;
+    parentGui = gui;
+    this.slot = slot;
+  }
+
+  @Override
+  public void init() {
+    super.init();
+    addRenderableWidget(
+        Button.builder(
+                CommonComponents.GUI_DONE,
+                (button) -> {
+                  actionPerformed(1);
+                })
+            .bounds(guiLeft + xSize - 60 - 8, guiTop + 120, 60, 20)
+            .build());
+    addRenderableWidget(
+        Button.builder(
+                Component.translatable("screen.ic2r_addons.control.style"),
+                (button) -> {
+                  actionPerformed(2);
+                })
+            .bounds(guiLeft + 8, guiTop + 120, 60, 20)
+            .build());
+    textArea = new GuiTextArea(font, guiLeft + 8, guiTop + 5, xSize - 16, ySize - 35, lineCount);
+    addWidget(textArea);
+    setFocused(textArea);
+    String[] data = textArea.getText();
+    for (int i = 0; i < lineCount; i++) data[i] = reader.getString("line_" + i);
+  }
+
+  @Override
+  protected void drawGuiContainerBackgroundLayer(
+      GuiGraphics matrixStack, float partialTicks, int mouseX, int mouseY) {
+    super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, mouseX, mouseY);
+    textArea.render(matrixStack, mouseX, mouseY, partialTicks);
+  }
+
+  @Override
+  public void tick() {
+    super.tick();
+    textArea.updateCursorCounter();
+  }
+
+  private void actionPerformed(int id) {
+    switch (id) {
+      case 1:
+        if (textArea != null) {
+          String[] lines = textArea.getText();
+          if (lines != null)
+            for (int i = 0; i < lines.length; i++) reader.setString("line_" + i, lines[i]);
+        }
+        reader.updateServer(stack, panel, slot);
+        minecraft.setScreen(parentGui);
+        break;
+      case 2:
+        textArea.writeText("@");
+        break;
+    }
+  }
+
+  @Override
+  public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    GuiEventListener control = getFocused();
+    if (control instanceof GuiTextArea) {
+      boolean result = super.mouseClicked(mouseX, mouseY, button);
+      setFocused(control);
+      return result;
+    }
+    return super.mouseClicked(mouseX, mouseY, button);
+  }
+
+  @Override
+  public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    if (keyCode == InputConstants.KEY_ESCAPE) {
+      actionPerformed(1);
+      return true;
+    }
+    return super.keyPressed(keyCode, scanCode, modifiers);
+  }
+
+  @Override
+  public void onClose() {
+    actionPerformed(1);
+    super.onClose();
+  }
+}

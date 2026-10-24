@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "ic2r_addons:cards"
+    }
+  ],
+  "result": {
+    "id": "ic2r_addons:radio_transmitter"
+  }
+}
