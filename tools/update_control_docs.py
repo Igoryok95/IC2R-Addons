@@ -47,11 +47,7 @@ the dedicated-server translation language (`en_us` / `ru_ru`). External web moni
 disabled by default. Sensor reads do not force-load an unloaded target chunk.
 All interface labels, tooltips, messages and configuration labels have English / Russian keys.
 
-The engine's previous mojibake separator is replaced with an ASCII `|` in both languages;
-the screenshot below is captured from the actual corrected client.
-
-![Native IC2R reactor monitoring](docs/images/control-world-en-1.4.0.png)
-![Synchronized energy counter](docs/images/control-counter-en-1.4.0.png)
+![Energy Counter readings and upgrades](docs/images/control-counter-en-1.4.0.png)
 ![Information Panel settings](docs/images/control-panel-en-1.4.0.png)
 
 '''

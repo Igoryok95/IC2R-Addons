@@ -46,9 +46,7 @@ is not required. Original authors and GPL-3.0 source / asset terms are preserved
 - Jade reports server-owned counter readings and monitor thresholds. JEI includes crafting
   and Kit Assembler recipes. Control uses existing IC2R circuits / machine casings rather
   than registering duplicate components.
-- The Kit Assembler synchronizes its energy / processing gauges and preserves partial work
-  across a power interruption and saving. Empty-slot sprites use the correct block atlas;
-  both restored counters have visible world / inventory models.
+- The Kit Assembler preserves partial work across power interruptions and world saving.
 - Nuclear Control has one dedicated mod adapter: IC2R. No BuildCraft, AE2, Mekanism,
   Big Reactors or other mod-specific monitoring adapter is added. The existing optional
   BuildCraft electric-engine / wrench bridge is independent of monitoring and remains available.
@@ -59,14 +57,10 @@ the dedicated-server translation language (`en_us` / `ru_ru`). External web moni
 disabled by default. Sensor reads do not force-load an unloaded target chunk.
 All interface labels, tooltips, messages and configuration labels have English / Russian keys.
 
-The engine's previous mojibake separator is replaced with an ASCII `|` in both languages;
-the screenshot below is captured from the actual corrected client.
-
-![Native IC2R reactor monitoring](docs/images/control-world-en-1.4.0.png)
-![Synchronized energy counter](docs/images/control-counter-en-1.4.0.png)
+![Energy Counter readings and upgrades](docs/images/control-counter-en-1.4.0.png)
 ![Information Panel settings](docs/images/control-panel-en-1.4.0.png)
-![Kit Assembler with synchronized energy and partial progress](docs/images/control-assembler-en-1.4.0.png)
-![Range Trigger with resolved empty-slot sprites](docs/images/control-range-en-1.4.0.png)
+![Kit Assembler interface](docs/images/control-assembler-en-1.4.0.png)
+![Range Trigger settings](docs/images/control-range-en-1.4.0.png)
 
 ## Advanced Machines
 
@@ -145,11 +139,14 @@ IC2R mechanical / electric wrenches and GraviTool in wrench mode are recognized 
 
 The localized engine overlay shows stored / maximum EU, actual EU/t and MJ/t, maximum input packet and the current state: running, waiting for redstone, no energy, no consumer, full output or bridge disabled. It uses server-provided data. Without Jade the engine still works.
 
+![Electric engine and Jade diagnostics](docs/images/engine-jade-en-1.4.0.png)
+
 ## Textures
 
-The texture refresh combines IC2R-style 32-pixel tool detail with the addon's original silhouettes and blue energy accents. Eighteen tool, armor and device icons use generated pixel-art atlases based on the original 16-pixel designs. The Hybrid and Ultimate solar-helmet icons restore the classic designs supplied by the user, copied to strict 32x32 transparent sprites rather than redesigned. Remaining component / block art uses edge-aware pixel refinement from the original assets. Armor UV layouts and transparency are preserved. The 1.2.1 Quantum Solar Helmet is a restrained palette variant of the restored classic Ultimate helmet: identical 32x32 silhouette, brighter blue solar crown and lighter shell. Worn armor preserves the same UV layout. The generated reference is used only for its blue palette; it does not replace the existing helmet geometry. Source artwork, processing instructions and provenance are in `tools/textures` and [NOTICE.md](NOTICE.md).
-
-![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.4.0.png)
+Equipment uses 32x32 icons with the original silhouettes and blue energy accents. Hybrid and
+Ultimate solar helmets retain their classic designs; the Quantum helmet uses the same shape
+with a brighter blue crown and lighter shell. Leggings and boots match the existing chestplates.
+Artwork sources and attribution are documented in `tools/textures` and [NOTICE.md](NOTICE.md).
 
 ## Solar progression
 
