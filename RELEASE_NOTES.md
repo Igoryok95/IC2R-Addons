@@ -13,6 +13,7 @@ IC2R's processing recipe managers directly, including datapack modifications. Th
 retains IC2R recycling rules and packs nine scrap into a scrap box without random losses.
 Water machines accept pipes and containers, return empty containers and consume water internally.
 The Thermal Washer retains its hot-empty-refill explosion; loading a filled hot tank is safe.
+If server protection cancels that explosion, the same refill does not trigger it again every tick.
 
 Adds explicit sided item / fluid pipe support, persistent partial work / heat / water,
 IC2R wrench rotation, full English / Russian text, original modern 32x32 textures,

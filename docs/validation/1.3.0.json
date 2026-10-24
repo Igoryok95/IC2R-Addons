@@ -1,6 +1,6 @@
 {
   "version": "1.3.0",
-  "verified_at_utc": "2026-10-24T16:32:26.137205+00:00",
+  "verified_at_utc": "2026-10-24T16:36:30.520105+00:00",
   "minecraft": "1.21.1",
   "neoforge": "21.1.264",
   "ic2r": "21.1.68",
@@ -45,8 +45,8 @@
   "textures": "Original modern Advanced Machines 32x32 PNGs, unchanged",
   "artifact": {
     "file": "ic2r-addons-neoforge-1.21.1-1.3.0.jar",
-    "bytes": 826654,
-    "sha256": "0e61806d8c99424d8f1b8773b8721222fea97c9cc9239b25b680d1751c65585a"
+    "bytes": 826706,
+    "sha256": "e53ba1e990e6c2ee8837886c4dc12945ce29f162552b8c1b3f467ae58dcfabe3"
   },
   "installed_modpack_changed": false,
   "multiplayer_server_changed": false

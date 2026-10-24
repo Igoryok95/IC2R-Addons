@@ -380,6 +380,9 @@ public final class AdvancedMachinesGameTests {
     try {
       washer.updateEntityServer();
       h.assertTrue(seen.get(), "hot refill invokes the native, cancellable IC2R thermal explosion");
+      h.assertTrue(
+          !washer.isThermalShockPending(),
+          "a cancelled explosion does not repeat for the same refill");
     } finally {
       net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(listener);
     }

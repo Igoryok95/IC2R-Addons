@@ -29,6 +29,8 @@ public class TileEntityThermalWasher extends TileEntityHeatingWaterMachine {
   @Override
   protected boolean checkThermalShock() {
     if (!isThermalShockPending()) return false;
+    // A protection mod may cancel the explosion; the same refill must not fire every tick.
+    lastWaterAmount = getWaterAmount();
     var explosion =
         new Ic2Explosion(level, null, worldPosition, 12.0F, 0.0F, Ic2Explosion.Type.Heat);
     explosion.doExplosion();
