@@ -49,3 +49,26 @@ not relicense original IC2 / ASP assets or claim ownership of the original proje
 
 The source- and asset-rights statement above also applies to integrated GraviSuite / IC2R
 materials; no ownership of original artwork or additional permissive license is claimed.
+
+## IC2R Addons 1.2.0
+
+The ForestryCE engine renderer and tin / solar engine texture family are adapted from
+https://github.com/thedarkcolour/ForestryCE/tree/ae51f88a6f1f3180a3d3bdddd842cf699cee03e7 . These adapted materials remain
+under LGPL-3.0-or-later; a copy is bundled in `src/main/resources/LICENSES/ForestryCE-LGPL-3.0.txt`.
+Original authors include the Forestry contributors and thedarkcolour. Forestry is not bundled.
+The integration uses the public BCCE API 2 from https://github.com/BCCE-team/BuildCraft/tree/8.0.25;
+BuildCraft is resolved separately and is not bundled.
+
+The new 1.2.0 tool atlas was produced with the built-in imagegen tool using IC2R electric tools
+and the original addon textures as references: orange / graphite grips, silver metallic shading,
+blue upgrade details and original diagonal tool silhouettes. `tools/textures/1.2.0-tools-generated.png`
+is the generated source; `RefreshTextures.java` converts its four cells to strict 32x32 RGBA icons
+and applies edge-aware 2x pixel refinement to the remaining original item / block / armor assets.
+Existing artwork remains attributed to its original authors; the refresh does not claim ownership
+of those underlying assets. The public Git author for this adaptation is Igoryok95.
+
+A second 4x4 generated atlas, `tools/textures/1.2.0-equipment-generated.png`, refreshes sixteen
+armor / device icons from `1.2.0-equipment-reference.png`. The prompt preserves exact cell order,
+original angular silhouettes and equipment colors, adds restrained IC2R steel / graphite shading
+at 32 pixels, and keeps blue / cyan armor indicators. Both atlases are sampled onto strict
+32x32 transparent pixel grids by `RefreshTextures.java`; worn armor retains its original UV layout.

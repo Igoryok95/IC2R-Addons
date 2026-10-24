@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:molecular_transformer",
+  "input": {
+    "item": "minecraft:glowstone_dust"
+  },
+  "output": {
+    "id": "ic2r_addons:sunnarium_part",
+    "count": 1
+  },
+  "energy": 1000000
+}

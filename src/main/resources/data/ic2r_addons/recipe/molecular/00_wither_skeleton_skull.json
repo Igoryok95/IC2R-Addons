@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:molecular_transformer",
+  "input": {
+    "item": "minecraft:wither_skeleton_skull"
+  },
+  "output": {
+    "id": "minecraft:nether_star",
+    "count": 1
+  },
+  "energy": 250000000
+}

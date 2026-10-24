@@ -1,0 +1,22 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ACA",
+    "CIC",
+    "ACA"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2:alloy"
+    },
+    "C": {
+      "item": "ic2:carbon_plate"
+    },
+    "I": {
+      "item": "ic2r_addons:iridium_iron_plate"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:reinforced_iridium_iron_plate"
+  }
+}

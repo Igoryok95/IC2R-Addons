@@ -2,7 +2,7 @@
   "pack": {
     "pack_format": 34,
     "description": {
-      "translate": "pack.solar_gravisuite.description"
+      "translate": "pack.ic2r_addons.description"
     }
   }
 }

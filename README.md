@@ -1,32 +1,53 @@
-# Solar GraviSuite for IC2R
+# IC2R Addons
 
-**Advanced Solar Panels + GraviSuite in one mod** for Minecraft **1.21.1 / NeoForge** and
-**IndustrialCraft 2: Refactored (IC2R)**. Solar generation, powered equipment and mobility share
-one release, one mod container and one installation JAR. English and Russian are included.
-
-![Solar technology and upgraded armor](docs/images/panels-and-transformer-en.png)
+Advanced solar power, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
 ## Requirements and installation
 
-- Minecraft **1.21.1**, NeoForge **21.1.264+**, Java **21**.
+- Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
 - IC2R **21.1.67+ within 21.x**, installed separately.
-- Optional: JEI for crafting and Molecular Transformer recipes.
+- Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
+- Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `solar-gravisuite-neoforge-1.21.1-1.1.1.jar` on **both client and server**.
-Remove the separate Advanced Solar Panels and GraviSuite JARs when replacing them. The combined
-mod explicitly rejects a standalone `gravisuite` mod to prevent duplicate registrations.
-The sources JAR is for development only.
+Install `ic2r-addons-neoforge-1.21.1-1.2.0.jar` on both client and server, replacing the previous Solar GraviSuite JAR. Do not keep duplicate standalone ASP / GraviSuite installations. Forestry is not required.
 
-This project continues AdvancedSolarPanels-IC2R. The public repository is now
-[Igoryok95/SolarGraviSuite-IC2R](https://github.com/Igoryok95/SolarGraviSuite-IC2R).
-Version 1.1.1 uses **`solar_gravisuite`** for the loader ID and every item, block, recipe,
-resource, payload and creative tab. JEI searches such as `@solar`, `@gravi` and
-`@solar_gravisuite` all return the same complete set. The display name is
-**Solar GraviSuite for IC2R**; two creative tabs organize technology and equipment.
+The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
-This early-version cleanup intentionally does not migrate `advanced_solar_panels:*` or
-`gravisuite:*` entries from 1.1.0. Use it before placing or storing content from those versions;
-old items and blocks are not preserved by this release.
+### Upgrading from 1.1.1
+
+Registry aliases resolve `solar_gravisuite:*` content to its new `ic2r_addons:*` identity. Existing equipment settings / teleport destinations are read from the previous custom-data compound and migrate on modification. Existing solar and equipment configuration files are copied to their new names only if the new files do not exist. Keep a world backup before upgrading a modded installation.
+
+## Optional BuildCraft bridge
+
+The bridge loads only when `buildcraftenergy` is installed. Without BuildCraft, the engine is not registered and its recipe is skipped; all solar and equipment features remain available. Jade and JEI are independently optional.
+
+### EU-powered electric engine
+
+`IC2R cable → Electric Engine → BuildCraft Kinesis pipe / MJ machine`
+
+- Takes native **IC2R EU** on every side except the piston output face.
+- Outputs native **BuildCraft MJ** through the piston face, directly or through Kinesis pipes.
+- Defaults: **10,000 EU** buffer, **tier 2 / 128 EU input packets**, **32 EU/t maximum consumption**, **0.4 MJ per EU** (up to **12.8 MJ/t**).
+- Requires a redstone signal by default. Idle, disconnected and full outputs do not consume EU.
+- Simulation never consumes EU; repeated extraction shares one per-tick budget. The EU buffer survives saving / reloading.
+- Recipe: tin ingots, an iron BuildCraft gear, IC2R coils, an electric motor and an electronic circuit.
+- Engine geometry, textures and piston animation are adapted from ForestryCE's tin / solar engine. Solar panels and Forestry are not dependencies.
+
+`ic2r_addons-buildcraft.toml` controls `enabled`, `euCapacity`, `inputTier`, `euPerTick`, `mjPerEu` and `requireRedstone`. EU-to-MJ conversion does not depend on BC's global FE auto-conversion switch.
+
+### Wrenches
+
+IC2R mechanical / electric wrenches and GraviTool in wrench mode are recognized by BuildCraft. The BC wrench can rotate and dismantle IC2R machines using their wrench behavior: **right-click to rotate**, **left-click mining to dismantle**. Electric-tool operations consume charge; empty tools cannot dismantle BC machines. Special BC pipe interactions remain available.
+
+### Jade
+
+The localized engine overlay shows stored / maximum EU, actual EU/t and MJ/t, maximum input packet and the current state: running, waiting for redstone, no energy, no consumer, full output or bridge disabled. It uses server-provided data. Without Jade the engine still works.
+
+## Textures
+
+The 1.2.0 refresh combines IC2R-style 32-pixel tool detail with the addon's original silhouettes and blue energy accents. Twenty tool, armor and device icons use new generated pixel-art atlases based on the original 16-pixel designs. Remaining component / block art uses edge-aware pixel refinement from the original assets. Armor UV layouts and transparency are preserved. Source artwork, processing instructions and provenance are in `tools/textures` and [NOTICE.md](NOTICE.md).
+
+![Electric engine and live Jade diagnostics](docs/images/engine-jade-en-1.2.0.png)
 
 ## Solar progression
 
@@ -65,16 +86,18 @@ set has **100 million EU per piece**. The hybrid helmet remains an intermediate 
 Each upgrade requires the corresponding IC2R equipment. IC2R powered armor behavior and voltage
 tiers are retained; no duplicate base nano / quantum equipment or additional helmets are added.
 
-![Powered armor icons and capacities](docs/images/powered-armor-en.png)
+
 
 The new leggings and boots have blue energy details in both item icons and worn armor,
-matching the existing chestplates. Existing chestplate and solar helmet artwork is retained.
+matching the existing chestplates. Original equipment silhouettes are retained, with refreshed pixel detail and blue energy accents.
 Nano boots retain the 5,000 EU-per-damage fall cost while removing the base heavy-fall cutoff;
 quantum boots spend 10,000 instead of 20,000 EU per point beyond the first ten blocks.
 
 Solar helmets generate only while worn and charge chest / legs / boots first, then offhand and
 inventory, then their own buffer. Each generated EU is allocated once. Upgrade recipes use
 IC2R's shaped serializer and carry charge from ingredients into the result.
+
+![Upgraded equipment and capacities](docs/images/armor-en-1.2.0.png)
 
 ## Tools, mobility and storage
 
@@ -107,15 +130,15 @@ dynamic GUI and optional JEI category. This is an adapted recipe set, not exact 
 - Changing input resets incompatible partial work.
 - Input, output, buffered EU and partial work survive saving.
 
-![Molecular Transformer GUI](docs/images/molecular-transformer-gui-en.png)
+
 
 Example datapack recipe under `data/<namespace>/recipe/`:
 
 ```json
 {
-  "type": "solar_gravisuite:molecular_transformer",
+  "type": "ic2r_addons:molecular_transformer",
   "input": { "item": "minecraft:glowstone_dust" },
-  "output": { "id": "solar_gravisuite:sunnarium_part", "count": 1 },
+  "output": { "id": "ic2r_addons:sunnarium_part", "count": 1 },
   "energy": 1000000
 }
 ```
@@ -123,11 +146,13 @@ Example datapack recipe under `data/<namespace>/recipe/`:
 The creative-only Quantum Generator produces a fixed 512 EU/t, stops with redstone power and
 has no survival recipe. Crafting components reuse IC2R's uranium ingot instead of a duplicate.
 
+![Molecular Transformer interface](docs/images/transformer-gui-en-1.2.0.png)
+
 ## Controls
 
 Bindings can be changed in Minecraft's Controls screen.
 
-- **G**: toggle the worn GraviSuite flight engine.
+- **G**: toggle the worn armor flight engine.
 - **H**, or right-click the magnet: toggle the hotbar magnet.
 - **IC2 mode key + right-click**: cycle tool / mining / relocator mode.
 - **IC2 Alt key + right-click**: cycle mining efficiency.
@@ -141,55 +166,37 @@ Bindings can be changed in Minecraft's Controls screen.
 
 ## Configuration
 
-Common configuration is organized into two files:
+Common configuration is organized into three files:
 
-- `config/solar_gravisuite-solar.toml`: `generationMultiplier` (default 1.0, range 0-64),
+- `config/ic2r_addons-solar.toml`: `generationMultiplier` (default 1.0, range 0-64),
   `helmetsChargeArmorOnly` (false), `drawActiveTransformerCore` (true).
-- `config/solar_gravisuite-equipment.toml`: `magnetRange` (8), `veinLimit` (64), `treeLimit` (128),
+- `config/ic2r_addons-equipment.toml`: `magnetRange` (8), `veinLimit` (64), `treeLimit` (128),
   `portalLifetimeTicks` (400), `showHud` (true).
+
+- `config/ic2r_addons-buildcraft.toml`: optional bridge settings listed above. Restart after changing voltage or buffer settings.
 
 Use matching settings on client and server. Recipes can be changed with datapacks.
 
 ## Build and validation
 
+Use Java 21:
+
 ```sh
-./gradlew build runGameTestServer
+./gradlew spotlessApply build runGameTestServer
+./gradlew runGameTestServer -PwithBC -PwithJade
+./gradlew runClient -PclientSmoke -PwithBC -PwithJade
 ```
 
-Use Java 21. The public [IC2R 21.1.67 release](https://github.com/Igoryok95/IC2R/releases/tag/21.1.67)
-is resolved automatically. For a local dependency, pass
-`-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`. No separate GraviSuite dependency is used.
+Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.67.jar`.
 
-The combined suite has **41 NeoForge server game tests and 10 JUnit resource tests**. It covers
-solar generation, charging / EU conservation, real energy-network transfer, armor capacities,
-charge-preserving recipes / serialization, mining, flight cleanup, fall protection, portals,
-packet validation, machine persistence, GUI parsing, localization, blue armor resources and
-unified registry / creator identities. A real client additionally compares the complete JEI
-results for four mod-name queries. In 1.1.1, each returns the same 50 distinct registered items.
-See the English captures for [@solar](docs/images/jei-solar-en-1.1.1.png) and
-[@gravi](docs/images/jei-gravi-en-1.1.1.png), and the [full comparison report](docs/validation/jei-search-1.1.1.json).
+Validation: **11 JUnit checks**, **43 server GameTests without BC** and **51 with BC**, tested with Jade present and absent. Real English / Russian clients received live Jade telemetry and matching JEI results (51 items with BC). See [the validation manifest](docs/validation/1.2.0.json).
 
-The isolated client smoke command is `./gradlew runClient -PclientSmoke`. It opens
-`run/saves/SolarClientSmoke`, places solar machines and two equipped armor stands, renders
-item / world / GUI captures and exits. Prepare this isolated world by copying `run/world` to
-`run/saves/SolarClientSmoke` after a server test run. The developer harness is disabled unless
-explicitly enabled and clears old test inventories / dropped items / armor stands.
+The server suites exercise solar generation, real IC2 energy-network transfers, powered equipment, persistence, migration aliases, and the optional EU-to-MJ engine. JUnit resource checks verify recipes, atlas UVs, English / Russian coverage, format arguments, armor texture layouts and item resources. The isolated client smoke verifies rendering, GUI opening and matching JEI search results. It is disabled in normal play.
 
-A real English-locale client with IC2R 21.1.67 and JEI 19.64.0.455 loads the combined mod,
-renders both complete armor sets and blue leg / boot details, and opens the transformer GUI.
-The screenshots above were captured from that client.
-
-The full multiplayer modpack, worn movement controls and shader combinations still need manual
-validation. No Sodium / Iris incompatibility rule is imposed. Historical double-slab cosmetics,
-exact old GUI styling, helmet dye recipes and legacy engine audio are outside this release.
+The client smoke modifies only its isolated `run/saves/SolarClientSmoke` development world. It does not use the installed modpack or multiplayer server.
 
 ## Credits and history
 
-Original ASP: **Icedfire, SeNtiMeL, Chocohead**, original textures including **Krezzard**.
-Original GraviSuite: **SeNtiMeL and the IC2 Dev Team**. GraviSuite Reforged implementation and
-assets: **VintageModsReforged and upstream contributors**. NeoForge / IC2R adaptation: **Igoryok95**.
+Original Advanced Solar Panels: Icedfire, SeNtiMeL, Chocohead and contributors. Solar-tier extensions: VintageModsReforged. GraviSuite: SeNtiMeL, the IC2 Dev Team and VintageModsReforged. ForestryCE engine artwork / geometry: Forestry contributors and thedarkcolour. NeoForge IC2R adaptation and integration: **Igoryok95**.
 
-See [NOTICE.md](NOTICE.md) for exact source revisions and asset provenance. GraviSuite's port
-history is retained as a parent of the integration commit; historical 1.6.4 sources and the
-3.0.0 port README are retained under [legacy/gravisuite](legacy/gravisuite).
-This is an unofficial adaptation, not a release by the original IC2 / ASP authors.
+Original copyrights and applicable licenses remain in force. See [NOTICE.md](NOTICE.md) and bundled `LICENSES/ForestryCE-LGPL-3.0.txt`.

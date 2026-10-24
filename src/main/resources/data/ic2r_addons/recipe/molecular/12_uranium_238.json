@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:molecular_transformer",
+  "input": {
+    "item": "ic2:uranium_238"
+  },
+  "output": {
+    "id": "ic2:uranium_235",
+    "count": 1
+  },
+  "energy": 10000000
+}

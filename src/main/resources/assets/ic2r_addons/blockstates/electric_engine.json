@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ic2r_addons:block/electric_engine"
+    }
+  }
+}

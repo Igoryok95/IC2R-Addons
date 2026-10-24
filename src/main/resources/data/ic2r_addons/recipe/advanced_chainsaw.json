@@ -1,0 +1,26 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " F ",
+    "ABA",
+    "CAC"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:diamond"
+    },
+    "A": {
+      "item": "ic2:overclocker_upgrade"
+    },
+    "B": {
+      "item": "ic2:chainsaw"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_chainsaw",
+    "count": 1
+  }
+}

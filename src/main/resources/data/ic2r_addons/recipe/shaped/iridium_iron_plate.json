@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "III",
+    "IPI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "ic2:iron_plate"
+    },
+    "P": {
+      "item": "ic2:iridium"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:iridium_iron_plate"
+  }
+}

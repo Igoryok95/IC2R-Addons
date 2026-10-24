@@ -1,0 +1,26 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SCS",
+    "BAB",
+    "SCS"
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:superconductor"
+    },
+    "A": {
+      "item": "ic2:nano_boots"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "ic2r_addons:engine_booster"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_nano_boots",
+    "count": 1
+  }
+}

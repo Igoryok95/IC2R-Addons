@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:molecular_transformer",
+  "input": {
+    "item": "ic2:iridium_ore"
+  },
+  "output": {
+    "id": "ic2r_addons:iridium_ingot",
+    "count": 1
+  },
+  "energy": 500000
+}

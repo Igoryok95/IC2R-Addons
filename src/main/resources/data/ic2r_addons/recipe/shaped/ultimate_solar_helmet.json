@@ -1,0 +1,25 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " P ",
+    "CHC",
+    " L "
+  ],
+  "key": {
+    "P": {
+      "item": "ic2r_addons:ultimate_solar_panel"
+    },
+    "H": {
+      "item": "ic2r_addons:hybrid_solar_helmet"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "L": {
+      "item": "ic2:lapotron_crystal"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:ultimate_solar_helmet"
+  }
+}

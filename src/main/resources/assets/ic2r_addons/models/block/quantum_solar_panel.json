@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "ic2r_addons:block/quantum_solar_side",
+    "down": "ic2r_addons:block/quantum_solar_bottom",
+    "up": "ic2r_addons:block/quantum_solar_top",
+    "north": "ic2r_addons:block/quantum_solar_side",
+    "east": "ic2r_addons:block/quantum_solar_side",
+    "south": "ic2r_addons:block/quantum_solar_side",
+    "west": "ic2r_addons:block/quantum_solar_side"
+  }
+}

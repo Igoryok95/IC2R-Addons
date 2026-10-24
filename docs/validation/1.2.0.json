@@ -1,0 +1,64 @@
+{
+  "version": "1.2.0",
+  "mod_id": "ic2r_addons",
+  "verified_at_utc": "2026-10-24T15:03:32.962457+00:00",
+  "environment": {
+    "minecraft": "1.21.1",
+    "neoforge": "21.1.264",
+    "ic2r": "21.1.67",
+    "buildcraft": "8.0.25+1.21.1+neoforge",
+    "jade": "15.10.6+neoforge",
+    "java": 21
+  },
+  "junit": {
+    "tests": 11,
+    "failures": 0,
+    "errors": 0
+  },
+  "server_tests": {
+    "base": {
+      "passed": 43,
+      "required": 43
+    },
+    "jade_without_bc": {
+      "passed": 43,
+      "required": 43
+    },
+    "bc_without_jade": {
+      "passed": 51,
+      "required": 51
+    },
+    "bc_and_jade": {
+      "passed": 51,
+      "required": 51
+    }
+  },
+  "client": {
+    "languages": [
+      "en_us",
+      "ru_ru"
+    ],
+    "real_jade_server_response": true,
+    "jei_queries_return_same_items": true,
+    "jei_items_with_bc": 51,
+    "actual_engine_sample": {
+      "buffer_capacity_eu": 10000,
+      "input_eu_per_tick": 32,
+      "output_mj_per_tick": 12.8,
+      "max_input_packet_eu": 128
+    }
+  },
+  "artifacts": [
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.2.0-sources.jar",
+      "bytes": 575373,
+      "sha256": "1993fd9407e9bfc2a44a111db4d2d4f06d7c2a6769a2d0d0ae1fc87e8ab99c37"
+    },
+    {
+      "file": "ic2r-addons-neoforge-1.21.1-1.2.0.jar",
+      "bytes": 703838,
+      "sha256": "aa3d31e3115d06afb8879d87116e944d7b3636f1903f61bce02d6ed32954b653"
+    }
+  ],
+  "screenshots": "docs/images/*-en-1.2.0.png"
+}

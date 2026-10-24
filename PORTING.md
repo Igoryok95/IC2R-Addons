@@ -1,51 +1,53 @@
-# NeoForge 1.21.1 implementation notes
+# IC2R Addons: implementation notes
 
-The baseline was craftorio's Forge 1.20.1 ASP adaptation. Registration now uses NeoForge deferred
-registries, Java 21, modern resource paths / data components / NBT registry lookup, IC2R 21.1.67
-and JEI 19. The build resolves IC2R from the maintained public fork release.
+## Identity and migration
 
-Solar panels remain IC2R `TileEntityBaseGenerator` subclasses, and the transformer remains an
-IC2R electric machine. Common GUI parsing calls the public IC2R parser with an addon class so
-module resources resolve without reflection. Gauge styles must exist on both sides because the
-server parses GUI definitions too.
+The 1.2.0 loader ID, registry / resource namespace and network identity are `ic2r_addons`.
+Java packages live under `com.igoryok95.ic2raddons`, split into solar, equipment and bridge modules.
+Registry aliases resolve 1.1.1 `solar_gravisuite` entries, including block entities. Equipment
+custom data falls back to the old compound and migrates on modification. Config migration copies
+existing solar / equipment settings only when their new files are absent.
 
-Solar helmet implementations inherit IC2R Nano / Quantum helmet classes. They retain their
-powered functions and allocate each tick's generated EU through the electric-item API. New
-capacities are upgrades of the current IC2R values. The shared singleton timer from the old
-migration has been removed.
+## Existing solar and equipment modules
 
-Transformer recipes use a native recipe type, codec and stream codec. Inputs remain unconsumed
-until completion; output capacity is checked before energy is spent. Pending input identity,
-output and energy progress are serialized. A changed input or changed recipe resets incompatible
-partial work. The normal IC2R component serialization retains the energy buffer.
+Solar panels use IC2R TileEntityBaseGenerator; the transformer uses its electric machine / energy
+components, native recipe codec and stream codec. Pending work and EU survive saving. Solar helmets
+inherit IC2R nano / quantum functions and allocate generated EU once per tick. Powered equipment,
+mining, relocation and armor progression remain integrated into the single mod container.
 
-The original 3D transformer geometry uses NeoForge's block-entity and item renderer extension
-points. Active-core billboards use the supplied ASP 4.3.0 textures. No external updater or custom
-IC2 energy implementation is included.
+The original baselines are documented in NOTICE.md. Earlier 1.1.0 split namespaces and 1.1.1 unified
+Solar GraviSuite identity are historical; current registrations all use the new identity.
 
-## Solar GraviSuite 1.1.0 integration
+## Optional BuildCraft boundary
 
-The existing ASP mod ID is retained as the only loader entry. GraviSuite initialization now
-runs from that entry point; its client subscribers attach to the same mod container. Its
-registrations, resource locations, payload IDs and test-template namespaces remain `gravisuite`.
-Both existing config filenames are explicitly registered on the combined container.
-The standalone GraviSuite mod is marked incompatible to prevent duplicate registrations.
+Only the BuildCraft-present branch loads `bridge.bc` content. The electric engine owns an IC2R
+Energy sink and exposes BC API 2 MjPortProvider endpoints on the piston side. Other sides accept
+native EU. Both direct pushes and passive extraction share one tick budget; simulation and refused
+output consume no EU. IC2R owns buffer persistence / input tier behavior.
 
-Leg / boot subclasses retain IC2R movement, armor and fall behavior, but select addon-owned
-armor material layers. Nano layer 1 combines the original chestplate art with the upgraded
-boot regions; layer 2 contains the leggings. Quantum layers use IC2R UVs with blue accents.
-Existing chestplate and helmet artwork is retained. Storage is synchronized across advanced
-nano pieces (8M EU) and top quantum / gravitational pieces (100M EU); the hybrid helmet has 40M.
+The wrench adapter recognizes IC2R tools and wrench-mode GraviTool. Right-click dispatches through
+the actual BC wrench item behavior, retaining engine rotation rules and native pipe actions.
+BC-wrench clicks on IC2 machines use IC2R facing / wrench-drop functions. Harvest / break hooks
+retain left-click dismantling and avoid duplicate vanilla drops; cancelled events are respected.
 
-## Solar GraviSuite 1.1.1 unified identity
+Engine geometry and piston animation are adapted from ForestryCE, with source / asset provenance
+and LGPL text included. It does not load Forestry classes or bundle either upstream mod.
 
-The loader entry, all registries, assets, datapacks, localization keys, network payloads and
-armor / attribute resources now use `solar_gravisuite`. The 1.1.0 namespaces described above
-are historical only. No registry aliases or missing-mapping migration are supplied.
-Both former resource trees are merged with collision checking, including localization maps.
-The two config specs use `solar_gravisuite-solar.toml` and `solar_gravisuite-equipment.toml`.
+## Jade and localization
 
-JEI obtains the item creator ID through NeoForge's Item API. The shared namespace therefore
-provides the same display mod name for both content families. The developer-only JEI smoke
-check compares full result sets for `@solar`, `@gravi`, `@Solar` and `@solar_gravisuite`,
-including all registered items rather than checking only counts or representative samples.
+Jade registers against common IC2 tile classes and checks a dependency-free EngineTelemetry interface.
+It can load without BuildCraft. Actual server telemetry is rendered using translation keys for all
+labels and states. English / Russian key coverage and formatting are checked by JUnit. User-entered
+relocator destination names are the only literal text components; all built-in player-facing text
+uses locales.
+
+## Textures and validation
+
+Twenty generated 32x32 icons combine original addon silhouettes with IC2R metallic detail. Remaining
+pixel artwork uses reproducible edge-aware refinement; worn armor keeps normalized UV layouts and
+blue energy accents. Source atlases and Java processors are retained in tools/textures.
+
+Server GameTests use non-networked FakePlayer actors so Jade / BC do not try to negotiate packets
+with vanilla mock connections. The real client smoke independently verifies networked Jade data,
+JEI searches, machines / armor / GUI rendering and English / Russian text. The smoke property is
+`ic2r_addons.clientSmoke`; it is disabled in normal play.

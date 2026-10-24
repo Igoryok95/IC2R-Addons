@@ -1,0 +1,35 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "buildcraftenergy"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "CMC",
+    "TWT"
+  ],
+  "key": {
+    "T": {
+      "tag": "c:ingots/tin"
+    },
+    "G": {
+      "item": "buildcraftcore:gears/gear_iron"
+    },
+    "C": {
+      "item": "ic2:coil"
+    },
+    "M": {
+      "item": "ic2:electric_motor"
+    },
+    "W": {
+      "item": "ic2:circuit"
+    }
+  },
+  "result": {
+    "id": "ic2r_addons:electric_engine",
+    "count": 1
+  }
+}

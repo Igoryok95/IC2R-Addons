@@ -1,0 +1,29 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SIS",
+    "CAC",
+    "SBS"
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:superconductor"
+    },
+    "A": {
+      "item": "ic2:quantum_leggings"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "ic2r_addons:cooling_core"
+    },
+    "I": {
+      "item": "ic2:iridium"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_quantum_leggings",
+    "count": 1
+  }
+}

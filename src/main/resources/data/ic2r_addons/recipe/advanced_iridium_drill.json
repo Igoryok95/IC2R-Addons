@@ -1,0 +1,28 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SIS",
+    "CDC",
+    "SLS"
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:superconductor"
+    },
+    "I": {
+      "item": "ic2:iridium"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "D": {
+      "item": "ic2:iridium_drill"
+    },
+    "L": {
+      "item": "ic2:energy_crystal"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_iridium_drill"
+  }
+}

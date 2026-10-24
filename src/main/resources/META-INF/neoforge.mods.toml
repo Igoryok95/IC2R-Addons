@@ -1,37 +1,55 @@
 modLoader="javafml"
 loaderVersion="[4,)"
 license="All Rights Reserved"
-issueTrackerURL="https://github.com/Igoryok95/SolarGraviSuite-IC2R/issues"
+issueTrackerURL="https://github.com/Igoryok95/IC2R-Addons/issues"
 [[mods]]
-modId="solar_gravisuite"
+modId="ic2r_addons"
 version="${version}"
-displayName="Solar GraviSuite for IC2R"
+displayName="IC2R Addons"
 authors="Icedfire, SeNtiMeL, Chocohead; craftorio; VintageModsReforged; NeoForge IC2R adaptation: Igoryok95"
-description="Advanced Solar Panels and GraviSuite in one IC2R addon for Minecraft 1.21.1 NeoForge: eight solar tiers, solar helmets, a Molecular Transformer, powered armor, flight and electric tools."
-[[dependencies.solar_gravisuite]]
+description="IC2R Addons for Minecraft 1.21.1 NeoForge: advanced solar power, solar helmets, a Molecular Transformer, powered armor and electric tools, with an optional BuildCraft EU-to-MJ engine, compatible wrenches and Jade diagnostics."
+displayURL="https://github.com/Igoryok95/IC2R-Addons"
+[[dependencies.ic2r_addons]]
+modId="solar_gravisuite"
+type="incompatible"
+versionRange="[0,)"
+side="BOTH"
+[[dependencies.ic2r_addons]]
+modId="buildcraftlib"
+type="optional"
+versionRange="[8.0.25,9)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.ic2r_addons]]
+modId="jade"
+type="optional"
+versionRange="[15.10.6,16)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.ic2r_addons]]
 modId="ic2"
 type="required"
 versionRange="[21.1.67,22)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.solar_gravisuite]]
+[[dependencies.ic2r_addons]]
 modId="minecraft"
 type="required"
 versionRange="[1.21.1]"
 side="BOTH"
-[[dependencies.solar_gravisuite]]
+[[dependencies.ic2r_addons]]
 modId="neoforge"
 type="required"
 versionRange="[21.1.264,)"
 side="BOTH"
 
-[[dependencies.solar_gravisuite]]
+[[dependencies.ic2r_addons]]
 modId="gravisuite"
 type="incompatible"
 versionRange="[0,)"
 side="BOTH"
 
-[[dependencies.solar_gravisuite]]
+[[dependencies.ic2r_addons]]
 modId="advanced_solar_panels"
 type="incompatible"
 versionRange="[0,)"

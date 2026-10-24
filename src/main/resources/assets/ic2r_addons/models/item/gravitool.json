@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ic2r_addons:item/gravitool/wrench"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "ic2r_addons:mode": 0
+      },
+      "model": "ic2r_addons:item/gravitool_wrench"
+    },
+    {
+      "predicate": {
+        "ic2r_addons:mode": 1
+      },
+      "model": "ic2r_addons:item/gravitool_treetap"
+    },
+    {
+      "predicate": {
+        "ic2r_addons:mode": 2
+      },
+      "model": "ic2r_addons:item/gravitool_hoe"
+    },
+    {
+      "predicate": {
+        "ic2r_addons:mode": 3
+      },
+      "model": "ic2r_addons:item/gravitool_screwdriver"
+    }
+  ]
+}

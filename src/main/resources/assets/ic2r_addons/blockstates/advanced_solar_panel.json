@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "ic2r_addons:block/advanced_solar_panel"
+    },
+    "facing=east": {
+      "model": "ic2r_addons:block/advanced_solar_panel",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "ic2r_addons:block/advanced_solar_panel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ic2r_addons:block/advanced_solar_panel",
+      "y": 270
+    }
+  }
+}

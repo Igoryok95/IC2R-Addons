@@ -1,0 +1,29 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "ABA",
+    "ACA",
+    "DFD"
+  ],
+  "key": {
+    "A": {
+      "item": "ic2:carbon_plate"
+    },
+    "B": {
+      "item": "ic2r_addons:advanced_jetpack"
+    },
+    "C": {
+      "item": "ic2:nano_chestplate"
+    },
+    "D": {
+      "item": "ic2:glass_fibre_cable"
+    },
+    "F": {
+      "item": "ic2:advanced_circuit"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_nano",
+    "count": 1
+  }
+}

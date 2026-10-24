@@ -1,0 +1,26 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "SCS",
+    "BAB",
+    "SCS"
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:superconductor"
+    },
+    "A": {
+      "item": "ic2:nano_leggings"
+    },
+    "C": {
+      "item": "ic2:advanced_circuit"
+    },
+    "B": {
+      "item": "ic2r_addons:cooling_core"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_nano_leggings",
+    "count": 1
+  }
+}

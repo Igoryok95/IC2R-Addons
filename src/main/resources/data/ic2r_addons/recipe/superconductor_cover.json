@@ -1,0 +1,23 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "RBR",
+    "CCC",
+    "RBR"
+  ],
+  "key": {
+    "R": {
+      "item": "ic2:alloy"
+    },
+    "B": {
+      "item": "ic2:iridium"
+    },
+    "C": {
+      "item": "ic2:carbon_plate"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:superconductor_cover",
+    "count": 3
+  }
+}

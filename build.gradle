@@ -3,14 +3,21 @@ plugins {
  id 'net.neoforged.moddev' version '2.0.141'
  id 'com.diffplug.spotless' version '8.8.0'
 }
-group = 'com.chocohead.advsolar'
+group = 'com.igoryok95.ic2raddons.solar'
 version = mod_version
-base.archivesName = 'solar-gravisuite-neoforge-1.21.1'
+base.archivesName = 'ic2r-addons-neoforge-1.21.1'
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 java.withSourcesJar()
 spotless { java { target 'src/main/java/**/*.java', 'src/test/java/**/*.java'; googleJavaFormat('1.35.0') } }
 repositories {
  mavenCentral()
+ maven { url = 'https://api.modrinth.com/maven' }
+ ivy {
+  url = 'https://github.com/BCCE-team/BuildCraft/releases/download'
+  patternLayout { artifact '8.0.25/[artifact]-[revision].[ext]' }
+  metadataSources { artifact() }
+  content { includeGroup 'bcce' }
+ }
  maven { url = 'https://maven.blamejared.com/' }
  ivy {
   url = 'https://github.com/Igoryok95/IC2R/releases/download'
@@ -20,6 +27,10 @@ repositories {
  }
 }
 dependencies {
+ compileOnly 'bcce:BuildCraft-Community-Edition:8.0.25+1.21.1+neoforge@jar'
+ compileOnly 'maven.modrinth:jade:15.10.6+neoforge'
+ if (providers.gradleProperty('withBC').isPresent()) runtimeOnly 'bcce:BuildCraft-Community-Edition:8.0.25+1.21.1+neoforge@jar'
+ if (providers.gradleProperty('withJade').isPresent()) runtimeOnly 'maven.modrinth:jade:15.10.6+neoforge'
  if (providers.gradleProperty('ic2rJar').isPresent()) implementation files(providers.gradleProperty('ic2rJar').get())
  else implementation "ic2r:ic2-neoforge:${ic2r_version}@jar"
  compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.64.0.455'
@@ -30,14 +41,14 @@ dependencies {
 neoForge {
  version = neo_version
  runs {
-  client { client(); if (providers.gradleProperty('clientSmoke').isPresent()) { systemProperty 'asp.clientSmoke', 'true'; programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke' } }
+  client { client(); if (providers.gradleProperty('clientSmoke').isPresent()) { systemProperty 'ic2r_addons.clientSmoke', 'true'; programArguments.addAll '--quickPlaySingleplayer', 'SolarClientSmoke' } }
   server { server(); programArgument '--nogui' }
-  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'solar_gravisuite' }
+  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'ic2r_addons' }
  }
- mods { solar_gravisuite { sourceSet sourceSets.main } }
- unitTest { enable(); testedMod = mods.solar_gravisuite }
+ mods { ic2r_addons { sourceSet sourceSets.main } }
+ unitTest { enable(); testedMod = mods.ic2r_addons }
 }
-test { useJUnitPlatform(); systemProperty 'asp.projectDir', projectDir.absolutePath; systemProperty 'solar_gravisuite.projectDir', projectDir.absolutePath }
+test { useJUnitPlatform(); systemProperty 'ic2r_addons.projectDir', projectDir.absolutePath }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 processResources {
  inputs.property 'version', project.version

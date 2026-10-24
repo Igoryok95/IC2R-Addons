@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ic2r_addons:item/components/vajra_core"
+  }
+}

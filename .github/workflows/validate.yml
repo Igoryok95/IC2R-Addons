@@ -10,6 +10,9 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        compatibility: [base, buildcraft-jade]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -18,11 +21,11 @@ jobs:
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v4
       - run: chmod +x gradlew
-      - run: ./gradlew build runGameTestServer
+      - run: ./gradlew build runGameTestServer ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: solar-gravisuite-neoforge-1.21.1
+          name: ic2r-addons-neoforge-1.21.1-${{ matrix.compatibility }}
           path: |
             build/libs/*.jar
             build/test-results/

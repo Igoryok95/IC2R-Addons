@@ -1,0 +1,28 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "RSR",
+    "LIL",
+    "RDR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "ic2r_addons:sunnarium_part"
+    },
+    "L": {
+      "item": "minecraft:yellow_dye"
+    },
+    "I": {
+      "item": "ic2r_addons:reinforced_iridium_iron_plate"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:irradiant_reinforced_plate"
+  }
+}

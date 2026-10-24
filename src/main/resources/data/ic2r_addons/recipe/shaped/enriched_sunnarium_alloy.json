@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "ic2r_addons:enriched_sunnarium"
+    },
+    "A": {
+      "item": "ic2r_addons:sunnarium_alloy"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:enriched_sunnarium_alloy"
+  }
+}

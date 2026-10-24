@@ -1,0 +1,19 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    " G ",
+    "GUG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "U": {
+      "tag": "c:ingots/uranium"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:irradiant_uranium"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "ic2:shaped",
+  "pattern": [
+    "RAR",
+    "DBD",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "item": "ic2r_addons:superconductor"
+    },
+    "A": {
+      "item": "ic2:quantum_chestplate"
+    },
+    "D": {
+      "item": "ic2r_addons:gravi_engine"
+    },
+    "B": {
+      "item": "ic2:hv_transformer"
+    },
+    "C": {
+      "item": "ic2r_addons:ultimate_lappack"
+    }
+  },
+  "result": {
+    "item": "ic2r_addons:advanced_quant",
+    "count": 1
+  }
+}

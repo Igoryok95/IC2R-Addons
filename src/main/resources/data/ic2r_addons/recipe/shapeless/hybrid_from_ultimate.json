@@ -1,0 +1,12 @@
+{
+  "type": "ic2:shapeless",
+  "ingredients": [
+    {
+      "item": "ic2r_addons:ultimate_solar_panel"
+    }
+  ],
+  "result": {
+    "item": "ic2r_addons:hybrid_solar_panel",
+    "count": 8
+  }
+}

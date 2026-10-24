@@ -1,0 +1,11 @@
+{
+  "type": "ic2r_addons:molecular_transformer",
+  "input": {
+    "item": "minecraft:red_wool"
+  },
+  "output": {
+    "id": "minecraft:redstone_block",
+    "count": 1
+  },
+  "energy": 500000
+}
