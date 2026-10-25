@@ -150,6 +150,207 @@ public final class BcGameTests {
     h.succeed();
   }
 
+  @GameTest(templateNamespace = "ic2r_addons", template = EMPTY, timeoutTicks = 100)
+  public static void ic2WrenchesSwitchIronPipeOutputThroughBlockActivation(GameTestHelper h) {
+    var pos = h.absolutePos(new BlockPos(1, 1, 1));
+    var player = com.igoryok95.ic2raddons.bridge.TestPlayers.create(h);
+    for (var pipePos : java.util.List.of(pos.west(), pos, pos.east())) {
+      h.getLevel().setBlockAndUpdate(pipePos.below(), Blocks.STONE.defaultBlockState());
+      player.setItemInHand(
+          InteractionHand.MAIN_HAND,
+          new ItemStack(
+              BuiltInRegistries.ITEM.get(
+                  ResourceLocation.parse(
+                      pipePos.equals(pos)
+                          ? "buildcrafttransport:iron_item"
+                          : "buildcrafttransport:stone_item"))));
+      h.assertTrue(
+          player
+              .getMainHandItem()
+              .useOn(
+                  new net.minecraft.world.item.context.UseOnContext(
+                      player,
+                      InteractionHand.MAIN_HAND,
+                      new BlockHitResult(
+                          Vec3.atCenterOf(pipePos.below()).add(0, .5, 0),
+                          Direction.UP,
+                          pipePos.below(),
+                          false)))
+              .consumesAction(),
+          "real BC transport pipe places");
+    }
+    h.runAfterDelay(
+        10,
+        () -> {
+          var holder = (buildcraft.transport.tile.TilePipeHolder) h.getLevel().getBlockEntity(pos);
+          var behaviour =
+              (buildcraft.transport.pipe.behaviour.PipeBehaviourDirectional)
+                  holder.getPipe().getBehaviour();
+          var hit =
+              new BlockHitResult(Vec3.atCenterOf(pos).add(0, 0, -.25), Direction.NORTH, pos, false);
+          player.setPos(pos.getX() + .5, pos.getY() - 1, pos.getZ() - 2);
+          player.setYRot(0);
+          player.setXRot(0);
+          for (var tool :
+              java.util.List.of(
+                  new ItemStack(Ic2Items.WRENCH),
+                  ic2.core.item.ElectricItemManager.getCharged(Ic2Items.ELECTRIC_WRENCH, 1000))) {
+            player.setItemInHand(InteractionHand.MAIN_HAND, tool);
+            var before = behaviour.getCurrentDir();
+            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
+                new PlayerInteractEvent.RightClickBlock(
+                    player, InteractionHand.MAIN_HAND, pos, hit));
+            h.assertTrue(
+                behaviour.getCurrentDir() != before,
+                "IC2 manual and electric wrenches switch a real iron item pipe");
+            if (tool.is(Ic2Items.ELECTRIC_WRENCH))
+              h.assertTrue(
+                  ic2.api.item.ElectricItem.manager.getCharge(tool) == 900,
+                  "pipe action charges an electric wrench exactly once");
+          }
+          var before = behaviour.getCurrentDir();
+          player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Ic2Items.ELECTRIC_WRENCH));
+          net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
+              new PlayerInteractEvent.RightClickBlock(player, InteractionHand.MAIN_HAND, pos, hit));
+          h.assertTrue(
+              behaviour.getCurrentDir() == before, "empty electric wrench cannot switch pipe");
+          h.succeed();
+        });
+  }
+
+  @GameTest(templateNamespace = "ic2r_addons", template = EMPTY, timeoutTicks = 120)
+  public static void placedEngineFacesExistingWoodenMjPipeAndOpensRealMenu(GameTestHelper h) {
+    var pos = h.absolutePos(new BlockPos(1, 1, 1));
+    var pipePos = pos.east();
+    var player = com.igoryok95.ic2raddons.bridge.TestPlayers.create(h);
+    h.getLevel().setBlockAndUpdate(pipePos.below(), Blocks.STONE.defaultBlockState());
+    player.setItemInHand(
+        InteractionHand.MAIN_HAND,
+        new ItemStack(buildcraft.transport.BCTransportItems.PIPE_POWER_WOOD.get()));
+    player
+        .getMainHandItem()
+        .useOn(
+            new net.minecraft.world.item.context.UseOnContext(
+                player,
+                InteractionHand.MAIN_HAND,
+                new BlockHitResult(
+                    Vec3.atCenterOf(pipePos.below()).add(0, .5, 0),
+                    Direction.UP,
+                    pipePos.below(),
+                    false)));
+    h.getLevel().setBlockAndUpdate(pos.below(), Blocks.REDSTONE_BLOCK.defaultBlockState());
+    player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(BcContent.ENGINE_ITEM.get()));
+    h.assertTrue(
+        player
+            .getMainHandItem()
+            .useOn(
+                new net.minecraft.world.item.context.UseOnContext(
+                    player,
+                    InteractionHand.MAIN_HAND,
+                    new BlockHitResult(
+                        Vec3.atCenterOf(pos.below()).add(0, .5, 0),
+                        Direction.UP,
+                        pos.below(),
+                        false)))
+            .consumesAction(),
+        "engine item places");
+    var engine = (ElectricEngine) h.getLevel().getBlockEntity(pos);
+    var menu = engine.createServerScreenHandler(1, player);
+    h.assertTrue(
+        menu.slots.size() == 41 && menu.base == engine,
+        "real engine GUI has battery and complete player inventory");
+    engine.dischargeSlot.put(
+        ic2.core.item.ElectricItemManager.getCharged(Ic2Items.RE_BATTERY, 1000));
+    var quarryPos = pipePos.east();
+    var quarry = BuiltInRegistries.BLOCK.get(ResourceLocation.parse("buildcraftbuilders:quarry"));
+    h.getLevel().setBlockAndUpdate(quarryPos, quarry.defaultBlockState());
+    ((buildcraft.builders.tile.TileQuarry) h.getLevel().getBlockEntity(quarryPos))
+        .onPlacedBy(player, new ItemStack(quarry));
+    h.succeedWhen(
+        () -> {
+          var target =
+              BuildCraftApi.service(BuildCraftServices.ENERGY)
+                  .port(h.getLevel(), quarryPos, Direction.WEST)
+                  .orElseThrow();
+          h.assertTrue(
+              engine.getFacing() == Direction.EAST,
+              "engine automatically faces existing wooden MJ pipe");
+          var holder =
+              (buildcraft.transport.tile.TilePipeHolder) h.getLevel().getBlockEntity(pipePos);
+          h.assertTrue(
+              holder.getPipe().isConnected(Direction.WEST),
+              "wooden pipe displays its actual engine connection");
+          h.assertTrue(
+              target.stored().microMj() > 0,
+              "battery-powered engine feeds quarry through existing wooden MJ pipe");
+        });
+  }
+
+  @GameTest(templateNamespace = "ic2r_addons", template = EMPTY)
+  public static void forestryHeatAndIc2UpgradesKeepTheAgreedBalance(GameTestHelper h) {
+    var e = engine(h);
+    e.updateEntityServer();
+    h.assertTrue(
+        e.energy.getEnergy() == 995
+            && e.mjPort(e.getFacing()).orElseThrow().stored().microMj() == 2_000_000,
+        "base conversion is five EU for two MJ per tick");
+    h.assertTrue(e.heat == 1 && e.getHeatStage() == 0, "cold start stays blue and warms gradually");
+    e.upgradeSlot.put(0, new ItemStack(Ic2Items.OVERCLOCKER_UPGRADE, 4));
+    e.upgradeSlot.put(1, new ItemStack(Ic2Items.ENERGY_STORAGE_UPGRADE));
+    e.upgradeSlot.put(2, new ItemStack(Ic2Items.TRANSFORMER_UPGRADE));
+    double before = e.energy.getEnergy();
+    long mjBefore = e.mjPort(e.getFacing()).orElseThrow().stored().microMj();
+    e.updateEntityServer();
+    h.assertTrue(
+        e.energy.getCapacity() > 10000 && e.telemetry().getInt("voltage") == 512,
+        "storage and transformer upgrades affect actual EU properties");
+    h.assertTrue(
+        e.mjPort(e.getFacing()).orElseThrow().stored().microMj() - mjBefore == 8_000_000
+            && before - e.energy.getEnergy() >= 20,
+        "overclockers cap generation at eight MJ with worse EU efficiency");
+    var port = e.mjPort(e.getFacing()).orElseThrow();
+    h.assertTrue(
+        port.extract(MjAmount.ofMj(100), OperationMode.SIMULATE).transferred().microMj()
+            == 8_000_000,
+        "four overclockers allow eight MJ delivery");
+    e.upgradeSlot.put(0, ItemStack.EMPTY);
+    e.updateEntityServer();
+    h.assertTrue(
+        port.extract(MjAmount.ofMj(100), OperationMode.SIMULATE).transferred().microMj()
+            == 2_000_000,
+        "removing overclockers restores two MJ delivery even with stored MJ");
+    h.succeed();
+  }
+
+  @GameTest(templateNamespace = "ic2r_addons", template = EMPTY, timeoutTicks = 80)
+  public static void shutdownFinishesPistonStrokeAndCoolsGradually(GameTestHelper h) {
+    var e = engine(h);
+    e.heat = 900;
+    e.pistonMoving = true;
+    e.pistonPhase = .2f;
+    h.setBlock(new BlockPos(1, 0, 1), Blocks.AIR);
+    e.updateEntityServer();
+    h.assertTrue(
+        e.heat == 899 && e.pistonMoving && e.pistonPhase > .2f,
+        "switch-off neither snaps piston to zero nor resets heat");
+    var saved = e.saveWithFullMetadata(h.getLevel().registryAccess());
+    var copy =
+        (ElectricEngine)
+            BlockEntity.loadStatic(
+                e.getBlockPos(), e.getBlockState(), saved, h.getLevel().registryAccess());
+    h.assertTrue(
+        copy != null && copy.heat == 899 && copy.pistonMoving,
+        "thermal and moving state survive saving");
+    h.runAfterDelay(
+        40,
+        () -> {
+          h.assertTrue(
+              !e.pistonMoving && e.pistonPhase == 0 && e.heat > 600 && e.getHeatStage() == 1,
+              "last stroke reaches rest while hot engine retains its warm color");
+          h.succeed();
+        });
+  }
+
   private static ElectricEngine engine(GameTestHelper h) {
     h.setBlock(new BlockPos(1, 0, 1), Blocks.REDSTONE_BLOCK);
     h.setBlock(new BlockPos(1, 1, 1), BcContent.ENGINE.get());
@@ -171,31 +372,41 @@ public final class BcGameTests {
       return;
     }
     ElectricEngine e = engine(h);
-    var p = e.mjPort(e.getFacing()).orElseThrow();
+    var saved = e.saveWithFullMetadata(h.getLevel().registryAccess());
+    saved.putLong("mjBuffer", 50_000_000L);
+    e.loadWithComponents(saved, h.getLevel().registryAccess());
+    var port = e.mjPort(e.getFacing()).orElseThrow();
+    var legacy = e.legacyOutput(e.getFacing());
     var amount = MjAmount.ofMj(100);
     double before = e.energy.getEnergy();
     h.assertTrue(
-        p.extract(amount, OperationMode.SIMULATE).transferred().microMj() > 0,
-        "Simulation should report available output");
-    h.assertTrue(e.energy.getEnergy() == before, "Simulation cannot spend EU");
-    long sent = p.extract(amount, OperationMode.EXECUTE).transferred().microMj();
-    double expectedCost = sent / (BridgeConfig.MJ_PER_EU.get() * 1000000.0);
+        port.extract(amount, OperationMode.SIMULATE).transferred().microMj() == 2_000_000,
+        "API simulation respects the two MJ base delivery budget");
     h.assertTrue(
-        Math.abs(before - e.energy.getEnergy() - expectedCost) < 0.000001,
-        "Exact EU/MJ conservation");
+        legacy.extractPower(0, 100_000_000, false) == 2_000_000
+            && e.energy.getEnergy() == before
+            && port.stored().microMj() == 50_000_000,
+        "legacy false is simulation and neither path spends energy");
+    long sent = legacy.extractPower(0, 100_000_000, true);
     h.assertTrue(
-        p.extract(amount, OperationMode.EXECUTE).transferred().isZero(),
-        "Repeated extraction cannot bypass per-tick rate");
+        sent == 2_000_000
+            && port.stored().microMj() == 48_000_000
+            && e.energy.getEnergy() == before,
+        "MJ export drains its buffer without charging EU twice");
     h.assertTrue(
-        e.mjPort(e.getFacing().getOpposite()).isEmpty(), "Only the piston face exports MJ");
-    var saved = e.saveWithFullMetadata(h.getLevel().registryAccess());
-    ElectricEngine loaded =
+        port.extract(amount, OperationMode.EXECUTE).transferred().isZero(),
+        "mixed legacy and API paths share one per-tick budget");
+    h.assertTrue(e.mjPort(e.getFacing().getOpposite()).isEmpty(), "only piston face exports MJ");
+    saved = e.saveWithFullMetadata(h.getLevel().registryAccess());
+    var loaded =
         (ElectricEngine)
             BlockEntity.loadStatic(
                 e.getBlockPos(), e.getBlockState(), saved, h.getLevel().registryAccess());
     h.assertTrue(
-        loaded != null && loaded.energy.getEnergy() == e.energy.getEnergy(),
-        "EU buffer survives saving");
+        loaded != null
+            && loaded.energy.getEnergy() == before
+            && loaded.mjPort(loaded.getFacing()).orElseThrow().stored().microMj() == 48_000_000,
+        "both EU and MJ buffers survive saving");
     h.succeed();
   }
 
@@ -217,10 +428,14 @@ public final class BcGameTests {
           h.runAfterDelay(
               5,
               () -> {
+                double equivalent =
+                    e.energy.getEnergy()
+                        + e.mjPort(e.getFacing()).orElseThrow().stored().microMj()
+                            / (BridgeConfig.MJ_PER_EU.get() * 1_000_000.0);
                 h.assertTrue(
-                    e.energy.getEnergy() == 1000
+                    Math.abs(equivalent - 1000) < .000001
                         && e.telemetry().getString("status").equals("no_consumer"),
-                    "Unconnected engine must not waste EU");
+                    "unconnected engine preserves EU as stored MJ");
                 h.succeed();
               });
         });

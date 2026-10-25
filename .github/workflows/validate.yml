@@ -1,7 +1,7 @@
 name: NeoForge 1.21.1 validation
 on:
   push:
-    branches: [main]
+    branches: [main, experimental-compatibility-1.4.1]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -15,13 +15,24 @@ jobs:
         compatibility: [base, buildcraft-jade]
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout matching IC2R development source
+        uses: actions/checkout@v4
+        with:
+          repository: Igoryok95/IC2R
+          ref: experimental-restoration-21.1.70
+          path: ic2r-core
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v4
+      - name: Build matching IC2R dependency
+        working-directory: ic2r-core
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon jar
       - run: chmod +x gradlew
-      - run: ./gradlew build runGameTestServer ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
+      - run: ./gradlew build runGameTestServer "-Pic2rJar=$GITHUB_WORKSPACE/ic2r-core/build/libs/ic2-neoforge-21.1.70.jar" ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -21,7 +21,7 @@ maintenance API. It is development source, not a published or installed update.
 
 The four original solar panel tiers through Quantum remain. The retired-panel
 migration is preserved. Existing Advanced Machines, Nuclear Control, equipment,
-optional BuildCraft bridge, Jade and JEI integrations remain at the 1.4.0 baseline.
+optional BuildCraft bridge, Jade and JEI integrations remain available.
 Ultimate Lappack stays at 100 million EU and its original recipe; Gravitational
 Chestplate recipes and all other equipment balance are unchanged.
 
@@ -44,11 +44,36 @@ When Addons is installed it extends three matching professions:
 The other three professions retain their native trades. All panel and equipment
 capacities remain at their 1.4.0 values; these trades introduce no Classic items.
 
+## Standby controls and BuildCraft pipe wrenching
+
+All eight Advanced Machines have a saved, server-synchronized local torch switch.
+It requests standby without producing a neighboring redstone signal. External
+redstone and normal processing remain independent; original standby EU and water
+consumption remain unchanged. Torch sprites are vanilla lit/unlit textures. Header
+text reserves space for the button, and the Thermal Washer upgrades move below it.
+
+The BuildCraft bridge previously forwarded wrench clicks only to the wrench item,
+which rotates engines but misses iron pipe activation. It now calls the BC block
+handler first, preserving BC pipe-part selection, then falls back to item rotation.
+BC invokes the registered IC2 wrench adapter for pipe actions, so the electric
+wrench pays once. The integration remains optional and respects cancellation.
+
 ## Validation
 
-17 JUnit tests and 87 server GameTests pass with IC2R 21.1.70, BuildCraft, Jade,
+18 JUnit tests, 82 server GameTests without optional mods and 94 with IC2R 21.1.70, BuildCraft, Jade,
 Create, Mekanism and Almost Unified. The Russian client checks all four solar and
 eight Advanced Machines menus, live exact tooltips, percentage text and slot/title
 bounds. Native/new IC2R menus and the sound slider are checked in the same isolated
-client. Equipment and crafting files have no diff from released 1.4.0.
+client. Equipment capacities and recipes retain released 1.4.0 balance. Tool artwork and item rarities now follow the originals.
 See the [validation receipt](validation/1.4.1.json) for artifact hashes and scope.
+
+## Engine and item presentation
+
+The optional engine fixes BCCE pipe topology/passive extraction, automatic facing
+and held transforms. Forestry thermal/piston behavior and original GUI are restored,
+with native IC2R upgrades and a 5 EU/t to 2 MJ/t base, capped at 8 MJ/t. Jade adds
+separate EU/MJ bars and thermal/redstone diagnostics. See the engine restoration note.
+
+Original ASP/GraviSuite rarity colors are restored after inherited armor defaults.
+All registered items have English/Russian display names. Native IC2R tool silhouettes
+and alpha are preserved, with blue grips; Vajra restores its original transparent gaps.

@@ -61,6 +61,61 @@ public final class AdvancedMachinesGameTests {
     h.succeed();
   }
 
+  @GameTest(template = EMPTY)
+  public static void manualWarmupIsLocalPersistentAndUsesOriginalSupplies(GameTestHelper h) {
+    for (var entry : AdvMachinesBlocks.BLOCKS.getEntries()) {
+      var machine = machine(h, entry.get());
+      fill(machine);
+      machine.setManualWarmup(true);
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == 0, "no EU means no idle warmup");
+      machine.getComponent(Energy.class).addEnergy(100);
+      machine.updateEntityServer();
+      h.assertTrue(
+          machine.getRawHeat() == 1
+              && machine.getComponent(Energy.class).getEnergy() == 100 - machine.idleEU,
+          "all eight machines keep their original standby EU demand");
+      var saved = machine.saveWithFullMetadata(h.getLevel().registryAccess());
+      var loaded =
+          (TileEntityHeatingMachine)
+              BlockEntity.loadStatic(
+                  machine.getBlockPos(),
+                  machine.getBlockState(),
+                  saved,
+                  h.getLevel().registryAccess());
+      h.assertTrue(loaded != null && loaded.isManualWarmup(), "standby survives saving");
+      for (var side : Direction.values())
+        h.assertTrue(
+            machine.getBlockState().getSignal(h.getLevel(), machine.getBlockPos(), side) == 0
+                && machine
+                        .getBlockState()
+                        .getDirectSignal(h.getLevel(), machine.getBlockPos(), side)
+                    == 0,
+            "standby does not emit redstone to neighboring blocks");
+      var player = TestPlayers.create(h);
+      machine.onNetworkEvent(player, ic2.core.block.machine.IWarmupControl.TOGGLE_WARMUP_EVENT);
+      h.assertTrue(machine.isManualWarmup(), "unopened menu cannot toggle machine");
+      player.containerMenu = machine.createServerScreenHandler(1, player);
+      machine.onNetworkEvent(player, ic2.core.block.machine.IWarmupControl.TOGGLE_WARMUP_EVENT);
+      h.assertTrue(!machine.isManualWarmup(), "nearby open menu toggles off");
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == 0, "idle machine cools when switched off");
+      h.setBlock(POS.east(), Blocks.REDSTONE_BLOCK);
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == 1, "external redstone still works independently");
+      h.setBlock(POS.east(), Blocks.AIR);
+      if (machine instanceof TileEntityHeatingWaterMachine water) {
+        water.tank.drainMbUnchecked(8000, false);
+        heat(machine, 10000);
+        machine.setManualWarmup(true);
+        machine.updateEntityServer();
+        h.assertTrue(
+            machine.getRawHeat() < 10000, "hot water machines still require standby water");
+      }
+    }
+    h.succeed();
+  }
+
   private static MachineRecipe<IRecipeInput, Collection<ItemStack>> first(
       GameTestHelper h,
       Recipes.IGetter<

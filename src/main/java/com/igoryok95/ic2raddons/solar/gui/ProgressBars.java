@@ -21,6 +21,31 @@ public enum ProgressBars implements Gauge.IGaugeStyle {
           .withTexture(
               ResourceLocation.fromNamespaceAndPath(
                   "ic2r_addons", "textures/gui/molecular_transformer_jei.png"))),
+  ENGINE_CHARGE_0(
+      new Gauge.GaugePropertyBuilder(176, 0, 4, 46, GaugeOrientation.Up)
+          .withTexture(
+              ResourceLocation.fromNamespaceAndPath(
+                  "ic2r_addons", "textures/gui/electricalengine.png"))),
+  ENGINE_CHARGE_1(
+      new Gauge.GaugePropertyBuilder(180, 0, 4, 46, GaugeOrientation.Up)
+          .withTexture(
+              ResourceLocation.fromNamespaceAndPath(
+                  "ic2r_addons", "textures/gui/electricalengine.png"))),
+  ENGINE_CHARGE_2(
+      new Gauge.GaugePropertyBuilder(184, 0, 4, 46, GaugeOrientation.Up)
+          .withTexture(
+              ResourceLocation.fromNamespaceAndPath(
+                  "ic2r_addons", "textures/gui/electricalengine.png"))),
+  ENGINE_CHARGE_3(
+      new Gauge.GaugePropertyBuilder(188, 0, 4, 46, GaugeOrientation.Up)
+          .withTexture(
+              ResourceLocation.fromNamespaceAndPath(
+                  "ic2r_addons", "textures/gui/electricalengine.png"))),
+  ENGINE_CHARGE_4(
+      new Gauge.GaugePropertyBuilder(192, 0, 4, 46, GaugeOrientation.Up)
+          .withTexture(
+              ResourceLocation.fromNamespaceAndPath(
+                  "ic2r_addons", "textures/gui/electricalengine.png"))),
   ENERGY_ADVANCED_SOLAR(
       new Gauge.GaugePropertyBuilder(195, 0, 24, 14, GaugeOrientation.Right)
           .withTexture(

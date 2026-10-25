@@ -1,0 +1,51 @@
+[
+  {
+    "item": "advanced_diamond_drill",
+    "source": "ic2:item/tool/electric/diamond_drill",
+    "source_sha256": "3d6b3c6eac2c54aaa5ea7cb6d3cc94b9aba82aaa2b4085887da666bc82dc8cbd",
+    "recolored_pixels": 107,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "advanced_iridium_drill",
+    "source": "ic2:item/tool/electric/iridium_drill",
+    "source_sha256": "c1988e02cda8e50919b71bb6d7b770ae6d7a2750d24ac6b8eee8922839ebc471",
+    "recolored_pixels": 94,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "advanced_chainsaw",
+    "source": "ic2:item/tool/electric/chainsaw",
+    "source_sha256": "2ab3b07266e339bb5b71ce3da194db415eaf330f2608d95fe9eadd4e252f9d2b",
+    "recolored_pixels": 107,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "gravitool/wrench",
+    "source": "ic2:item/tool/electric/electric_wrench",
+    "source_sha256": "6dc6f6a657b3628967e7ba812942c06522aa39c7b648215f4d939131fc78e9f8",
+    "recolored_pixels": 100,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "gravitool/hoe",
+    "source": "ic2:item/tool/electric/electric_hoe",
+    "source_sha256": "071509525a123ec0c8f47f47c611e281c626af110bb22a80f8d5d9975b342110",
+    "recolored_pixels": 100,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "gravitool/treetap",
+    "source": "ic2:item/tool/electric/electric_treetap",
+    "source_sha256": "1f67f54c98c89622416041255d0a91640bc69f2f0b6657ca32e256a62096508c",
+    "recolored_pixels": 104,
+    "alpha_unchanged": true
+  },
+  {
+    "item": "vajra",
+    "source": "GraviSuite 16x16, repository revision 64b4c20",
+    "source_sha256": "316ff0a719270713506108810f313a7100e218dbb7506f258d04753279ac7a09",
+    "scale": "nearest-neighbor 2x",
+    "transparent_pixels": 500
+  }
+]

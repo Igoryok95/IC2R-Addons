@@ -7,7 +7,10 @@ Nuclear Control monitoring, all eight Advanced Machines, four classic solar pane
 The `experimental-compatibility-1.4.1` branch targets IC2R **21.1.70**. It fixes Advanced
 Machines percentage displays, bounded solar GUI readings, large Nuclear Control
 energy/tank readings and dedicated-server item-name formatting. It also extends
-three IC2R professions with optional Addons trades.
+three IC2R professions with optional Addons trades. Saved torch buttons provide local
+standby without powering neighboring hoppers. The BC wrench bridge switches iron pipe
+outputs, and the engine gains an original Forestry GUI, thermal stages, IC2R upgrades,
+EU/MJ Jade bars and normal held-item size. Original rarity colors and tool artwork return.
 
 The four solar tiers still stop at **Quantum**. Equipment keeps released 1.4.0
 balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**,
@@ -132,36 +135,62 @@ The original modern **32x32** machine faces and active models are retained, with
 
 The bridge loads only when `buildcraftenergy` is installed. Without BuildCraft, the engine is not registered and its recipe is skipped; all solar and equipment features remain available. Jade and JEI are independently optional.
 
-### EU-powered electric engine
+### EU-powered electric engine (development 1.4.1)
 
 `IC2R cable → Electric Engine → BuildCraft Kinesis pipe / MJ machine`
 
-- Takes native **IC2R EU** on every side except the piston output face.
-- Outputs native **BuildCraft MJ** through the piston face, directly or through Kinesis pipes.
-- Defaults: **10,000 EU** buffer, **tier 2 / 128 EU input packets**, **32 EU/t maximum consumption**, **0.4 MJ per EU** (up to **12.8 MJ/t**).
-- Requires a redstone signal by default. Idle, disconnected and full outputs do not consume EU.
-- Simulation never consumes EU; repeated extraction shares one per-tick budget. The EU buffer survives saving / reloading.
-- Recipe: tin ingots, an iron BuildCraft gear, IC2R coils, an electric motor and an electronic circuit.
-- Engine geometry, textures and piston animation are adapted from ForestryCE's tin / solar engine. Solar panels and Forestry are not dependencies.
+- Native EU input on sides/rear; native MJ output from the piston. Automatically
+  faces a valid neighboring consumer. BCCE topology and passive extraction
+  capabilities allow wood Kinesis pipes to connect and pull MJ correctly.
+- Default **5 EU/t → 2 MJ/t**, **10,000 EU** input storage, tier 2 / **128 EU**
+  packets and a separate **10,000 MJ** output buffer.
+- Four IC2R upgrade slots accept Overclocker, Energy Storage and Transformer
+  upgrades. Generation is capped at **8 MJ/t**; native increasing EU costs apply.
+- Requires redstone by default. Conversion stops when the MJ buffer is full.
+  Simulation does not spend energy; all extraction paths share one delivery budget.
+- Forestry thermal stages control piston speed, gradual cooling and forced
+  cooldown. Switching off completes the current stroke. Heat grants no extra
+  energy multiplier. Right-click opens the original Forestry electrical-engine
+  background with a battery, four IC2R upgrades and live status/energy information.
+- ForestryCE geometry and textures are preserved; held-item transforms use normal
+  Minecraft/BC block scale. No Forestry mod or circuit-board dependency is required.
 
-`ic2r_addons-buildcraft.toml` controls `enabled`, `euCapacity`, `inputTier`, `euPerTick`, `mjPerEu` and `requireRedstone`. EU-to-MJ conversion does not depend on BC's global FE auto-conversion switch.
+`ic2r_addons-buildcraft.toml` controls `enabled`, `euCapacity`, `inputTier`,
+`baseEuPerTick`, `mjPerEu` and `requireRedstone`. `baseEuPerTick` replaces old
+`euPerTick` so the former 32 EU/t default does not override the new balance.
+BC's FE auto-conversion setting is independent. See [mechanics and sources](docs/forestry-engine-restoration.md).
 
 ### Wrenches
 
-IC2R mechanical / electric wrenches and GraviTool in wrench mode are recognized by BuildCraft. The BC wrench can rotate and dismantle IC2R machines using their wrench behavior: **right-click to rotate**, **left-click mining to dismantle**. Electric-tool operations consume charge; empty tools cannot dismantle BC machines. Special BC pipe interactions remain available.
+IC2R manual/electric wrenches and GraviTool work on BC blocks. BC's wrench uses
+IC2R right-click rotation and left-click dismantling on IC2R machines. Native BC
+pipe activation runs before the rotation fallback, including iron pipe output
+switching. Electric pipe actions cost 100 EU once; empty tools and canceled
+interactions remain blocked.
 
 ### Jade
 
-The localized engine overlay shows stored / maximum EU, actual EU/t and MJ/t, maximum input packet and the current state: running, waiting for redstone, no energy, no consumer, full output or bridge disabled. It uses server-provided data. Without Jade the engine still works.
+The server-owned overlay shows blue **EU** and red **MJ** bars, colored thermal
+stage, temperature, redstone, conversion rates, input voltage and stop reason.
+Jade is independently optional.
 
-![Electric engine and Jade diagnostics](docs/images/engine-jade-en-1.4.0.png)
+![Electric engine GUI and IC2R upgrade slots](docs/images/engine-gui-en-1.4.1.png)
+![Electric engine EU and MJ diagnostics](docs/images/engine-jade-en-1.4.1.png)
 
-## Textures
+## Textures and item colors
 
-Equipment uses 32x32 icons with the original silhouettes and blue energy accents. Hybrid and
-Ultimate solar helmets retain their classic designs; the Quantum helmet uses the same shape
-with a brighter blue crown and lighter shell. Leggings and boots match the existing chestplates.
-Artwork sources and attribution are documented in `tools/textures` and [NOTICE.md](NOTICE.md).
+Advanced Machines have yellow titles. Original ASP rarity progression is yellow
+for Advanced, cyan for Hybrid and purple for Ultimate/Quantum, including helmets.
+GraviSuite item rarities distinguish ordinary upgrades, advanced drills and epic
+gear. IC2R sensor kit/card names are present in both languages.
+
+Six advanced tool/mode icons reuse native **32x32 IC2R** sprites with only orange
+grip pixels recolored blue. Metal, drill tips, silhouettes and alpha are unchanged.
+Vajra restores its original transparent openings, enlarged from 16x16 to 32x32
+without smoothing. Hybrid/Ultimate helmets and worn armor keep their existing
+artwork. See [texture tooling](tools/textures/README.md) and [NOTICE.md](NOTICE.md).
+
+![Item colors and original tool designs](docs/images/item-presentation-en-1.4.1.png)
 
 ## Solar progression
 
@@ -292,17 +321,21 @@ Use matching settings on client and server. Recipes can be changed with datapack
 
 ## Build and validation
 
-Use Java 21:
+The development branch requires the matching unpublished IC2R **21.1.70** JAR.
+Build the core's `experimental-restoration-21.1.70` branch first with Java 21, then:
 
 ```sh
-./gradlew spotlessApply build runGameTestServer
-./gradlew runGameTestServer -PwithBC -PwithJade
-./gradlew runClient -PclientSmoke -PwithBC -PwithJade
-./gradlew runClient -PmachinesSmoke -PwithBC -PwithJade
-./gradlew runClient -PcontrolSmoke -PwithBC -PwithJade
+./gradlew spotlessApply build runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar
+./gradlew runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwithBC -PwithJade
+./gradlew runClient -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwarmupSmoke -PwithBC -PwithJade
 ```
 
-Dependencies resolve from the IC2R / BCCE GitHub releases and the Modrinth / JEI Maven repositories. A local IC2R JAR can be supplied with `-Pic2rJar=/absolute/path/to/ic2-neoforge-21.1.68.jar`.
+Released dependencies resolve from GitHub / Modrinth / JEI. The current branch uses
+`-Pic2rJar` until core 21.1.70 is published. CI builds the matching core branch first.
+The development checks pass **18 JUnit**, **82 standalone Addons** and **94 optional
+integration GameTests**; see [1.4.1 validation](docs/validation/1.4.1.json).
+
+The historical 1.4.0 checks below describe the published release.
 
 The 1.4.0 regression suite contains **16 JUnit checks**, **75 server GameTests without BC**
 and **83 with BC**, with Jade present and absent. The control client smoke opens eight real

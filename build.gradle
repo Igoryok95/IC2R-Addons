@@ -51,6 +51,13 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('warmupSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.warmupSmoke', 'true'
+    systemProperty 'ic2r_addons.warmupEnglishOnly', providers.gradleProperty('warmupEnglishOnly').isPresent().toString()
+    systemProperty 'ic2r_addons.warmupStart', providers.gradleProperty('warmupStart').getOrElse('0')
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
    if (providers.gradleProperty('restorationSmoke').isPresent()) {
     gameDirectory = layout.projectDirectory.dir('run/restoration-client')
     systemProperty 'ic2r_addons.restorationSmoke', 'true'

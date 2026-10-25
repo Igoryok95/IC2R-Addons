@@ -6,18 +6,23 @@
   "java": 21,
   "artifact": {
     "file": "ic2r-addons-neoforge-1.21.1-1.4.1.jar",
-    "sha256": "2e6914b091be6f6515f95ab9638944ecd6facd81b2503c2f25f957253c4c3079",
-    "bytes": 1705722
+    "sha256": "3446970a85825a80b3faad92d1aef3b5e7a460bce67eb892b830355a92aab454",
+    "bytes": 1740307
   },
   "junit": {
-    "tests": 17,
+    "tests": 18,
     "failures": 0,
     "errors": 0
   },
   "game_tests": [
     {
       "configuration": "IC2R 21.1.70 + Addons + BuildCraft 8.0.25 + Jade 15.10.6 + Create 6.0.10 + Mekanism 10.7.19.85 + Almost Unified 1.4.2; NeoForge 21.1.264",
-      "passed": 87,
+      "passed": 94,
+      "namespace": "ic2r_addons"
+    },
+    {
+      "configuration": "IC2R 21.1.70 + Addons only, no BuildCraft/Jade/Create/Mekanism; NeoForge 21.1.264",
+      "passed": 82,
       "namespace": "ic2r_addons"
     }
   ],
@@ -25,7 +30,11 @@
     "gradlew spotlessApply build runGameTestServer -Pic2rJar=<local-21.1.70.jar> -PwithBC -PwithJade -PcreateModsDir=<client-mods> -PmekanismModsDir=<client-mods>",
     "gradlew runClient -Pic2rJar=<local-21.1.70.jar> -PrestorationSmoke -PrestorationStart=16 -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
     "gradlew runClient -Pic2rJar=<local-21.1.70.jar> -PrestorationSmoke -PrestorationStart=23 -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
-    "gradlew build -Pic2rJar=<local-21.1.70.jar>"
+    "gradlew build -Pic2rJar=<local-21.1.70.jar>",
+    "gradlew build runGameTestServer -Pic2rJar=<local-21.1.70.jar> -PwithBC -PwithJade -PcreateModsDir=<client-mods> -PmekanismModsDir=<client-mods>",
+    "gradlew runClient -Pic2rJar=<local-21.1.70.jar> -PwarmupSmoke -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
+    "python tools/textures/restore_original_tools.py --check",
+    "gradlew runGameTestServer -Pic2rJar=<local-21.1.70.jar>"
   ],
   "deployment": {
     "github_release": false,
@@ -34,10 +43,10 @@
     "zip_updated": false,
     "production_server_updated": false
   },
-  "core_artifact_sha256": "7ca2f08a3bb2921d1ff5f43d38c8bef3943e34002dc2aa8453f295e2c7b88a71",
+  "core_artifact_sha256": "1a68f10c6666e9095027e303fa0d9bcfee746af59fe8a856415718b5c333c3f0",
   "locale_keys": {
-    "en_us": 494,
-    "ru_ru": 494,
+    "en_us": 514,
+    "ru_ru": 514,
     "replacement_characters": 0,
     "json_resources_parsed": 368
   },
@@ -53,7 +62,10 @@
     "ultimate_lappack_eu": 100000000,
     "ultimate_lappack_transfer": 50000,
     "ultimate_lappack_tier": 4,
-    "equipment_and_crafting_diff_from_1_4_0": "none"
+    "equipment_capacities_and_recipes_unchanged": true,
+    "engine_base_eu_per_tick": 5,
+    "engine_base_mj_per_tick": 2,
+    "engine_overclocked_mj_per_tick_cap": 8
   },
   "client_screenshots": [
     {
@@ -159,6 +171,150 @@
     {
       "file": "restoration-professions-world-ru_ru.png",
       "sha256": "73f650f26c8b85b529d08bdea62d274016c653cd65b4abbef47950366df7f396"
+    },
+    {
+      "file": "warmup-0-off.png",
+      "sha256": "2317f7dbb0b1325eccf0fc01a981a42f5359218455611286f2c2ef2eb036ba17"
+    },
+    {
+      "file": "warmup-0-on.png",
+      "sha256": "ab9212ca1f838870d488df2c1d5fc80d1cedb04d96c101aaac81523009b4f0a8"
+    },
+    {
+      "file": "warmup-1-off.png",
+      "sha256": "238ddff27109ec5dc4969ccb033b5fb32c7b1a9ab368ad1c839e5d59eb626cb2"
+    },
+    {
+      "file": "warmup-1-on.png",
+      "sha256": "66bb82a52089880361d4e976886656e913303d308efd0584e920e2dad802e92d"
+    },
+    {
+      "file": "warmup-10-off.png",
+      "sha256": "389588fcc5e6a2e2773ab41262098643dfa47f646aed9e57ae574138c73ecbf6"
+    },
+    {
+      "file": "warmup-10-on.png",
+      "sha256": "91b214135ecfcd8fe13ea863f0582c8794a8e91c49882afaf36acff226f99e46"
+    },
+    {
+      "file": "warmup-11-off.png",
+      "sha256": "a8458ccebf77bfb8c2868b4ac00f85631d9fe13fecee517a0b2bc073d1562b7b"
+    },
+    {
+      "file": "warmup-11-on.png",
+      "sha256": "645a78c18c6b081e2b9ecbfe07f0c33986939538a2b8705a6083bd36c2ec521c"
+    },
+    {
+      "file": "warmup-12-off.png",
+      "sha256": "caaee7f54876e6c66bf6e7cdd71774187efd5612ef76457e8a2eafcb8a077ef3"
+    },
+    {
+      "file": "warmup-12-on.png",
+      "sha256": "b18071115ec03027779b8fe7a685475161fdab7fbfac8ba56c1c89f1e3cb3f62"
+    },
+    {
+      "file": "warmup-2-off.png",
+      "sha256": "ee5ef7ec884ab5ac3e85fd1c82b0c3467374e7389d7169189f18080390bcdca1"
+    },
+    {
+      "file": "warmup-2-on.png",
+      "sha256": "2eeaa1b99a23980698c990abc84062ec13d235d954bfd8f4b9e00e6a12626c2e"
+    },
+    {
+      "file": "warmup-3-off.png",
+      "sha256": "8460a220503576dea6633915ac6b87839102a43c73b5c4a7534f1dcb2c665a0e"
+    },
+    {
+      "file": "warmup-3-on.png",
+      "sha256": "4c66337a06ef8d358d9e5e84e9369bfe0ea7be2d4066bd5c16b0f5b6a6fd369b"
+    },
+    {
+      "file": "warmup-4-off.png",
+      "sha256": "0f6096fcd5f4dfdbaaa96407b1655ec9ea112e146f69682149bbb2de9147db2c"
+    },
+    {
+      "file": "warmup-4-on.png",
+      "sha256": "f3c03c1794016610184fb243e5779ead0e1dd729371b6c7944f1061d4baa2d95"
+    },
+    {
+      "file": "warmup-5-off.png",
+      "sha256": "d3216e688ba0f78f09d42fdcf918e93a4318f7fdd539e18be251c64bd1b9973b"
+    },
+    {
+      "file": "warmup-5-on.png",
+      "sha256": "88073b87292e29927085a9075faeb796f56320d177b7be979f6b01b92a40bb97"
+    },
+    {
+      "file": "warmup-6-off.png",
+      "sha256": "563670a4c115abb5c5cc317ac564682d65a8a2bd3a6bc08bcc77cacae2aee1b5"
+    },
+    {
+      "file": "warmup-6-on.png",
+      "sha256": "73d98be3805738a238c68cde9a7ee9c1b97372f1edf3d778667337a5aaecaf79"
+    },
+    {
+      "file": "warmup-7-off.png",
+      "sha256": "93689e096d2decb507e7f55404c590413015fd0411813676b30437d541a71c11"
+    },
+    {
+      "file": "warmup-7-on.png",
+      "sha256": "08007a9f4da8362eeeea8fefb8a87126ecad2d1c3cf75c2cbd0b54f8ff8bd30f"
+    },
+    {
+      "file": "warmup-8-off.png",
+      "sha256": "fe402728b0010df7eb878688570608c438466fbcfad6e8c650284cb6ecd9e955"
+    },
+    {
+      "file": "warmup-8-on.png",
+      "sha256": "412be40349454453b87f01b07d37c7ed2a898e433d5cc03fc93027f49ed7145a"
+    },
+    {
+      "file": "warmup-9-off.png",
+      "sha256": "cfeb0695b3e428ab177d121d1576751560db011ea422adaf78a48115ea56d1fe"
+    },
+    {
+      "file": "warmup-9-on.png",
+      "sha256": "d765535016443d6dfdacdc5fb760ee20537d78aeddb7296cb99b5b33f2f39c5a"
+    },
+    {
+      "file": "engine-hand-0.png",
+      "sha256": "e49b568d26e45aec516e35d85ea300870d82ac83922caea965c3fcaf2c6224fa"
+    },
+    {
+      "file": "engine-hand-1.png",
+      "sha256": "2f3ff38612f7b7828317ae84db1edc1cc3657154c43330fb357a9bca0dcfe5c3"
+    },
+    {
+      "file": "engine-hand-2.png",
+      "sha256": "91137c38604f0e58337c5402e4286807210c770683113225ccf3cf85792f83dd"
+    },
+    {
+      "file": "engine-hand-3.png",
+      "sha256": "1fff4e30f962ab099905dcdcf7133fc7de41f9e78f96b8c503b61e415e0b0460"
+    },
+    {
+      "file": "engine-hand-4.png",
+      "sha256": "03d2c8b03cfa7a9ec16867ce535eeca3905f4b2bd7917545b1a6818a556244d4"
+    },
+    {
+      "file": "engine-hand-5.png",
+      "sha256": "2cd2a67e6fd93a19d65f09fa711c0b719975f36516dc8624b202a8736006fde6"
+    },
+    {
+      "file": "item-presentation-en_us.png",
+      "sha256": "62e47e5d1197f526ae4b2783867999b496a3b15957427f185c3c34bf4c2f9e84"
+    },
+    {
+      "file": "item-presentation-ru_ru.png",
+      "sha256": "d2e3a43307d405288c04c80b02e1091158ff8f1b873a73a420340d687fda9aab"
+    },
+    {
+      "file": "engine-gui-en_us.png",
+      "sha256": "ae3425dcdf4814a12044bde7f3be6c9555f2a2528e2578299cb7d8c9b34696c5"
+    },
+    {
+      "file": "engine-jade-en_us.png",
+      "sha256": "1b8f7c143dc1a24a986ab908e5678d65c571de98dd3a484bed78d03b3e7a0ce8"
     }
   ],
   "client_validation": {
@@ -172,12 +328,30 @@
       "6 merchant screens",
       "original skins and item models",
       "150px IC2R volume slider beside Voice/Speech",
-      "saved volume and live mute/unmute of a managed looping sound"
+      "saved volume and live mute/unmute of a managed looping sound",
+      "13 affected menus including all 11 local warm-up switches through actual C2S clicks",
+      "engine and native BC engine first/third-person item transforms",
+      "original transparent Vajra first/third-person rendering",
+      "32-item RU/EN color gallery including four armor legs/boots",
+      "English Forestry engine GUI and server-owned Jade EU/MJ bars"
     ],
     "limits": [
       "Menu checks collected across the initial screen pass and affected follow-ups.",
       "Audio checks verify the live engine loop and scaling; no calibrated acoustic loudness measurement.",
-      "No production installation or release."
-    ]
-  }
+      "No production installation or release.",
+      "Engine documentation views use a configured 15000 EU capacity and seeded 1250 MJ buffer; energy conservation is covered by server tests."
+    ],
+    "languages": [
+      "ru_ru",
+      "en_us"
+    ],
+    "latest_pass_log": "WARMUP_CLIENT_PASS"
+  },
+  "fixes_found_during_validation": [
+    "Inherited quantum armor reset passed rarity; ModifyDefaultComponentsEvent now restores original tier colors.",
+    "All registry item names are checked in both locales, including dynamically registered kit_ic2/card_ic2.",
+    "BCCE wood-pipe topology required connector/passive-provider capabilities in addition to API 2.",
+    "Engine GUI missing container title and obsolete board-slot outline corrected.",
+    "Stored MJ could export eight MJ/t without overclockers; output now follows actual installed upgrades."
+  ]
 }

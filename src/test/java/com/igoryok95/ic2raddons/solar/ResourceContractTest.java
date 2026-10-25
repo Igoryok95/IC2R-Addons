@@ -18,6 +18,18 @@ class ResourceContractTest {
   }
 
   @Test
+  void electricEngineUsesStandardBlockHandTransforms() throws Exception {
+    var model = read(RES.resolve("assets/ic2r_addons/models/item/electric_engine.json"));
+    var display = model.getAsJsonObject("display");
+    assertEquals("builtin/entity", model.get("parent").getAsString());
+    for (var hand : List.of("firstperson_righthand", "firstperson_lefthand"))
+      for (var value : display.getAsJsonObject(hand).getAsJsonArray("scale"))
+        assertEquals(.4, value.getAsDouble(), .000001, "standard BC/Minecraft block scale");
+    for (var value : display.getAsJsonObject("thirdperson_righthand").getAsJsonArray("scale"))
+      assertEquals(.375, value.getAsDouble(), .000001, "held engine must not render at world size");
+  }
+
+  @Test
   void allStaticPlayerFacingKeysAndPackDescriptionsAreLocalized() throws Exception {
     var en = read(RES.resolve("assets/ic2r_addons/lang/en_us.json"));
     var ru = read(RES.resolve("assets/ic2r_addons/lang/ru_ru.json"));

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui width="324" height="166">
+    <image x="0" y="0" width="176" height="166" basesize="256" src="ic2r_addons:textures/gui/electricalengine.png"/>
+    <image x="176" y="0" width="148" height="166" u="0" v="0" u2="256" v2="256" basesize="256" src="ic2r_addons:textures/gui/engine_ledger.png"/>
+    <text x="88" y="6" center="x" maxwidth="144">%name%</text>
+    <image x="27" y="35" width="22" height="26" u="4" v="4" u2="26" v2="30" basesize="256" src="ic2r_addons:textures/gui/electricalengine.png"/>
+    <slotgrid name="upgrade" x="28" y="18" cols="2" rows="2"/>
+    <slot name="discharge" x="83" y="52"/>
+    <only if="chargeColor0">
+        <gauge name="charge" x="74" y="25" style="engine_charge_0"/>
+    </only>
+    <only if="chargeColor1">
+        <gauge name="charge" x="74" y="25" style="engine_charge_1"/>
+    </only>
+    <only if="chargeColor2">
+        <gauge name="charge" x="74" y="25" style="engine_charge_2"/>
+    </only>
+    <only if="chargeColor3">
+        <gauge name="charge" x="74" y="25" style="engine_charge_3"/>
+    </only>
+    <only if="chargeColor4">
+        <gauge name="charge" x="74" y="25" style="engine_charge_4"/>
+    </only>
+    <text x="184" y="8" maxwidth="132">{screen.ic2r_addons.engine.status}</text>
+    <text x="184" y="20" maxwidth="132">%base.getStatusText()%</text>
+    <text x="184" y="38" maxwidth="132">%base.getHeatText()%</text>
+    <text x="184" y="54" maxwidth="132">%base.getInputText()%</text>
+    <text x="184" y="66" maxwidth="132">%base.getOutputText()%</text>
+    <text x="184" y="82" maxwidth="132">%base.getChargeText()%</text>
+    <text x="184" y="98" maxwidth="132">%base.getMjText()%</text>
+    <text x="184" y="114" maxwidth="132">%base.getLimitText()%</text>
+    <text x="184" y="130" maxwidth="132">%base.getVoltageText()%</text>
+    <playerInventory x="7" y="77"/>
+</gui>

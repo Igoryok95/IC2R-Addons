@@ -117,3 +117,14 @@ each registered control block separately. The original Kit Assembler PNGs are un
 
 The control module registers only CrossIC2R. It adds no BuildCraft monitoring adapter;
 the pre-existing optional EU engine / wrench bridge remains a separate feature.
+
+## Development 1.4.1 corrections
+
+Seven tool/Vajra icons replace generated variants: six native IC2R sprites retain
+32x32 geometry and alpha with blue grips; original Vajra transparency returns.
+ASP/GraviSuite rarities are applied through default item components after parent
+constructors, preserving colors even for inherited quantum armor.
+
+The optional BC engine exposes native topology/passive MJ capabilities, selects
+valid consumers, restores Forestry's GUI/thermal lifecycle and accepts IC2R
+speed/storage/transformer upgrades. Base: 5 EU/t to 2 MJ/t; generation cap: 8 MJ/t.

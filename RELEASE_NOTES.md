@@ -4,6 +4,19 @@ Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
 
 - Show heat, rotor speed and pressure as 0-100% across all eight Advanced Machines;
   retain original internal warm-up and processing balance.
+- Add saved, synchronized torch buttons to all eight Advanced Machines for local
+  standby warm-up without emitting redstone or locking neighboring hoppers. Preserve
+  original EU/water requirements, normal processing and external redstone behavior.
+- Route IC2 wrench clicks through BuildCraft block activation before item rotation,
+  so iron transport pipes switch output as with the BC wrench. Electric pipe actions
+  charge 100 EU once; empty tools and canceled interactions remain blocked.
+- Restore Forestry engine thermal stages, gradual cooling, complete piston strokes
+  and original GUI, with a battery and four IC2R upgrades. Default 5 EU/t to 2 MJ/t;
+  overclocking stops at 8 MJ/t. Fix BC pipe topology, passive extraction, automatic
+  alignment and oversized held models. Jade includes EU/MJ bars and thermal state.
+- Restore original ASP/GraviSuite rarity colors, including quantum armor. Complete
+  IC2R sensor kit/card names in both languages. Native 32x32 IC2R tool silhouettes
+  gain blue grips; original Vajra transparent openings return.
 - Keep solar charge gauges with exact live tooltips and bounded tier/output text.
 - Preserve large energy-array and tank-card readings, totals and portable bars,
   including legacy integer-valued saves. Avoid client-only name lookup on servers.

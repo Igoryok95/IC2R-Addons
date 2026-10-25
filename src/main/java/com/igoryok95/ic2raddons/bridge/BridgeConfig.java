@@ -18,7 +18,7 @@ public final class BridgeConfig {
     INPUT_TIER =
         b.translation("config.ic2r_addons.bridge.tier").defineInRange("inputTier", 2, 1, 5);
     EU_PER_TICK =
-        b.translation("config.ic2r_addons.bridge.rate").defineInRange("euPerTick", 32, 1, 8192);
+        b.translation("config.ic2r_addons.bridge.rate").defineInRange("baseEuPerTick", 5, 1, 8192);
     MJ_PER_EU =
         b.translation("config.ic2r_addons.bridge.ratio")
             .defineInRange("mjPerEu", 0.4, 0.000001, 100.0);

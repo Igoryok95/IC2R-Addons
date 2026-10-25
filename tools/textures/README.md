@@ -1,3 +1,14 @@
+# Current original tool sprites (1.4.1)
+
+Run `python tools/textures/restore_original_tools.py --ic2r ../IC2R` with Pillow.
+Use `--check` to verify without writing. Six icons retain native IC2R 32x32 pixels
+and alpha, changing only orange grips to blue. Treetap wood and drill tips remain.
+Vajra uses `source/vajra-original-16.png`, enlarged 2x without smoothing, preserving
+its transparent gaps. Provenance: `docs/tool-texture-provenance.json`.
+
+`RefreshTextures.java` leaves these seven current icons untouched. The atlas
+instructions below describe historical 1.2.0 tooling and other equipment.
+
 # Texture sources and reproducible processing
 
 ## 1.2.0 hybrid refresh

@@ -134,11 +134,16 @@ public class ElectricEngineRenderer
     stack.translate(0, -tfactor, 0);
 
     // render trunk with color based on heat
+    int stage = engine == null ? 0 : engine.getHeatStage();
     ResourceLocation texture =
         this.textures[
-            engine != null && engine.getActive()
-                ? Textures.TRUNK_MEDIUM.ordinal()
-                : Textures.TRUNK_LOW.ordinal()];
+            switch (stage) {
+              case 1 -> Textures.TRUNK_MEDIUM.ordinal();
+              case 2 -> Textures.TRUNK_HIGH.ordinal();
+              case 3 -> Textures.TRUNK_HIGHER.ordinal();
+              case 4 -> Textures.TRUNK_HIGHEST.ordinal();
+              default -> Textures.TRUNK_LOW.ordinal();
+            }];
     this.trunk.render(
         stack, buffers.getBuffer(RenderType.entityCutout(texture)), light, overlay, 0xFFFFFFFF);
 
@@ -164,8 +169,6 @@ public class ElectricEngineRenderer
   private static float getPistonStep(
       com.igoryok95.ic2raddons.bridge.bc.ElectricEngine engine, float partialTick) {
     if (engine == null) return 2.0F;
-    if (!engine.getActive()) return 0;
-    double progress = ((engine.getLevel().getGameTime() + partialTick) % 20.0) / 20.0;
-    return (float) ((progress <= 0.5 ? progress : 1.0 - progress) * 12.0);
+    return engine.getPistonStep(partialTick);
   }
 }

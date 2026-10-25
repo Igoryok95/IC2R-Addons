@@ -96,6 +96,16 @@ public final class WrenchBridge {
           ItemToolWrench.trySetFacingFromHit(
               new UseOnContext(player, e.getHand(), e.getHitVec()), player);
     else {
+      // Pipes handle wrench clicks on the block, before the wrench item's rotation fallback.
+      // Let BC invoke its adapter (and charge an electric wrench) exactly once for this path.
+      var blockResult =
+          state.useItemOn(e.getItemStack(), level, player, e.getHand(), e.getHitVec());
+      if (blockResult.consumesAction()
+          || blockResult == net.minecraft.world.ItemInteractionResult.FAIL) {
+        e.setCanceled(true);
+        e.setCancellationResult(blockResult.result());
+        return;
+      }
       result =
           BuiltInRegistries.ITEM
               .get(net.minecraft.resources.ResourceLocation.parse("buildcraftcore:wrench"))

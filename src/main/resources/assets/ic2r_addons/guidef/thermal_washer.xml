@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui width="176" height="190">
-    <text y="6" align="center">%name%</text>
+    <text x="-4" y="6" align="center" maxwidth="128">%name%</text>
+    <button type="warmup" x="152" y="4" width="20" height="20" event="100"></button>
     
     <slot name="input" x="103" y="16"/>
     <fluidtank x="60" y="20" name="tank"/>
@@ -9,8 +10,8 @@
     <slot name="discharge" x="150" y="61"/>
     
     <environment name="game">
-    	<slotgrid name="upgrade" x="132" y="16" rows="1"/>
-    	<button type="recipe" x="103" y="39" width="18" height="18" event="ore_washing_plant, thermal_washer"></button>
+        <slotgrid name="upgrade" x="132" y="28" rows="1"/>
+        <button type="recipe" x="103" y="39" width="18" height="18" event="ore_washing_plant, thermal_washer"></button>
    	</environment>
     <energygauge x="155" y="45"/>
     <gauge name="progress" x="103" y="39" style="progressorewasher"/>

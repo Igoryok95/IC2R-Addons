@@ -44,6 +44,7 @@ public final class IC2RAddons {
     com.igoryok95.ic2raddons.solar.recipe.MolecularTransformerRecipes.TYPES.register(modBus);
     com.igoryok95.ic2raddons.solar.recipe.MolecularTransformerRecipes.SERIALIZERS.register(modBus);
     modBus.addListener(this::commonSetup);
+    modBus.addListener(ItemPresentation::apply);
   }
 
   private void commonSetup(FMLCommonSetupEvent event) {

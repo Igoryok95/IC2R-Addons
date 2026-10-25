@@ -46,17 +46,63 @@ public final class AddonJadePlugin implements IWailaPlugin {
       if (accessor.getServerData() == null
           || !accessor.getServerData().contains("ic2r_addons_engine")) return;
       CompoundTag n = accessor.getServerData().getCompound("ic2r_addons_engine");
+      var elements = snownee.jade.api.ui.IElementHelper.get();
+      var box = snownee.jade.api.ui.BoxStyle.getNestedBox();
+      tip.add(
+          elements.progress(
+              (float) Math.clamp(n.getDouble("eu") / Math.max(1, n.getDouble("capacity")), 0, 1),
+              Component.translatable(
+                  "jade.ic2r_addons.engine.buffer",
+                  number(n.getDouble("eu")),
+                  number(n.getDouble("capacity"))),
+              elements.progressStyle().color(0xFF318BD1, 0xFF1765A2),
+              box,
+              true));
+      tip.add(
+          elements.progress(
+              (float)
+                  Math.clamp(
+                      (double) n.getLong("mjBuffer") / Math.max(1, n.getLong("mjCapacity")), 0, 1),
+              Component.translatable(
+                  "jade.ic2r_addons.engine.mj_buffer",
+                  number(n.getLong("mjBuffer") / 1_000_000.0),
+                  number(n.getLong("mjCapacity") / 1_000_000.0)),
+              elements.progressStyle().color(0xFFE34C3A, 0xFFB51F1F),
+              box,
+              true));
+      int stage = Math.clamp(n.getInt("heatStage"), 0, 4);
+      String[] stages = {"blue", "green", "yellow", "orange", "red"};
+      net.minecraft.ChatFormatting[] colors = {
+        net.minecraft.ChatFormatting.BLUE,
+        net.minecraft.ChatFormatting.GREEN,
+        net.minecraft.ChatFormatting.YELLOW,
+        net.minecraft.ChatFormatting.GOLD,
+        net.minecraft.ChatFormatting.RED
+      };
       tip.add(
           Component.translatable(
-              "jade.ic2r_addons.engine.buffer",
-              number(n.getDouble("eu")),
-              number(n.getDouble("capacity"))));
+              "jade.ic2r_addons.engine.stage",
+              Component.translatable("stage.ic2r_addons.engine." + stages[stage])
+                  .withStyle(colors[stage])));
+      tip.add(
+          Component.translatable(
+              "jade.ic2r_addons.engine.redstone",
+              Component.translatable(n.getBoolean("redstone") ? "gui.yes" : "gui.no")
+                  .withStyle(
+                      n.getBoolean("redstone")
+                          ? net.minecraft.ChatFormatting.GREEN
+                          : net.minecraft.ChatFormatting.RED)));
       tip.add(
           Component.translatable(
               "jade.ic2r_addons.engine.rate",
               number(n.getDouble("euPerTick")),
               number(n.getDouble("mjPerTick"))));
       tip.add(Component.translatable("jade.ic2r_addons.engine.voltage", n.getInt("voltage")));
+      tip.add(
+          Component.translatable(
+              "jade.ic2r_addons.engine.heat",
+              number(n.getDouble("temperature")),
+              number(n.getDouble("heatPercent"))));
       tip.add(
           Component.translatable(
               "jade.ic2r_addons.engine.status",

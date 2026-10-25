@@ -130,3 +130,21 @@ Original artwork attribution and licensing above remain applicable.
 The earlier rights section describes the ASP / GraviSuite / Advanced Machines materials;
 it does not revoke the GPL or BSD permissions of this monitoring module. This integration
 does not claim that the entire collection of third-party artwork has been relicensed.
+
+## Development 1.4.1: original tools, rarity and Forestry engine
+
+- Six advanced tool/mode icons use the 32x32 IC2R originals with orange grips
+  recolored blue. Alpha, geometry and other pixels are preserved. Reproduction:
+  `tools/textures/restore_original_tools.py`; hashes: `docs/tool-texture-provenance.json`.
+- Vajra restores the original 16x16 GraviSuite sprite from revision `64b4c20`, retained
+  in `tools/textures/source/vajra-original-16.png`, enlarged by nearest-neighbor 2x.
+  The generated tool/Vajra atlas cells described above are historical and retired.
+- ASP rarities are verified against the original 4.3.0 binary identified above:
+  `TEs` and `ItemArmourSolarHelmet.SolarHelmetTypes`. GraviSuite references are the
+  retained 1.6.4 item classes. Quantum Helmet/advanced iridium drill use the epic
+  tier; new nano/quantum armor parts match their respective chestplates.
+- Thermal logic and unchanged `electricalengine.png` / `engine_ledger.png` are
+  adapted from [ForestryMC](https://github.com/ForestryMC/ForestryMC/tree/72e15b0f08daa25d8293cf28b5d5e1da200f9161),
+  especially `TileEngine`, `TileEngineElectric` and `GuiEngineElectric`.
+  Copyright SirSengir and Forestry contributors, LGPL-3.0-or-later; the existing
+  bundled Forestry license applies. IC2R upgrades replace the Forestry circuit board.

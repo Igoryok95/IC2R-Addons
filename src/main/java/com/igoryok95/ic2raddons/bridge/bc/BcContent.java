@@ -77,6 +77,17 @@ public final class BcContent {
 
   public static void register(IEventBus bus) {
     bus.addListener(
+        (net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) -> {
+          event.registerBlockEntity(
+              buildcraft.lib.internal.mj.MjCapabilities.CAP_CONNECTOR,
+              ENGINE_TILE.get(),
+              (engine, side) -> engine.legacyOutput(side));
+          event.registerBlockEntity(
+              buildcraft.lib.internal.mj.MjCapabilities.CAP_PASSIVE_PROVIDER,
+              ENGINE_TILE.get(),
+              (engine, side) -> engine.legacyOutput(side));
+        });
+    bus.addListener(
         (net.neoforged.neoforge.event.RegisterGameTestsEvent event) ->
             event.register(BcGameTests.class));
     BLOCKS.register(bus);

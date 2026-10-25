@@ -7,6 +7,7 @@ import ic2.core.ContainerBase;
 import ic2.core.IHasGui;
 import ic2.core.block.comp.Redstone;
 import ic2.core.block.invslot.*;
+import ic2.core.block.machine.IWarmupControl;
 import ic2.core.block.machine.tileentity.TileEntityElectricMachine;
 import ic2.core.gui.dynamic.DynamicContainer;
 import ic2.core.gui.dynamic.IGuiValueProvider;
@@ -28,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 /** Advanced Machines heat/spin progression adapted from immibis / Chocohead / craftorio. */
 public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
-    implements IHasGui, IGuiValueProvider, IUpgradableBlock {
+    implements IHasGui, IGuiValueProvider, IUpgradableBlock, IWarmupControl {
   public static final int MAX_HEAT = 10000;
   public final InvSlotProcessable<IRecipeInput, Collection<ItemStack>, ItemStack> inputSlot;
   public final InvSlotOutput outputSlot;
@@ -37,6 +38,19 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
   protected final int idleEU;
   protected final int activeEU;
   protected final int maxProgress;
+  @GuiSynced private boolean manualWarmup;
+
+  @Override
+  public boolean isManualWarmup() {
+    return manualWarmup;
+  }
+
+  @Override
+  public void setManualWarmup(boolean enabled) {
+    manualWarmup = enabled;
+    setChanged();
+  }
+
   @GuiSynced protected short heat;
   @GuiSynced public int progress;
   @GuiSynced public double lastEuPerTick;
@@ -77,6 +91,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
   @Override
   protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
     super.loadAdditional(nbt, registries);
+    manualWarmup = nbt.getBoolean("manualWarmup");
     heat = (short) Math.clamp(nbt.getShort("heat"), 0, MAX_HEAT);
     progress = Math.clamp(nbt.getInt("progress"), 0, maxProgress - 1);
     pendingInput = ItemStack.parseOptional(registries, nbt.getCompound("pendingInput"));
@@ -86,6 +101,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
   public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
     super.saveAdditional(nbt, registries);
     nbt.putShort("heat", heat);
+    nbt.putBoolean("manualWarmup", manualWarmup);
     nbt.putInt("progress", progress);
     if (!pendingInput.isEmpty()) nbt.put("pendingInput", pendingInput.save(registries));
   }
@@ -124,7 +140,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
           progress = 0;
           pendingInput = ItemStack.EMPTY;
         }
-      } else if (redstone.hasRedstoneInput() && energy.useEnergy(idleEU)) {
+      } else if ((manualWarmup || redstone.hasRedstoneInput()) && energy.useEnergy(idleEU)) {
         lastEuPerTick = idleEU;
         consumeWater(maintenanceWater);
         spinning = true;
