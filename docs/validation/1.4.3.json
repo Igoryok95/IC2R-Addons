@@ -57,13 +57,24 @@
     "warmup_or_water_changed": false
   },
   "production_deployment": {
-    "client_updated": false,
-    "zip_updated": false,
-    "server_updated": false
+    "client_updated": true,
+    "zip_updated": true,
+    "server_updated": true,
+    "server_started": true,
+    "graceful_stop": true,
+    "backups_created": false,
+    "hash_checks_performed": false
   },
   "commands": [
     "gradlew spotlessApply build runGameTestServer",
     "gradlew build runGameTestServer -PwithBC -PwithJade",
     "gradlew spotlessApply runClient -PmachineSoundSmoke"
-  ]
+  ],
+  "ic2r_21_1_73_compatibility": {
+    "neoforge": "21.1.264",
+    "buildcraft": "8.0.25",
+    "jade": "15.10.6",
+    "game_tests_passed": 97,
+    "junit_passed": 19
+  }
 }
