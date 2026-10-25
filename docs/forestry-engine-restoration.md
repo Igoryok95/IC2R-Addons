@@ -1,4 +1,4 @@
-# Electric engine restoration for 1.4.1
+# Electric engine restoration and maintenance
 
 The optional BuildCraft bridge remains separate from Nuclear Control. Without
 BuildCraft no engine block, capabilities or recipe is registered. Forestry is not
@@ -21,6 +21,13 @@ Delivery follows the installed upgrades too: 2 MJ/t at the base setting, up to
 8 MJ/t when overclocked. A full buffer cannot bypass the base output limit.
 Saved inventory, upgrades, EU, MJ, heat and piston phase survive reloading.
 
+Since 1.4.2, GUI and Jade distinguish three live rates. **From grid** uses the
+IC2R energy network's measured incoming EU for the latest calculation tick, excluding
+battery discharge. **Consumption** is EU actually removed for MJ conversion in a
+tick, and **Output** is MJ actually accepted by consumers across both output APIs.
+Neither conversion nor delivery is a number embedded in a translation. A stopped
+engine can still charge from the grid; a disconnected engine can consume its buffer.
+
 `baseEuPerTick` replaces the previous `euPerTick` configuration key so the old
 32 EU/t default does not silently retain the superseded balance. The default
 conversion ratio remains 0.4 MJ/EU. Generation, storage and input tier remain
@@ -39,11 +46,17 @@ and live status, heat, rates, energy buffers and input voltage remain visible.
 The old circuit-board slot outline is covered using a plain region of the original
 background, without modifying the source PNG. All labels have English/Russian
 translations. Jade uses separate blue EU and red MJ bars plus stage, temperature,
-redstone, rates, packet size and stop reason.
+redstone, rates, packet size and stop reason. Version 1.4.2 fixes inventory coordinates
+to the original background: main grid at (7, 83), hotbar at (7, 141). Clickable item
+areas start one pixel inside those borders; all 36 player slots are checked.
 
 ## Connections and rendering
 
-The engine selects a valid neighboring MJ receiver automatically. BCCE 8.0.25
+The engine selects a valid neighboring MJ receiver automatically until the player
+successfully turns it with a wrench. As in BCCE, manual selection suppresses automatic
+realignment, including when that face has no receiver. The `manualDirection` save flag
+survives reloads; older saves default to automatic mode, and placing the block again
+resets the flag. BCCE 8.0.25
 uses legacy connector/passive-provider capabilities to construct pipe connections
 even when API 2 can transfer energy. Both are supplied on the same piston face,
 with cache invalidation and neighbor notifications after a facing change.
@@ -65,6 +78,6 @@ before rotation, preserving iron-pipe output switching and charge/cancellation.
   engine geometry and texture family, already attributed in NOTICE.md.
 
 Regression coverage includes real wood Kinesis pipe connection/extraction, mixed
-API calls, upgrade limits, saving, gradual cooling, completed strokes and actual
-client GUI/hand/Jade rendering. This development branch is not installed in the
-production client, ZIP or server.
+API calls, upgrade limits, saving, gradual cooling, completed strokes, manual rotation
+with IC2R/BC wrenches, live grid input after disconnection and actual client GUI/Jade
+rendering. Installation into an existing client, ZIP or server is a separate operation.

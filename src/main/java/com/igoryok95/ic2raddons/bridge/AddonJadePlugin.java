@@ -94,6 +94,9 @@ public final class AddonJadePlugin implements IWailaPlugin {
                           : net.minecraft.ChatFormatting.RED)));
       tip.add(
           Component.translatable(
+              "screen.ic2r_addons.engine.network_input", number(n.getDouble("networkEuPerTick"))));
+      tip.add(
+          Component.translatable(
               "jade.ic2r_addons.engine.rate",
               number(n.getDouble("euPerTick")),
               number(n.getDouble("mjPerTick"))));

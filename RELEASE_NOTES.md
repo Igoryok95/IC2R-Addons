@@ -1,3 +1,22 @@
+# IC2R Addons 1.4.2
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
+
+- Stop automatic receiver alignment from undoing wrench rotation. Manual direction
+  is saved and survives ticking, neighbor updates and world reloads. New placements
+  still find an adjacent MJ consumer, including after its pipe ports initialize.
+- Align the clickable inventory and hotbar with their original Forestry background;
+  remove the overlapping rows caused by a six-pixel vertical offset.
+- Show measured EU received from the IC2R grid separately from conversion consumption
+  and actual MJ delivery in both the GUI and Jade. Replace Jade's misleading
+  conversion "Input" label with "Consumption" in English and Russian.
+- Keep engine balance, thermal behavior, upgrades, recipes and dependencies unchanged.
+
+See [engine mechanics](docs/forestry-engine-restoration.md) and
+[validation](docs/validation/1.4.2.json).
+
+---
+
 # IC2R Addons 1.4.1
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.

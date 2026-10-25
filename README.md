@@ -2,22 +2,21 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
-## Version 1.4.1
+## Version 1.4.2
 
-Version 1.4.1 requires IC2R **21.1.70**. It fixes Advanced
-Machines percentage displays, bounded solar GUI readings, large Nuclear Control
-energy/tank readings and dedicated-server item-name formatting. It also extends
-three IC2R professions with optional Addons trades. Saved torch buttons provide local
-standby without powering neighboring hoppers. The BC wrench bridge switches iron pipe
-outputs, and the engine gains an original Forestry GUI, thermal stages, IC2R upgrades,
-EU/MJ Jade bars and normal held-item size. Original rarity colors and tool artwork return.
+Version 1.4.2 requires IC2R **21.1.70**. The electric engine keeps the direction
+selected with a wrench, including after reloading; automatic alignment still works
+before manual rotation. Its inventory slots now match the original Forestry GUI.
+GUI and Jade distinguish actual EU received from the grid, EU consumed in conversion
+and MJ delivered to the consumer.
 
 The four solar tiers still stop at **Quantum**. Equipment keeps released 1.4.0
 balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**,
 **50,000 EU** transfer and **tier 4**, with their original recipes. No Classic
 capacity rebalance, PESU requirements or upper panel recipes are included.
 
-See [release details](docs/maintenance-1.4.1.md) and [validation](docs/validation/1.4.1.json).
+See [release notes](RELEASE_NOTES.md), [engine mechanics](docs/forestry-engine-restoration.md)
+and [validation](docs/validation/1.4.2.json).
 
 ## Requirements and installation
 
@@ -26,7 +25,7 @@ See [release details](docs/maintenance-1.4.1.md) and [validation](docs/validatio
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.1.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.2.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -134,12 +133,14 @@ The original modern **32x32** machine faces and active models are retained, with
 
 The bridge loads only when `buildcraftenergy` is installed. Without BuildCraft, the engine is not registered and its recipe is skipped; all solar and equipment features remain available. Jade and JEI are independently optional.
 
-### EU-powered electric engine (1.4.1)
+### EU-powered electric engine
 
 `IC2R cable → Electric Engine → BuildCraft Kinesis pipe / MJ machine`
 
 - Native EU input on sides/rear; native MJ output from the piston. Automatically
-  faces a valid neighboring consumer. BCCE topology and passive extraction
+  faces a valid neighboring consumer until a wrench selects a direction. The manual
+  direction survives ticks, neighbor updates and world reloads. Replacing the engine
+  restores automatic alignment. BCCE topology and passive extraction
   capabilities allow wood Kinesis pipes to connect and pull MJ correctly.
 - Default **5 EU/t → 2 MJ/t**, **10,000 EU** input storage, tier 2 / **128 EU**
   packets and a separate **10,000 MJ** output buffer.
@@ -170,11 +171,15 @@ interactions remain blocked.
 ### Jade
 
 The server-owned overlay shows blue **EU** and red **MJ** bars, colored thermal
-stage, temperature, redstone, conversion rates, input voltage and stop reason.
+stage, temperature, redstone, input voltage and stop reason. **From grid** measures
+EU received through the IC2R network; **Consumption** measures EU spent generating
+MJ; **Output** measures MJ actually delivered. These are live rates, not fixed
+localized values. A disconnected engine can consume stored EU with zero grid input.
+Battery discharge is separate from the grid reading. The same readings appear in the GUI.
 Jade is independently optional.
 
-![Electric engine GUI and IC2R upgrade slots](docs/images/engine-gui-en-1.4.1.png)
-![Electric engine EU and MJ diagnostics](docs/images/engine-jade-en-1.4.1.png)
+![Electric engine GUI and IC2R upgrade slots](docs/images/engine-gui-en-1.4.2.png)
+![Electric engine EU and MJ diagnostics](docs/images/engine-jade-en-1.4.2.png)
 
 ## Textures and item colors
 

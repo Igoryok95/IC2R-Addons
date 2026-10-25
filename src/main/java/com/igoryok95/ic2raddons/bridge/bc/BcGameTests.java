@@ -259,6 +259,15 @@ public final class BcGameTests {
     h.assertTrue(
         menu.slots.size() == 41 && menu.base == engine,
         "real engine GUI has battery and complete player inventory");
+    for (var slot : menu.slots) {
+      if (slot.container != player.getInventory()) continue;
+      int index = slot.getContainerSlot();
+      int expectedX = 8 + index % 9 * 18;
+      int expectedY = index < 9 ? 142 : 84 + (index - 9) / 9 * 18;
+      h.assertTrue(
+          slot.x == expectedX && slot.y == expectedY,
+          "clickable inventory slots align with the original Forestry background: " + index);
+    }
     engine.dischargeSlot.put(
         ic2.core.item.ElectricItemManager.getCharged(Ic2Items.RE_BATTERY, 1000));
     var quarryPos = pipePos.east();
@@ -320,6 +329,137 @@ public final class BcGameTests {
             == 2_000_000,
         "removing overclockers restores two MJ delivery even with stored MJ");
     h.succeed();
+  }
+
+  @GameTest(templateNamespace = "ic2r_addons", template = EMPTY, timeoutTicks = 100)
+  public static void manualEngineDirectionSurvivesTicksNeighborsAndReload(GameTestHelper h) {
+    var level = h.getLevel();
+    var pos = h.absolutePos(new BlockPos(1, 1, 1));
+    var pipePos = pos.east();
+    var player = com.igoryok95.ic2raddons.bridge.TestPlayers.create(h);
+    level.setBlockAndUpdate(pos.below(), Blocks.REDSTONE_BLOCK.defaultBlockState());
+    level.setBlockAndUpdate(pipePos.below(), Blocks.STONE.defaultBlockState());
+    player.setItemInHand(
+        InteractionHand.MAIN_HAND,
+        new ItemStack(buildcraft.transport.BCTransportItems.PIPE_POWER_WOOD.get()));
+    player
+        .getMainHandItem()
+        .useOn(
+            new net.minecraft.world.item.context.UseOnContext(
+                player,
+                InteractionHand.MAIN_HAND,
+                new BlockHitResult(
+                    Vec3.atCenterOf(pipePos.below()).add(0, .5, 0),
+                    Direction.UP,
+                    pipePos.below(),
+                    false)));
+    var placement =
+        new BlockHitResult(
+            Vec3.atCenterOf(pos.below()).add(0, .5, 0), Direction.UP, pos.below(), false);
+    player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(BcContent.ENGINE_ITEM.get()));
+    player
+        .getMainHandItem()
+        .useOn(
+            new net.minecraft.world.item.context.UseOnContext(
+                player, InteractionHand.MAIN_HAND, placement));
+    var engine = (ElectricEngine) level.getBlockEntity(pos);
+    var oldOutput = new buildcraft.lib.internal.mj.IMjPassiveProvider[1];
+    h.runAfterDelay(
+        3,
+        () -> {
+          h.assertTrue(
+              engine.getFacing() == Direction.EAST,
+              "placement finds the existing wooden pipe after its ports load");
+          oldOutput[0] = engine.legacyOutput(Direction.EAST);
+        });
+    var tools =
+        java.util.List.of(
+            new ItemStack(Ic2Items.WRENCH),
+            new ItemStack(
+                BuiltInRegistries.ITEM.get(ResourceLocation.parse("buildcraftcore:wrench"))),
+            ic2.core.item.ElectricItemManager.getCharged(Ic2Items.ELECTRIC_WRENCH, 1000));
+    Direction[] choices = {Direction.NORTH, Direction.SOUTH, Direction.UP};
+    for (int i = 0; i < tools.size(); i++) {
+      int index = i;
+      h.runAfterDelay(
+          5 + i * 10,
+          () -> {
+            var tool = tools.get(index);
+            var chosen = choices[index];
+            player.setItemInHand(InteractionHand.MAIN_HAND, tool);
+            var hit =
+                new BlockHitResult(Vec3.atCenterOf(pos).relative(chosen, .5), chosen, pos, false);
+            h.assertTrue(
+                player
+                    .gameMode
+                    .useItemOn(player, level, tool, InteractionHand.MAIN_HAND, hit)
+                    .consumesAction(),
+                "real wrench interaction succeeds: " + tool);
+            h.assertTrue(engine.getFacing() == chosen, "wrench changes output direction");
+            level.neighborChanged(pos, Blocks.STONE, pipePos);
+            h.runAfterDelay(
+                6,
+                () -> {
+                  h.assertTrue(
+                      engine.getFacing() == chosen,
+                      "ticks and neighbor updates must not undo manual rotation");
+                  h.assertTrue(
+                      engine.mjPort(Direction.EAST).isEmpty()
+                          && oldOutput[0].extractPower(0, 1_000_000, false) == 0,
+                      "old pipe face and cached passive provider no longer export MJ");
+                  var pipe =
+                      (buildcraft.transport.tile.TilePipeHolder) level.getBlockEntity(pipePos);
+                  h.assertTrue(
+                      !pipe.getPipe().isConnected(Direction.WEST),
+                      "wooden pipe disconnects after output rotates away");
+                });
+          });
+    }
+    h.runAfterDelay(
+        38,
+        () -> {
+          var saved = engine.saveWithFullMetadata(level.registryAccess());
+          h.assertTrue(saved.getBoolean("manualDirection"), "manual selection is persisted");
+          var restored =
+              (ElectricEngine)
+                  BlockEntity.loadStatic(
+                      pos, engine.getBlockState(), saved, level.registryAccess());
+          level.removeBlockEntity(pos);
+          level.setBlockEntity(restored);
+          level.neighborChanged(pos, Blocks.STONE, pipePos);
+          h.runAfterDelay(
+              10,
+              () -> {
+                h.assertTrue(
+                    restored.getFacing() == Direction.UP,
+                    "reloading must preserve the manually selected direction");
+                h.assertTrue(
+                    restored
+                        .saveWithFullMetadata(level.registryAccess())
+                        .getBoolean("manualDirection"),
+                    "manual mode survives a loaded engine ticking");
+                level.removeBlock(pos, false);
+                player.setItemInHand(
+                    InteractionHand.MAIN_HAND, new ItemStack(BcContent.ENGINE_ITEM.get()));
+                player
+                    .getMainHandItem()
+                    .useOn(
+                        new net.minecraft.world.item.context.UseOnContext(
+                            player, InteractionHand.MAIN_HAND, placement));
+                var replacement = (ElectricEngine) level.getBlockEntity(pos);
+                h.runAfterDelay(
+                    8,
+                    () -> {
+                      h.assertTrue(
+                          replacement.getFacing() == Direction.EAST
+                              && !replacement
+                                  .saveWithFullMetadata(level.registryAccess())
+                                  .getBoolean("manualDirection"),
+                          "placing the block again resets manual mode and finds the pipe");
+                      h.succeed();
+                    });
+              });
+        });
   }
 
   @GameTest(templateNamespace = "ic2r_addons", template = EMPTY, timeoutTicks = 80)
@@ -484,8 +624,35 @@ public final class BcGameTests {
     com.igoryok95.ic2raddons.solar.te.TileEntitySolarPanel source =
         h.getBlockEntity(new BlockPos(2, 1, 1));
     source.getComponent(Energy.class).addEnergy(5000);
-    h.succeedWhen(
-        () -> h.assertTrue(e.energy.getEnergy() > 0, "Engine must join the real IC2 EU network"));
+    boolean[] sawFlow = {false};
+    h.onEachTick(
+        () -> {
+          if (sawFlow[0] || e.telemetry().getDouble("networkEuPerTick") <= 5) return;
+          h.assertTrue(e.energy.getEnergy() > 0, "Engine joins the real IC2 EU network");
+          h.assertTrue(
+              e.telemetry().getDouble("euPerTick") == 5,
+              "grid input and actual conversion consumption are independent readings");
+          sawFlow[0] = true;
+          h.setBlock(new BlockPos(2, 1, 1), Blocks.AIR);
+          h.runAfterDelay(
+              5,
+              () -> {
+                h.assertTrue(
+                    e.telemetry().getDouble("networkEuPerTick") == 0
+                        && e.telemetry().getDouble("euPerTick") == 5,
+                    "disconnected engine consumes stored EU while grid input returns to zero");
+                h.setBlock(new BlockPos(1, 0, 1), Blocks.AIR);
+                h.runAfterDelay(
+                    5,
+                    () -> {
+                      h.assertTrue(
+                          e.telemetry().getDouble("networkEuPerTick") == 0
+                              && e.telemetry().getDouble("euPerTick") == 0,
+                          "idle readings are live values, not fixed localized constants");
+                      h.succeed();
+                    });
+              });
+        });
   }
 
   @GameTest(templateNamespace = "ic2r_addons", template = EMPTY)

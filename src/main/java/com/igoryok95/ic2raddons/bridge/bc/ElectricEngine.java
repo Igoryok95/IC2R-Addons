@@ -41,9 +41,11 @@ public final class ElectricEngine extends TileEntityInventory
   @GuiSynced private long mjBuffer;
   @GuiSynced private String status = "no_energy";
   @GuiSynced private double guiEuPerTick, guiMjPerTick;
+  @GuiSynced private double guiNetworkEuPerTick;
   @GuiSynced private double euDemand, mjGeneration;
   @GuiSynced private int voltage;
   private float previousPhase;
+  private boolean manuallySelectedDirection;
   private long budgetTick = Long.MIN_VALUE, transferred;
   private static final long MAX_TRANSFER = 8_000_000L;
 
@@ -111,16 +113,29 @@ public final class ElectricEngine extends TileEntityInventory
   }
 
   @Override
+  protected boolean setFacingWrench(
+      net.minecraft.world.level.Level world, Direction facing, Player player) {
+    if (!super.setFacingWrench(world, facing, player)) return false;
+    if (!world.isClientSide) {
+      manuallySelectedDirection = true;
+      setChanged();
+    }
+    return true;
+  }
+
+  @Override
   public void onPlaced(
       net.minecraft.world.item.ItemStack stack,
       net.minecraft.world.entity.LivingEntity placer,
       Direction facing) {
     super.onPlaced(stack, placer, facing);
+    manuallySelectedDirection = false;
     alignToReceiver();
+    setChanged();
   }
 
   private void alignToReceiver() {
-    if (level == null || level.isClientSide) return;
+    if (level == null || level.isClientSide || manuallySelectedDirection) return;
     var candidates = new LinkedHashSet<Direction>();
     candidates.add(getFacing());
     candidates.addAll(List.of(Direction.values()));
@@ -197,6 +212,9 @@ public final class ElectricEngine extends TileEntityInventory
   @Override
   protected void updateEntityServer() {
     super.updateEntityServer();
+    var delegate = energy.getDelegate();
+    var stats = delegate == null ? null : ic2.api.energy.EnergyNet.instance.getNodeStats(delegate);
+    guiNetworkEuPerTick = stats == null ? 0 : stats.getEnergyIn();
     updateUpgrades();
     alignToReceiver();
     resetBudget();
@@ -300,6 +318,7 @@ public final class ElectricEngine extends TileEntityInventory
   @Override
   protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
     super.loadAdditional(tag, registries);
+    manuallySelectedDirection = tag.getBoolean("manualDirection");
     heat = Math.clamp(tag.getInt("EngineHeat"), 0, MAX_HEAT);
     forceCooldown = tag.getBoolean("ForceCooldown");
     mjBuffer = Math.clamp(tag.getLong("mjBuffer"), 0, MAX_MJ_BUFFER);
@@ -313,6 +332,7 @@ public final class ElectricEngine extends TileEntityInventory
   @Override
   public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
     super.saveAdditional(tag, registries);
+    tag.putBoolean("manualDirection", manuallySelectedDirection);
     tag.putInt("EngineHeat", heat);
     tag.putBoolean("ForceCooldown", forceCooldown);
     tag.putLong("mjBuffer", mjBuffer);
@@ -422,6 +442,12 @@ public final class ElectricEngine extends TileEntityInventory
         .getString();
   }
 
+  public String getNetworkInputText() {
+    return Component.translatable(
+            "screen.ic2r_addons.engine.network_input", number(guiNetworkEuPerTick))
+        .getString();
+  }
+
   public String getLimitText() {
     return Component.translatable("screen.ic2r_addons.engine.limit", number(mjGeneration))
         .getString();
@@ -446,6 +472,7 @@ public final class ElectricEngine extends TileEntityInventory
     n.putDouble("eu", energy.getEnergy());
     n.putDouble("capacity", energy.getCapacity());
     n.putDouble("euPerTick", guiEuPerTick);
+    n.putDouble("networkEuPerTick", guiNetworkEuPerTick);
     n.putDouble("mjPerTick", guiMjPerTick);
     n.putInt("voltage", voltage);
     n.putDouble("temperature", 20 + heat / 10.0);

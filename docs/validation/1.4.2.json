@@ -1,0 +1,82 @@
+{
+  "version": "1.4.2",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.264",
+  "java": 21,
+  "ic2r": "21.1.70",
+  "artifact": {
+    "file": "ic2r-addons-neoforge-1.21.1-1.4.2.jar",
+    "sha256": "5d6d06104adb98d6a5a5a5d46f3088ce9941f6cbe54030ae7b47c8cbb87922d2",
+    "bytes": 1746179
+  },
+  "junit": {
+    "tests": 19,
+    "failures": 0,
+    "errors": 0
+  },
+  "game_tests": [
+    {
+      "configuration": "IC2R + Addons + BuildCraft 8.0.25 + Jade 15.10.6",
+      "passed": 95
+    },
+    {
+      "configuration": "IC2R + Addons, without BuildCraft or Jade",
+      "passed": 82
+    }
+  ],
+  "regressions": [
+    "Manual rotation with native IC2R wrench, electric wrench and BC wrench survives ticks and neighbor updates",
+    "Manual direction persists across block-entity reload; replacing the engine restores automatic alignment",
+    "Old output capability stops exporting and the wooden Kinesis pipe disconnects after rotation",
+    "All 36 clickable player slots align with the original Forestry GUI background",
+    "Native grid input exceeds conversion consumption while charging and returns to zero after source removal",
+    "Conversion consumption continues from the EU buffer without a grid source, and stops when redstone is removed"
+  ],
+  "client": {
+    "isolated_world": "RestorationSmoke",
+    "selected_menu": 12,
+    "languages": [
+      "ru_ru",
+      "en_us"
+    ],
+    "slot_borders_and_item_positions_inspected": true,
+    "rate_labels_and_ledger_bounds_inspected": true,
+    "jade_inspected": true,
+    "extra_mods": [
+      "BuildCraft 8.0.25",
+      "Jade 15.10.6",
+      "Create 6.0.10"
+    ],
+    "screenshots": [
+      {
+        "file": "docs/images/engine-gui-en-1.4.2.png",
+        "sha256": "84fd568651c3da914f0ab6400cb465f5b4844db6914b5b20a0b443d943df7e55"
+      },
+      {
+        "file": "docs/images/engine-jade-en-1.4.2.png",
+        "sha256": "5143bac4dc89b243e95890606ced9021b3eaab828867e132398ab3ed7305808d"
+      },
+      {
+        "file": "run/restoration-client/screenshots/warmup-12-on.png",
+        "sha256": "027e8d08d72d9f40e6dc3c72cec36c84348b11b133ac7c702c04fcbb1b58bd2d"
+      }
+    ]
+  },
+  "localization": {
+    "en_us_keys": 515,
+    "ru_ru_keys": 515,
+    "replacement_characters": 0,
+    "json_resources_parsed": 368
+  },
+  "balance_changed": false,
+  "production_deployment": {
+    "client_updated": false,
+    "zip_updated": false,
+    "server_updated": false
+  },
+  "commands": [
+    "gradlew spotlessApply build runGameTestServer -PwithBC -PwithJade",
+    "gradlew spotlessApply runClient -PwarmupSmoke -PwarmupStart=12 -PwarmupEnglishOnly -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
+    "gradlew build runGameTestServer"
+  ]
+}

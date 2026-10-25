@@ -162,7 +162,7 @@ public final class WarmupClientSmoke {
                 () -> {
                   var player = server.getPlayerList().getPlayer(id);
                   player.closeContainer();
-                  player.getInventory().clearContent();
+                  prepareEngineInventory(player);
                   var engine =
                       (com.igoryok95.ic2raddons.bridge.bc.ElectricEngine)
                           player.serverLevel().getBlockEntity(positions.get(12));
@@ -175,6 +175,7 @@ public final class WarmupClientSmoke {
                       () -> mc.options.setCameraType(net.minecraft.client.CameraType.FIRST_PERSON));
                   ((IHasGui) engine).openManagedBe(player, InteractionHand.MAIN_HAND);
                 });
+          if (frame == 140) movePointerOutsideMenu(mc);
           if (frame == 145) {
             if (!(mc.screen instanceof Ic2Gui<?>))
               throw new IllegalStateException("Missing English engine GUI");
@@ -186,8 +187,11 @@ public final class WarmupClientSmoke {
             Screenshot.grab(
                 mc.gameDirectory, "engine-jade-en_us.png", mc.getMainRenderTarget(), text -> {});
           if (frame >= 260) {
-            System.out.println(
-                "WARMUP_CLIENT_PASS: changed menus, synchronized toggles, engine/Vajra hand views, all item names, RU/EN gallery and engine GUI/Jade");
+            ic2.core.IC2.log.info(
+                ic2.core.util.LogCategory.General,
+                "WARMUP_CLIENT_PASS: menuStart=%d, englishOnly=%s; selected menus, locale keys and screenshots checked",
+                start,
+                Boolean.getBoolean("ic2r_addons.warmupEnglishOnly"));
             mc.stop();
           }
           return;
@@ -242,6 +246,7 @@ public final class WarmupClientSmoke {
               player.connection.teleport(pos.getX() + .5, pos.getY(), pos.getZ() - 2, 0, 12);
               var machine = player.serverLevel().getBlockEntity(pos);
               if (machine instanceof com.igoryok95.ic2raddons.bridge.bc.ElectricEngine engine) {
+                prepareEngineInventory(player);
                 engine.energy.addEnergy(10000);
                 engine.heat = 900;
               }
@@ -283,9 +288,36 @@ public final class WarmupClientSmoke {
               mc.getMainRenderTarget(),
               text -> System.out.println(text.getString()));
       }
+      if (index == 12 && (phase == 20 || phase == 60)) movePointerOutsideMenu(mc);
       if (index < 11 && (phase == 35 || phase == 85)) {
         var gui = (Ic2Gui<?>) mc.screen;
         gui.mouseClicked(gui.getX() + 162, gui.getY() + 14, 0);
+      }
+    }
+
+    private static void prepareEngineInventory(net.minecraft.server.level.ServerPlayer player) {
+      player.getInventory().clearContent();
+      player.getInventory().setItem(0, new ItemStack(Ic2Items.WRENCH));
+      player
+          .getInventory()
+          .setItem(
+              8, new ItemStack(com.igoryok95.ic2raddons.bridge.bc.BcContent.ENGINE_ITEM.get()));
+      player.getInventory().setItem(9, new ItemStack(Ic2Items.IRON_DUST, 17));
+      player.getInventory().setItem(17, new ItemStack(Ic2Items.COPPER_DUST, 23));
+      player.getInventory().setItem(35, new ItemStack(Ic2Items.TIN_DUST, 31));
+    }
+
+    private static void movePointerOutsideMenu(Minecraft mc) {
+      // Keep documentation captures free of hover tooltips even when the test window lacks focus.
+      try {
+        for (String name : List.of("xpos", "ypos")) {
+          var field = net.minecraft.client.MouseHandler.class.getDeclaredField(name);
+          field.setAccessible(true);
+          field.setDouble(mc.mouseHandler, -1000);
+        }
+      } catch (ReflectiveOperationException ex) {
+        throw new IllegalStateException(
+            "Cannot position the test pointer outside the engine GUI", ex);
       }
     }
 
