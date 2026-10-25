@@ -370,5 +370,14 @@
       255
     ],
     "source": "tools/textures/source/vajra-32.png"
+  },
+  "github_ci": {
+    "status": "success",
+    "url": "https://github.com/Igoryok95/IC2R-Addons/actions/runs/40214251720",
+    "source_commit": "6e18e8b",
+    "configurations": [
+      "base",
+      "buildcraft-jade"
+    ]
   }
 }

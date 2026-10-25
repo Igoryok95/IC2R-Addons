@@ -328,7 +328,7 @@ Use Java 21 and IC2R **21.1.70**. A locally built core JAR can be supplied expli
 ```
 
 Released dependencies resolve from GitHub / Modrinth / JEI. IC2R 21.1.70 is required. CI consumes the released IC2R 21.1.70 JAR, matching the installed binary.
-The release checks pass **19 JUnit**, **82 standalone Addons** and **94 optional
+[GitHub CI](https://github.com/Igoryok95/IC2R-Addons/actions/runs/40214251720) and local checks pass **19 JUnit**, **82 standalone Addons** and **94 optional
 integration GameTests**; see [1.4.1 validation](docs/validation/1.4.1.json).
 
 The historical 1.4.0 checks below describe the published release.
