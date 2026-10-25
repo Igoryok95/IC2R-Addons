@@ -1,7 +1,7 @@
-# IC2R Addons 1.4.1 maintenance branch
+# IC2R Addons 1.4.1 maintenance changes
 
-This branch starts from released Addons 1.4.0 and targets the IC2R 21.1.70
-maintenance API. It is development source, not a published or installed update.
+Version 1.4.1 starts from Addons 1.4.0 and targets the IC2R 21.1.70
+maintenance API. Installation is separate from publishing this release.
 
 ## Preserved fixes
 
@@ -60,7 +60,7 @@ wrench pays once. The integration remains optional and respects cancellation.
 
 ## Validation
 
-18 JUnit tests, 82 server GameTests without optional mods and 94 with IC2R 21.1.70, BuildCraft, Jade,
+19 JUnit tests, 82 server GameTests without optional mods and 94 with IC2R 21.1.70, BuildCraft, Jade,
 Create, Mekanism and Almost Unified. The Russian client checks all four solar and
 eight Advanced Machines menus, live exact tooltips, percentage text and slot/title
 bounds. Native/new IC2R menus and the sound slider are checked in the same isolated
@@ -77,3 +77,8 @@ separate EU/MJ bars and thermal/redstone diagnostics. See the engine restoration
 Original ASP/GraviSuite rarity colors are restored after inherited armor defaults.
 All registered items have English/Russian display names. Native IC2R tool silhouettes
 and alpha are preserved, with blue grips; Vajra restores its original transparent gaps.
+
+Vajra now uses a detailed native 32x32 remaster of the original design, rather than
+doubling its 16px pixels. The open frame uses true binary alpha; a regression test
+checks independent 32px detail and enclosed transparent openings. See the saved
+[prompt and asset workflow](../tools/textures/1.4.1-vajra-prompt.md).

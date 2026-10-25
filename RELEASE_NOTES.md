@@ -1,4 +1,4 @@
-# IC2R Addons 1.4.1 (development branch)
+# IC2R Addons 1.4.1
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
 
@@ -16,7 +16,7 @@ Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
   alignment and oversized held models. Jade includes EU/MJ bars and thermal state.
 - Restore original ASP/GraviSuite rarity colors, including quantum armor. Complete
   IC2R sensor kit/card names in both languages. Native 32x32 IC2R tool silhouettes
-  gain blue grips; original Vajra transparent openings return.
+  gain blue grips; Vajra gains native 32px detail with its transparent frame preserved.
 - Keep solar charge gauges with exact live tooltips and bounded tier/output text.
 - Preserve large energy-array and tank-card readings, totals and portable bars,
   including legacy integer-valued saves. Avoid client-only name lookup on servers.
@@ -25,8 +25,8 @@ Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
 - Retain four solar tiers through Quantum, original equipment capacities, transfer
   limits and recipes. No Classic progression or capacity rebalance is included.
 
-See [scope and validation](docs/maintenance-1.4.1.md). This is not a published release
-or an installed client/server update.
+See [scope and validation](docs/maintenance-1.4.1.md). Requires IC2R 21.1.70 or newer within 21.x.
+Installation into an existing client/server remains a separate operation.
 
 ---
 

@@ -2,9 +2,9 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
-## Development: 1.4.1
+## Version 1.4.1
 
-The `experimental-compatibility-1.4.1` branch targets IC2R **21.1.70**. It fixes Advanced
+Version 1.4.1 requires IC2R **21.1.70**. It fixes Advanced
 Machines percentage displays, bounded solar GUI readings, large Nuclear Control
 energy/tank readings and dedicated-server item-name formatting. It also extends
 three IC2R professions with optional Addons trades. Saved torch buttons provide local
@@ -17,17 +17,16 @@ balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**
 **50,000 EU** transfer and **tier 4**, with their original recipes. No Classic
 capacity rebalance, PESU requirements or upper panel recipes are included.
 
-See [maintenance details](docs/maintenance-1.4.1.md). This is development source;
-the installation instructions below describe the published **1.4.0** release.
+See [release details](docs/maintenance-1.4.1.md) and [validation](docs/validation/1.4.1.json).
 
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.68+ within 21.x**, installed separately.
+- IC2R **21.1.70+ within 21.x**, installed separately.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.0.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.1.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -135,7 +134,7 @@ The original modern **32x32** machine faces and active models are retained, with
 
 The bridge loads only when `buildcraftenergy` is installed. Without BuildCraft, the engine is not registered and its recipe is skipped; all solar and equipment features remain available. Jade and JEI are independently optional.
 
-### EU-powered electric engine (development 1.4.1)
+### EU-powered electric engine (1.4.1)
 
 `IC2R cable → Electric Engine → BuildCraft Kinesis pipe / MJ machine`
 
@@ -186,8 +185,7 @@ gear. IC2R sensor kit/card names are present in both languages.
 
 Six advanced tool/mode icons reuse native **32x32 IC2R** sprites with only orange
 grip pixels recolored blue. Metal, drill tips, silhouettes and alpha are unchanged.
-Vajra restores its original transparent openings, enlarged from 16x16 to 32x32
-without smoothing. Hybrid/Ultimate helmets and worn armor keep their existing
+Vajra restores its original transparent openings, redrawn at native 32x32 with independent pixel detail. Hybrid/Ultimate helmets and worn armor keep their existing
 artwork. See [texture tooling](tools/textures/README.md) and [NOTICE.md](NOTICE.md).
 
 ![Item colors and original tool designs](docs/images/item-presentation-en-1.4.1.png)
@@ -321,8 +319,7 @@ Use matching settings on client and server. Recipes can be changed with datapack
 
 ## Build and validation
 
-The development branch requires the matching unpublished IC2R **21.1.70** JAR.
-Build the core's `experimental-restoration-21.1.70` branch first with Java 21, then:
+Use Java 21 and IC2R **21.1.70**. A locally built core JAR can be supplied explicitly:
 
 ```sh
 ./gradlew spotlessApply build runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar
@@ -330,9 +327,8 @@ Build the core's `experimental-restoration-21.1.70` branch first with Java 21, t
 ./gradlew runClient -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwarmupSmoke -PwithBC -PwithJade
 ```
 
-Released dependencies resolve from GitHub / Modrinth / JEI. The current branch uses
-`-Pic2rJar` until core 21.1.70 is published. CI builds the matching core branch first.
-The development checks pass **18 JUnit**, **82 standalone Addons** and **94 optional
+Released dependencies resolve from GitHub / Modrinth / JEI. IC2R 21.1.70 is required. CI builds the pinned matching IC2R source tag first.
+The release checks pass **19 JUnit**, **82 standalone Addons** and **94 optional
 integration GameTests**; see [1.4.1 validation](docs/validation/1.4.1.json).
 
 The historical 1.4.0 checks below describe the published release.

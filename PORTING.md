@@ -118,7 +118,7 @@ each registered control block separately. The original Kit Assembler PNGs are un
 The control module registers only CrossIC2R. It adds no BuildCraft monitoring adapter;
 the pre-existing optional EU engine / wrench bridge remains a separate feature.
 
-## Development 1.4.1 corrections
+## Version 1.4.1 corrections
 
 Seven tool/Vajra icons replace generated variants: six native IC2R sprites retain
 32x32 geometry and alpha with blue grips; original Vajra transparency returns.

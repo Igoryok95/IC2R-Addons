@@ -1,7 +1,7 @@
-"""Restore IC2R tool silhouettes and the original GraviSuite Vajra.
+"""Restore IC2R tool silhouettes and the detailed GraviSuite Vajra remaster.
 
 Usage: python tools/textures/restore_original_tools.py [--ic2r ../IC2R] [--check]
-Requires Pillow. No generated atlas, smoothing, silhouette edits or alpha changes.
+Requires Pillow. IC2R grip recolors preserve alpha; Vajra uses the reviewed native 32px remaster.
 """
 from pathlib import Path
 import argparse
@@ -59,16 +59,17 @@ def main():
         records.append({"item": name, "source": f"ic2:item/tool/electric/{native}",
                         "source_sha256": hashlib.sha256(source_path.read_bytes()).hexdigest(),
                         "recolored_pixels": changed, "alpha_unchanged": True})
-    original = ROOT / "tools/textures/source/vajra-original-16.png"
-    vajra = Image.open(original).convert("RGBA").resize((32, 32), Image.Resampling.NEAREST)
+    original = ROOT / "tools/textures/source/vajra-32.png"
+    vajra = Image.open(original).convert("RGBA")
+    assert vajra.size == (32, 32)
     target = TARGET / "vajra.png"
     if args.check:
         assert Image.open(target).convert("RGBA").tobytes() == vajra.tobytes(), target
     else:
         vajra.save(target)
-    records.append({"item": "vajra", "source": "GraviSuite 16x16, repository revision 64b4c20",
+    records.append({"item": "vajra", "source": "Original GraviSuite Vajra, detailed native 32x32 remaster",
                     "source_sha256": hashlib.sha256(original.read_bytes()).hexdigest(),
-                    "scale": "nearest-neighbor 2x", "transparent_pixels":
+                    "scale": "native 32x32, not nearest-neighbor enlargement", "transparent_pixels":
                     vajra.getchannel("A").tobytes().count(0)})
     if not args.check:
         (ROOT / "docs/tool-texture-provenance.json").write_text(

@@ -131,13 +131,15 @@ The earlier rights section describes the ASP / GraviSuite / Advanced Machines ma
 it does not revoke the GPL or BSD permissions of this monitoring module. This integration
 does not claim that the entire collection of third-party artwork has been relicensed.
 
-## Development 1.4.1: original tools, rarity and Forestry engine
+## Version 1.4.1: original tools, rarity and Forestry engine
 
 - Six advanced tool/mode icons use the 32x32 IC2R originals with orange grips
   recolored blue. Alpha, geometry and other pixels are preserved. Reproduction:
   `tools/textures/restore_original_tools.py`; hashes: `docs/tool-texture-provenance.json`.
-- Vajra restores the original 16x16 GraviSuite sprite from revision `64b4c20`, retained
-  in `tools/textures/source/vajra-original-16.png`, enlarged by nearest-neighbor 2x.
+- Vajra uses the original 16x16 GraviSuite sprite from revision `64b4c20` as its design
+  reference. The native 32x32 remaster adds restrained material detail while retaining
+  its transparent frame and solid handle; `tools/textures/source/vajra-32.png` is the
+  reviewed sprite, and `vajra-remaster-reference.png` records the imagegen edit.
   The generated tool/Vajra atlas cells described above are historical and retired.
 - ASP rarities are verified against the original 4.3.0 binary identified above:
   `TEs` and `ItemArmourSolarHelmet.SolarHelmetTypes`. GraviSuite references are the

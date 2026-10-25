@@ -43,9 +43,9 @@
   },
   {
     "item": "vajra",
-    "source": "GraviSuite 16x16, repository revision 64b4c20",
-    "source_sha256": "316ff0a719270713506108810f313a7100e218dbb7506f258d04753279ac7a09",
-    "scale": "nearest-neighbor 2x",
-    "transparent_pixels": 500
+    "source": "Original GraviSuite Vajra, detailed native 32x32 remaster",
+    "source_sha256": "7c09a644acb8d3ca9c199859a61b7ab866fdf5a9bbe90323e78d794698fe1715",
+    "scale": "native 32x32, not nearest-neighbor enlargement",
+    "transparent_pixels": 463
   }
 ]

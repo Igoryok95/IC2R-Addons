@@ -18,6 +18,57 @@ class ResourceContractTest {
   }
 
   @Test
+  void vajraHasNative32PixelDetailAndTransparentOpenings() throws Exception {
+    var sprite =
+        javax.imageio.ImageIO.read(
+            RES.resolve("assets/ic2r_addons/textures/item/vajra.png").toFile());
+    assertEquals(32, sprite.getWidth());
+    assertEquals(32, sprite.getHeight());
+    int detailedCells = 0;
+    for (int y = 0; y < 32; y += 2)
+      for (int x = 0; x < 32; x += 2) {
+        var colors = new HashSet<Integer>();
+        for (int dy = 0; dy < 2; dy++)
+          for (int dx = 0; dx < 2; dx++) colors.add(sprite.getRGB(x + dx, y + dy));
+        if (colors.size() > 1) detailedCells++;
+      }
+    assertTrue(
+        detailedCells >= 64,
+        "A doubled 16px sprite has no independent detail within its 2x2 cells");
+    var outside = new boolean[32][32];
+    var queue = new ArrayDeque<int[]>();
+    for (int i = 0; i < 32; i++) {
+      queue.add(new int[] {i, 0});
+      queue.add(new int[] {i, 31});
+      queue.add(new int[] {0, i});
+      queue.add(new int[] {31, i});
+    }
+    while (!queue.isEmpty()) {
+      var p = queue.remove();
+      int x = p[0], y = p[1];
+      if (x < 0
+          || x >= 32
+          || y < 0
+          || y >= 32
+          || outside[x][y]
+          || (sprite.getRGB(x, y) >>> 24) != 0) continue;
+      outside[x][y] = true;
+      queue.add(new int[] {x + 1, y});
+      queue.add(new int[] {x - 1, y});
+      queue.add(new int[] {x, y + 1});
+      queue.add(new int[] {x, y - 1});
+    }
+    int holes = 0;
+    for (int x = 0; x < 32; x++)
+      for (int y = 0; y < 32; y++) {
+        int alpha = sprite.getRGB(x, y) >>> 24;
+        assertTrue(alpha == 0 || alpha == 255, "Crisp cutout alpha");
+        if (alpha == 0 && !outside[x][y]) holes++;
+      }
+    assertTrue(holes >= 30, "The open frame must contain real transparent holes");
+  }
+
+  @Test
   void electricEngineUsesStandardBlockHandTransforms() throws Exception {
     var model = read(RES.resolve("assets/ic2r_addons/models/item/electric_engine.json"));
     var display = model.getAsJsonObject("display");

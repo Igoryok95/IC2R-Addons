@@ -15,11 +15,11 @@ jobs:
         compatibility: [base, buildcraft-jade]
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout matching IC2R development source
+      - name: Checkout matching IC2R release source
         uses: actions/checkout@v4
         with:
           repository: Igoryok95/IC2R
-          ref: experimental-restoration-21.1.70
+          ref: 21.1.70
           path: ic2r-core
       - uses: actions/setup-java@v4
         with:

@@ -137,7 +137,8 @@ public final class WarmupClientSmoke {
       int phase = step % 120;
       if (index >= positions.size()) {
         int view =
-            step
+            Integer.getInteger("ic2r_addons.warmupViewStart", 0)
+                + step
                 - (positions.size() - start) * 120
                 + (Boolean.getBoolean("ic2r_addons.warmupEnglishOnly") ? 840 : 0);
         if (view >= 840) {

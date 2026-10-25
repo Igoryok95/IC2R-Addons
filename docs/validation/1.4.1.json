@@ -1,16 +1,15 @@
 {
   "version": "1.4.1",
-  "status": "development_branch_only",
-  "branch": "experimental-compatibility-1.4.1",
+  "status": "release",
   "minecraft": "1.21.1",
   "java": 21,
   "artifact": {
     "file": "ic2r-addons-neoforge-1.21.1-1.4.1.jar",
-    "sha256": "3446970a85825a80b3faad92d1aef3b5e7a460bce67eb892b830355a92aab454",
-    "bytes": 1740307
+    "sha256": "d22a8f6026eda9affa7b5a6a61e0a0c8486e4c3aaa8f89562be6980df3dffeeb",
+    "bytes": 1741638
   },
   "junit": {
-    "tests": 18,
+    "tests": 19,
     "failures": 0,
     "errors": 0
   },
@@ -37,13 +36,13 @@
     "gradlew runGameTestServer -Pic2rJar=<local-21.1.70.jar>"
   ],
   "deployment": {
-    "github_release": false,
-    "main_merged": false,
+    "github_release": true,
+    "main_merged": true,
     "client_updated": false,
     "zip_updated": false,
     "production_server_updated": false
   },
-  "core_artifact_sha256": "1a68f10c6666e9095027e303fa0d9bcfee746af59fe8a856415718b5c333c3f0",
+  "core_artifact_sha256": "b646e36dc121097ba59dd6f6aff77264550b0c9d244745e4a08366fd4ce57e74",
   "locale_keys": {
     "en_us": 514,
     "ru_ru": 514,
@@ -294,27 +293,27 @@
     },
     {
       "file": "engine-hand-4.png",
-      "sha256": "03d2c8b03cfa7a9ec16867ce535eeca3905f4b2bd7917545b1a6818a556244d4"
+      "sha256": "1d03193de3743e1f631d2ec4116dcc4b255e913f77327764b7d6f5db39deadbd"
     },
     {
       "file": "engine-hand-5.png",
-      "sha256": "2cd2a67e6fd93a19d65f09fa711c0b719975f36516dc8624b202a8736006fde6"
+      "sha256": "1814cdb87728824ac3094b21078bdc7b550ce0ee8e6fe7035b83c2a5597ad29b"
     },
     {
       "file": "item-presentation-en_us.png",
-      "sha256": "62e47e5d1197f526ae4b2783867999b496a3b15957427f185c3c34bf4c2f9e84"
+      "sha256": "c3672b88241e4b349e0c97f7ed3baa8f5d0ca6e036bcc4ee1b745977d2067b3c"
     },
     {
       "file": "item-presentation-ru_ru.png",
-      "sha256": "d2e3a43307d405288c04c80b02e1091158ff8f1b873a73a420340d687fda9aab"
+      "sha256": "503d8b3c2f5241d2a7073b2e8a20bf282ee4035474bfa20c26aa20d711e36445"
     },
     {
       "file": "engine-gui-en_us.png",
-      "sha256": "ae3425dcdf4814a12044bde7f3be6c9555f2a2528e2578299cb7d8c9b34696c5"
+      "sha256": "4e9625c99c66c5d55b3e2805b53279dc4868bb3b46466e3718281ad144a5ec99"
     },
     {
       "file": "engine-jade-en_us.png",
-      "sha256": "1b8f7c143dc1a24a986ab908e5678d65c571de98dd3a484bed78d03b3e7a0ce8"
+      "sha256": "89b67b552f1190594d19d4ef4369105acae634d8c17b760111df69a6b51163fd"
     }
   ],
   "client_validation": {
@@ -333,7 +332,8 @@
       "engine and native BC engine first/third-person item transforms",
       "original transparent Vajra first/third-person rendering",
       "32-item RU/EN color gallery including four armor legs/boots",
-      "English Forestry engine GUI and server-owned Jade EU/MJ bars"
+      "English Forestry engine GUI and server-owned Jade EU/MJ bars",
+      "native 32px Vajra detail and binary-alpha openings checked in first/third person"
     ],
     "limits": [
       "Menu checks collected across the initial screen pass and affected follow-ups.",
@@ -353,5 +353,22 @@
     "BCCE wood-pipe topology required connector/passive-provider capabilities in addition to API 2.",
     "Engine GUI missing container title and obsolete board-slot outline corrected.",
     "Stored MJ could export eight MJ/t without overclockers; output now follows actual installed upgrades."
-  ]
+  ],
+  "source_branch": "experimental-compatibility-1.4.1",
+  "branch": "main",
+  "release_url": "https://github.com/Igoryok95/IC2R-Addons/releases/tag/1.4.1",
+  "vajra_texture": {
+    "size": [
+      32,
+      32
+    ],
+    "native_detail_2x2_cells": 168,
+    "transparent_pixels": 463,
+    "enclosed_transparent_pixels": 90,
+    "alpha": [
+      0,
+      255
+    ],
+    "source": "tools/textures/source/vajra-32.png"
+  }
 }
