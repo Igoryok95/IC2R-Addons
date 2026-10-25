@@ -150,7 +150,7 @@
   "tooltip.ic2r_addons.engine_conversion": "Converts native IC2R EU to BuildCraft MJ",
   "tooltip.ic2r_addons.engine_voltage": "Maximum input packet: %s EU",
   "tooltip.ic2r_addons.engine_sides": "EU input: sides and rear. MJ output: piston face.",
-  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons for Minecraft 1.21.1 NeoForge: Nuclear Control screens, reactor sensors, alarms and native EU counters; all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor and electric tools. Optional BuildCraft EU engine and wrench integration; Jade diagnostics and JEI recipes. English and Russian localization.",
+  "fml.menu.mods.info.description.ic2r_addons": "IC2R Addons for Minecraft 1.21.1 NeoForge: Nuclear Control screens, reactor sensors, alarms and native EU counters; all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor and electric tools. Optional BuildCraft EU engine and wrench integration; Jade diagnostics and JEI recipes. Optional extended IC2R villager trades. English and Russian localization.",
   "item.ic2r_addons.quantum_solar_helmet": "Quantum Solar Helmet",
   "block.ic2r_addons.rotary_macerator": "Rotary Macerator",
   "container.ic2r_addons.rotary_macerator": "Rotary Macerator",
@@ -489,5 +489,8 @@
   "tooltip.ic2r_addons.control.assembler_energy": "%s / %s FE",
   "ic2r_addons.configuration.title": "IC2R Addons Control Settings",
   "message.ic2r_addons.control.yes": "Yes",
-  "message.ic2r_addons.control.no": "No"
+  "message.ic2r_addons.control.no": "No",
+  "ic2r_addons.machines.gui.warmup_percent": "%s%%",
+  "screen.ic2r_addons.solar.energy": "%s / %s EU",
+  "screen.ic2r_addons.solar.tier": "Tier: %s"
 }

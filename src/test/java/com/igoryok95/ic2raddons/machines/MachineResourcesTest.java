@@ -42,6 +42,16 @@ class MachineResourcesTest {
   }
 
   @Test
+  void everyWarmupDisplayUsesPercentagesInsteadOfRawHeatOrPhysicalUnits() throws Exception {
+    for (String name : NAMES) {
+      String xml = Files.readString(RES.resolve("assets/ic2r_addons/guidef/" + name + ".xml"));
+      assertTrue(xml.contains("%base.getWarmupText()%"), name);
+      assertFalse(xml.contains("getHeat()"), name);
+      assertFalse(xml.contains("speed.rot_unit") || xml.contains("pressure.unit"), name);
+    }
+  }
+
+  @Test
   void modernMachineFacesAreNative32PixelTextures() throws Exception {
     for (String folder :
         List.of(

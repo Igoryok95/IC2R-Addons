@@ -4,7 +4,7 @@
 	<text y="7" align="center" color="13487565">%name%</text>
 	
 	<slotgrid name="charge" x="17" y="59" spacing="2" rows="1" style="plain"/>
-	<gauge name="progress" x="19" y="24" style="energy_advanced_solar"/>
+	<tooltip text="%base.getEnergyTooltip()%"><gauge name="progress" x="19" y="24" style="energy_advanced_solar"/></tooltip>
 	
 	<only if="moonlight">
 		<image x="24" y="41" width="14" height="14" u="210" v="15" basesize="256" src="ic2r_addons:textures/gui/advanced_solar_panel"/>
@@ -13,7 +13,7 @@
 		<image x="24" y="41" width="14" height="14" u="195" v="15" basesize="256" src="ic2r_addons:textures/gui/advanced_solar_panel"/>
 	</only>
 	
-	<text x="50" y="22" color="13487565">{ic2r_addons.gui.storage} %base.getStorage()%/%base.getMaxStorage()%</text>
+	<text x="50" y="22" color="13487565">%base.getEnergyTierText()%</text>
 	<text x="50" y="32" color="13487565">%base.getMaxOutput()%</text>
 	<text x="50" y="42" color="13487565">%base.getOutput()%</text>
 	

@@ -1,3 +1,22 @@
+# IC2R Addons 1.4.1 (development branch)
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
+
+- Show heat, rotor speed and pressure as 0-100% across all eight Advanced Machines;
+  retain original internal warm-up and processing balance.
+- Keep solar charge gauges with exact live tooltips and bounded tier/output text.
+- Preserve large energy-array and tank-card readings, totals and portable bars,
+  including legacy integer-valued saves. Avoid client-only name lookup on servers.
+- Extend IC2R's Electrical Engineer, Nuclear Engineer and Greg trades with appropriate
+  Addons components, monitoring devices and tools.
+- Retain four solar tiers through Quantum, original equipment capacities, transfer
+  limits and recipes. No Classic progression or capacity rebalance is included.
+
+See [scope and validation](docs/maintenance-1.4.1.md). This is not a published release
+or an installed client/server update.
+
+---
+
 # IC2R Addons 1.4.0
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.68+ / Java 21.

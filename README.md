@@ -2,6 +2,21 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Development: 1.4.1
+
+The `experimental-compatibility-1.4.1` branch targets IC2R **21.1.70**. It fixes Advanced
+Machines percentage displays, bounded solar GUI readings, large Nuclear Control
+energy/tank readings and dedicated-server item-name formatting. It also extends
+three IC2R professions with optional Addons trades.
+
+The four solar tiers still stop at **Quantum**. Equipment keeps released 1.4.0
+balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**,
+**50,000 EU** transfer and **tier 4**, with their original recipes. No Classic
+capacity rebalance, PESU requirements or upper panel recipes are included.
+
+See [maintenance details](docs/maintenance-1.4.1.md). This is development source;
+the installation instructions below describe the published **1.4.0** release.
+
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.

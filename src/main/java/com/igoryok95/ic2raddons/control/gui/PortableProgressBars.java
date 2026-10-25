@@ -36,13 +36,15 @@ final class PortableProgressBars {
       int rowsPerTarget = energy ? 4 : 5;
       for (int i = 0; i < reader.getCardCount(); i++) {
         double amount =
-            energy ? reader.getInt("_" + i + "energy") : reader.getLong("_" + i + "amount");
+            energy ? reader.getDouble("_" + i + "energy") : reader.getLong("_" + i + "amount");
         if (amount == Integer.MIN_VALUE || amount == Integer.MIN_VALUE + 1) {
           row++; // Out-of-range/no-target row.
           continue;
         }
         double size =
-            energy ? reader.getInt("_" + i + "maxCapacity") : reader.getLong("_" + i + "capacity");
+            energy
+                ? reader.getDouble("_" + i + "maxCapacity")
+                : reader.getLong("_" + i + "capacity");
         put(bars, row + rowsPerTarget - 1, amount, size);
         row += rowsPerTarget;
         total += amount;
@@ -52,8 +54,11 @@ final class PortableProgressBars {
     } else if (stack.getItem() instanceof ItemCardLiquidAdvanced) {
       for (int i = 0; i < reader.getInt("count"); i++) {
         if (!reader.hasField("_" + i + "capacity")) continue;
-        // Match this card's int getters; do not silently change its readings.
-        put(bars, row + 4, reader.getInt("_" + i + "amount"), reader.getInt("_" + i + "capacity"));
+        put(
+            bars,
+            row + 4,
+            reader.getLong("_" + i + "amount"),
+            reader.getLong("_" + i + "capacity"));
         row += 5;
       }
     }

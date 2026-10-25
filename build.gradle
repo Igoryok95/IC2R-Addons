@@ -27,6 +27,14 @@ repositories {
  }
 }
 dependencies {
+    if (providers.gradleProperty('mekanismModsDir').isPresent()) {
+        runtimeOnly fileTree(dir: providers.gradleProperty('mekanismModsDir').get(), includes: ['Mekanism-1.21.1-*.jar', 'almostunified-*.jar'])
+    }
+
+    if (providers.gradleProperty('createModsDir').isPresent()) {
+        runtimeOnly fileTree(dir: providers.gradleProperty('createModsDir').get(), includes: ['create-*.jar', 'flywheel-*.jar', 'ponder-*.jar'])
+    }
+
  compileOnly 'bcce:BuildCraft-Community-Edition:8.0.25+1.21.1+neoforge@jar'
  compileOnly 'maven.modrinth:jade:15.10.6+neoforge'
  if (providers.gradleProperty('withBC').isPresent()) runtimeOnly 'bcce:BuildCraft-Community-Edition:8.0.25+1.21.1+neoforge@jar'
@@ -43,6 +51,12 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('restorationSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.restorationSmoke', 'true'
+    systemProperty 'ic2r_addons.restorationStart', providers.gradleProperty('restorationStart').orElse('0').get()
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
    if (providers.gradleProperty('clientSmoke').isPresent() || providers.gradleProperty('machinesSmoke').isPresent() || providers.gradleProperty('controlSmoke').isPresent()) {
     systemProperty providers.gradleProperty('controlSmoke').isPresent() ? 'ic2r_addons.controlSmoke' : providers.gradleProperty('machinesSmoke').isPresent() ? 'ic2r_addons.machinesSmoke' : 'ic2r_addons.clientSmoke', 'true'
     systemProperty 'ic2r_addons.controlTickStride', providers.gradleProperty('controlQuick').isPresent() ? '1' : '5'
@@ -50,7 +64,7 @@ neoForge {
    }
   }
   server { server(); programArgument '--nogui' }
-  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', 'ic2r_addons' }
+  gameTestServer { type = 'gameTestServer'; systemProperty 'neoforge.enabledGameTestNamespaces', providers.gradleProperty('combinedTests').isPresent() ? 'ic2,ic2r_addons' : 'ic2r_addons' }
  }
  mods { ic2r_addons { sourceSet sourceSets.main } }
  unitTest { enable(); testedMod = mods.ic2r_addons }

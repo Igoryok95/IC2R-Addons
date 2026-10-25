@@ -152,11 +152,27 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
     return this.maxStorage;
   }
 
+  public String getEnergyTooltip() {
+    return Component.translatable(
+            "screen.ic2r_addons.solar.energy", grouped(getStorage()), grouped(maxStorage))
+        .getString();
+  }
+
+  public String getEnergyTierText() {
+    return Component.translatable("screen.ic2r_addons.solar.tier", tier).getString();
+  }
+
+  private static String grouped(int value) {
+    var symbols = java.text.DecimalFormatSymbols.getInstance(java.util.Locale.ROOT);
+    symbols.setGroupingSeparator(' ');
+    return new java.text.DecimalFormat("#,##0", symbols).format(value);
+  }
+
   public String getMaxOutput() {
     return String.format(
-        "%s %d %s",
+        "%s %s %s",
         tr("ic2r_addons.gui.maxOutput"),
-        (int) ic2.api.energy.EnergyNet.instance.getPowerFromTier(this.tier),
+        grouped((int) ic2.api.energy.EnergyNet.instance.getPowerFromTier(this.tier)),
         tr("ic2.generic.text.EUt"));
   }
 
@@ -168,7 +184,7 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
           default -> 0;
         };
     return String.format(
-        "%s %d %s", tr("ic2r_addons.gui.generating"), power, tr("ic2.generic.text.EUt"));
+        "%s %s %s", tr("ic2r_addons.gui.generating"), grouped(power), tr("ic2.generic.text.EUt"));
   }
 
   private static String tr(String key) {

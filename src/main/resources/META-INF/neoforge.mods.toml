@@ -7,7 +7,7 @@ modId="ic2r_addons"
 version="${version}"
 displayName="IC2R Addons"
 authors="Icedfire, SeNtiMeL, immibis, Chocohead; craftorio; VintageModsReforged; Shedar, Xbony2, dmf444, Pyrolusite, Zuxelus; NeoForge IC2R adaptation: Igoryok95"
-description="IC2R Addons for Minecraft 1.21.1 NeoForge: Nuclear Control screens, reactor sensors, alarms and native EU counters; all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor and electric tools. Optional BuildCraft EU engine and wrench integration; Jade diagnostics and JEI recipes. English and Russian localization."
+description="IC2R Addons for Minecraft 1.21.1 NeoForge: Nuclear Control screens, reactor sensors, alarms and native EU counters; all eight Advanced Machines, four classic solar tiers and solar helmets, Molecular Transformer, powered armor and electric tools. Optional BuildCraft EU engine and wrench integration; Jade diagnostics and JEI recipes. Optional extended IC2R villager trades. English and Russian localization."
 displayURL="https://github.com/Igoryok95/IC2R-Addons"
 [[dependencies.ic2r_addons]]
 modId="solar_gravisuite"
@@ -29,7 +29,7 @@ side="BOTH"
 [[dependencies.ic2r_addons]]
 modId="ic2"
 type="required"
-versionRange="[21.1.68,22)"
+versionRange="[21.1.70,22)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.ic2r_addons]]

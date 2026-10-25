@@ -53,8 +53,8 @@ public class ItemCardLiquidAdvanced extends ItemCardMain {
       boolean showLabels,
       int i) {
     if (!reader.hasField(String.format("_%dcapacity", i))) return;
-    int capacity = reader.getInt(String.format("_%dcapacity", i));
-    int amount = reader.getInt(String.format("_%damount", i));
+    long capacity = reader.getLong(String.format("_%dcapacity", i));
+    long amount = reader.getLong(String.format("_%damount", i));
 
     if ((settings & 1) > 0) {
       String name = reader.getString(String.format("_%dname", i));
@@ -79,7 +79,7 @@ public class ItemCardLiquidAdvanced extends ItemCardMain {
       result.add(
           new PanelString(
               "message.ic2r_addons.control.InfoPanelPercentage",
-              capacity == 0 ? 100 : (amount * 100 / capacity),
+              capacity == 0 ? 100 : ((double) amount * 100 / capacity),
               showLabels));
   }
 

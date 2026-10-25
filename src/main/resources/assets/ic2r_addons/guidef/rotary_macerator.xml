@@ -16,6 +16,5 @@
     <playerInventory x="7" y="83"/>
 
 	<text x="10" y="26">{ic2r_addons.machines.gui.speed}</text>
-	<text x="10" y="36">%base.getHeat()%</text>
-	<text x="10" y="46">{ic2r_addons.machines.gui.speed.rot_unit}</text>
+	<text x="10" y="36">%base.getWarmupText()%</text>
 </gui>

@@ -1,0 +1,183 @@
+{
+  "version": "1.4.1",
+  "status": "development_branch_only",
+  "branch": "experimental-compatibility-1.4.1",
+  "minecraft": "1.21.1",
+  "java": 21,
+  "artifact": {
+    "file": "ic2r-addons-neoforge-1.21.1-1.4.1.jar",
+    "sha256": "2e6914b091be6f6515f95ab9638944ecd6facd81b2503c2f25f957253c4c3079",
+    "bytes": 1705722
+  },
+  "junit": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0
+  },
+  "game_tests": [
+    {
+      "configuration": "IC2R 21.1.70 + Addons + BuildCraft 8.0.25 + Jade 15.10.6 + Create 6.0.10 + Mekanism 10.7.19.85 + Almost Unified 1.4.2; NeoForge 21.1.264",
+      "passed": 87,
+      "namespace": "ic2r_addons"
+    }
+  ],
+  "commands": [
+    "gradlew spotlessApply build runGameTestServer -Pic2rJar=<local-21.1.70.jar> -PwithBC -PwithJade -PcreateModsDir=<client-mods> -PmekanismModsDir=<client-mods>",
+    "gradlew runClient -Pic2rJar=<local-21.1.70.jar> -PrestorationSmoke -PrestorationStart=16 -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
+    "gradlew runClient -Pic2rJar=<local-21.1.70.jar> -PrestorationSmoke -PrestorationStart=23 -PwithBC -PwithJade -PcreateModsDir=<client-mods>",
+    "gradlew build -Pic2rJar=<local-21.1.70.jar>"
+  ],
+  "deployment": {
+    "github_release": false,
+    "main_merged": false,
+    "client_updated": false,
+    "zip_updated": false,
+    "production_server_updated": false
+  },
+  "core_artifact_sha256": "7ca2f08a3bb2921d1ff5f43d38c8bef3943e34002dc2aa8453f295e2c7b88a71",
+  "locale_keys": {
+    "en_us": 494,
+    "ru_ru": 494,
+    "replacement_characters": 0,
+    "json_resources_parsed": 368
+  },
+  "balance": {
+    "active_solar_tiers": [
+      "advanced",
+      "hybrid",
+      "ultimate",
+      "quantum"
+    ],
+    "retired_id_migration_retained": true,
+    "advanced_lappack_eu": 40000000,
+    "ultimate_lappack_eu": 100000000,
+    "ultimate_lappack_transfer": 50000,
+    "ultimate_lappack_tier": 4,
+    "equipment_and_crafting_diff_from_1_4_0": "none"
+  },
+  "client_screenshots": [
+    {
+      "file": "restoration-audio-ru_ru.png",
+      "sha256": "885390e739ec27986424fbbe8220c14af0e0a02d26c9a468398223bca347767b"
+    },
+    {
+      "file": "restoration-items-ru_ru.png",
+      "sha256": "f7f9735c1376a0d648b4da3135b1f9bdb9e747d7afaa76a66d0c3a438b4ddccd"
+    },
+    {
+      "file": "restoration-menu-0-ru_ru.png",
+      "sha256": "844b0a3825c7d4485f52602bc8090637d96fe536ea004a058d73f51bf072dd38"
+    },
+    {
+      "file": "restoration-menu-1-ru_ru.png",
+      "sha256": "3d6d2fd286133f4e21c17013515f2f6815e61030d8354203cf3767dc266e48a9"
+    },
+    {
+      "file": "restoration-menu-10-ru_ru.png",
+      "sha256": "4b06ac9b585dce25c6634dc0e32b0e8f8c5e9216a442f6798168affe02eb06ea"
+    },
+    {
+      "file": "restoration-menu-11-ru_ru.png",
+      "sha256": "755c2d9232a6d168bf1417de214fb9cd42f81c82837ae5b1632f3f0240d74446"
+    },
+    {
+      "file": "restoration-menu-12-ru_ru.png",
+      "sha256": "818bd96725cbee66069585c1d5ca7113ca8c2bbe6832c32b2e8483645db8d778"
+    },
+    {
+      "file": "restoration-menu-13-ru_ru.png",
+      "sha256": "34578636cac01a43c8d151fce4eb4dc6044b8524e6b3d7445148c96e720bf812"
+    },
+    {
+      "file": "restoration-menu-14-ru_ru.png",
+      "sha256": "f1574a3365da4c7ce6a4ba5d485e54f567b172cac7e162c6cc710c29b389a05c"
+    },
+    {
+      "file": "restoration-menu-15-ru_ru.png",
+      "sha256": "5b164768a04b16c34f50f61bd946516f459c88d56d5f59b20f7ef46c954c5365"
+    },
+    {
+      "file": "restoration-menu-16-ru_ru.png",
+      "sha256": "59c09e7812e4bf0ecc5f48a780ea2891f4200e11b140cc6d8fec62140ab88124"
+    },
+    {
+      "file": "restoration-menu-17-ru_ru.png",
+      "sha256": "fdf229908f13fff68ffe0dda81ae826cb4b819a3ede370b77e7021cc5324996d"
+    },
+    {
+      "file": "restoration-menu-18-ru_ru.png",
+      "sha256": "d1d1003de69e6c1d52c4bc17cfd6e6089c3c2ad9a644fccbf0dad34482138f17"
+    },
+    {
+      "file": "restoration-menu-19-ru_ru.png",
+      "sha256": "361c85c0915af733f5d15939955fee20b8e6882e768a5db61deb086bdd2111d5"
+    },
+    {
+      "file": "restoration-menu-2-ru_ru.png",
+      "sha256": "7358bd0fed2514e875381108d50422d19566b3e511c477ab6578f25207287221"
+    },
+    {
+      "file": "restoration-menu-20-ru_ru.png",
+      "sha256": "85b0a5970b086249e7359b192e7d9c48058ce74a74988858d3bd41070bf68c1f"
+    },
+    {
+      "file": "restoration-menu-21-ru_ru.png",
+      "sha256": "2a4f6ef018daa7360c8847a31c79a77d1d413d3a0be6f5313ded2795addf2292"
+    },
+    {
+      "file": "restoration-menu-22-ru_ru.png",
+      "sha256": "e771951a7ae85c1aac00fa78074335ccd5147bbaa18c2af52bb41695bdb24be9"
+    },
+    {
+      "file": "restoration-menu-3-ru_ru.png",
+      "sha256": "a91aa5ad0cbf8398b4aced5e61a5778a07e857ebad60dfcb1ab0aa66892ef65a"
+    },
+    {
+      "file": "restoration-menu-4-ru_ru.png",
+      "sha256": "2072a23d71b4cdb26da5d11c1eebd4be2b42619745b081ceccc01c09f999e277"
+    },
+    {
+      "file": "restoration-menu-5-ru_ru.png",
+      "sha256": "9231ea9c440ea6946761f4e92463c993f6ceaf64e8aebaab3515bdc52c22c4ec"
+    },
+    {
+      "file": "restoration-menu-6-ru_ru.png",
+      "sha256": "cdff802f27ab2d10bd5d2708d5fc681f3da87de55d9a3a3316942e5d917d9710"
+    },
+    {
+      "file": "restoration-menu-7-ru_ru.png",
+      "sha256": "134e0dad07d11f2dd4a02d9f674fd2ca0303a9211329359803c236d4880ceff7"
+    },
+    {
+      "file": "restoration-menu-8-ru_ru.png",
+      "sha256": "8bdc26ccc44e97bd031dc750f7f8936175dd48b4de1237565c8e816a5db1b14d"
+    },
+    {
+      "file": "restoration-menu-9-ru_ru.png",
+      "sha256": "f152909a0a74f2fbb0f91ae9c8e0478ed8f36e1b621438cd96d59f96b59a066c"
+    },
+    {
+      "file": "restoration-professions-world-ru_ru.png",
+      "sha256": "73f650f26c8b85b529d08bdea62d274016c653cd65b4abbef47950366df7f396"
+    }
+  ],
+  "client_validation": {
+    "language": "ru_ru",
+    "changed_menus_inspected": 23,
+    "scope": [
+      "4 native storage menus",
+      "4 Addons solar menus",
+      "8 Advanced Machines menus",
+      "offhand Containment Box",
+      "6 merchant screens",
+      "original skins and item models",
+      "150px IC2R volume slider beside Voice/Speech",
+      "saved volume and live mute/unmute of a managed looping sound"
+    ],
+    "limits": [
+      "Menu checks collected across the initial screen pass and affected follow-ups.",
+      "Audio checks verify the live engine loop and scaling; no calibrated acoustic loudness measurement.",
+      "No production installation or release."
+    ]
+  }
+}
