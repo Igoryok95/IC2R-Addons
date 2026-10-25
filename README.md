@@ -2,9 +2,14 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
-## Version 1.4.2
+## Version 1.4.3
 
-Version 1.4.2 requires IC2R **21.1.70**. The electric engine keeps the direction
+Version 1.4.3 requires IC2R **21.1.70**. Advanced Machines use the same processing-driven
+sound lifecycle as the induction furnace: standby warm-up and cooling are silent;
+operating sounds start with actual recipe work and stop when processing stops.
+The four basic Advanced Machines now match the induction furnace's total processing
+demand of **16 EU/t**, with **1 EU/t** standby. Processing speed and warm-up mechanics are unchanged.
+The electric engine keeps the direction
 selected with a wrench, including after reloading; automatic alignment still works
 before manual rotation. Its inventory slots now match the original Forestry GUI.
 GUI and Jade distinguish actual EU received from the grid, EU consumed in conversion
@@ -15,8 +20,8 @@ balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**
 **50,000 EU** transfer and **tier 4**, with their original recipes. No Classic
 capacity rebalance, PESU requirements or upper panel recipes are included.
 
-See [release notes](RELEASE_NOTES.md), [engine mechanics](docs/forestry-engine-restoration.md)
-and [validation](docs/validation/1.4.2.json).
+See [release notes](RELEASE_NOTES.md), [machine sound and energy audit](docs/advanced-machines-1.4.3.md),
+[engine mechanics](docs/forestry-engine-restoration.md) and [validation](docs/validation/1.4.3.json).
 
 ## Requirements and installation
 
@@ -25,7 +30,7 @@ and [validation](docs/validation/1.4.2.json).
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.2.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.3.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -86,10 +91,10 @@ processing recipes and synchronized inventories; datapack changes to those recip
 
 | Machine | Processing | Active / idle EU/t | Output slots |
 | --- | --- | ---: | ---: |
-| Rotary Macerator | Macerator recipes | 15 / 1 | 2 |
-| Singularity Compressor | Compressor recipes | 15 / 1 | 1 |
-| Centrifuge Extractor | Extractor recipes | 15 / 1 | 3 |
-| Compacting Recycler | IC2R recycling; 9 scrap into 1 scrap box | 15 / 1 | 1 |
+| Rotary Macerator | Macerator recipes | 16 / 1 | 2 |
+| Singularity Compressor | Compressor recipes | 16 / 1 | 1 |
+| Centrifuge Extractor | Extractor recipes | 16 / 1 | 3 |
+| Compacting Recycler | IC2R recycling; 9 scrap into 1 scrap box | 16 / 1 | 1 |
 | Liquescent Extruder | Metal Former extruding recipes | 24 / 1 | 3 |
 | Impellerized Roller | Metal Former rolling recipes | 24 / 1 | 1 |
 | Water-Jet Cutter | Metal Former cutting recipes | 24 / 1 | 1 |
@@ -114,6 +119,8 @@ processing recipes and synchronized inventories; datapack changes to those recip
   scrap is guaranteed; batches smaller than nine wait instead of being recycled away.
 - Blocked outputs pause partial work and do not consume processing EU or input. Warm-up,
   partial work, inventory, EU and water survive world saving. Changing input resets partial work.
+- Standby warm-up and cooling are silent. Operating sounds follow actual recipe processing,
+  using IC2R's native start, loop, normal stop and interruption handling, as on the induction furnace.
 
 Each machine is crafted from its base IC2R machine, an advanced machine casing and the original
 specialized components. Rotary Macerator crafting also uses the restored Sharpened Iron Plate.

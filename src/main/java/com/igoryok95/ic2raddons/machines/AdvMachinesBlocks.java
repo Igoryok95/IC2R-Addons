@@ -2,6 +2,7 @@ package com.igoryok95.ic2raddons.machines;
 
 import com.igoryok95.ic2raddons.machines.te.TileEntityCentrifugeExtractor;
 import com.igoryok95.ic2raddons.machines.te.TileEntityCompactingRecycler;
+import com.igoryok95.ic2raddons.machines.te.TileEntityHeatingMachine;
 import com.igoryok95.ic2raddons.machines.te.TileEntityImpellerizedRoller;
 import com.igoryok95.ic2raddons.machines.te.TileEntityLiquescentExtruder;
 import com.igoryok95.ic2raddons.machines.te.TileEntityRotaryMacerator;
@@ -176,7 +177,7 @@ public final class AdvMachinesBlocks {
                                     "impellerized_roller")
                                 .contains(name)
                             ? 24
-                            : 15;
+                            : TileEntityHeatingMachine.DEFAULT_ACTIVE_EU;
                 tip.add(Component.translatable("tooltip.ic2r_addons.machines.power", active));
                 tip.add(
                     Component.translatable(

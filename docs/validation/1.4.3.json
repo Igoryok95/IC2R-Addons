@@ -1,0 +1,69 @@
+{
+  "version": "1.4.3",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.264",
+  "java": 21,
+  "ic2r": "21.1.70",
+  "artifact": {
+    "file": "ic2r-addons-neoforge-1.21.1-1.4.3.jar",
+    "bytes": 1754663
+  },
+  "junit": {
+    "tests": 19,
+    "failures": 0,
+    "errors": 0
+  },
+  "game_tests": [
+    {
+      "configuration": "IC2R + Addons, without BuildCraft or Jade",
+      "passed": 84
+    },
+    {
+      "configuration": "IC2R + Addons + BuildCraft 8.0.25 + Jade 15.10.6",
+      "passed": 97
+    }
+  ],
+  "regressions": [
+    "All eight machines keep tile active state and blockstate ACTIVE aligned with actual processing",
+    "Manual and external-redstone standby remain silent and retain original idle EU and water use",
+    "Blocked output, power loss and removed input stop operating sound while stored heat remains",
+    "Restoring input, output space or power resumes operating sound",
+    "Cooling does not restart the operating loop",
+    "Native induction audit confirms 1 EU/t standby and 16 EU/t total processing for both inputs",
+    "Induction completes two smelts after 13 paid full-heat processing ticks",
+    "Four basic Advanced Machines consume 16 EU/t total processing and 1 EU/t standby",
+    "Specialized processing rates remain 24 and 48 EU/t; Thermal Washer standby remains 6 EU/t"
+  ],
+  "client": {
+    "isolated_world": "RestorationSmoke",
+    "machine": "rotary_macerator",
+    "playback_states_checked": 8,
+    "result_marker": "MACHINE_SOUND_SMOKE_PASS",
+    "log": "build/advanced-machines-1.4.3-client.log",
+    "scope": "Actual client sound-object playback across the shared lifecycle; final 15-to-16 EU/t adjustment is covered by subsequent server tests"
+  },
+  "localization": {
+    "en_us_keys": 515,
+    "ru_ru_keys": 515,
+    "replacement_characters": 0,
+    "json_resources_parsed": 368,
+    "new_player_facing_strings": 0
+  },
+  "balance_change": {
+    "basic_processing_eu_per_tick_before": 15,
+    "basic_processing_eu_per_tick_after": 16,
+    "basic_standby_eu_per_tick": 1,
+    "processing_speed_changed": false,
+    "warmup_or_water_changed": false
+  },
+  "production_deployment": {
+    "client_updated": false,
+    "zip_updated": false,
+    "server_updated": false
+  },
+  "commands": [
+    "gradlew spotlessApply build runGameTestServer",
+    "gradlew build runGameTestServer -PwithBC -PwithJade",
+    "gradlew spotlessApply runClient -PmachineSoundSmoke"
+  ]
+}

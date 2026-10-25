@@ -1,3 +1,25 @@
+# IC2R Addons 1.4.3
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.
+
+- Advanced Machines previously kept their operating sound active whenever stored heat
+  was above zero, including empty redstone standby and cooling. All eight machines
+  now follow actual recipe processing, like the native induction furnace. Normal
+  completion and interrupted work use IC2R's existing sound lifecycle.
+- Keep manual and external-redstone warm-up, water consumption, processing speed,
+  saved heat and partial work unchanged. No neighboring redstone signal is emitted.
+- Align the Rotary Macerator, Singularity Compressor, Centrifuge Extractor and
+  Compacting Recycler with the induction furnace: 16 EU/t total processing, 1 EU/t
+  standby. Previously they consumed 15 EU/t while processing. Specialized machines
+  retain 24 or 48 EU/t; the Thermal Washer retains its 6 EU/t standby demand.
+  Tooltips use the same default processing constant as the machine implementation.
+
+See the [energy comparison](docs/advanced-machines-1.4.3.md) and
+[validation](docs/validation/1.4.3.json). Publishing and installing this maintenance
+build remain separate operations.
+
+---
+
 # IC2R Addons 1.4.2
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.

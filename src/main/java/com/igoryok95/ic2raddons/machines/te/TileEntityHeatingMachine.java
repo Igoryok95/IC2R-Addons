@@ -9,6 +9,7 @@ import ic2.core.block.comp.Redstone;
 import ic2.core.block.invslot.*;
 import ic2.core.block.machine.IWarmupControl;
 import ic2.core.block.machine.tileentity.TileEntityElectricMachine;
+import ic2.core.block.tileentity.Ic2TileEntityBlock;
 import ic2.core.gui.dynamic.DynamicContainer;
 import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.network.GrowingBuffer;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
     implements IHasGui, IGuiValueProvider, IUpgradableBlock, IWarmupControl {
   public static final int MAX_HEAT = 10000;
+  public static final int DEFAULT_ACTIVE_EU = 16;
   public final InvSlotProcessable<IRecipeInput, Collection<ItemStack>, ItemStack> inputSlot;
   public final InvSlotOutput outputSlot;
   public final InvSlotUpgrade upgradeSlot;
@@ -64,7 +66,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
       Recipes.IGetter<
               ? extends IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ItemStack>>
           manager) {
-    this(type, pos, state, outputs, manager, 1, 15);
+    this(type, pos, state, outputs, manager, 1, DEFAULT_ACTIVE_EU);
   }
 
   public TileEntityHeatingMachine(
@@ -114,12 +116,14 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
   protected void updateEntityServer() {
     super.updateEntityServer();
     lastEuPerTick = 0;
+    boolean hadProgress = progress > 0;
     ItemStack input = inputSlot.get();
     if (!ItemStack.isSameItemSameComponents(input, pendingInput)) {
       progress = 0;
       pendingInput = input.isEmpty() ? ItemStack.EMPTY : input.copyWithCount(1);
     }
     boolean spinning = false;
+    boolean processing = false;
     MachineRecipeResult<IRecipeInput, Collection<ItemStack>, ItemStack> recipe = recipeResult();
     boolean canProcess = recipe != null;
     int maintenanceWater = getIdleWaterUse();
@@ -128,6 +132,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
         lastEuPerTick = activeEU;
         consumeWater(maintenanceWater);
         spinning = true;
+        processing = true;
         heat = (short) Math.min(MAX_HEAT, heat + 1);
         progress += heat;
         while (progress >= maxProgress && recipe != null) {
@@ -148,9 +153,13 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
       }
     }
     if (!spinning) heat = (short) Math.max(0, heat - 2);
-    if (heat > 0) {
+    // Active drives IC2R's client sound lifecycle; stored heat alone is silent standby.
+    if (processing) {
       if (!getActive()) activate(false);
-    } else if (getActive()) shutdown(false);
+    } else if (getActive()) shutdown(hadProgress || canProcess);
+    // IC2R also treats the model's ACTIVE property as a reason to play the loop.
+    if (getBlockState().getValue(Ic2TileEntityBlock.ACTIVE) != processing)
+      teBlock.setActive(level, worldPosition, getBlockState(), processing);
     upgradeSlot.tickNoMark();
     // Heat, partial work and EU must survive a normal save even when no recipe finishes.
     setChanged();

@@ -126,6 +126,133 @@ public final class AdvancedMachinesGameTests {
     throw new IllegalStateException("IC2R recipe manager has no usable recipe");
   }
 
+  private static void assertSoundState(
+      GameTestHelper h, TileEntityHeatingMachine machine, boolean processing, String reason) {
+    h.assertTrue(
+        machine.getActive() == processing
+            && machine.getBlockState().getValue(ic2.core.block.tileentity.Ic2TileEntityBlock.ACTIVE)
+                == processing,
+        reason);
+  }
+
+  @GameTest(template = EMPTY)
+  public static void operatingSoundsFollowProcessingInsteadOfStoredHeat(GameTestHelper h) {
+    var blocks =
+        List.of(
+            AdvMachinesBlocks.ROTARY_MACERATOR.get(),
+            AdvMachinesBlocks.SINGULARITY_COMPRESSOR.get(),
+            AdvMachinesBlocks.CENTRIFUGE_EXTRACTOR.get(),
+            AdvMachinesBlocks.COMPACTING_RECYCLER.get(),
+            AdvMachinesBlocks.LIQUESCENT_EXTRUDER.get(),
+            AdvMachinesBlocks.IMPELLERIZED_ROLLER.get(),
+            AdvMachinesBlocks.WATER_JET_CUTTER.get(),
+            AdvMachinesBlocks.THERMAL_WASHER.get());
+    int[] processingEu = {16, 16, 16, 16, 24, 24, 24, 48};
+    for (int index = 0; index < blocks.size(); index++) {
+      var machine = machine(h, blocks.get(index));
+      h.assertTrue(
+          machine.getActiveEU() == processingEu[index] && machine.idleEU == (index == 7 ? 6 : 1),
+          "basic machines match induction total EU/t; specialized and standby ratings are preserved");
+      fill(machine);
+      heat(machine, 3750);
+      machine.getComponent(Energy.class).addEnergy(10000);
+      machine.setManualWarmup(true);
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == 3751, "manual standby still warms the machine");
+      assertSoundState(h, machine, false, "manual standby is silent");
+
+      machine.setManualWarmup(false);
+      h.setBlock(POS.east(), Blocks.REDSTONE_BLOCK);
+      machine.redstone.update();
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == 3752, "external standby still warms the machine");
+      assertSoundState(h, machine, false, "external redstone standby is silent");
+      h.setBlock(POS.east(), Blocks.AIR);
+      machine.redstone.update();
+
+      if (index == 3) {
+        machine.inputSlot.put(new ItemStack(Ic2Items.SCRAP, 9));
+      } else {
+        var recipe =
+            switch (index) {
+              case 0 -> first(h, Recipes.macerator);
+              case 1 -> first(h, Recipes.compressor);
+              case 2 -> first(h, Recipes.extractor);
+              case 4 -> first(h, Recipes.metalformerExtruding);
+              case 5 -> first(h, Recipes.metalformerRolling);
+              case 6 -> first(h, Recipes.metalformerCutting);
+              case 7 -> first(h, Recipes.oreWashing);
+              default -> throw new IllegalArgumentException("Unexpected test machine");
+            };
+        machine.inputSlot.put(
+            recipe.getInput().getInputs().getFirst().copyWithCount(recipe.getInput().getAmount()));
+      }
+      double before = machine.getEnergy();
+      machine.updateEntityServer();
+      h.assertTrue(
+          machine.progress > 0 && machine.getEnergy() == before - processingEu[index],
+          "actual recipe progress still consumes the rated processing EU");
+      assertSoundState(h, machine, true, "processing starts the native IC2R sound lifecycle");
+
+      for (int slot = 0; slot < machine.outputSlot.size(); slot++)
+        machine.outputSlot.put(slot, new ItemStack(Items.BEDROCK, 64));
+      machine.setManualWarmup(true);
+      machine.updateEntityServer();
+      assertSoundState(h, machine, false, "blocked output stops sound while standby stays hot");
+      for (int slot = 0; slot < machine.outputSlot.size(); slot++)
+        machine.outputSlot.put(slot, ItemStack.EMPTY);
+
+      machine.updateEntityServer();
+      assertSoundState(h, machine, true, "unblocking output resumes processing sound");
+      machine.getComponent(Energy.class).useEnergy(machine.getEnergy());
+      machine.updateEntityServer();
+      assertSoundState(h, machine, false, "power loss stops sound before the machine cools down");
+      machine.getComponent(Energy.class).addEnergy(10000);
+      machine.updateEntityServer();
+      assertSoundState(h, machine, true, "restoring power resumes processing sound");
+      machine.inputSlot.put(ItemStack.EMPTY);
+      machine.updateEntityServer();
+      assertSoundState(h, machine, false, "removing input stops sound despite manual warmup");
+      machine.setManualWarmup(false);
+      int hot = machine.getRawHeat();
+      machine.updateEntityServer();
+      h.assertTrue(machine.getRawHeat() == hot - 2, "normal cooling is unchanged");
+      assertSoundState(h, machine, false, "residual heat does not restart operating sound");
+    }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
+  public static void inductionEnergyAudit(GameTestHelper h) throws ReflectiveOperationException {
+    h.setBlock(POS, Ic2Blocks.INDUCTION_FURNACE);
+    ic2.core.block.machine.tileentity.TileEntityInduction furnace = h.getBlockEntity(POS);
+    var tick = furnace.getClass().getDeclaredMethod("updateEntityServer");
+    tick.setAccessible(true);
+    furnace.heat = 10000;
+    furnace.setManualWarmup(true);
+    var energy = furnace.getComponent(Energy.class);
+    energy.addEnergy(10000);
+    tick.invoke(furnace);
+    h.assertTrue(energy.getEnergy() == 9999, "induction standby costs 1 EU/t");
+    h.assertTrue(!furnace.getActive(), "native induction standby is silent");
+
+    furnace.inputSlotA.put(new ItemStack(Ic2Items.IRON_DUST));
+    furnace.inputSlotB.put(new ItemStack(Ic2Items.IRON_DUST));
+    double before = energy.getEnergy();
+    for (int i = 0; i < 13; i++) tick.invoke(furnace);
+    h.assertTrue(
+        energy.getEnergy() == before - 13 * 16,
+        "induction consumes 1 warmup plus 15 processing EU per tick for both inputs together");
+    h.assertTrue(furnace.getActive(), "induction processing enables operating sound");
+    tick.invoke(furnace);
+    h.assertTrue(
+        furnace.outputSlotA.get().is(Items.IRON_INGOT)
+            && furnace.outputSlotB.get().is(Items.IRON_INGOT),
+        "full-heat induction completes two smelts after 13 paid processing ticks");
+    h.assertTrue(!furnace.getActive(), "induction becomes silent after finishing its last inputs");
+    h.succeed();
+  }
+
   private static void process(
       GameTestHelper h,
       Block block,
