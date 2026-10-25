@@ -70,9 +70,11 @@
   },
   "balance_changed": false,
   "production_deployment": {
-    "client_updated": false,
-    "zip_updated": false,
-    "server_updated": false
+    "client_updated": true,
+    "zip_updated": true,
+    "server_updated": true,
+    "server_started": false,
+    "backups_retained": false
   },
   "commands": [
     "gradlew spotlessApply build runGameTestServer -PwithBC -PwithJade",
