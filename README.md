@@ -327,7 +327,7 @@ Use Java 21 and IC2R **21.1.70**. A locally built core JAR can be supplied expli
 ./gradlew runClient -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwarmupSmoke -PwithBC -PwithJade
 ```
 
-Released dependencies resolve from GitHub / Modrinth / JEI. IC2R 21.1.70 is required. CI builds the pinned matching IC2R source tag first.
+Released dependencies resolve from GitHub / Modrinth / JEI. IC2R 21.1.70 is required. CI consumes the released IC2R 21.1.70 JAR, matching the installed binary.
 The release checks pass **19 JUnit**, **82 standalone Addons** and **94 optional
 integration GameTests**; see [1.4.1 validation](docs/validation/1.4.1.json).
 

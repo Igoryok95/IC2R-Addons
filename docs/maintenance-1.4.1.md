@@ -82,3 +82,7 @@ Vajra now uses a detailed native 32x32 remaster of the original design, rather t
 doubling its 16px pixels. The open frame uses true binary alpha; a regression test
 checks independent 32px detail and enclosed transparent openings. See the saved
 [prompt and asset workflow](../tools/textures/1.4.1-vajra-prompt.md).
+
+CI validates the addon against the released IC2R 21.1.70 binary. It does not rebuild
+the dependency inside a different NeoForge toolchain; standalone core source
+validation is recorded by the core repository.
