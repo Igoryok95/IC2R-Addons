@@ -513,5 +513,15 @@
   "stage.ic2r_addons.engine.red": "Red",
   "item.ic2r_addons.kit_ic2": "IC2R Sensor Kit",
   "item.ic2r_addons.card_ic2": "IC2R Sensor Card",
-  "container.ic2r_addons.electric_engine": "Electric Engine"
+  "container.ic2r_addons.electric_engine": "Electric Engine",
+  "jade.ic2r_addons.electrical.energy": "Energy: %s / %s EU",
+  "jade.ic2r_addons.electrical.generation": "Generation: %s EU/t",
+  "jade.ic2r_addons.electrical.packet": "Maximum output packet: %s EU",
+  "jade.ic2r_addons.electrical.conditions": "Conditions: %s",
+  "jade.ic2r_addons.electrical.conditions.0": "No generation",
+  "jade.ic2r_addons.electrical.conditions.1": "Night or rain",
+  "jade.ic2r_addons.electrical.conditions.2": "Daylight",
+  "jade.ic2r_addons.electrical.recipe_energy": "Recipe energy: %s / %s EU",
+  "jade.ic2r_addons.electrical.result": "Result: %s",
+  "config.jade.plugin_ic2r_addons.electrical_status": "IC2R Addons energy and solar status"
 }

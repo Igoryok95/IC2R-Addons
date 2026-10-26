@@ -10,7 +10,7 @@
     <slot name="discharge" x="85" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="126" y="60" rows="1"/>
-    	<button type="recipe" x="108" y="34" width="22" height="15" event="metal_former2, water_jet_cutter"></button>
+        <button type="recipe" x="108" y="34" width="22" height="15" event="ic2:metal_former_cutting"></button>
    	</environment>
     <energygauge x="90" y="37"/>
     <gauge name="progress" x="108" y="34" style="progressarrow"/>

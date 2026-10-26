@@ -227,7 +227,7 @@ public abstract class TileEntityHeatingMachine extends TileEntityElectricMachine
   }
 
   public String getWarmupText() {
-    String value = java.text.NumberFormat.getNumberInstance(Locale.ROOT).format(getWarmupPercent());
+    String value = String.format(Locale.ROOT, "%.2f", getWarmupPercent());
     return net.minecraft.network.chat.Component.translatable(
             "ic2r_addons.machines.gui.warmup_percent", value)
         .getString();

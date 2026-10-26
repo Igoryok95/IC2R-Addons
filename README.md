@@ -2,35 +2,43 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
-## Version 1.4.3
+## Version 1.4.4 — JEI and Jade
 
-Version 1.4.3 requires IC2R **21.1.70**. Advanced Machines use the same processing-driven
-sound lifecycle as the induction furnace: standby warm-up and cooling are silent;
-operating sounds start with actual recipe work and stop when processing stops.
-The four basic Advanced Machines now match the induction furnace's total processing
-demand of **16 EU/t**, with **1 EU/t** standby. Processing speed and warm-up mechanics are unchanged.
-The electric engine keeps the direction
-selected with a wrench, including after reloading; automatic alignment still works
-before manual rotation. Its inventory slots now match the original Forestry GUI.
-GUI and Jade distinguish actual EU received from the grid, EU consumed in conversion
-and MJ delivered to the consumer.
+Use **IC2R 21.1.74** for the complete integration update. JEI recipe arrows and
+ingredient transfer now work across all eight Advanced Machines and the Molecular
+Transformer. Dynamic menus use their real input and player-inventory slots;
+outputs, batteries, upgrades and water-container slots are not recipe ingredients.
+This removes the repeated exceptions that made the recipe screen stutter or freeze.
+The Kit Assembler retains its count-aware, server-validated ingredient transfer.
+
+Jade now shows EU gauges for Advanced Machines, solar panels and the Molecular
+Transformer. Machine warm-up and progress have colored gauges with two decimal
+places. Solar overlays distinguish actual accepted generation from their maximum
+output packet and show sunlight conditions. Transformer overlays show active recipe
+progress, spent/required EU, consumption and result. Counter overlays include their
+packet limit, and thermal monitors include their output state. Engine gauges keep
+separate EU/MJ readings with readable white labels.
+
+GUI warm-up percentages use the same two-decimal format as the native Induction
+Furnace. JEI, Jade and BuildCraft remain optional. The 1.4.3 machine sound and energy
+fixes, manual engine direction and original Forestry GUI alignment are preserved.
 
 The four solar tiers still stop at **Quantum**. Equipment keeps released 1.4.0
 balance: Advanced Lappack **40 million EU**, Ultimate Lappack **100 million EU**,
 **50,000 EU** transfer and **tier 4**, with their original recipes. No Classic
 capacity rebalance, PESU requirements or upper panel recipes are included.
 
-See [release notes](RELEASE_NOTES.md), [machine sound and energy audit](docs/advanced-machines-1.4.3.md),
-[engine mechanics](docs/forestry-engine-restoration.md) and [validation](docs/validation/1.4.3.json).
+See [release notes](RELEASE_NOTES.md), [JEI/Jade integration](docs/jei-jade-1.4.4.md), [machine sound and energy audit](docs/advanced-machines-1.4.3.md),
+[engine mechanics](docs/forestry-engine-restoration.md) and [validation](docs/validation/1.4.4.json).
 
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.70+ within 21.x**, installed separately.
+- IC2R **21.1.70+ within 21.x**, installed separately; **21.1.74 recommended** for the corrected JEI handlers and core Jade overlays.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
-- Optional: **Jade 15.10.6** for engine diagnostics, **JEI** for recipes.
+- Optional: **Jade 15.10.6** for machine, energy and engine overlays; **JEI** for recipes and transfer.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.3.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.4.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 

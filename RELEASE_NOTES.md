@@ -1,3 +1,27 @@
+# IC2R Addons 1.4.4
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.
+Use **IC2R 21.1.74** for the complete JEI/Jade fixes; the base API requirement remains 21.1.70.
+
+- Resolve real input and player-inventory slots for the Molecular Transformer and
+  Compacting Recycler. Use explicit JEI category identifiers for all eight Advanced
+  Machines and add recipe arrows to both custom recipe machines.
+- Combined with core 21.1.74, fix the per-frame JEI transfer exceptions and recipe
+  screen stutter caused by native slot offsets being applied to addon layouts.
+- Add server-owned EU gauges for Advanced Machines, panels and the Molecular
+  Transformer, actual accepted solar generation and conditions, and active
+  transformation progress, consumed EU and result.
+- Use two-decimal GUI and Jade warm-up percentages, matching the Induction Furnace;
+  show colored heat/progress gauges and readable labels. Preserve engine EU/MJ gauges.
+- Show Nuclear Control counter packet limits and thermal-monitor redstone state.
+- Keep English/Russian locale parity and operation without JEI, Jade or BuildCraft.
+  Preserve recipes, capacities, speed, energy balance and the 1.4.3 sound fixes.
+
+See [details](docs/jei-jade-1.4.4.md) and [validation](docs/validation/1.4.4.json).
+This build does not update the player's client, exchange ZIP or production server.
+
+---
+
 # IC2R Addons 1.4.3
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / IC2R 21.1.70 / Java 21.

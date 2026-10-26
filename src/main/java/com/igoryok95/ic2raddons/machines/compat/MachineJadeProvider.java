@@ -19,8 +19,8 @@ public final class MachineJadeProvider
   public void appendServerData(CompoundTag data, BlockAccessor accessor) {
     if (!(accessor.getBlockEntity() instanceof TileEntityHeatingMachine machine)) return;
     var n = new CompoundTag();
-    n.putInt("heat", machine.getRawHeat() / 100);
-    n.putInt("progress", machine.progress * 100 / machine.getMaxProgress());
+    n.putDouble("heat", machine.getWarmupPercent());
+    n.putDouble("progress", machine.progress * 100.0 / machine.getMaxProgress());
     n.putDouble("eu", machine.lastEuPerTick);
     if (machine instanceof TileEntityHeatingWaterMachine water) {
       n.putInt("water", water.getWaterAmount());
@@ -37,9 +37,29 @@ public final class MachineJadeProvider
   public void appendTooltip(ITooltip tip, BlockAccessor accessor, IPluginConfig config) {
     if (!accessor.getServerData().contains("ic2r_addons_machine")) return;
     var n = accessor.getServerData().getCompound("ic2r_addons_machine");
-    tip.add(Component.translatable("jade.ic2r_addons.machines.heat", n.getInt("heat")));
-    tip.add(Component.translatable("jade.ic2r_addons.machines.progress", n.getInt("progress")));
-    tip.add(Component.translatable("jade.ic2r_addons.machines.eu", (int) n.getDouble("eu")));
+    var elements = snownee.jade.api.ui.IElementHelper.get();
+    tip.add(
+        elements.progress(
+            (float) Math.clamp(n.getDouble("heat") / 100, 0, 1),
+            Component.translatable(
+                "jade.ic2r_addons.machines.heat",
+                String.format(java.util.Locale.ROOT, "%.2f", n.getDouble("heat"))),
+            elements.progressStyle().color(0xFFE06432).textColor(0xFFFFFFFF),
+            snownee.jade.api.ui.BoxStyle.getNestedBox(),
+            true));
+    tip.add(
+        elements.progress(
+            (float) Math.clamp(n.getDouble("progress") / 100, 0, 1),
+            Component.translatable(
+                "jade.ic2r_addons.machines.progress",
+                String.format(java.util.Locale.ROOT, "%.2f", n.getDouble("progress"))),
+            elements.progressStyle().color(0xFF53A653).textColor(0xFFFFFFFF),
+            snownee.jade.api.ui.BoxStyle.getNestedBox(),
+            true));
+    tip.add(
+        Component.translatable(
+            "jade.ic2r_addons.machines.eu",
+            String.format(java.util.Locale.ROOT, "%.2f", n.getDouble("eu"))));
     if (n.contains("water"))
       tip.add(Component.translatable("jade.ic2r_addons.machines.water", n.getInt("water"), 8000));
     if (n.getBoolean("danger"))

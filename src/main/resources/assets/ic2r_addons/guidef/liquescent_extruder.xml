@@ -10,7 +10,7 @@
     <slot name="discharge" x="50" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="120" y="60" rows="1"/>
-    	<button type="recipe" x="77" y="37" width="32" height="16" event="metal_former0, liquescent_extruder"></button>
+        <button type="recipe" x="77" y="37" width="32" height="16" event="ic2:metal_former_extruding"></button>
    	</environment>
     <energygauge x="55" y="37"/>
     <gauge name="progress" x="82" y="37" style="progressarrow"/>

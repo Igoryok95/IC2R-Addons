@@ -46,6 +46,26 @@ public final class AdvancedMachinesGameTests {
   }
 
   @GameTest(template = EMPTY)
+  public static void everyAdvancedMachineUsesRealTransferSlots(GameTestHelper h) {
+    var player = TestPlayers.create(h);
+    for (var entry : AdvMachinesBlocks.BLOCKS.getEntries()) {
+      var tile = machine(h, entry.get());
+      var menu =
+          (ic2.core.gui.dynamic.DynamicContainer<?>) tile.createServerScreenHandler(1, player);
+      var inputs = com.igoryok95.ic2raddons.machines.compat.AddonMachineSlots.inputs(menu);
+      var inventory = com.igoryok95.ic2raddons.machines.compat.AddonMachineSlots.inventory(menu);
+      h.assertTrue(
+          inputs.size() == 1
+              && ((ic2.core.slot.SlotInvSlot) inputs.getFirst()).invSlot == tile.inputSlot,
+          "all eight menus target only their actual processable input");
+      h.assertTrue(
+          inventory.size() == 36 && inventory.stream().noneMatch(inputs::contains),
+          "all player slots are resolved without reaching past shorter addon menus");
+    }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
   public static void everyMachineConvertsRawWarmupToPercentages(GameTestHelper h) {
     for (var entry : AdvMachinesBlocks.BLOCKS.getEntries()) {
       var machine = machine(h, entry.get());

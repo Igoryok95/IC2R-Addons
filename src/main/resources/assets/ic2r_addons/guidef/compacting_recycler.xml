@@ -13,6 +13,7 @@
    	</environment>
     <energygauge x="65" y="37"/>
     <gauge name="progress" x="85" y="37" style="progressrecycler"/>
+    <button type="recipe" x="85" y="37" width="22" height="15" event="ic2r_addons:compacting_recycler"/>
     <playerInventory x="7" y="83"/>
 
 	<text x="7" y="26">{ic2r_addons.machines.gui.pressure}</text>

@@ -10,7 +10,7 @@
     <slot name="discharge" x="60" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="151" y="25" cols="1"/>
-    	<button type="recipe" x="82" y="37" width="32" height="16" event="metal_former1, impellerized_roller"></button>
+        <button type="recipe" x="82" y="37" width="32" height="16" event="ic2:metal_former_rolling"></button>
    	</environment>
     <energygauge x="65" y="37"/>
     <gauge name="progress" x="87" y="37" style="progressarrow"/>

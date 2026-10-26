@@ -10,7 +10,7 @@
     <slot name="discharge" x="50" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="151" y="25" cols="1"/>
-    	<button type="recipe" x="77" y="37" width="21" height="11" event="macerator, rotary_macerator"></button>
+        <button type="recipe" x="77" y="37" width="21" height="11" event="ic2:macerator"></button>
    	</environment>
     <energygauge x="55" y="37"/>
     <gauge name="progress" x="77" y="37" style="progresscrush"/>

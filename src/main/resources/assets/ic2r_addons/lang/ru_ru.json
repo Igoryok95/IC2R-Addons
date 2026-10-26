@@ -513,5 +513,15 @@
   "stage.ic2r_addons.engine.red": "Красная",
   "item.ic2r_addons.kit_ic2": "Набор датчика IC2R",
   "item.ic2r_addons.card_ic2": "Карта датчика IC2R",
-  "container.ic2r_addons.electric_engine": "Электрический двигатель"
+  "container.ic2r_addons.electric_engine": "Электрический двигатель",
+  "jade.ic2r_addons.electrical.energy": "Энергия: %s / %s EU",
+  "jade.ic2r_addons.electrical.generation": "Генерация: %s EU/т",
+  "jade.ic2r_addons.electrical.packet": "Максимальный выходной пакет: %s EU",
+  "jade.ic2r_addons.electrical.conditions": "Условия: %s",
+  "jade.ic2r_addons.electrical.conditions.0": "Нет генерации",
+  "jade.ic2r_addons.electrical.conditions.1": "Ночь или дождь",
+  "jade.ic2r_addons.electrical.conditions.2": "Дневной свет",
+  "jade.ic2r_addons.electrical.recipe_energy": "Энергия рецепта: %s / %s EU",
+  "jade.ic2r_addons.electrical.result": "Результат: %s",
+  "config.jade.plugin_ic2r_addons.electrical_status": "Энергия и солнечные панели IC2R Addons"
 }

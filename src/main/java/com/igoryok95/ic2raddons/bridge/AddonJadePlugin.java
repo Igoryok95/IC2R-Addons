@@ -11,12 +11,14 @@ import snownee.jade.api.config.IPluginConfig;
 @WailaPlugin
 public final class AddonJadePlugin implements IWailaPlugin {
   private static final EngineProvider ENGINE = new EngineProvider();
+  private static final ElectricalJadeProvider ELECTRICAL = new ElectricalJadeProvider();
   private static final com.igoryok95.ic2raddons.control.ControlJadeProvider CONTROL =
       new com.igoryok95.ic2raddons.control.ControlJadeProvider();
   private static final com.igoryok95.ic2raddons.machines.compat.MachineJadeProvider MACHINES =
       new com.igoryok95.ic2raddons.machines.compat.MachineJadeProvider();
 
   public void register(IWailaCommonRegistration r) {
+    r.registerBlockDataProvider(ELECTRICAL, Ic2TileEntity.class);
     r.registerBlockDataProvider(
         CONTROL, com.igoryok95.ic2raddons.control.lib.tileentities.BlockEntityFacing.class);
     r.registerBlockDataProvider(ENGINE, Ic2TileEntity.class);
@@ -25,6 +27,7 @@ public final class AddonJadePlugin implements IWailaPlugin {
   }
 
   public void registerClient(IWailaClientRegistration r) {
+    r.registerBlockComponent(ELECTRICAL, Ic2TileEntityBlock.class);
     r.registerBlockComponent(
         CONTROL, com.igoryok95.ic2raddons.control.lib.blocks.FacingBlock.class);
     r.registerBlockComponent(ENGINE, Ic2TileEntityBlock.class);
@@ -55,7 +58,7 @@ public final class AddonJadePlugin implements IWailaPlugin {
                   "jade.ic2r_addons.engine.buffer",
                   number(n.getDouble("eu")),
                   number(n.getDouble("capacity"))),
-              elements.progressStyle().color(0xFF318BD1, 0xFF1765A2),
+              elements.progressStyle().color(0xFF318BD1, 0xFF1765A2).textColor(0xFFFFFFFF),
               box,
               true));
       tip.add(
@@ -67,7 +70,7 @@ public final class AddonJadePlugin implements IWailaPlugin {
                   "jade.ic2r_addons.engine.mj_buffer",
                   number(n.getLong("mjBuffer") / 1_000_000.0),
                   number(n.getLong("mjCapacity") / 1_000_000.0)),
-              elements.progressStyle().color(0xFFE34C3A, 0xFFB51F1F),
+              elements.progressStyle().color(0xFFE34C3A, 0xFFB51F1F).textColor(0xFFFFFFFF),
               box,
               true));
       int stage = Math.clamp(n.getInt("heatStage"), 0, 4);

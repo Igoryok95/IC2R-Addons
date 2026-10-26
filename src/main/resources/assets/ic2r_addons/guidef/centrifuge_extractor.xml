@@ -10,7 +10,7 @@
     <slot name="discharge" x="50" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="120" y="60" rows="1"/>
-    	<button type="recipe" x="77" y="37" width="22" height="15" event="extractor, centrifuge_extractor"></button>
+        <button type="recipe" x="77" y="37" width="22" height="15" event="ic2:extractor"></button>
    	</environment>
     <energygauge x="55" y="37"/>
     <gauge name="progress" x="77" y="37" style="progressdrop"/>

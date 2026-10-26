@@ -38,6 +38,14 @@ public final class MachinesJeiPlugin implements IModPlugin {
   }
 
   @Override
+  public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+    registration.addRecipeTransferHandler(
+        new AddonRecipeTransferInfo<>(
+            CompactingCategory.TYPE,
+            com.igoryok95.ic2raddons.machines.te.TileEntityCompactingRecycler.class));
+  }
+
+  @Override
   public void registerCategories(IRecipeCategoryRegistration r) {
     r.addRecipeCategories(new CompactingCategory(r.getJeiHelpers().getGuiHelper()));
   }

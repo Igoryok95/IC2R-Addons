@@ -27,7 +27,17 @@ public class AdvSolarJeiPlugin implements IModPlugin {
 
   @Override
   public void onRuntimeAvailable(mezz.jei.api.runtime.IJeiRuntime runtime) {
+    com.igoryok95.ic2raddons.machines.client.IntegrationClientSmoke.runtime(runtime);
     JeiSearchSmoke.verify(runtime);
+  }
+
+  @Override
+  public void registerRecipeTransferHandlers(
+      mezz.jei.api.registration.IRecipeTransferRegistration registration) {
+    registration.addRecipeTransferHandler(
+        new com.igoryok95.ic2raddons.machines.compat.AddonRecipeTransferInfo<>(
+            MolecularTransformerCategory.TYPE,
+            com.igoryok95.ic2raddons.solar.te.TileEntityMolecularTransformer.class));
   }
 
   @Override

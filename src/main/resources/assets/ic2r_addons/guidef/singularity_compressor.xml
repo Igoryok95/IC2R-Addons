@@ -10,7 +10,7 @@
     <slot name="discharge" x="60" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="151" y="25" cols="1"/>
-    	<button type="recipe" x="85" y="37" width="22" height="15" event="compressor, singularity_compressor"></button>
+        <button type="recipe" x="85" y="37" width="22" height="15" event="ic2:compressor"></button>
    	</environment>
     <energygauge x="65" y="37"/>
     <gauge name="progress" x="85" y="37" style="progresstriangle"/>

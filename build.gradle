@@ -42,7 +42,7 @@ dependencies {
  if (providers.gradleProperty('ic2rJar').isPresent()) implementation files(providers.gradleProperty('ic2rJar').get())
  else implementation "ic2r:ic2-neoforge:${ic2r_version}@jar"
  compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.64.0.455'
- runtimeOnly 'mezz.jei:jei-1.21.1-neoforge:19.64.0.455'
+ if (!providers.gradleProperty('withoutJEI').isPresent()) runtimeOnly 'mezz.jei:jei-1.21.1-neoforge:19.64.0.455'
  testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -51,6 +51,18 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('integrationAbsentSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.integrationAbsentSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
+   if (providers.gradleProperty('integrationSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.integrationSmoke', 'true'
+    systemProperty 'ic2r_addons.integrationStart', providers.gradleProperty('integrationStart').getOrElse('0')
+    systemProperty 'ic2r_addons.integrationEnd', providers.gradleProperty('integrationEnd').getOrElse('2147483647')
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
    if (providers.gradleProperty('machineSoundSmoke').isPresent()) {
     gameDirectory = layout.projectDirectory.dir('run/restoration-client')
     systemProperty 'ic2r_addons.machineSoundSmoke', 'true'

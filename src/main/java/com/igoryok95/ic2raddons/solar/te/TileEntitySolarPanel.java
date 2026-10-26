@@ -35,6 +35,7 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
   protected final int tier;
   protected final int maxStorage;
   @GuiSynced public int generationState = STATE_NONE;
+  @GuiSynced public double lastGeneration;
 
   protected TileEntitySolarPanel(
       BlockEntityType<? extends TileEntitySolarPanel> type,
@@ -82,6 +83,7 @@ public abstract class TileEntitySolarPanel extends TileEntityBaseGenerator
             level, worldPosition, dayPower, nightPower);
     generationState = power == 0 ? STATE_NONE : power == dayPower ? STATE_DAY : STATE_NIGHT;
     double accepted = energy.addEnergy(power);
+    lastGeneration = accepted;
     if (accepted > 0) setChanged();
     return accepted > 0;
   }

@@ -47,10 +47,18 @@ public final class ControlJadeProvider
           Component.translatable(
               "message.ic2r_addons.control.counter.current",
               String.format(Locale.ROOT, "%.2f", tag.getDouble("controlCurrent"))));
+      tip.add(
+          Component.translatable(
+              "message.ic2r_addons.control.counter.tier", tag.getInt("controlPacket")));
     }
-    if (tag.contains("controlThreshold"))
+    if (tag.contains("controlThreshold")) {
       tip.add(
           Component.translatable(
               "jade.ic2r_addons.control.threshold", tag.getInt("controlThreshold")));
+      tip.add(
+          Component.translatable(
+              "message.ic2r_addons.control.InfoPanelBlockPowered",
+              Component.translatable(tag.getBoolean("controlPowered") ? "gui.yes" : "gui.no")));
+    }
   }
 }
