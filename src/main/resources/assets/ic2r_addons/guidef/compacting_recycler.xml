@@ -16,6 +16,6 @@
     <button type="recipe" x="85" y="37" width="22" height="15" event="ic2r_addons:compacting_recycler"/>
     <playerInventory x="7" y="83"/>
 
-	<text x="7" y="26">{ic2r_addons.machines.gui.pressure}</text>
-	<text x="7" y="36">%base.getWarmupText()%</text>
+    <text x="6" y="24">{ic2r_addons.machines.gui.pressure}</text>
+    <text x="6" y="40">%base.getWarmupText()%</text>
 </gui>

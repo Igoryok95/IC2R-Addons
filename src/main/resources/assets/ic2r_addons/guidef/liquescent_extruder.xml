@@ -3,19 +3,19 @@
     <text x="-4" y="6" align="center" maxwidth="128">%name%</text>
     <button type="warmup" x="152" y="4" width="20" height="20" event="100"></button>
 
-    <slot name="input" x="50" y="17"/>
+    <slot name="input" x="52" y="17"/>
 
     <slotgrid name="output" x="113" y="35" rows="1"/>
 
-    <slot name="discharge" x="50" y="52"/>
+    <slot name="discharge" x="52" y="52"/>
     <environment name="game">
     	<slotgrid name="upgrade" x="120" y="60" rows="1"/>
         <button type="recipe" x="77" y="37" width="32" height="16" event="ic2:metal_former_extruding"></button>
    	</environment>
-    <energygauge x="55" y="37"/>
+    <energygauge x="57" y="37"/>
     <gauge name="progress" x="82" y="37" style="progressarrow"/>
     <playerInventory x="7" y="83"/>
 
-	<text x="10" y="26">{ic2r_addons.machines.gui.temp}</text>
-	<text x="10" y="36">%base.getWarmupText()%</text>
+    <text x="6" y="24">{ic2r_addons.machines.gui.temp}</text>
+    <text x="6" y="40">%base.getWarmupText()%</text>
 </gui>

@@ -1,3 +1,19 @@
+# IC2R Addons 1.4.5
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.
+
+- Give full `100.00%` warm-up values enough separation from machine slots and
+  energy indicators in all eight Advanced Machines.
+- Align the caption/value column and adjust the three crowded processing columns
+  while preserving gauge backgrounds, recipe buttons and inventory order.
+- Keep the normal font size, two decimals, localization and all machine behavior.
+- Validate actual rendered bounds at maximum warm-up with filled slots, in Russian
+  and English. IC2R **21.1.75** fixes the native Induction Furnace layout.
+
+See [GUI validation](docs/warmup-spacing-1.4.5.md).
+
+---
+
 # IC2R Addons 1.4.4
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.

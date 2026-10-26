@@ -68,6 +68,11 @@ neoForge {
     systemProperty 'ic2r_addons.machineSoundSmoke', 'true'
     programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
    }
+   if (providers.gradleProperty('warmupLayoutSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.warmupLayoutSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
    if (providers.gradleProperty('warmupSmoke').isPresent()) {
     gameDirectory = layout.projectDirectory.dir('run/restoration-client')
     systemProperty 'ic2r_addons.warmupSmoke', 'true'

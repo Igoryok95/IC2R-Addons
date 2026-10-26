@@ -13,7 +13,8 @@ public final class MachineClientFixtures {
   public static void prepare(TileEntityHeatingMachine machine) {
     if (!Boolean.getBoolean("ic2r_addons.machinesSmoke")
         && !Boolean.getBoolean("ic2r_addons.restorationSmoke")
-        && !Boolean.getBoolean("ic2r_addons.warmupSmoke"))
+        && !Boolean.getBoolean("ic2r_addons.warmupSmoke")
+        && !Boolean.getBoolean("ic2r_addons.warmupLayoutSmoke"))
       throw new IllegalStateException("Development fixture is disabled");
     if (machine instanceof TileEntityHeatingWaterMachine water) {
       water.tank.fillMb(
