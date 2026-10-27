@@ -81,6 +81,8 @@
   "config.ic2r_addons.hud": "Показывать индикатор брони",
   "hud.ic2r_addons.energy": "IC2R Addons: %s%% EU",
   "mode.ic2r_addons.normal": "Обычный",
+  "mode.ic2r_addons.fortune": "Удача III",
+  "tooltip.ic2r_addons.enchantment": "Зачарование: %s",
   "mode.ic2r_addons.aoe": "3 x 3",
   "mode.ic2r_addons.vein": "Рудная жила",
   "mode.ic2r_addons.extended": "Связанные блоки",

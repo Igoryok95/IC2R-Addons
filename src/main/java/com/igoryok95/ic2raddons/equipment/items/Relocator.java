@@ -2,6 +2,7 @@ package com.igoryok95.ic2raddons.equipment.items;
 
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.PortalContent;
+import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import com.igoryok95.ic2raddons.equipment.network.RelocatorMenu;
 import ic2.api.item.ElectricItem;
 import ic2.core.IC2;
@@ -169,7 +170,7 @@ public final class Relocator extends ElectricUtility {
   public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     ItemStack stack = player.getItemInHand(hand);
     if (!level.isClientSide && player instanceof ServerPlayer server) {
-      if (IC2.keyboard.isModeSwitchKeyDown(player)) ItemState.cycle(stack, "relocator", 3);
+      if (IC2.keyboard.isModeSwitchKeyDown(player)) cycleMode(stack, player);
       else if (player.isShiftKeyDown() || ItemState.mode(stack, "relocator", 3) == 0) {
         server.openMenu(
             new SimpleMenuProvider(
@@ -191,6 +192,12 @@ public final class Relocator extends ElectricUtility {
       }
     }
     return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+  }
+
+  public static void cycleMode(ItemStack stack, Player player) {
+    int mode = ItemState.cycle(stack, "relocator", 3);
+    ToolMessages.mode(
+        player, "mode.ic2r_addons." + new String[] {"personal", "translocator", "portal"}[mode]);
   }
 
   public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {

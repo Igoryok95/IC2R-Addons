@@ -1,6 +1,7 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
 import com.igoryok95.ic2raddons.equipment.ItemState;
+import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.core.IC2;
 import ic2.core.item.tool.ItemToolWrenchElectric;
 import ic2.core.ref.Ic2Items;
@@ -21,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public final class GraviTool extends ItemToolWrenchElectric {
+  private static final String[] MODES = {"wrench", "treetap", "hoe", "screwdriver"};
+
   public GraviTool() {
     super(new Properties().stacksTo(1));
     maxCharge = 100_000;
@@ -32,9 +35,20 @@ public final class GraviTool extends ItemToolWrenchElectric {
     return ItemState.mode(stack, "tool", 4);
   }
 
+  @Override
+  public boolean canPerformAction(
+      ItemStack stack, net.neoforged.neoforge.common.ItemAbility action) {
+    return mode(stack) == 2
+        ? Ic2Items.ELECTRIC_HOE.canPerformAction(stack, action)
+        : super.canPerformAction(stack, action);
+  }
+
   public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     if (IC2.keyboard.isModeSwitchKeyDown(player)) {
-      if (!level.isClientSide) ItemState.cycle(player.getItemInHand(hand), "tool", 4);
+      if (!level.isClientSide) {
+        int mode = ItemState.cycle(player.getItemInHand(hand), "tool", MODES.length);
+        ToolMessages.mode(player, "mode.ic2r_addons." + MODES[mode]);
+      }
       return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }
     return super.use(level, player, hand);
@@ -86,9 +100,7 @@ public final class GraviTool extends ItemToolWrenchElectric {
     tooltip.add(
         Component.translatable(
             "tooltip.ic2r_addons.tool",
-            Component.translatable(
-                "mode.ic2r_addons."
-                    + new String[] {"wrench", "treetap", "hoe", "screwdriver"}[mode(stack)])));
+            Component.translatable("mode.ic2r_addons." + MODES[mode(stack)])));
     tooltip.add(Component.translatable("tooltip.ic2r_addons.mode_key"));
   }
 }

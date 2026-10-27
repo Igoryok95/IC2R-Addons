@@ -15,6 +15,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class NetworkHelper {
 
   public static void sendToPlayer(ServerPlayer player, CustomPacketPayload message) {
+    if (player.connection == null || !player.connection.hasChannel(message)) return;
     PacketDistributor.sendToPlayer(player, message);
   }
 

@@ -1,0 +1,32 @@
+{
+  "version": "1.4.6",
+  "paired_ic2r": "21.1.80",
+  "neoforge": "21.1.264",
+  "unit_tests": 19,
+  "unit_failures": 0,
+  "combined_required_server_tests": 580,
+  "combined_required_server_failures": 0,
+  "client_marker": "IC2R_ADDONS_TOOL_MODE_CHAT_PASS",
+  "chat_switches_per_locale": 40,
+  "client_locales": ["ru_ru", "en_us"],
+  "client_chat_checks": [
+    "Exactly one normal-chat notification for each successful setting change",
+    "Every drill/Vajra mining and efficiency mode, including wraparound",
+    "Silk Touch and Fortune III",
+    "All four GraviTool modes and three relocator modes",
+    "Tree felling and utility toggles, including magnet hotkey"
+  ],
+  "native_harvest_checks": [
+    "Every mining/efficiency combination through ServerPlayerGameMode.destroyBlock",
+    "Correct 3 x 3 plane on all six faces",
+    "Actual per-block EU draw and monotonic speed/cost profiles",
+    "Low charge, empty tool and sneak suppression",
+    "Native tree felling and once-per-log energy cost",
+    "Actual silk and ordinary stone drops",
+    "Real GraviTool tilling, resin extraction, screwdriver and wrench rotation"
+  ],
+  "sound_client_marker": "IC2R_MACHINE_SOUND_CLIENT_PASS",
+  "paired_machine_count": 14,
+  "historical_balance_review": "docs/tool-modes-and-mining-1.4.6.md",
+  "existing_speed_and_eu_values_changed": false
+}

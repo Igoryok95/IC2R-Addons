@@ -2,6 +2,7 @@ package com.igoryok95.ic2raddons.equipment.items;
 
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.Mining;
+import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IMiningDrill;
 import ic2.core.IC2;
@@ -35,6 +36,7 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   private static final float[] DRILL_SPEED = {48, 24, 16};
   private static final float[] VAJRA_SPEED = {128, 64, 32};
   private static final float[] IRIDIUM_SPEED = {72, 36, 24};
+  private static final String[] EFFICIENCY_MODES = {"normal", "low_power", "fine"};
 
   public MiningTool(boolean vajra) {
     this(vajra, false);
@@ -77,19 +79,21 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
     return effective(state) && !state.is(BlockTags.INCORRECT_FOR_NETHERITE_TOOL);
   }
 
-  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
-    if (!player.isCreative() && !ElectricItem.manager.canUse(stack, cost(stack))) return true;
-    if (player instanceof ServerPlayer server
-        && !player.isShiftKeyDown()
-        && !Mining.isWorking(player)) {
-      int mode = ItemState.mode(stack, "mining", vajra ? 3 : 2);
-      if (mode > 0) Mining.extraBlocks(server, stack, pos, this, mode);
-    }
-    return false;
+  @Override
+  public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+    ItemStack stack = player.getMainHandItem();
+    return player.isCreative() || ElectricItem.manager.canUse(stack, cost(stack));
   }
 
   public boolean mineBlock(
       ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity user) {
+    if (!level.isClientSide
+        && user instanceof ServerPlayer player
+        && !player.isShiftKeyDown()
+        && !Mining.isWorking(player)) {
+      int mode = ItemState.mode(stack, "mining", vajra ? 3 : 2);
+      if (mode > 0) Mining.extraBlocks(player, stack, pos, this, mode);
+    }
     if (!level.isClientSide
         && state.getDestroySpeed(level, pos) > 0
         && (!(user instanceof Player player) || !player.isCreative()))
@@ -99,7 +103,13 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
 
   private boolean switchMode(ItemStack stack, Player player) {
     if (IC2.keyboard.isAltKeyDown(player)) {
-      if (!player.level().isClientSide) ItemState.cycle(stack, "efficiency", 3);
+      if (!player.level().isClientSide) {
+        int mode = ItemState.cycle(stack, "efficiency", 3);
+        ToolMessages.setting(
+            player,
+            "tooltip.ic2r_addons.efficiency",
+            Component.translatable("mode.ic2r_addons." + EFFICIENCY_MODES[mode]));
+      }
       return true;
     }
     if (!IC2.keyboard.isModeSwitchKeyDown(player)) return false;
@@ -107,7 +117,15 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
       if ((vajra || iridium) && player.isShiftKeyDown()) {
         int mode = ItemState.cycle(stack, "enchantment", 2);
         configureEnchantments(stack, player.level(), mode);
-      } else ItemState.cycle(stack, "mining", vajra ? 3 : 2);
+        ToolMessages.setting(
+            player,
+            "tooltip.ic2r_addons.enchantment",
+            Component.translatable(
+                mode == 1 ? "enchantment.minecraft.silk_touch" : "mode.ic2r_addons.fortune"));
+      } else {
+        int mode = ItemState.cycle(stack, "mining", vajra ? 3 : 2);
+        ToolMessages.mode(player, "mode.ic2r_addons." + miningModes()[mode]);
+      }
     }
     return true;
   }
@@ -179,9 +197,7 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   public void appendHoverText(
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
-    String[] modes =
-        vajra ? new String[] {"normal", "vein", "extended"} : new String[] {"normal", "aoe"};
-    String[] efficiencies = {"normal", "low_power", "fine"};
+    String[] modes = miningModes();
     tooltip.add(
         Component.translatable(
             "tooltip.ic2r_addons.mining",
@@ -191,9 +207,13 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
         Component.translatable(
             "tooltip.ic2r_addons.efficiency",
             Component.translatable(
-                "mode.ic2r_addons." + efficiencies[ItemState.mode(stack, "efficiency", 3)])));
+                "mode.ic2r_addons." + EFFICIENCY_MODES[ItemState.mode(stack, "efficiency", 3)])));
     tooltip.add(Component.translatable("tooltip.ic2r_addons.mining_keys"));
     if (vajra || iridium)
       tooltip.add(Component.translatable("tooltip.ic2r_addons.enchantment_keys"));
+  }
+
+  private String[] miningModes() {
+    return vajra ? new String[] {"normal", "vein", "extended"} : new String[] {"normal", "aoe"};
   }
 }

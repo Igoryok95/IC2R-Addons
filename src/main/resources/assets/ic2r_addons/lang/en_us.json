@@ -81,6 +81,8 @@
   "config.ic2r_addons.hud": "Show armor HUD",
   "hud.ic2r_addons.energy": "IC2R Addons: %s%% EU",
   "mode.ic2r_addons.normal": "Normal",
+  "mode.ic2r_addons.fortune": "Fortune III",
+  "tooltip.ic2r_addons.enchantment": "Enchantment: %s",
   "mode.ic2r_addons.aoe": "3 x 3",
   "mode.ic2r_addons.vein": "Ore vein",
   "mode.ic2r_addons.extended": "Connected blocks",

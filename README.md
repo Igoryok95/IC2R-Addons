@@ -2,6 +2,22 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.6 — Tool modes and native harvesting
+
+Tool setting changes now appear in normal chat in the same style as IC2R:
+`Mode: ...`, `Efficiency: ...` and `Enchantment: ...`, translated in the client's
+language. Notifications cover drills, Vajra, GraviTool, tree felling, relocator
+modes and utility toggles, including the magnet hotkey.
+
+Area/vein mining and tree felling use the current native server harvest callback.
+Their former Forge callback was no longer called by NeoForge, so a selected 3 x 3
+mode could still mine one block. Empty tools cannot bypass their EU requirement;
+extra blocks retain normal protection checks, drops and per-block consumption.
+GraviTool also exposes the hoe ability while in hoe mode, allowing real tilling.
+Use **IC2R 21.1.80** for the shared interrupted-sound fixes.
+
+See [mode behavior, validation and the GraviSuite balance comparison](docs/tool-modes-and-mining-1.4.6.md).
+
 ## Version 1.4.5 — Warm-up display spacing
 
 Full warm-up values keep a clear gap from input slots, batteries and energy
@@ -42,7 +58,7 @@ See [release notes](RELEASE_NOTES.md), [JEI/Jade integration](docs/jei-jade-1.4.
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.70+ within 21.x**, installed separately; **21.1.75 recommended** for the corrected JEI handlers and core Jade overlays.
+- IC2R **21.1.70+ within 21.x**, installed separately; **21.1.80 recommended** for the current sound, GUI, JEI and Jade fixes.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for machine, energy and engine overlays; **JEI** for recipes and transfer.
 

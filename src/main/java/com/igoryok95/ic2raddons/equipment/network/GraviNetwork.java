@@ -82,7 +82,7 @@ public final class GraviNetwork {
       for (int i = 0; i < 9; i++) {
         ItemStack item = player.getInventory().getItem(i);
         if (item.getItem() instanceof UtilityItem utility && !utility.voider) {
-          ItemState.toggle(item, "enabled");
+          utility.toggle(item, player);
           break;
         }
       }
@@ -106,7 +106,7 @@ public final class GraviNetwork {
             player.displayClientMessage(
                 Component.translatable("message.ic2r_addons.destination_or_energy"), true);
         }
-        case 14 -> ItemState.cycle(stack, "relocator", 3);
+        case 14 -> Relocator.cycleMode(stack, player);
         default -> {}
       }
     }

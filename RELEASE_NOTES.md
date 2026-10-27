@@ -1,3 +1,26 @@
+# IC2R Addons 1.4.6
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.
+
+- Send localized tool setting notifications to normal chat, following IC2R's
+  `Label: Value` style. Cover drills, Vajra, GraviTool, tree felling, relocator,
+  utility toggles, the magnet hotkey and voider filter selection.
+- Replace obsolete Forge mining callbacks with native server harvesting for
+  3 x 3 mining, connected blocks, ore veins and tree felling.
+- Enforce charged-tool requirements through the native server break checks;
+  preserve protection checks, ordinary drops and one EU charge per mined block.
+- Expose the hoe tool ability in GraviTool's hoe mode, restoring real tilling.
+- Send Energy Control player packets only over negotiated channels, including
+  mixed test environments and server actors without an Addons client connection.
+- Preserve released tool capacity, EU and speed values. Document differences from
+  historical GraviSuite sources instead of silently changing the balance.
+- Pair with IC2R **21.1.80** for interrupted-machine sound cancellation and
+  correct output-blocked/power-restored operation states.
+
+See [details and balance audit](docs/tool-modes-and-mining-1.4.6.md).
+
+---
+
 # IC2R Addons 1.4.5
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.

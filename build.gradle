@@ -51,6 +51,11 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('toolModesSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.toolModesSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke'
+   }
    if (providers.gradleProperty('integrationAbsentSmoke').isPresent()) {
     gameDirectory = layout.projectDirectory.dir('run/restoration-client')
     systemProperty 'ic2r_addons.integrationAbsentSmoke', 'true'

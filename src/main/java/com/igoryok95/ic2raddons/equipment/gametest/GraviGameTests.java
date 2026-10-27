@@ -239,9 +239,7 @@ public final class GraviGameTests {
     player.setItemSlot(EquipmentSlot.MAINHAND, tool);
     BlockPos pos = helper.absolutePos(new BlockPos(1, 1, 1));
     player.serverLevel().setBlockAndUpdate(pos, Blocks.STONE.defaultBlockState());
-    helper.assertTrue(
-        GraviItems.ADVANCED_DRILL.get().onBlockStartBreak(tool, pos, player),
-        "unpowered tool must cancel mining");
+    helper.assertTrue(!player.gameMode.destroyBlock(pos), "unpowered tool must cancel mining");
     helper.assertTrue(
         player.level().getBlockState(pos).is(Blocks.STONE), "unpowered tool must preserve blocks");
     helper.succeed();

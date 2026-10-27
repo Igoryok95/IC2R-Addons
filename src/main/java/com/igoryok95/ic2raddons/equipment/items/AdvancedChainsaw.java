@@ -3,15 +3,16 @@ package com.igoryok95.ic2raddons.equipment.items;
 import com.igoryok95.ic2raddons.equipment.GraviConfig;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.Mining;
+import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
 import ic2.core.IC2;
 import ic2.core.item.tool.ItemElectricToolChainsaw;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -32,34 +33,37 @@ public final class AdvancedChainsaw extends ItemElectricToolChainsaw {
             : 1);
   }
 
-  public boolean onBlockStartBreak(ItemStack stack, BlockPos pos, Player player) {
-    if (!player.isCreative() && !ElectricItem.manager.canUse(stack, 100)) return true;
-    if (player instanceof ServerPlayer server
+  @Override
+  public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player) {
+    return player.isCreative() || ElectricItem.manager.canUse(player.getMainHandItem(), 100);
+  }
+
+  @Override
+  public boolean mineBlock(
+      ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity user) {
+    if (!level.isClientSide
+        && user instanceof ServerPlayer server
         && ItemState.enabled(stack, "tree")
-        && !player.isShiftKeyDown()
-        && !Mining.isWorking(player)
-        && player.level().getBlockState(pos).is(BlockTags.LOGS))
+        && !server.isShiftKeyDown()
+        && !Mining.isWorking(server)
+        && state.is(BlockTags.LOGS))
       Mining.breakTargets(
           server,
           stack,
           pos,
           Mining.connected(server, pos, true, GraviConfig.TREE_LIMIT.get()),
           100,
-          state -> state.is(BlockTags.LOGS));
-    return false;
+          candidate -> candidate.is(BlockTags.LOGS));
+    return super.mineBlock(stack, level, state, pos, user);
   }
 
   public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
     if (player.isShiftKeyDown() && IC2.keyboard.isModeSwitchKeyDown(player)) {
       if (!level.isClientSide)
-        player.displayClientMessage(
-            Component.translatable(
-                "tooltip.ic2r_addons.tree",
-                Component.translatable(
-                    ItemState.toggle(player.getItemInHand(hand), "tree")
-                        ? "ic2r_addons.on"
-                        : "ic2r_addons.off")),
-            true);
+        ToolMessages.toggle(
+            player,
+            "tooltip.ic2r_addons.tree",
+            ItemState.toggle(player.getItemInHand(hand), "tree"));
       return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }
     return super.use(level, player, hand);

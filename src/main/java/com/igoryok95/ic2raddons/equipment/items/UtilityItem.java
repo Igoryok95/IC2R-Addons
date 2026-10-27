@@ -2,6 +2,7 @@ package com.igoryok95.ic2raddons.equipment.items;
 
 import com.igoryok95.ic2raddons.equipment.GraviConfig;
 import com.igoryok95.ic2raddons.equipment.ItemState;
+import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,9 +30,13 @@ public final class UtilityItem extends ElectricUtility {
     ItemStack stack = player.getItemInHand(hand);
     if (!level.isClientSide) {
       if (voider && player.isShiftKeyDown()) purge(stack, player);
-      else ItemState.toggle(stack, "enabled");
+      else toggle(stack, player);
     }
     return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+  }
+
+  public void toggle(ItemStack stack, Player player) {
+    ToolMessages.toggle(player, "tooltip.ic2r_addons.enabled", ItemState.toggle(stack, "enabled"));
   }
 
   public InteractionResult useOn(UseOnContext context) {
@@ -49,6 +54,8 @@ public final class UtilityItem extends ElectricUtility {
             tag.putBoolean("enabled", true);
           });
       ElectricItem.manager.use(context.getItemInHand(), 500, context.getPlayer());
+      ToolMessages.setting(
+          context.getPlayer(), "tooltip.ic2r_addons.filter", item.getDescription());
     }
     return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
   }
