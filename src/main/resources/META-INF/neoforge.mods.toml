@@ -29,7 +29,7 @@ side="BOTH"
 [[dependencies.ic2r_addons]]
 modId="ic2"
 type="required"
-versionRange="[21.1.70,22)"
+versionRange="[21.1.81,22)"
 ordering="AFTER"
 side="BOTH"
 [[dependencies.ic2r_addons]]

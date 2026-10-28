@@ -1,0 +1,22 @@
+{
+  "version": "1.4.7",
+  "required_ic2r": "[21.1.81,22)",
+  "paired_ic2r": "21.1.81",
+  "neoforge": "21.1.264",
+  "unit_tests": 19,
+  "unit_failures": 0,
+  "combined_required_server_tests": 584,
+  "combined_required_server_failures": 0,
+  "environment_marker": "IC2R_ADDONS_ENVIRONMENT_PASS",
+  "tool_profile_environment_combinations": 54,
+  "environment_checks": [
+    "Advanced diamond drill, advanced iridium drill and Vajra",
+    "Every normal, low-power and fine profile",
+    "Ground, airborne, underwater and underwater without ground contact",
+    "Submerged-mining attribute at 0.2 and 1.0",
+    "Native diamond/iridium drill baselines and actual player mining speed",
+    "Unchanged charge during speed inspection and no bonus for empty tools"
+  ],
+  "base_speed_and_energy_profiles_changed": false,
+  "shared_environment_api": "ic2.core.item.tool.ItemDrill.getEnvironmentSpeedMultiplier"
+}

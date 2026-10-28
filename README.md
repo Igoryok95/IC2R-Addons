@@ -2,6 +2,18 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.7 — Mining speed in water and air
+
+The Advanced Diamond Drill, Advanced Iridium Drill and Vajra use IC2R's native
+environment compensation in every efficiency mode. Their normal speed advantage
+is preserved underwater, without ground contact and when both penalties apply.
+The submerged-mining attribute is respected, including Aqua Affinity.
+
+Base speeds, EU per block, capacities, mining areas and drops are unchanged.
+This version requires **IC2R 21.1.81+**, which supplies the shared helper and also
+fixes the Nano Saber's real combat state and both chainsaws' shutdown audio.
+See [speed comparison and validation](docs/tool-environment-1.4.7.md).
+
 ## Version 1.4.6 — Tool modes and native harvesting
 
 Tool setting changes now appear in normal chat in the same style as IC2R:
@@ -58,11 +70,11 @@ See [release notes](RELEASE_NOTES.md), [JEI/Jade integration](docs/jei-jade-1.4.
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.70+ within 21.x**, installed separately; **21.1.80 recommended** for the current sound, GUI, JEI and Jade fixes.
+- IC2R **21.1.81+ within 21.x**, installed separately.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for machine, energy and engine overlays; **JEI** for recipes and transfer.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.5.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.7.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 

@@ -6,6 +6,7 @@ import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IMiningDrill;
 import ic2.core.IC2;
+import ic2.core.item.tool.ItemDrill;
 import ic2.core.item.tool.ItemElectricTool;
 import java.util.List;
 import net.minecraft.core.BlockPos;
@@ -72,7 +73,8 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   public float getDestroySpeed(ItemStack stack, BlockState state) {
     if (!effective(state) || !ElectricItem.manager.canUse(stack, cost(stack))) return 0.1F;
     return (vajra ? VAJRA_SPEED : iridium ? IRIDIUM_SPEED : DRILL_SPEED)
-        [ItemState.mode(stack, "efficiency", 3)];
+            [ItemState.mode(stack, "efficiency", 3)]
+        * ItemDrill.getEnvironmentSpeedMultiplier(stack);
   }
 
   public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {

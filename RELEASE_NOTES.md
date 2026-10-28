@@ -1,3 +1,20 @@
+# IC2R Addons 1.4.7
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21 / IC2R 21.1.81+.
+
+- Apply the native IC2R water/air speed compensation to Advanced Diamond Drill,
+  Advanced Iridium Drill and Vajra, across all three efficiency modes.
+- Preserve each tool's speed ratio to the corresponding native drill while
+  underwater, airborne or affected by both penalties. Respect Aqua Affinity and
+  other submerged-mining attribute changes.
+- Preserve base speed profiles, EU per block, capacities, mining modes and drops.
+- Require IC2R 21.1.81 for the shared helper. That paired version also fixes actual
+  Nano Saber damage after toggling and native/advanced chainsaw shutdown sounds.
+
+See [speed comparison and validation](docs/tool-environment-1.4.7.md).
+
+---
+
 # IC2R Addons 1.4.6
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21.
