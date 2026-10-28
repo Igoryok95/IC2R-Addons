@@ -2,6 +2,15 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.8 — Normal speed on unsupported blocks
+
+Advanced drills no longer mine levers and other unsupported blocks at one tenth
+of normal hand speed. A charged drill now uses the standard fallback of `1`,
+matching the native drill and a vanilla pickaxe on a lever. All efficiency modes
+retain their existing speeds on suitable blocks, EU costs and area-mining rules.
+Vajra and the empty-tool restriction are unchanged.
+See [the cause, comparison and validation](docs/tool-fallback-1.4.8.md).
+
 ## Version 1.4.7 — Mining speed in water and air
 
 The Advanced Diamond Drill, Advanced Iridium Drill and Vajra use IC2R's native

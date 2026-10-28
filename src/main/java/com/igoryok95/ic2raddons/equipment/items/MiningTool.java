@@ -71,7 +71,8 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   }
 
   public float getDestroySpeed(ItemStack stack, BlockState state) {
-    if (!effective(state) || !ElectricItem.manager.canUse(stack, cost(stack))) return 0.1F;
+    if (!ElectricItem.manager.canUse(stack, cost(stack))) return 0.1F;
+    if (!effective(state)) return 1.0F;
     return (vajra ? VAJRA_SPEED : iridium ? IRIDIUM_SPEED : DRILL_SPEED)
             [ItemState.mode(stack, "efficiency", 3)]
         * ItemDrill.getEnvironmentSpeedMultiplier(stack);

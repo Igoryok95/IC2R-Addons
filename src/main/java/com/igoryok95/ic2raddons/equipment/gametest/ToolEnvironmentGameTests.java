@@ -113,4 +113,58 @@ public final class ToolEnvironmentGameTests {
         Math.abs(actual - expected) < .001F,
         context + ": expected=" + expected + ", actual=" + actual);
   }
+
+  @GameTest(template = "gametest/empty3x3x3")
+  public static void unsupportedBlocksUseHandSpeedAndLeverMatchesPickaxe(GameTestHelper h) {
+    var player = h.makeMockServerPlayerInLevel();
+    player.setNoGravity(true);
+    player.setOnGround(true);
+    var pos = h.absolutePos(new BlockPos(1, 1, 1));
+    var lever = Blocks.LEVER.defaultBlockState();
+    var pickaxe = new ItemStack(net.minecraft.world.item.Items.DIAMOND_PICKAXE);
+    var nativeDrill =
+        ElectricItemManager.getCharged(Ic2Items.DIAMOND_DRILL, Double.POSITIVE_INFINITY);
+    player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+    float handSpeed = player.getDigSpeed(lever, pos);
+    player.setItemInHand(InteractionHand.MAIN_HAND, pickaxe);
+    near(h, player.getDigSpeed(lever, pos), handSpeed, "lever with diamond pickaxe versus hand");
+    player.setItemInHand(InteractionHand.MAIN_HAND, nativeDrill);
+    near(
+        h,
+        player.getDigSpeed(lever, pos),
+        handSpeed,
+        "lever with native diamond drill versus hand");
+    int checks = 0;
+    for (MiningTool tool :
+        List.of(GraviItems.ADVANCED_DRILL.get(), GraviItems.ADVANCED_IRIDIUM_DRILL.get())) {
+      h.assertTrue(!tool.effective(lever), "lever exercises the unsupported-block fallback");
+      for (int mode = 0; mode < 3; mode++) {
+        var stack = ElectricItemManager.getCharged(tool, Double.POSITIVE_INFINITY);
+        final int efficiency = mode;
+        ItemState.update(stack, tag -> tag.putInt("efficiency", efficiency));
+        player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+        near(
+            h,
+            player.getDigSpeed(lever, pos),
+            handSpeed,
+            "advanced drill lever speed versus pickaxe and hand");
+        double charge = ElectricItem.manager.getCharge(stack);
+        for (var block : net.minecraft.core.registries.BuiltInRegistries.BLOCK) {
+          var state = block.defaultBlockState();
+          if (state.isAir()
+              || tool.effective(state)
+              || state.getDestroySpeed(h.getLevel(), pos) < 0) continue;
+          near(h, tool.getDestroySpeed(stack, state), 1.0F, "unsupported block " + block);
+          checks++;
+        }
+        h.assertValueEqual(
+            ElectricItem.manager.getCharge(stack), charge, "speed inspection spends no EU");
+      }
+    }
+    org.slf4j.LoggerFactory.getLogger("IC2R-Tool-Environment")
+        .info(
+            "IC2R_ADDONS_FALLBACK_PASS: {} unsupported block/profile checks; lever matches hand, diamond pickaxe and native drill",
+            checks);
+    h.succeed();
+  }
 }
