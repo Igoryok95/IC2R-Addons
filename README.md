@@ -12,6 +12,7 @@ The submerged-mining attribute is respected, including Aqua Affinity.
 Base speeds, EU per block, capacities, mining areas and drops are unchanged.
 This version requires **IC2R 21.1.81+**, which supplies the shared helper and also
 fixes the Nano Saber's real combat state and both chainsaws' shutdown audio.
+Use **IC2R 21.1.82** for the additional continuous machine-startup audio fix.
 See [speed comparison and validation](docs/tool-environment-1.4.7.md).
 
 ## Version 1.4.6 — Tool modes and native harvesting
