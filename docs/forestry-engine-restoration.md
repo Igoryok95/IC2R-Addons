@@ -50,6 +50,21 @@ redstone, rates, packet size and stop reason. Version 1.4.2 fixes inventory coor
 to the original background: main grid at (7, 83), hotbar at (7, 141). Clickable item
 areas start one pixel inside those borders; all 36 player slots are checked.
 
+Since 1.4.9, the original IC2R information icon is drawn after the custom
+Forestry backgrounds at (3, 3), size 10x10. The backgrounds previously covered
+the base GUI's icon, leaving only an invisible upgrade-tooltip hover area. The
+native tooltip and its English/Russian translations remain in use.
+
+The opt-in `-PengineInfoSmoke -PwithBC` client pass captures the visible icon and
+its tooltip in both languages. It also checks both Advanced drills' three speed
+profiles on all eight pipe variants when paired with IC2R 21.1.85. This is separate
+from the unchanged native minimum dependency of IC2R 21.1.81.
+
+The 1.4.9 build and 19 unit tests passed, followed by all 588 required paired
+native GameTests with IC2R 21.1.85. The optional BCCE client pass confirmed the
+visible blue information icon and native upgrade tooltip in RU and EN, plus
+both Advanced drills' three profiles on all eight fluid-pipe variants.
+
 ## Connections and rendering
 
 The engine selects a valid neighboring MJ receiver automatically until the player

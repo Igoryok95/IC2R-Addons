@@ -1,3 +1,21 @@
+# IC2R Addons 1.4.9
+
+Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21 / IC2R 21.1.81+.
+
+- Draw the original IC2R information icon above the electric engine's Forestry
+  background. Its existing upgrade tooltip now has a visible hover target.
+- Keep existing localized tooltip text, slots, backgrounds and engine behavior.
+- Pair with IC2R 21.1.85 for the separate fluid-pipe pickaxe/drill tag fix.
+
+---
+
+# IC2R Addons 1.4.8
+
+- Restore hand-speed fallback for charged Advanced drills on unsupported blocks,
+  including levers. Effective-block profiles, EU costs and empty-tool rules remain.
+
+---
+
 # IC2R Addons 1.4.7
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21 / IC2R 21.1.81+.

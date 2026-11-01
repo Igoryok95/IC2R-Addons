@@ -2,6 +2,18 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.9 — Electric engine information icon
+
+The engine's original Forestry background covered IC2R's information icon while
+the native upgrade tooltip remained active. The GUI now draws the original IC2R
+icon after its custom backgrounds, restoring the visible hover target. Existing
+tooltips, localization, slots and engine behavior are preserved. See
+[engine restoration and validation](docs/forestry-engine-restoration.md).
+
+For faster pickaxe/drill mining of fluid pipes, pair with **IC2R 21.1.85**.
+The Water-Jet Cutter still needs water to maintain pressure as well as to cut;
+EU alone cannot sustain full pressure.
+
 ## Version 1.4.8 — Normal speed on unsupported blocks
 
 Advanced drills no longer mine levers and other unsupported blocks at one tenth
