@@ -1,11 +1,13 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.PortalContent;
 import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import com.igoryok95.ic2raddons.equipment.network.RelocatorMenu;
 import ic2.api.item.ElectricItem;
 import ic2.core.IC2;
+import ic2.core.util.Ic2Tooltip;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -209,19 +211,21 @@ public final class Relocator extends ElectricUtility {
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
     String[] modes = {"personal", "translocator", "portal"};
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.tool",
             Component.translatable(
                 "mode.ic2r_addons." + modes[ItemState.mode(stack, "relocator", 3)])));
     Destination point = selected(stack);
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.destination",
             point == null
                 ? Component.translatable("ic2r_addons.none")
                 : point.title(
                     ItemState.mode(stack, "selected", Math.max(1, points(stack).size())))));
-    tooltip.add(Component.translatable("tooltip.ic2r_addons.relocator_keys"));
+    Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.relocator_keys"));
   }
 }

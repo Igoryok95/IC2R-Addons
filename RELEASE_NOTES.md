@@ -1,3 +1,13 @@
+# IC2R Addons 1.4.10
+
+- Repair four transparent Nano shoulder/sleeve texels and remove a detached wrist texel.
+- Apply native gray descriptions to armor, solar helmets and tools; preserve item rarity colors.
+- Show current rebound key names in equipment hints, including the engine and hover controls.
+- Shorten the hotbar-magnet setting label in English/Russian to avoid its binding button.
+- Use IC2R 21.1.88 for the separate shared jetpack floating-watchdog fix.
+
+---
+
 # IC2R Addons 1.4.9
 
 Minecraft 1.21.1 / NeoForge 21.1.264+ / Java 21 / IC2R 21.1.81+.

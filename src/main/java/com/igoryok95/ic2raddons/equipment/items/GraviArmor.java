@@ -1,5 +1,6 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.GraviSuite;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import ic2.api.item.ElectricItem;
@@ -7,6 +8,7 @@ import ic2.api.item.IHazmatLike;
 import ic2.core.IC2;
 import ic2.core.item.armor.ItemArmorElectric;
 import ic2.core.item.armor.jetpack.IBoostingJetpack;
+import ic2.core.util.Ic2Tooltip;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.Holder;
@@ -133,12 +135,15 @@ public class GraviArmor extends ItemArmorElectric implements IBoostingJetpack, I
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
     if (kind == Kind.GRAVI || kind == Kind.JETPACK || kind == Kind.NANO) {
-      tooltip.add(
+      Ic2Tooltip.add(
+          tooltip,
           Component.translatable(
               "tooltip.ic2r_addons.engine",
               Component.translatable(
                   ItemState.enabled(stack, "engine") ? "ic2r_addons.on" : "ic2r_addons.off")));
-      tooltip.add(Component.translatable("tooltip.ic2r_addons.engine_key"));
+      Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.engine_key"));
+      if (kind == Kind.JETPACK || kind == Kind.NANO)
+        Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.hover_keys"));
     }
   }
 }

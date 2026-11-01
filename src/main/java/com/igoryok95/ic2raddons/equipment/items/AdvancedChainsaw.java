@@ -1,5 +1,6 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.GraviConfig;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.Mining;
@@ -7,7 +8,10 @@ import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
 import ic2.core.IC2;
 import ic2.core.item.tool.ItemElectricToolChainsaw;
+import ic2.core.util.Ic2Tooltip;
+import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -15,10 +19,18 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public final class AdvancedChainsaw extends ItemElectricToolChainsaw {
+  @Override
+  public void appendHoverText(
+      ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+    super.appendHoverText(stack, context, tooltip, flag);
+    Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.tree_keys"));
+  }
+
   public AdvancedChainsaw() {
     super(new Properties().stacksTo(1));
     maxCharge = 45_000;

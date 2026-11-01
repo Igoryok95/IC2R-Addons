@@ -1,5 +1,6 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.Mining;
 import com.igoryok95.ic2raddons.equipment.ToolMessages;
@@ -8,6 +9,7 @@ import ic2.api.item.IMiningDrill;
 import ic2.core.IC2;
 import ic2.core.item.tool.ItemDrill;
 import ic2.core.item.tool.ItemElectricTool;
+import ic2.core.util.Ic2Tooltip;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -201,19 +203,21 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
     String[] modes = miningModes();
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.mining",
             Component.translatable(
                 "mode.ic2r_addons." + modes[ItemState.mode(stack, "mining", modes.length)])));
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.efficiency",
             Component.translatable(
                 "mode.ic2r_addons." + EFFICIENCY_MODES[ItemState.mode(stack, "efficiency", 3)])));
-    tooltip.add(Component.translatable("tooltip.ic2r_addons.mining_keys"));
+    Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.mining_keys"));
     if (vajra || iridium)
-      tooltip.add(Component.translatable("tooltip.ic2r_addons.enchantment_keys"));
+      Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.enchantment_keys"));
   }
 
   private String[] miningModes() {

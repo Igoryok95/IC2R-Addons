@@ -3,6 +3,7 @@ package com.igoryok95.ic2raddons.solar.item;
 import com.igoryok95.ic2raddons.solar.SolarPanelType;
 import ic2.api.item.*;
 import ic2.core.item.armor.*;
+import ic2.core.util.Ic2Tooltip;
 import java.util.*;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -69,8 +70,8 @@ public final class ItemSolarHelmet {
   }
 
   private static void tooltip(List<Component> list, int day, int night) {
-    list.add(Component.translatable("ic2r_addons.tooltip.generation.day", day));
-    list.add(Component.translatable("ic2r_addons.tooltip.generation.night", night));
+    Ic2Tooltip.add(list, Component.translatable("ic2r_addons.tooltip.generation.day", day));
+    Ic2Tooltip.add(list, Component.translatable("ic2r_addons.tooltip.generation.night", night));
   }
 
   public static final class Nano extends ItemArmorNanoSuit {

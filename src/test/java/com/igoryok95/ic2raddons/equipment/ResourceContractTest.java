@@ -21,6 +21,24 @@ class ResourceContractTest {
       Pattern.compile("%(?:\\d+\\$)?[-#+ 0,(<]*\\d*(?:\\.\\d+)?[a-zA-Z%]");
 
   @Test
+  void nanoShoulderAndSleeveUvsHaveNoHolesOrDetachedWristPixels() throws IOException {
+    var image =
+        ImageIO.read(
+            RESOURCES
+                .resolve("assets/ic2r_addons/textures/models/armor/advanced_nano_layer_1.png")
+                .toFile());
+    for (int y = 32; y < 40; y++)
+      for (int x = 88; x < 96; x++)
+        assertEquals(255, image.getRGB(x, y) >>> 24, "opaque shoulder cap");
+    for (int y = 40; y < 60; y++)
+      for (int x = 80; x < 112; x++)
+        assertEquals(255, image.getRGB(x, y) >>> 24, "continuous sleeve sides");
+    for (int y = 32; y < 40; y++)
+      for (int x = 96; x < 104; x++)
+        assertEquals(0, image.getRGB(x, y) >>> 24, "open wrist cap, matching native Nano armor");
+  }
+
+  @Test
   void upgradedLegsAndBootsUseBlueDetailsAndValidArmorLayers() throws IOException {
     for (String part :
         new String[] {

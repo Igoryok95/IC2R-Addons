@@ -2,6 +2,19 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.10 — Armor UVs and native-style key hints
+
+Advanced Nano chest armor no longer has transparent shoulder/sleeve pinholes or
+a detached wrist pixel. The original atlas is preserved apart from five repaired
+texels; all chestplates and backpacks were checked against their intended armor UVs.
+
+Equipment descriptions use IC2R's gray tooltip style. Key hints read the current
+IC2R, Minecraft and Addons bindings, including rebound mouse and modifier keys.
+The short hotbar-magnet setting label fits beside its binding button. Names keep
+their existing rarity colors. See [scope and validation](docs/armor-and-key-hints-1.4.10.md).
+
+Pair with **IC2R 21.1.88** for the shared powered-jetpack floating-watchdog fix.
+
 ## Version 1.4.9 — Electric engine information icon
 
 The engine's original Forestry background covered IC2R's information icon while

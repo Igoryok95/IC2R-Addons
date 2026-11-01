@@ -1,10 +1,12 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.core.IC2;
 import ic2.core.item.tool.ItemToolWrenchElectric;
 import ic2.core.ref.Ic2Items;
+import ic2.core.util.Ic2Tooltip;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -97,10 +99,11 @@ public final class GraviTool extends ItemToolWrenchElectric {
   public void appendHoverText(
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.tool",
             Component.translatable("mode.ic2r_addons." + MODES[mode(stack)])));
-    tooltip.add(Component.translatable("tooltip.ic2r_addons.mode_key"));
+    Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.mode_key"));
   }
 }

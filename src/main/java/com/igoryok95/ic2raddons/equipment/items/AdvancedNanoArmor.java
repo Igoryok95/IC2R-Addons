@@ -2,6 +2,7 @@ package com.igoryok95.ic2raddons.equipment.items;
 
 import ic2.api.item.ElectricItem;
 import ic2.core.item.armor.ItemArmorNanoSuit;
+import ic2.core.util.Ic2Tooltip;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -41,7 +42,8 @@ public final class AdvancedNanoArmor extends ItemArmorNanoSuit {
   public void appendHoverText(
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             getEquipmentSlot() == EquipmentSlot.LEGS
                 ? "tooltip.ic2r_addons.nano_sprint"

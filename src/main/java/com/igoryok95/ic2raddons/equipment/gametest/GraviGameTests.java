@@ -5,6 +5,7 @@ import com.igoryok95.ic2raddons.equipment.items.Relocator;
 import com.igoryok95.ic2raddons.equipment.network.GraviNetwork;
 import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItem;
+import ic2.core.IC2;
 import ic2.core.block.wiring.tileentity.TileEntityElectricBlock;
 import ic2.core.item.ElectricItemManager;
 import ic2.core.ref.Ic2Blocks;
@@ -33,6 +34,45 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 @PrefixGameTestTemplate(false)
 public final class GraviGameTests {
   private static final String EMPTY = "gametest/empty3x3x3";
+
+  @GameTest(template = EMPTY)
+  public static void chestJetpackThrustUsesTheSharedIc2rPathOnlyWhileEnabled(
+      GameTestHelper helper) {
+    var player = player(helper);
+    player.setGameMode(net.minecraft.world.level.GameType.SURVIVAL);
+    player.setOnGround(false);
+    IC2.keyboard.processKeyUpdate(player, 1 << ic2.core.util.Keyboard.Key.jump.ordinal());
+    try {
+      for (var item :
+          List.of(
+              GraviItems.ADVANCED_NANO.get(),
+              GraviItems.ADVANCED_JETPACK.get(),
+              GraviItems.ADVANCED_LAPPACK.get(),
+              GraviItems.ULTIMATE_LAPPACK.get(),
+              GraviItems.GRAVI_CHESTPLATE.get())) {
+        var stack = charged(item, 10000);
+        player.setItemSlot(EquipmentSlot.CHEST, stack);
+        player.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+        ic2.core.item.armor.jetpack.JetpackLogic.onArmorTick(player.level(), player, stack, item);
+        helper.assertTrue(
+            player.getDeltaMovement().y == 0 && ElectricItem.manager.getCharge(stack) == 10000,
+            "disabled engine does not thrust or consume jetpack energy");
+        ItemState.toggle(stack, "engine");
+        ic2.core.item.armor.jetpack.JetpackLogic.onArmorTick(player.level(), player, stack, item);
+        boolean jetpack =
+            item == GraviItems.ADVANCED_NANO.get() || item == GraviItems.ADVANCED_JETPACK.get();
+        helper.assertTrue(
+            (player.getDeltaMovement().y > 0) == jetpack,
+            "only Nano/jetpack use native paid thrust; packs and Gravi flight stay separate");
+        helper.assertTrue(
+            (ElectricItem.manager.getCharge(stack) < 10000) == jetpack,
+            "only active jetpack thrust drains the common energy path");
+      }
+    } finally {
+      IC2.keyboard.processKeyUpdate(player, 0);
+    }
+    helper.succeed();
+  }
 
   @GameTest(template = EMPTY)
   public static void allEquipmentUsesIc2Energy(GameTestHelper helper) {

@@ -1,9 +1,11 @@
 package com.igoryok95.ic2raddons.equipment.items;
 
+import com.igoryok95.ic2raddons.equipment.EquipmentTooltips;
 import com.igoryok95.ic2raddons.equipment.GraviConfig;
 import com.igoryok95.ic2raddons.equipment.ItemState;
 import com.igoryok95.ic2raddons.equipment.ToolMessages;
 import ic2.api.item.ElectricItem;
+import ic2.core.util.Ic2Tooltip;
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -119,7 +121,8 @@ public final class UtilityItem extends ElectricUtility {
   public void appendHoverText(
       ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
     super.appendHoverText(stack, context, tooltip, flag);
-    tooltip.add(
+    Ic2Tooltip.add(
+        tooltip,
         Component.translatable(
             "tooltip.ic2r_addons.enabled",
             Component.translatable(
@@ -131,8 +134,8 @@ public final class UtilityItem extends ElectricUtility {
           filter != null && BuiltInRegistries.ITEM.containsKey(filter)
               ? BuiltInRegistries.ITEM.get(filter).getDescription()
               : Component.translatable("ic2r_addons.none");
-      tooltip.add(Component.translatable("tooltip.ic2r_addons.filter", name));
-      tooltip.add(Component.translatable("tooltip.ic2r_addons.voider_keys"));
-    } else tooltip.add(Component.translatable("tooltip.ic2r_addons.magnet_keys"));
+      Ic2Tooltip.add(tooltip, Component.translatable("tooltip.ic2r_addons.filter", name));
+      Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.voider_keys"));
+    } else Ic2Tooltip.add(tooltip, EquipmentTooltips.hint("tooltip.ic2r_addons.magnet_keys"));
   }
 }
