@@ -16,7 +16,7 @@
   "item.ic2r_addons.sunnarium_alloy": "Sunnarium Alloy",
   "item.ic2r_addons.irradiant_uranium": "Irradiant Uranium",
   "item.ic2r_addons.enriched_sunnarium": "Enriched Sunnarium",
-  "item.ic2r_addons.enriched_sunnarium_alloy": "Sunnarium Alloy",
+  "item.ic2r_addons.enriched_sunnarium_alloy": "Enriched Sunnarium Alloy",
   "item.ic2r_addons.irradiant_glass_pane": "Irradiant Glass Pane",
   "item.ic2r_addons.iridium_iron_plate": "Iridium-Iron Plate",
   "item.ic2r_addons.reinforced_iridium_iron_plate": "Reinforced Iridium Iron Plate",
@@ -527,5 +527,8 @@
   "jade.ic2r_addons.electrical.result": "Result: %s",
   "config.jade.plugin_ic2r_addons.electrical_status": "IC2R Addons energy and solar status",
   "tooltip.ic2r_addons.hover_keys": "%s + %s: toggle hover mode",
-  "tooltip.ic2r_addons.tree_keys": "%s + %s + %s: tree felling"
+  "tooltip.ic2r_addons.tree_keys": "%s + %s + %s: tree felling",
+  "tooltip.ic2r_addons.molecular.buffer": "Energy buffer: %s EU",
+  "tooltip.ic2r_addons.molecular.packet": "Maximum input packet: %s EU",
+  "tooltip.ic2r_addons.molecular.recipe": "Energy cost depends on the conversion recipe"
 }

@@ -1,3 +1,14 @@
+# IC2R Addons 1.4.11
+
+- Restore original 16x16 uranium/iridium ingot sprites, matching native IC2R ingots.
+- Restore original 16x16 Sunnarium, Sunnarium Part, Sunnarium Alloy, Enriched Sunnarium and Enriched Sunnarium Alloy sprites.
+- Replace the Molecular Transformer's arbitrary tier 14 with the current survival maximum: tier 5, 8,192 EU per packet.
+- Show the real tier, packet limit and buffer in its item tooltip; show tier and packet limit in Jade even while idle.
+- Show source tiers for all four solar panels in Jade.
+- Keep original ASP GUI textures and slots while removing stray gray background frames from panels, Molecular Transformer and Quantum Generator.
+
+---
+
 # IC2R Addons 1.4.10
 
 - Repair four transparent Nano shoulder/sleeve texels and remove a detached wrist texel.

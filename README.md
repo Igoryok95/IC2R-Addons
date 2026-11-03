@@ -2,6 +2,17 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.11 — Original materials, energy tiers and GUI frames
+
+The two addon ingots and all five Sunnarium material variants use their original
+crisp 16x16 sprites again, matching IC2R's ingot resolution. The Molecular
+Transformer now accepts tier 5 / 8,192 EU
+packets, the highest voltage available from the current survival progression.
+Its item tooltip and Jade show the actual tier and maximum packet. The original
+ASP interfaces no longer have the default gray frame behind their edges.
+All four solar panel tiers also display their energy tier in Jade.
+See [scope and validation](docs/molecular-and-ingots-1.4.11.md).
+
 ## Version 1.4.10 — Armor UVs and native-style key hints
 
 Advanced Nano chest armor no longer has transparent shoulder/sleeve pinholes or

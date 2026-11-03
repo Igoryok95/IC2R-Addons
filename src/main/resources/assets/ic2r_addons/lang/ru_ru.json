@@ -527,5 +527,8 @@
   "jade.ic2r_addons.electrical.result": "Результат: %s",
   "config.jade.plugin_ic2r_addons.electrical_status": "Энергия и солнечные панели IC2R Addons",
   "tooltip.ic2r_addons.hover_keys": "%s + %s: режим зависания",
-  "tooltip.ic2r_addons.tree_keys": "%s + %s + %s: валка деревьев"
+  "tooltip.ic2r_addons.tree_keys": "%s + %s + %s: валка деревьев",
+  "tooltip.ic2r_addons.molecular.buffer": "Буфер энергии: %s EU",
+  "tooltip.ic2r_addons.molecular.packet": "Максимальный входящий пакет: %s EU",
+  "tooltip.ic2r_addons.molecular.recipe": "Затраты энергии зависят от рецепта преобразования"
 }

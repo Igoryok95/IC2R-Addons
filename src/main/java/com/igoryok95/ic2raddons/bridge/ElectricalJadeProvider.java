@@ -31,6 +31,11 @@ public final class ElectricalJadeProvider
     var energy = tile.getComponent(Energy.class);
     data.putDouble("energy", energy.getEnergy());
     data.putDouble("capacity", energy.getCapacity());
+    data.putInt(
+        "tier", energy.getSourceDirs().isEmpty() ? energy.getSinkTier() : energy.getSourceTier());
+    if (tile instanceof TileEntityMolecularTransformer transformer) {
+      data.putDouble("inputPacket", transformer.getMaxInputPacket());
+    }
     if (tile instanceof TileEntitySolarPanel panel) {
       data.putDouble("generation", panel.lastGeneration);
       data.putInt("conditions", panel.generationState);
@@ -72,6 +77,14 @@ public final class ElectricalJadeProvider
             elements.progressStyle().color(0xFF318BD1).textColor(0xFFFFFFFF),
             BoxStyle.getNestedBox(),
             true));
+    if (data.contains("tier")) {
+      tip.add(Component.translatable("ic2.item.tooltip.power_tier", data.getInt("tier")));
+    }
+    if (data.contains("inputPacket")) {
+      tip.add(
+          Component.translatable(
+              "tooltip.ic2r_addons.molecular.packet", number(data.getDouble("inputPacket"))));
+    }
     if (data.contains("generation")) {
       tip.add(
           Component.translatable(

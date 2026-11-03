@@ -26,6 +26,56 @@ public final class SolarGameTests {
   private static final String EMPTY = "gametest/empty3x3x3";
 
   @GameTest(template = EMPTY)
+  public static void transformerAcceptsTheHighestSurvivalPacket(GameTestHelper h) {
+    h.setBlock(new BlockPos(1, 1, 1), AdvSolarBlocks.MOLECULAR_TRANSFORMER.get());
+    h.setBlock(new BlockPos(1, 0, 1), AdvSolarBlocks.QUANTUM_SOLAR_PANEL.get());
+    TileEntityMolecularTransformer transformer = h.getBlockEntity(new BlockPos(1, 1, 1));
+    TileEntityQuantumSolar source = h.getBlockEntity(new BlockPos(1, 0, 1));
+    var sink = transformer.getComponent(Energy.class);
+    h.assertTrue(
+        sink.getSinkTier() == 5 && transformer.getMaxInputPacket() == 8192,
+        "transformer uses the current survival maximum, not arbitrary tier 14");
+    h.assertTrue(
+        source.getComponent(Energy.class).getSourceTier() == sink.getSinkTier(),
+        "the highest craftable panel and transformer input tiers agree");
+    var lines = new ArrayList<net.minecraft.network.chat.Component>();
+    AdvSolarBlocks.ITEM_MOLECULAR_TRANSFORMER
+        .get()
+        .appendHoverText(
+            new ItemStack(AdvSolarBlocks.ITEM_MOLECULAR_TRANSFORMER.get()),
+            Item.TooltipContext.of(h.getLevel()),
+            lines,
+            TooltipFlag.NORMAL);
+    h.assertTrue(
+        lines.stream()
+            .anyMatch(
+                line ->
+                    line.getContents()
+                            instanceof net.minecraft.network.chat.contents.TranslatableContents text
+                        && text.getKey().equals("ic2.item.tooltip.power_tier")
+                        && text.getArgs()[0].equals(5)),
+        "normal item tooltip includes the actual native energy tier");
+    source.getComponent(Energy.class).addEnergy(8192);
+    h.succeedWhen(
+        () -> {
+          h.assertTrue(
+              h.getBlockEntity(new BlockPos(1, 1, 1)) == transformer && sink.getEnergy() > 0,
+              "real tier-five panel packets are accepted without destroying the machine");
+          if (net.neoforged.fml.ModList.get().isLoaded("jade")) {
+            var data = com.igoryok95.ic2raddons.bridge.ElectricalJadeProvider.collect(transformer);
+            h.assertTrue(
+                data.getInt("tier") == 5 && data.getDouble("inputPacket") == 8192,
+                "idle Jade reports the same tier and packet limit as the real energy sink");
+            h.assertTrue(
+                com.igoryok95.ic2raddons.bridge.ElectricalJadeProvider.collect(source)
+                        .getInt("tier")
+                    == 5,
+                "solar Jade exposes its source tier");
+          }
+        });
+  }
+
+  @GameTest(template = EMPTY)
   public static void transformerDoesNotOccludeFloorOrLight(GameTestHelper h) {
     h.setBlock(new BlockPos(1, 1, 1), AdvSolarBlocks.MOLECULAR_TRANSFORMER.get());
     h.assertTrue(

@@ -11,6 +11,7 @@ import com.igoryok95.ic2raddons.solar.te.TileEntityUltimateHybridSolar;
 import ic2.core.block.tileentity.Ic2TileEntity;
 import ic2.core.block.tileentity.Ic2TileEntityBlock;
 import ic2.core.block.tileentity.Ic2TileEntityBlock.DefaultDrop;
+import ic2.core.item.ItemBlockIc2;
 import ic2.core.util.Util;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -202,7 +203,7 @@ public final class AdvSolarBlocks {
   }
 
   private static Supplier<Item> item(String name, Supplier<Block> block) {
-    return ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    return ITEMS.register(name, () -> new ItemBlockIc2(block.get(), new Item.Properties()));
   }
 
   public static void register(IEventBus bus) {

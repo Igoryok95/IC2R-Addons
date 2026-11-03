@@ -1,6 +1,7 @@
 package com.igoryok95.ic2raddons.solar.te;
 
 import com.igoryok95.ic2raddons.solar.AdvSolarBlocks;
+import com.igoryok95.ic2raddons.solar.SolarPanelType;
 import com.igoryok95.ic2raddons.solar.gui.GuiDefs;
 import com.igoryok95.ic2raddons.solar.recipe.MTRecipe;
 import com.igoryok95.ic2raddons.solar.recipe.MolecularTransformerRecipes;
@@ -15,23 +16,27 @@ import ic2.core.gui.dynamic.IGuiValueProvider;
 import ic2.core.network.GrowingBuffer;
 import ic2.core.network.GuiSynced;
 import ic2.core.ref.Ic2ScreenHandlers;
+import ic2.core.util.Ic2Tooltip;
+import java.util.List;
+import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * The Molecular Transformer: an extreme-tier energy sink that converts one item into another by
- * pouring a recipe-defined total amount of EU into it. Rebuilt on {@link TileEntityElectricMachine}
- * (an IC2 energy-sink buffer) for 1.21.1, with synchronized datapack recipes.
+ * The Molecular Transformer: a high-tier energy sink that converts one item into another by pouring
+ * a recipe-defined total amount of EU into it. Rebuilt on {@link TileEntityElectricMachine} (an IC2
+ * energy-sink buffer) for 1.21.1, with synchronized datapack recipes.
  */
 public class TileEntityMolecularTransformer extends TileEntityElectricMachine
     implements IHasGui, IGuiValueProvider {
   private static final int BUFFER = 100000;
-  private static final int SINK_TIER = 14;
+  private static final int SINK_TIER = SolarPanelType.QUANTUM.tier;
 
   public final InvSlot inputSlot =
       new InvSlot(this, "input", InvSlot.Access.IO, 1) {
@@ -52,6 +57,28 @@ public class TileEntityMolecularTransformer extends TileEntityElectricMachine
     super(AdvSolarBlocks.BE_MOLECULAR_TRANSFORMER.get(), pos, state, BUFFER, SINK_TIER);
     this.comparator.setUpdate(
         () -> this.totalEU == 0 ? 0 : (int) (this.energyUsed * 15.0D / this.totalEU));
+  }
+
+  public double getMaxInputPacket() {
+    return ic2.api.energy.EnergyNet.instance.getPowerFromTier(energy.getSinkTier());
+  }
+
+  @Override
+  public void appendItemTooltip(ItemStack stack, List<Component> tooltip, TooltipFlag flag) {
+    super.appendItemTooltip(stack, tooltip, flag);
+    Ic2Tooltip.add(
+        tooltip,
+        Component.translatable(
+            "tooltip.ic2r_addons.molecular.buffer", number(energy.getCapacity())));
+    Ic2Tooltip.add(
+        tooltip,
+        Component.translatable(
+            "tooltip.ic2r_addons.molecular.packet", number(getMaxInputPacket())));
+    Ic2Tooltip.add(tooltip, Component.translatable("tooltip.ic2r_addons.molecular.recipe"));
+  }
+
+  private static String number(double value) {
+    return String.format(Locale.ROOT, "%,.0f", value).replace(',', ' ');
   }
 
   @Override
