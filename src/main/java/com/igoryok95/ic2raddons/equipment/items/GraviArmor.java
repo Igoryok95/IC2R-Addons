@@ -81,6 +81,18 @@ public class GraviArmor extends ItemArmorElectric implements IBoostingJetpack, I
     return kind.absorption;
   }
 
+  @Override
+  public int getChargedArmorProtection() {
+    return switch (kind) {
+      case NANO ->
+          ic2.core.item.armor.ItemArmorNanoSuit.CHARGED_PROTECTION[EquipmentSlot.CHEST.getIndex()];
+      case GRAVI ->
+          ic2.core.item.armor.ItemArmorQuantumSuit.CHARGED_PROTECTION[
+              EquipmentSlot.CHEST.getIndex()];
+      default -> 0;
+    };
+  }
+
   public boolean addsProtection(LivingEntity entity, EquipmentSlot slot, ItemStack stack) {
     return kind == Kind.GRAVI && ElectricItem.manager.getCharge(stack) > 0;
   }

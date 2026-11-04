@@ -51,6 +51,11 @@ neoForge {
  runs {
   client {
    client()
+   if (providers.gradleProperty('armorProtectionSmoke').isPresent()) {
+    gameDirectory = layout.projectDirectory.dir('run/restoration-client')
+    systemProperty 'ic2r_addons.armorProtectionSmoke', 'true'
+    programArguments.addAll '--quickPlaySingleplayer', 'RestorationSmoke', '--width', '1280', '--height', '960'
+   }
    if (providers.gradleProperty('solarPresentationSmoke').isPresent()) {
     gameDirectory = layout.projectDirectory.dir('run/restoration-client')
     systemProperty 'ic2r_addons.solarPresentationSmoke', 'true'

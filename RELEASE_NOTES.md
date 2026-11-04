@@ -1,3 +1,14 @@
+# IC2R Addons 1.4.12
+
+- Require IC2R 21.1.90 for independent charged-armor modifiers by equipment slot.
+- Supply the native eight charged armor points for Advanced Nano and Gravi chestplates.
+- Keep full native/upgraded/solar/mixed suits at 20 armor points through charge
+  changes, jumps, fall-energy use, damage and removal/recharge of individual pieces.
+- Preserve existing EU costs, capacities, abilities, artwork and unarmored backpack values.
+- Validate actual damage and synchronized server/client armor readings.
+
+---
+
 # IC2R Addons 1.4.11
 
 - Restore original 16x16 uranium/iridium ingot sprites, matching native IC2R ingots.

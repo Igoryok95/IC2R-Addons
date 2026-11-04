@@ -20,8 +20,23 @@ jobs:
           distribution: temurin
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v4
+      - name: Check out the paired IC2R armor fix
+        uses: actions/checkout@v4
+        with:
+          repository: Igoryok95/IC2R
+          ref: 3aba7cc39b6d622f40d8b0fab8c859ac0e82994e
+          path: .ic2r-core
+      - name: Build the paired core
+        working-directory: .ic2r-core
+        run: |
+          chmod +x gradlew
+          ./gradlew jar
       - run: chmod +x gradlew
-      - run: ./gradlew build runGameTestServer ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
+      - name: Build and run unit tests
+        run: ./gradlew build -Pic2rJar="$GITHUB_WORKSPACE/.ic2r-core/build/libs/ic2-neoforge-21.1.90.jar" ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
+      - name: Run server GameTests
+        if: matrix.compatibility == 'base'
+        run: ./gradlew runGameTestServer -Pic2rJar="$GITHUB_WORKSPACE/.ic2r-core/build/libs/ic2-neoforge-21.1.90.jar"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

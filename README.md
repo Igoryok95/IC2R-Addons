@@ -2,6 +2,16 @@
 
 Nuclear Control monitoring, all eight Advanced Machines, four classic solar panel tiers up to Quantum, four solar helmets, powered equipment and optional BuildCraft integration for **Minecraft 1.21.1 / NeoForge** and **IndustrialCraft 2: Refactored**. One addon continues the Nuclear Control / Energy Control, Advanced Machines, Advanced Solar Panels and GraviSuite features, with complete English and Russian localization.
 
+## Version 1.4.12 — Protective chestplates and stable armor points
+
+Requires **IC2R 21.1.90+**. Advanced Nano and Gravi chestplates now supply the
+same eight charged armor points as their native counterparts. Together with the
+shared per-slot modifier fix, native/upgraded Nano, Quantum, solar and mixed sets
+retain the correct protection while equipping, removing, using or charging pieces.
+Full charged sets show ten armor icons and supply 20 armor points to combat.
+Backpacks and the unarmored jetpack retain their existing protection values.
+See [cause and validation](docs/armor-protection-1.4.12.md).
+
 ## Version 1.4.11 — Original materials, energy tiers and GUI frames
 
 The two addon ingots and all five Sunnarium material variants use their original
@@ -116,11 +126,11 @@ See [release notes](RELEASE_NOTES.md), [JEI/Jade integration](docs/jei-jade-1.4.
 ## Requirements and installation
 
 - Java **21**, Minecraft **1.21.1**, NeoForge **21.1.264+**.
-- IC2R **21.1.81+ within 21.x**, installed separately.
+- IC2R **21.1.90+ within 21.x**, installed separately.
 - Optional: BCCE **BuildCraft 8.0.25** for the EU engine and wrench bridge.
 - Optional: **Jade 15.10.6** for machine, energy and engine overlays; **JEI** for recipes and transfer.
 
-Install `ic2r-addons-neoforge-1.21.1-1.4.7.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
+Install `ic2r-addons-neoforge-1.21.1-1.4.12.jar` on both client and server, replacing the previous addon JAR. Do not keep duplicate standalone ASP / GraviSuite / Energy Control / Nuclear Control installations. Forestry and a standalone Advanced Machines JAR are not required.
 
 The mod ID, items, blocks, recipes, networking and resource namespace are **`ic2r_addons`**. Search JEI with `@ic2r`, `@addons` or `@ic2r_addons` to find the complete set. The repository is [Igoryok95/IC2R-Addons](https://github.com/Igoryok95/IC2R-Addons).
 
@@ -421,17 +431,26 @@ Use matching settings on client and server. Recipes can be changed with datapack
 
 ## Build and validation
 
-Use Java 21 and IC2R **21.1.70**. A locally built core JAR can be supplied explicitly:
+Use Java 21 and IC2R **21.1.90+**. A locally built core JAR can be supplied explicitly:
 
 ```sh
-./gradlew spotlessApply build runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar
-./gradlew runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwithBC -PwithJade
-./gradlew runClient -Pic2rJar=/absolute/path/ic2-neoforge-21.1.70.jar -PwarmupSmoke -PwithBC -PwithJade
+./gradlew build runGameTestServer -Pic2rJar=/absolute/path/ic2-neoforge-21.1.90.jar -PcombinedTests
+./gradlew build -Pic2rJar=/absolute/path/ic2-neoforge-21.1.90.jar -PwithBC -PwithJade
+./gradlew runClient -Pic2rJar=/absolute/path/ic2-neoforge-21.1.90.jar -ParmorProtectionSmoke
 ```
 
-Released dependencies resolve from GitHub / Modrinth / JEI. IC2R 21.1.70 is required. CI consumes the released IC2R 21.1.70 JAR, matching the installed binary.
-[GitHub CI](https://github.com/Igoryok95/IC2R-Addons/actions/runs/40214251720) and local checks pass **19 JUnit**, **82 standalone Addons** and **94 optional
-integration GameTests**; see [1.4.1 validation](docs/validation/1.4.1.json).
+Released dependencies resolve from GitHub / Modrinth / JEI. For paired source
+development, build IC2R 21.1.90 first and pass its JAR with `-Pic2rJar` as above.
+CI builds the pinned matching IC2R source commit instead of depending on release
+asset publication. The optional compatibility job builds and runs unit tests with
+BC/Jade; native server GameTests run in the base job. BC and Jade can send
+unnegotiated client packets to fake players in headless tests, so their runtime
+integration is checked with an actual client rather than that harness.
+
+The 1.4.12 local checks passed **20 JUnit tests**, **601 combined required
+GameTests** and **16 synchronized armor client/server states**. See
+[armor validation](docs/armor-protection-1.4.12.md). Historical
+[1.4.1 validation](docs/validation/1.4.1.json) records its earlier suites.
 
 The historical 1.4.0 checks below describe the published release.
 
