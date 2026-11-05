@@ -349,6 +349,11 @@ Solar helmets generate only while worn and charge chest / legs / boots first, th
 inventory, then their own buffer. Each generated EU is allocated once. Upgrade recipes use
 IC2R's shaped serializer and carry charge from ingredients into the result.
 
+With the default `helmetsChargeArmorOnly=false`, unequipped armor in the inventory
+still receives energy before the helmet. Taking it off does not remove it from the
+charging queue. A fully charged tool does not consume the solar budget. See the
+[self-charging audit and client checks](docs/solar-helmet-charging-audit.md).
+
 ![Upgraded equipment and capacities](docs/images/armor-en-1.2.1.png)
 
 ## Tools, mobility and storage

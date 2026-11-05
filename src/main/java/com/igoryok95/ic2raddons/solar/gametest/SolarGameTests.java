@@ -256,6 +256,45 @@ public final class SolarGameTests {
   }
 
   @GameTest(template = EMPTY)
+  public static void unequippedArmorInInventoryReceivesSolarEnergyBeforeTheHelmet(
+      GameTestHelper h) {
+    var level = h.getLevel();
+    level.setDayTime(6000);
+    level.updateSkyBrightness();
+    level.setWeatherParameters(10000, 0, false, false);
+    Item[] helmets = {
+      AdvSolarBlocks.ADVANCED_SOLAR_HELMET.get(),
+      AdvSolarBlocks.HYBRID_SOLAR_HELMET.get(),
+      AdvSolarBlocks.ULTIMATE_SOLAR_HELMET.get(),
+      AdvSolarBlocks.QUANTUM_SOLAR_HELMET.get()
+    };
+    int[] day = {8, 64, 512, 4096}, night = {1, 8, 64, 2048};
+    h.assertFalse(AspConfig.ARMOR_ONLY.get(), "inventory charging is enabled by default");
+    for (int i = 0; i < helmets.length; i++) {
+      var player = com.igoryok95.ic2raddons.bridge.TestPlayers.create(h);
+      ItemStack helmet = new ItemStack(helmets[i]);
+      ItemStack removedArmor =
+          new ItemStack(com.igoryok95.ic2raddons.equipment.GraviItems.ADVANCED_NANO.get());
+      player.setItemSlot(EquipmentSlot.HEAD, helmet);
+      player.getInventory().setItem(5, removedArmor);
+      for (int tick = 0; tick < 20; tick++)
+        ItemSolarHelmet.generateAndCharge(player, helmet, day[i], night[i]);
+      h.assertTrue(
+          ElectricItem.manager.getCharge(removedArmor) == day[i] * 20,
+          "removed compatible armor still receives the complete solar budget");
+      h.assertTrue(
+          ElectricItem.manager.getCharge(helmet) == 0,
+          "the helmet receives no remainder while inventory armor accepts the budget");
+      player.getInventory().setItem(5, ItemStack.EMPTY);
+      ItemSolarHelmet.generateAndCharge(player, helmet, day[i], night[i]);
+      h.assertTrue(
+          ElectricItem.manager.getCharge(helmet) == day[i],
+          "removing that armor from the inventory immediately restores self charging");
+    }
+    h.succeed();
+  }
+
+  @GameTest(template = EMPTY)
   public static void helmetsGenerateEveryTickAndConserveEu(GameTestHelper h) {
     h.getLevel().setDayTime(6000);
     h.getLevel().updateSkyBrightness();
