@@ -35,3 +35,11 @@ server GameTests against IC2R 21.1.95. The standalone core passed 34 unit tests
 and 532 server GameTests. Two saw variants passed 126 wood/axis comparisons in the
 combined run. Gameplay client, server and modpack ZIP installation is separate
 from these isolated tests.
+
+Paired GitHub validation uses a Gradle-compatible checkout directory and the same
+NeoForge 21.1.264 runtime for both builds. An existing machine-test fixture now
+selects a recipe whose sample input resolves back to that same recipe and is
+fully consumed. Previously it used an arbitrary first entry from a hash map;
+overlapping native recipes could make its expected output differ from the recipe
+actually selected by the manager. Machine processing and recipe priorities are
+unchanged.

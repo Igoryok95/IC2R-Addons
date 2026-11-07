@@ -141,8 +141,15 @@ public final class AdvancedMachinesGameTests {
       Recipes.IGetter<
               ? extends IMachineRecipeManager<IRecipeInput, Collection<ItemStack>, ItemStack>>
           manager) {
-    for (var recipe : manager.get(h.getLevel()).getRecipes())
-      if (!recipe.getOutput().isEmpty() && !recipe.getInput().getInputs().isEmpty()) return recipe;
+    var recipes = manager.get(h.getLevel());
+    for (var recipe : recipes.getRecipes()) {
+      if (recipe.getOutput().isEmpty() || recipe.getInput().getInputs().isEmpty()) continue;
+      var input =
+          recipe.getInput().getInputs().getFirst().copyWithCount(recipe.getInput().getAmount());
+      var resolved = recipes.apply(input, false);
+      if (resolved != null && resolved.recipe() == recipe && resolved.adjustedInput().isEmpty())
+        return recipe;
+    }
     throw new IllegalStateException("IC2R recipe manager has no usable recipe");
   }
 
