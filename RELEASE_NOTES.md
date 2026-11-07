@@ -1,3 +1,17 @@
+# IC2R Addons 1.4.13
+
+- Require IC2R 21.1.95 for the shared powered path action and chainsaw stripping.
+- Create dirt paths with the Advanced Diamond and Advanced Iridium Drills, using
+  the selected efficiency profile's normal operation cost.
+- Change only one path block per right click, including in 3x3 mining mode.
+- Preserve mode shortcuts and torch placement on other blocks; keep Vajra's
+  existing right-click behavior.
+- Inherit Advanced Chainsaw stripping at 100 EU through the shared IC2R fix.
+
+See [behavior and validation](docs/tool-actions-1.4.13.md).
+
+---
+
 # IC2R Addons 1.4.12
 
 - Require IC2R 21.1.90 for independent charged-armor modifiers by equipment slot.

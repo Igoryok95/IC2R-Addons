@@ -29,6 +29,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 
 public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   public final boolean vajra;
@@ -150,7 +152,20 @@ public final class MiningTool extends ItemElectricTool implements IMiningDrill {
   }
 
   public InteractionResult useOn(UseOnContext context) {
+    super.useOn(context);
+    if (!vajra) {
+      InteractionResult result = flattenPath(context, cost(context.getItemInHand()));
+      if (result.consumesAction()) return result;
+    }
     return Mining.placeTorch(context);
+  }
+
+  @Override
+  public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    return !vajra
+            && (itemAbility == ItemAbilities.SHOVEL_FLATTEN
+                || itemAbility == ItemAbilities.SHOVEL_DIG)
+        || super.canPerformAction(stack, itemAbility);
   }
 
   public boolean isEnchantable(ItemStack stack) {
