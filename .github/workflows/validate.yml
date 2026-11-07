@@ -25,18 +25,18 @@ jobs:
         with:
           repository: Igoryok95/IC2R
           ref: cea891a9e5d68d70762bf1257d2e26f5ac45d293
-          path: .ic2r-core
+          path: ic2r-core
       - name: Build the paired core
-        working-directory: .ic2r-core
+        working-directory: ic2r-core
         run: |
           chmod +x gradlew
           ./gradlew jar
       - run: chmod +x gradlew
       - name: Build and run unit tests
-        run: ./gradlew build -Pic2rJar="$GITHUB_WORKSPACE/.ic2r-core/build/libs/ic2-neoforge-21.1.95.jar" ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
+        run: ./gradlew build -Pic2rJar="$GITHUB_WORKSPACE/ic2r-core/build/libs/ic2-neoforge-21.1.95.jar" ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}
       - name: Run server GameTests
         if: matrix.compatibility == 'base'
-        run: ./gradlew runGameTestServer -Pic2rJar="$GITHUB_WORKSPACE/.ic2r-core/build/libs/ic2-neoforge-21.1.95.jar" -PcombinedTests
+        run: ./gradlew runGameTestServer -Pic2rJar="$GITHUB_WORKSPACE/ic2r-core/build/libs/ic2-neoforge-21.1.95.jar" -PcombinedTests
       - uses: actions/upload-artifact@v4
         if: always()
         with:
