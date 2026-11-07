@@ -8,6 +8,25 @@
   existing right-click behavior.
 - Inherit Advanced Chainsaw stripping at 100 EU through the shared IC2R fix.
 
+Also included since the previous public release, 1.4.7:
+
+- Restore normal mining speed on unsupported blocks such as levers while keeping
+  existing effective-block speeds and efficiency profiles.
+- Restore the electric engine's visible native information icon.
+- Repair Nano armor shoulder/sleeve/wrist texture defects, use native gray
+  tooltip descriptions and show the actual rebound keys in equipment hints.
+- Restore original crisp 16x16 ingot and Sunnarium material sprites.
+- Set the Molecular Transformer to the survival-reachable tier 5 / 8,192 EU packet
+  limit and expose the actual tier/packet limit through tooltips and Jade.
+- Preserve original ASP GUI frames without stray gray backgrounds, and show
+  energy tiers for all four solar panels in Jade.
+- Supply native charged armor points for Advanced Nano and Gravi chestplates,
+  paired with IC2R's independent equipment-slot protection modifiers.
+
+Validation passed 20 Addons unit tests and 627 combined required server GameTests
+with IC2R 21.1.95. GitHub paired validation also passed its base and optional
+BuildCraft/Jade jobs. Both client and server need IC2R 21.1.95+ for this addon.
+
 See [behavior and validation](docs/tool-actions-1.4.13.md).
 
 ---
