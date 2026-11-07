@@ -30,7 +30,7 @@ jobs:
         working-directory: ic2r-core
         run: |
           chmod +x gradlew
-          ./gradlew jar
+          ./gradlew jar -Pneo_version=21.1.264
       - run: chmod +x gradlew
       - name: Build and run unit tests
         run: ./gradlew build -Pic2rJar="$GITHUB_WORKSPACE/ic2r-core/build/libs/ic2-neoforge-21.1.95.jar" ${{ matrix.compatibility == 'buildcraft-jade' && '-PwithBC -PwithJade' || '' }}

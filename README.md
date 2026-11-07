@@ -456,7 +456,8 @@ Use Java 21 and IC2R **21.1.95+**. A locally built core JAR can be supplied expl
 Released dependencies resolve from GitHub / Modrinth / JEI. For paired source
 development, build IC2R 21.1.95 first and pass its JAR with `-Pic2rJar` as above.
 CI builds the pinned matching IC2R source commit instead of depending on release
-asset publication. The optional compatibility job builds and runs unit tests with
+asset publication, using the addon's NeoForge 21.1.264 runtime for both builds.
+The optional compatibility job builds and runs unit tests with
 BC/Jade; native server GameTests run in the base job. BC and Jade can send
 unnegotiated client packets to fake players in headless tests, so their runtime
 integration is checked with an actual client rather than that harness.
